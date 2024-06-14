@@ -33,18 +33,24 @@
             var hls = new Hls();
 
             if (Hls.isSupported()) {
-                hls.loadSource('https://allinonereborn.tech/doordarshan.m3u8/?id=2343'); // Replace with your actual HLS playlist URL
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    video.play();
-                });
+                // Replace with your actual HLS playlist URL
+                var hlsUrl = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
+                if (hlsUrl.includes('.m3u8')) {
+                    hls.loadSource(hlsUrl);
+                    hls.attachMedia(video);
+                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                        video.play();
+                    });
+                } else {
+                    console.error('Invalid HLS URL');
+                }
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343'; // Fallback for Safari
+                video.src = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
                 video.addEventListener('loadedmetadata', function() {
                     video.play();
                 });
             } else {
-                console.error('HLS.js or HLS not supported');
+                console.error('HLS.js not supported');
             }
         });
     </script>
