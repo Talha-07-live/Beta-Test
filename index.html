@@ -1,71 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encrypted HLS.js Player Example</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        video {
-            width: 80%;
-            max-width: 960px;
-            height: auto;
-            background-color: #000;
-        }
-    </style>
+  <link href="https://vjs.zencdn.net/7.14.3/video-js.css" rel="stylesheet">
+  <script src="https://vjs.zencdn.net/7.14.3/video.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-    <video id="videoPlayer" controls></video>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var video = document.getElementById('videoPlayer');
-            var hls = new Hls();
-
-            // HLS playlist URL
-            var hlsUrl = 'https://retosbd.com/toffe/toffe.php?id=match-1';
-
-            if (Hls.isSupported()) {
-                hls.loadSource(hlsUrl);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    video.play();
-                });
-
-                hls.on(Hls.Events.ERROR, function(event, data) {
-                    if (data.fatal) {
-                        switch (data.type) {
-                            case Hls.ErrorTypes.NETWORK_ERROR:
-                                console.error('A network error occurred:', data);
-                                break;
-                            case Hls.ErrorTypes.MEDIA_ERROR:
-                                console.error('A media error occurred:', data);
-                                hls.recoverMediaError();
-                                break;
-                            default:
-                                hls.destroy();
-                                break;
-                        }
-                    }
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = hlsUrl;
-                video.addEventListener('loadedmetadata', function() {
-                    video.play();
-                });
-            } else {
-                console.error('HLS.js or HLS not supported');
-            }
-        });
-    </script>
+  <video id="my-video" class="video-js" controls preload="auto" width="640" height="360">
+    <source src="https://example.com/your-hls-stream.m3u8" type="application/x-mpegURL">
+  </video>
+  <script>
+    var player = videojs('my-video');
+    player.ready(function() {
+      var hls = new Hls();
+      hls.loadSource('https://retosbd.com/toffe/toffe.php?id=match-1');
+      hls.attachMedia(player.video);
+      hls.on(Hls.Events.MANIFEST_PARSED, function() {
+        player.play();
+      });
+    });
+  </script>
 </body>
 </html>
