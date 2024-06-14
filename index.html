@@ -26,22 +26,16 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var video = document.getElementById('videoPlayer');
-            var hls = new Hls();
-
             if (Hls.isSupported()) {
+                var video = document.getElementById('videoPlayer');
+                var hls = new Hls();
                 hls.loadSource('https://allinonereborn.tech/doordarshan.m3u8/?id=2343');
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, function() {
                     video.play();
                 });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
-                video.addEventListener('loadedmetadata', function() {
-                    video.play();
-                });
             } else {
-                console.error('HLS.js or HLS not supported');
+                console.error('HLS.js not supported');
             }
         });
     </script>
