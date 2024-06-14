@@ -4,25 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HLS.js Player Example</title>
-    <!-- Include HLS.js library -->
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        video {
-            width: 80%;
-            max-width: 960px;
-            height: auto;
-            background-color: #000;
-        }
-    </style>
 </head>
 <body>
     <video id="videoPlayer" controls></video>
@@ -33,9 +15,8 @@
             var hls = new Hls();
 
             if (Hls.isSupported()) {
-                var hlsUrl = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343'; // Replace with your actual HLS playlist URL
+                var hlsUrl = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
 
-                // Check if the URL ends with .m3u8 (assuming it's an HLS playlist)
                 if (hlsUrl.endsWith('.m3u8')) {
                     hls.loadSource(hlsUrl);
                     hls.attachMedia(video);
