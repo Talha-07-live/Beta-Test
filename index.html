@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video.js HLS Player</title>
-    <!-- Include Video.js CSS -->
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <!-- Include Video.js and videojs-contrib-hls -->
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-    <script src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></script>
+    <title>Shaka Player DRM Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.1.0/shaka-player.compiled.js"></script>
     <style>
         body {
             display: flex;
@@ -22,31 +18,47 @@
         h1 {
             margin-bottom: 20px;
         }
-        .video-js {
-            width: 640px;
-            height: 360px;
+        video {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <h1>HLS Streaming Player</h1>
-    <video id="videoPlayer" class="video-js vjs-default-skin" controls></video>
+    <h1>DRM Protected Content Player</h1>
+    <video id="video" width="640" controls autoplay></video>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const videoSrc = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
-            const videoPlayer = videojs('videoPlayer', {
-                autoplay: true,
-                controls: true,
-                sources: [{
-                    src: videoSrc,
-                    type: 'application/x-mpegURL'
-                }]
+        document.addEventListener('DOMContentLoaded', async () => {
+            const manifestUri = 'https://example.com/path/to/manifest.mpd';  // Replace with your actual DRM-protected manifest URL
+            const licenseServerUri = 'https://example.com/path/to/license';  // Replace with your actual DRM license server URL
+
+            // Initialize Shaka Player
+            const video = document.getElementById('video');
+            const player = new shaka.Player(video);
+
+            // Listen for error events.
+            player.addEventListener('error', (event) => {
+                console.error('Error code', event.detail.code, 'object', event.detail);
             });
-            
-            videoPlayer.on('error', function() {
-                console.error('Video.js error:', videoPlayer.error());
+
+            // Configure DRM license server
+            player.configure({
+                drm: {
+                    servers: {
+                        'com.widevine.alpha': licenseServerUri,
+                        'com.microsoft.playready': licenseServerUri
+                    }
+                }
             });
+
+            // Try to load a manifest.
+            try {
+                await player.load(manifestUri);
+                console.log('The video has now been loaded!');
+            } catch (error) {
+                console.error('Error loading video', error);
+            }
         });
     </script>
 </body>
