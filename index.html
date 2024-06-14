@@ -3,37 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS.js Player Example</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <title>DASH.js Player Example</title>
+    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        video {
+            width: 80%;
+            max-width: 960px;
+            height: auto;
+            background-color: #000;
+        }
+    </style>
 </head>
 <body>
     <video id="videoPlayer" controls></video>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var video = document.getElementById('videoPlayer');
-            var hls = new Hls();
-
-            if (Hls.isSupported()) {
-                var hlsUrl = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
-
-                if (hlsUrl.endsWith('.m3u8')) {
-                    hls.loadSource(hlsUrl);
-                    hls.attachMedia(video);
-                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                        video.play();
-                    });
-                } else {
-                    console.error('Invalid HLS URL');
-                }
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
-                video.addEventListener('loadedmetadata', function() {
-                    video.play();
-                });
-            } else {
-                console.error('HLS.js or HLS not supported');
-            }
+            var url = 'https://aba5sdmaaaaaaaamkycwliah6buj4.otte.live.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/tgcrfjcgia/out/v1/7296f026409c4e9ba8844a238628f9ad/cenc.mpd';
+            var player = dashjs.MediaPlayer().create();
+            player.initialize(document.querySelector("#videoPlayer"), url, true);
         });
     </script>
 </body>
