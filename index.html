@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shaka Player DRM Example</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.1.0/shaka-player.compiled.js"></script>
+    <title>HLS Streaming Player</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         body {
             display: flex;
@@ -25,39 +25,31 @@
     </style>
 </head>
 <body>
-    <h1>DRM Protected Content Player</h1>
-    <video id="video" width="640" controls autoplay></video>
+    <h1>HLS Streaming Player</h1>
+    <video id="videoPlayer" controls width="640" height="360"></video>
 
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const manifestUri = 'https://example.com/path/to/manifest.mpd';  // Replace with your actual DRM-protected manifest URL
-            const licenseServerUri = 'https://example.com/path/to/license';  // Replace with your actual DRM license server URL
+        document.addEventListener("DOMContentLoaded", function() {
+            const videoSrc = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
+            const videoPlayer = document.getElementById('videoPlayer');
 
-            // Initialize Shaka Player
-            const video = document.getElementById('video');
-            const player = new shaka.Player(video);
-
-            // Listen for error events.
-            player.addEventListener('error', (event) => {
-                console.error('Error code', event.detail.code, 'object', event.detail);
-            });
-
-            // Configure DRM license server
-            player.configure({
-                drm: {
-                    servers: {
-                        'com.widevine.alpha': licenseServerUri,
-                        'com.microsoft.playready': licenseServerUri
-                    }
-                }
-            });
-
-            // Try to load a manifest.
-            try {
-                await player.load(manifestUri);
-                console.log('The video has now been loaded!');
-            } catch (error) {
-                console.error('Error loading video', error);
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(videoSrc);
+                hls.attachMedia(videoPlayer);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    videoPlayer.play();
+                });
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    console.error('HLS error:', data);
+                });
+            } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                videoPlayer.src = videoSrc;
+                videoPlayer.addEventListener('loadedmetadata', function() {
+                    videoPlayer.play();
+                });
+            } else {
+                console.error('HLS not supported on this browser.');
             }
         });
     </script>
