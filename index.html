@@ -23,7 +23,6 @@
         #my-video {
             width: 100%;
             max-width: 1000px;
-            display: none;
             border: 5px solid transparent;
             border-radius: 10px;
             animation: border-animation 5s infinite;
@@ -51,6 +50,8 @@
             position: relative;
             width: 80%;
             max-width: 800px;
+            display: flex;
+            justify-content: center;
         }
         .quality-controls {
             position: absolute;
@@ -142,8 +143,8 @@
     </div>
     <div class="video-container">
         <img src="https://s12.gifyu.com/images/SYa8u.png" alt="Logo" class="logo">
-        <video id="my-video" controls width="640" height="264"></video>
-        <iframe id="my-iframe" src="https://emdftinya.tinyuri.org/embed/english.php" width="100%" height="400px" frameborder="0" allowfullscreen></iframe>
+        <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
+        <iframe id="my-iframe" src="https://emdftinya.tinyuri.org/embed/english.php" width="100%" height="400px" frameborder="0" allowfullscreen style="display: none;"></iframe>
         <div class="quality-controls">
             <label for="quality-options">Select Quality:</label>
             <select id="quality-options">
@@ -159,21 +160,19 @@
         const loginForm = document.getElementById('login-form');
         const passwordInput = document.getElementById('password');
         const submitBtn = document.getElementById('submit-btn');
-        const videoContainer = document.querySelector('.video-container');
         const videoPlayer = document.getElementById('my-video');
         const iframePlayer = document.getElementById('my-iframe');
         const qualityControls = document.querySelector('.quality-controls');
-        const qualityOptions = document.getElementById('quality-options');
 
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
                 loginForm.style.display = 'none';
-                videoPlayer.style.display = 'block';
-                iframePlayer.style.display = 'none'; // Hide iframe
+                videoPlayer.style.display = 'none';
+                iframePlayer.style.display = 'block';
                 qualityControls.style.display = 'block';
 
-                videoPlayer.load();
-                videoPlayer.play();
+                // Optionally, load the iframe content after password validation
+                iframePlayer.src = "https://emdftinya.tinyuri.org/embed/english.php";
             } else {
                 alert('Incorrect password. Please try again.');
             }
