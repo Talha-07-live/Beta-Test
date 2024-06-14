@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS.js Player Example</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <title>Bitmovin Player Example</title>
+    <!-- Include Bitmovin Player SDK -->
+    <script src="https://cdn.bitmovin.com/player/web/8/bitmovinplayer.js"></script>
     <style>
         body {
             display: flex;
@@ -18,38 +19,41 @@
         h1 {
             margin-bottom: 20px;
         }
-        video {
-            max-width: 100%;
-            height: auto;
+        #bitmovin-player {
+            width: 640px;
+            height: 360px;
         }
     </style>
 </head>
 <body>
-    <h1>HLS.js Player Example</h1>
-    <video id="videoPlayer" controls autoplay>
-        <source src="https://allinonereborn.tech/doordarshan.m3u8/?id=2343" type="application/x-mpegURL">
-        Your browser does not support the video tag or the file format of this video.
-    </video>
+    <h1>Bitmovin Player Example</h1>
+    <div id="bitmovin-player"></div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var video = document.getElementById('videoPlayer');
-            var hls = new Hls();
-
-            if (Hls.isSupported()) {
-                hls.loadSource('https://allinonereborn.tech/doordarshan.m3u8/?id=2343');
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    video.play();
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
-                video.addEventListener('loadedmetadata', function() {
-                    video.play();
-                });
-            } else {
-                console.error('HLS.js or HLS not supported');
+        var conf = {
+            key: 'YOUR_BITMOVIN_PLAYER_KEY', // Replace with your Bitmovin Player key
+            playback: {
+                autoplay: true,
+                muted: false,
+            },
+            source: {
+                hls: 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343',
+                drm: {
+                    widevine: {
+                        LA_URL: 'YOUR_WIDEVINE_LICENSE_URL' // Replace with your Widevine DRM license URL
+                    }
+                    // Add other DRM configurations as needed (PlayReady, FairPlay, etc.)
+                }
             }
+        };
+        
+        var playerContainer = document.getElementById('bitmovin-player');
+        var player = new bitmovin.player.Player(playerContainer, conf);
+
+        player.load(conf.source).then(function () {
+            console.log('Successfully loaded source');
+        }).catch(function (reason) {
+            console.error('Error while loading source', reason);
         });
     </script>
 </body>
