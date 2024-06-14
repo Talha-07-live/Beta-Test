@@ -54,7 +54,7 @@
         }
         .video-container {
             position: relative;
-            width: 95%;
+            width: 80%;
             max-width: 800px;
             display: flex;
             justify-content: center;
@@ -86,7 +86,7 @@
             background-color: #28a745;
         }
         footer {
-            margin-top: 100px;
+            margin-top: 20px;
             font-size: 14px;
             color: #555;
             text-align: center;
@@ -136,7 +136,7 @@
         .logo {
             position: absolute;
             top: 350px;
-            left: 105px;
+            left: 78px;
             width: 200px; /* Adjust the width as needed */
         }
     </style>
@@ -168,7 +168,8 @@
         const submitBtn = document.getElementById('submit-btn');
         const videoPlayer = document.getElementById('my-video');
         const iframePlayer = document.getElementById('my-iframe');
-        
+        const qualityControls = document.querySelector('.quality-controls');
+
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
                 loginForm.style.display = 'none';
