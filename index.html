@@ -40,6 +40,9 @@
                 hls.on(Hls.Events.MANIFEST_PARSED, function() {
                     videoPlayer.play();
                 });
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    console.error('HLS error:', data);
+                });
             } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
                 videoPlayer.src = videoSrc;
                 videoPlayer.addEventListener('loadedmetadata', function() {
