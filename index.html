@@ -14,11 +14,13 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
         }
         video {
             width: 80%;
             max-width: 960px;
             height: auto;
+            background-color: #000;
         }
     </style>
 </head>
@@ -31,18 +33,18 @@
             var hls = new Hls();
 
             if (Hls.isSupported()) {
-                hls.loadSource('https://allinonereborn.tech/doordarshan.m3u8/?id=2343');
+                hls.loadSource('https://allinonereborn.tech/doordarshan.m3u8/?id=2343'); // Replace with your actual HLS playlist URL
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, function() {
                     video.play();
                 });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
+                video.src = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343'; // Fallback for Safari
                 video.addEventListener('loadedmetadata', function() {
                     video.play();
                 });
             } else {
-                console.error('HLS.js not supported');
+                console.error('HLS.js or HLS not supported');
             }
         });
     </script>
