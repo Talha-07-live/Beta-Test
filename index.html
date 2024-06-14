@@ -3,52 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Native HLS Playback</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        video {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
+    <title>JW Player HLS Example</title>
+    <script src="https://cdn.jwplayer.com/lib/8.17.5/jwplayer.js"></script>
 </head>
 <body>
-    <h1>Native HLS Playback</h1>
-    <video id="videoPlayer" controls autoplay>
-        <source src="https://allinonereborn.tech/doordarshan.m3u8/?id=2343" type="application/x-mpegURL">
-        Your browser does not support the video tag or the file format of this video.
-    </video>
-
+    <div id="player"></div>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('videoPlayer');
-            if (Hls.isSupported()) {
-                const hls = new Hls();
-                hls.loadSource('https://allinonereborn.tech/doordarshan.m3u8/?id=2343');
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    video.play();
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
-                video.addEventListener('loadedmetadata', function() {
-                    video.play();
-                });
-            } else {
-                console.error('HLS not supported');
-            }
+        var player = jwplayer("player");
+        player.setup({
+            file: "https://allinonereborn.tech/doordarshan.m3u8/?id=2343",
+            type: "hls",
+            width: "100%",
+            aspectratio: "16:9",
+            autostart: true,
+            primary: "html5",
+            hlshtml: true  // Enable HLS support using HTML5 video tag
         });
     </script>
 </body>
