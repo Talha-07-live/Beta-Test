@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS.js Player Example</title>
+    <title>Encrypted HLS.js Player Example</title>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         body {
@@ -30,7 +30,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             var video = document.getElementById('videoPlayer');
             var hls = new Hls();
-            var hlsUrl = 'https://retosbd.com/toffe/toffe.php?id=match-1'; // Your HLS stream URL
+            var hlsUrl = 'https://retosbd.com/toffe/toffe.php?id=match-1'; // Replace with your .m3u8 URL
 
             if (Hls.isSupported()) {
                 hls.loadSource(hlsUrl);
