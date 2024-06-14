@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS Streaming Player</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <title>Video.js HLS Player</title>
+    <!-- Include Video.js CSS -->
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <!-- Include Video.js and videojs-contrib-hls -->
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-contrib-hls@5.15.0/dist/videojs-contrib-hls.min.js"></script>
     <style>
         body {
             display: flex;
@@ -18,39 +22,31 @@
         h1 {
             margin-bottom: 20px;
         }
-        video {
-            max-width: 100%;
-            height: auto;
+        .video-js {
+            width: 640px;
+            height: 360px;
         }
     </style>
 </head>
 <body>
     <h1>HLS Streaming Player</h1>
-    <video id="videoPlayer" controls width="640" height="360"></video>
+    <video id="videoPlayer" class="video-js vjs-default-skin" controls></video>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const videoSrc = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
-            const videoPlayer = document.getElementById('videoPlayer');
-
-            if (Hls.isSupported()) {
-                const hls = new Hls();
-                hls.loadSource(videoSrc);
-                hls.attachMedia(videoPlayer);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    videoPlayer.play();
-                });
-                hls.on(Hls.Events.ERROR, function(event, data) {
-                    console.error('HLS error:', data);
-                });
-            } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-                videoPlayer.src = videoSrc;
-                videoPlayer.addEventListener('loadedmetadata', function() {
-                    videoPlayer.play();
-                });
-            } else {
-                console.error('HLS not supported on this browser.');
-            }
+            const videoPlayer = videojs('videoPlayer', {
+                autoplay: true,
+                controls: true,
+                sources: [{
+                    src: videoSrc,
+                    type: 'application/x-mpegURL'
+                }]
+            });
+            
+            videoPlayer.on('error', function() {
+                console.error('Video.js error:', videoPlayer.error());
+            });
         });
     </script>
 </body>
