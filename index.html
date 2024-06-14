@@ -8,34 +8,28 @@
     <style>
         body {
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
         }
-        h1 {
-            margin-bottom: 20px;
-        }
         video {
-            max-width: 100%;
+            width: 80%;
+            max-width: 960px;
             height: auto;
         }
     </style>
 </head>
 <body>
-    <h1>HLS.js Player Example</h1>
-    <video id="videoPlayer" controls autoplay>
-        <source src="https://allinonereborn.tech/doordarshan.m3u8/?id=2343" type="application/x-mpegURL">
-        Your browser does not support the video tag or the file format of this video.
-    </video>
+    <video id="videoPlayer" controls></video>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var video = document.getElementById('videoPlayer');
+            var hls = new Hls();
+
             if (Hls.isSupported()) {
-                var hls = new Hls();
                 hls.loadSource('https://allinonereborn.tech/doordarshan.m3u8/?id=2343');
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, function() {
