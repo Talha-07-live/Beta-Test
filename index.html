@@ -33,9 +33,10 @@
             var hls = new Hls();
 
             if (Hls.isSupported()) {
-                // Replace with your actual HLS playlist URL
-                var hlsUrl = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343';
-                if (hlsUrl.includes('.m3u8')) {
+                var hlsUrl = 'https://allinonereborn.tech/doordarshan.m3u8/?id=2343'; // Replace with your actual HLS playlist URL
+
+                // Check if the URL ends with .m3u8 (assuming it's an HLS playlist)
+                if (hlsUrl.endsWith('.m3u8')) {
                     hls.loadSource(hlsUrl);
                     hls.attachMedia(video);
                     hls.on(Hls.Events.MANIFEST_PARSED, function() {
@@ -50,7 +51,7 @@
                     video.play();
                 });
             } else {
-                console.error('HLS.js not supported');
+                console.error('HLS.js or HLS not supported');
             }
         });
     </script>
