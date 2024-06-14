@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DASH.js Player Example</title>
-    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    <title>HLS.js Player Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         body {
             display: flex;
@@ -28,9 +28,24 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var url = 'https://aba5sdmaaaaaaaamkycwliah6buj4.otte.live.cf.ww.aiv-cdn.net/pdx-nitro/live/clients/dash/enc/tgcrfjcgia/out/v1/7296f026409c4e9ba8844a238628f9ad/cenc.mpd';
-            var player = dashjs.MediaPlayer().create();
-            player.initialize(document.querySelector("#videoPlayer"), url, true);
+            var video = document.getElementById('videoPlayer');
+            var hls = new Hls();
+            var hlsUrl = 'https://retosbd.com/toffe/toffe.php?id=match-1'; // Your HLS stream URL
+
+            if (Hls.isSupported()) {
+                hls.loadSource(hlsUrl);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play();
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = hlsUrl;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
+            } else {
+                console.error('HLS.js or HLS not supported');
+            }
         });
     </script>
 </body>
