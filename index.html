@@ -30,13 +30,32 @@
         document.addEventListener('DOMContentLoaded', function() {
             var video = document.getElementById('videoPlayer');
             var hls = new Hls();
-            var hlsUrl = 'https://retosbd.com/toffe/toffe.php?id=match-1'; // Replace with your .m3u8 URL
+
+            // HLS playlist URL
+            var hlsUrl = 'https://retosbd.com/toffe/toffe.php?id=match-1';
 
             if (Hls.isSupported()) {
                 hls.loadSource(hlsUrl);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, function() {
                     video.play();
+                });
+
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal) {
+                        switch (data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                console.error('A network error occurred:', data);
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                console.error('A media error occurred:', data);
+                                hls.recoverMediaError();
+                                break;
+                            default:
+                                hls.destroy();
+                                break;
+                        }
+                    }
                 });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = hlsUrl;
