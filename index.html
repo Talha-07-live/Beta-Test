@@ -10,32 +10,41 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh; /* Use min-height instead of height for responsiveness */
+            height: 100vh;
             background-color: #f0f0f0;
             margin: 0;
             flex-direction: column;
-            overflow-x: hidden; /* Prevent horizontal overflow */
         }
         #login-form {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 20px; /* Added margin for spacing */
         }
-        #my-video, #my-iframe {
+        #my-video {
             width: 100%;
-            max-width: 800px; /* Adjusted maximum width for video and iframe */
+            max-width: 1000px;
             border: 5px solid transparent;
             border-radius: 10px;
             animation: border-animation 5s infinite;
             background-clip: border-box;
-            display: none; /* Initially hide video and iframe */
-            margin-bottom: 20px; /* Added margin for spacing */
+            display: none; /* Initially hide HLS video player */
+        }
+        #my-iframe {
+            position: absolute;
+            top: -200px;
+            left: -14px;
+            width: 105%;
+            max-width: 1000px;
+            border: 5px solid transparent;
+            border-radius: 10px;
+            animation: border-animation 5s infinite;
+            background-clip: border-box;
+            display: none; /* Initially hide iframe */
+            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
         }
         #password {
             padding: 10px;
             font-size: 16px;
-            margin-bottom: 10px; /* Added margin for spacing */
         }
         #submit-btn {
             padding: 10px 20px;
@@ -57,11 +66,26 @@
             max-width: 800px;
             display: flex;
             justify-content: center;
-            flex-direction: column; /* Changed to column layout */
+            margin-top: 20px; /* Added margin to separate from login form */
+            position: relative; /* Added relative positioning */
         }
-        .support-button, #cricket-btn {
+        .ticker-text {
             position: absolute;
-            background-color: #28a745; /* Adjusted button colors */
+            bottom: 10px; /* Adjust as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .support-button {
+            position: absolute;
+            top: -250px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -70,21 +94,28 @@
             border-radius: 5px;
             transition: background-color 0.3s ease;
         }
-        .support-button:hover, #cricket-btn:hover {
-            background-color: #218838; /* Darker hover color */
-        }
-        .support-button {
-            top: 10px;
-            right: 10px; /* Adjusted position of support button */
+        .support-button:hover {
+            background-color: #28a745;
         }
         #cricket-btn {
-            top: 60px;
-            right: 10px; /* Adjusted position of cricket button */
-            font-size: 14px; /* Reduced font size for cricket button */
-            padding: 8px 15px; /* Reduced padding for cricket button */
+            position: absolute;
+            top: -290px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        #cricket-btn:hover {
+            background-color: #d9534f;
         }
         footer {
-            margin-top: auto; /* Pushed footer to the bottom */
+            margin-top: 220px;
             font-size: 14px;
             color: #555;
             text-align: center;
@@ -97,28 +128,6 @@
             -webkit-text-fill-color: transparent;
             animation: gradient-animation 5s infinite;
             background-size: 300%;
-        }
-        .ticker-text {
-            position: absolute;
-            top: 20px; /* Adjusted top position */
-            left: 50%;
-            transform: translateX(-50%);
-            width: auto;
-            padding: 10px 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            border-radius: 5px;
-            animation: ticker-animation 20s linear infinite; /* Increased animation duration */
-            white-space: nowrap; /* Prevent text wrap */
-            z-index: 1; /* Ensure text is above video and iframe */
-        }
-        @keyframes ticker-animation {
-            from {
-                transform: translateX(100%);
-            }
-            to {
-                transform: translateX(-100%);
-            }
         }
         @keyframes gradient-animation {
             0% {
@@ -153,7 +162,7 @@
         }
         .logo {
             position: absolute;
-            top: 240px; /* Adjusted top position */
+            top: 280px;
             left: 50%;
             transform: translateX(-50%);
             width: 200px; /* Adjust the width as needed */
@@ -171,10 +180,12 @@
         <img src="https://s12.gifyu.com/images/SYa8u.png" alt="Logo" class="logo">
         <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
         <iframe id="my-iframe" src="https://onelineplayer.com/player.html?autoplay=false&autopause=true&muted=false&loop=false&url=https%3A%2F%2Fdai.google.com%2Fssai%2Fevent%2FMU1Tz6gxSAuGNMvGmokn4A%2Fmaster.m3u8&poster=https%3A%2F%2Fs12.gifyu.com%2Fimages%2FSYBx9.jpg&time=true&progressBar=false&overlay=true&muteButton=true&fullscreenButton=true&style=light&quality=auto&playButton=true" width="100%" height="400px" frameborder="0" allowfullscreen style="display: none;"></iframe>
-        <!-- Ticker text added here -->
-        <div class="ticker-text">Click The Play Button To Play. If Video Not Play Then Refresh The Page And Try again. Any Other Issues Please Submit You Are Issues In Support Button, Thanks!</div>
         <!-- Removed the quality-controls section -->
         <button class="support-button" onclick="openSupport()">Support</button>
+        <button id="cricket-btn" onclick="redirectToCricket()">Cricket World Cup Live</button>
+        <div class="ticker-text">
+            Click The Play Button To Play. If Video Not Play Then Refresh The Page
+        </div>
     </div>
     <footer><span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span></footer>
 
