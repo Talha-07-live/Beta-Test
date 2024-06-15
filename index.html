@@ -74,12 +74,9 @@
             bottom: 0;
             width: 100%;
             overflow: hidden;
+            display: none; /* Initially hide ticker */
         }
         .ticker-text {
-            position: absolute;
-            top: 180px;
-            left: 50%;
-            transform: translateX(-50%);
             display: inline-block;
             white-space: nowrap;
             padding-left: 100%; /* Start off-screen */
@@ -211,6 +208,7 @@
         const submitBtn = document.getElementById('submit-btn');
         const videoPlayer = document.getElementById('my-video');
         const iframePlayer = document.getElementById('my-iframe');
+        const tickerContainer = document.querySelector('.ticker-container'); // Select the ticker container
         
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
@@ -220,6 +218,7 @@
                 iframePlayer.onclick = () => {
                     toggleFullScreen(iframePlayer);
                 };
+                tickerContainer.style.display = 'block'; // Show ticker after successful login
             } else {
                 alert('Incorrect password. Please try again.');
             }
