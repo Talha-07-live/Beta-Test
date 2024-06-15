@@ -80,7 +80,7 @@
             display: inline-block;
             white-space: nowrap;
             padding-left: -10%; /* Start off-screen */
-            animation: ticker-animation 1s linear once; /* Adjust animation duration as needed */
+            animation: ticker-animation 1s linear second; /* Adjust animation duration as needed */
         }
         @keyframes ticker-animation {
             0% {
@@ -177,6 +177,13 @@
             transform: translateX(-50%);
             width: 200px; /* Adjust the width as needed */
         }
+        .visitor-counter {
+            position: absolute;
+            top: 700px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none; /* Initially hide visitor counter */
+        }
     </style>
 </head>
 <body>
@@ -198,6 +205,11 @@
                 Click Inside The Player Play Button To Video Play. If Video Not Play Then Refresh The Page And Any Issues Please Click The "Support" Button And Submit Your Issues Thanks!                                                                                                     Note* By accessing our streaming site you acknowledge that we aggregate freely available streaming links we are not responsible any copyright concerns, please contact us at click "support" button.
             </div>
         </div>
+    </div>
+    <div class="visitor-counter" id="visitor-counter">
+        <a href='https://www.free-counters.org/'>https://www.Free-Counters.org</a> 
+        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=13acb73ec4d0bc25b329f32cb80f9aa501a77738'></script>
+        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1193101/t/1"></script>
     </div>
     <footer><span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span></footer>
 
