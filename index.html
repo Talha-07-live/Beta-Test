@@ -27,7 +27,7 @@
             border-radius: 10px;
             animation: border-animation 5s infinite;
             background-clip: border-box;
-            display: none; /* Initially hide HLS video player */
+            display: none;
         }
         #my-iframe {
             position: absolute;
@@ -39,7 +39,7 @@
             border-radius: 10px;
             animation: border-animation 5s infinite;
             background-clip: border-box;
-            display: none; /* Initially hide iframe */
+            display: none;
         }
         #password {
             padding: 10px;
@@ -95,7 +95,7 @@
         }
         #cricket-btn {
             position: absolute;
-            top: -320px;
+            top: -310px;
             left: 50%;
             transform: translateX(-50%);
             background-color: #ff6b6b;
@@ -106,6 +106,7 @@
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s ease;
+            display: none;
         }
         #cricket-btn:hover {
             background-color: #d9534f;
@@ -161,7 +162,7 @@
             top: 280px;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px; /* Adjust the width as needed */
+            width: 200px;
         }
     </style>
 </head>
@@ -178,7 +179,6 @@
         <div class="quality-controls">
             <label for="quality-options">Select Quality:</label>
             <select id="quality-options">
-                <!-- Options will be dynamically populated -->
             </select>
         </div>
         <button class="support-button" onclick="openSupport()">Support</button>
@@ -187,7 +187,69 @@
     <footer><span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span></footer>
 
     <script>
-        const PASSWORD = "Talha"; // Set your password here
+        const PASSWORD = "Talha";
+        const loginForm = document.getElementById('login-form');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submit-btn');
+        const videoPlayer = document.getElementById('my-video');
+        const iframePlayer = document.getElementById('my-iframe');
+        const cricketBtn = document.getElementById('cricket-btn');
+        
+        submitBtn.addEventListener('click', () => {
+            if (passwordInput.value === PASSWORD) {
+                loginForm.style.display = 'none';
+                videoPlayer.style.display = 'none';
+                iframePlayer.style.display = 'block';
+                qualityControls.style.display = 'block';
+                cricketBtn.style.display = 'block'; 
+                
+                iframePlayer.src = "https://cdn-1.bdiptv24.line.pm/live/SP/index.m3u8";
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
+        });
+
+        function openSupport() {
+            window.open("https://t.me/talhasmovie_request_bot", "_blank");
+        }
+
+        function redirectToCricket() {
+            window.location.href = "https://photospace.life/CUFIE5";
+        }
+    </script>
+</body>
+</html>
+.logo {
+            position: absolute;
+            top: 280px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="login-form">
+        <h1>Enter Password</h1>
+        <input type="password" id="password" placeholder="Password">
+        <button id="submit-btn">Submit</button>
+    </div>
+    <div class="video-container">
+        <img src="https://s12.gifyu.com/images/SYa8u.png" alt="Logo" class="logo">
+        <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
+        <iframe id="my-iframe" src="https://player.livepush.io/emvCCIgTrSbZZ" width="100%" height="400px" frameborder="0" allowfullscreen style="display: none;"></iframe>
+        <div class="quality-controls">
+            <label for="quality-options">Select Quality:</label>
+            <select id="quality-options">
+            </select>
+        </div>
+        <button class="support-button" onclick="openSupport()">Support</button>
+        <button id="cricket-btn" onclick="redirectToCricket()">Cricket World Cup Live</button>
+    </div>
+    <footer><span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span></footer>
+
+    <script>
+        const PASSWORD = "Talha";
         const loginForm = document.getElementById('login-form');
         const passwordInput = document.getElementById('password');
         const submitBtn = document.getElementById('submit-btn');
@@ -202,7 +264,6 @@
                 qualityControls.style.display = 'block';
                 cricket-btn.style.display = 'block';
 
-                // Optionally, load the iframe content after password validation
                 iframePlayer.src = "https://cdn-1.bdiptv24.line.pm/live/SP/index.m3u8";
             } else {
                 alert('Incorrect password. Please try again.');
