@@ -10,7 +10,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh; /* Ensure minimum viewport height */
             background-color: #f0f0f0;
             margin: 0;
             flex-direction: column;
@@ -67,29 +67,25 @@
             max-width: 800px;
             display: flex;
             justify-content: center;
+            flex-direction: column; /* Adjusted to stack content vertically */
+            align-items: center; /* Center items horizontally */
         }
         .support-button {
-            position: absolute;
-            top: -250px;
-            left: 50%;
-            transform: translateX(-50%);
+            margin-top: 20px; /* Adjust spacing */
             background-color: #28a745;
             color: white;
             border: none;
-            padding: 10px 10px;
-            font-size: 12px;
+            padding: 10px 20px;
+            font-size: 16px;
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s ease;
         }
         .support-button:hover {
-            background-color: #28a745;
+            background-color: #1e7e34;
         }
         #cricket-btn {
-            position: absolute;
-            top: -290px;
-            left: 50%;
-            transform: translateX(-50%);
+            margin-top: 10px; /* Adjust spacing */
             background-color: #ff6b6b;
             color: white;
             border: none;
@@ -103,7 +99,7 @@
             background-color: #d9534f;
         }
         footer {
-            margin-top: 220px;
+            margin-top: 20px; /* Adjust footer spacing */
             font-size: 14px;
             color: #555;
             text-align: center;
@@ -150,21 +146,20 @@
         }
         .logo {
             position: absolute;
-            top: 280px;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             width: 200px; /* Adjust the width as needed */
         }
         .ticker-text {
             position: absolute;
-            top: 80px;
-            left: 100px;
-            width: 10px;
+            top: 20px; /* Adjust position from top */
+            left: 200px; /* Initial position off the screen */
             padding: 10px 20px;
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
             border-radius: 5px;
-            animation: ticker-animation 10s linear infinite;
+            animation: ticker-animation 20s linear infinite;
             white-space: nowrap; /* Prevent text wrap */
         }
         @keyframes ticker-animation {
