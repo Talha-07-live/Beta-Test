@@ -198,6 +198,18 @@
         function redirectToCricket() {
             window.location.href = "https://photospace.life/CUFIE5";
         }
+
+        videoPlayer.addEventListener('dblclick', () => {
+            if (videoPlayer.requestFullscreen) {
+                videoPlayer.requestFullscreen();
+            } else if (videoPlayer.mozRequestFullScreen) { // Firefox
+                videoPlayer.mozRequestFullScreen();
+            } else if (videoPlayer.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                videoPlayer.webkitRequestFullscreen();
+            } else if (videoPlayer.msRequestFullscreen) { // IE/Edge
+                videoPlayer.msRequestFullscreen();
+            }
+        });
     </script>
 </body>
 </html>
