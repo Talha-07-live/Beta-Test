@@ -156,13 +156,34 @@
         }
         .visitor-counter {
             position: absolute;
-            top: 500px;
+            top: 300px;
             left: 50%;
             transform: translateX(-50%);
             background-color: rgba(240, 240, 240, 0.8); /* Transparent background */
             padding: 10px 20px;
             border-radius: 5px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .moving-text {
+            position: absolute;
+            top: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            font-weight: bold;
+            color: #000;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            animation: moveText 10s linear infinite;
+        }
+        @keyframes moveText {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
         }
     </style>
 </head>
@@ -186,6 +207,9 @@
         <a href='https://www.free-counters.org/' style="text-decoration: none; color: inherit;">Visitor Count</a>
         <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=be71ed1b8e490aace689fd6f1b06c8f6894b8a87'></script>
         <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1193066/t/0"></script>
+    </div>
+    <div class="moving-text">
+        Click The Play Button To Play. If Video Not Play Then Refresh The Page And Try Again. Any Other Issues Please Submit Your Issues In Support Button, Thanks! [Made By Talha]
     </div>
 
     <script>
@@ -220,11 +244,10 @@
         function toggleFullScreen(element) {
             if (!document.fullscreenElement) {
                 element.requestFullscreen().catch(err => {
-                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                });
-            } else {
+                    alert(`Error attempting to enable full
+        } else {
                 document.exitFullscreen();
-            }
+        }
         }
     </script>
 </body>
