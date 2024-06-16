@@ -1,5 +1,3 @@
-</body>
-</html>
 <!DOCTYPE html>
 <html lang="en"> 
 <head>
@@ -201,15 +199,9 @@
             </div>
         </div>
     </div>
-    <footer>
-    <span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span>
-    <div>
-        <a href='https://www.free-counters.org/'>https://www.Free-Counters.org</a>
-        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=33ab34aaca275b8494b4762d29e88bcbd60350e4'></script>
-        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1193129/t/1"></script>
-    </div>
-</footer>
+    <footer><span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span></footer>
 
+    <script>
         const PASSWORD = "Talha"; // Set your password here
         const loginForm = document.getElementById('login-form');
         const passwordInput = document.getElementById('password');
@@ -217,21 +209,20 @@
         const videoPlayer = document.getElementById('my-video');
         const iframePlayer = document.getElementById('my-iframe');
         const tickerContainer = document.querySelector('.ticker-container'); // Select the ticker container
-
+        
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
                 loginForm.style.display = 'none';
                 videoPlayer.style.display = 'none';
                 iframePlayer.style.display = 'block';
                 iframePlayer.onclick = () => {
-                    toggleFullScreen(iframePlayer);
                 };
                 tickerContainer.style.display = 'block'; // Show ticker after successful login
             } else {
                 alert('Incorrect password. Please try again.');
             }
         });
-        
+
         function openSupport() {
             window.open("https://t.me/talhasmovie_request_bot", "_blank");
         }
@@ -252,6 +243,3 @@
     </script>
 </body>
 </html>
-
-
-    
