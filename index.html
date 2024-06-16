@@ -201,22 +201,15 @@
             </div>
         </div>
     </div>
-    <footer><span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span></footer>
-
-    <div id="visitor-counter">
-        <?php
-            // PHP Visitor Counter Script
-            $counter_file = "counter.txt";
-            $counter = file_exists($counter_file) ? (int) file_get_contents($counter_file) : 0;
-            $counter++;
-
-            file_put_contents($counter_file, $counter);
-
-            echo "<p>Total Visitors: $counter</p>";
-        ?>
+    <footer>
+    <span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span>
+    <div>
+        <a href='https://www.free-counters.org/'>https://www.Free-Counters.org</a>
+        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=33ab34aaca275b8494b4762d29e88bcbd60350e4'></script>
+        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1193129/t/1"></script>
     </div>
+</footer>
 
-    <script>
         const PASSWORD = "Talha"; // Set your password here
         const loginForm = document.getElementById('login-form');
         const passwordInput = document.getElementById('password');
