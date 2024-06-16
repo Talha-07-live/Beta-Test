@@ -80,14 +80,14 @@
             display: inline-block;
             white-space: nowrap;
             padding-left: -800%; /* Start off-screen */
-            animation: ticker-animation 20s linear infinite; /* Adjust animation duration as needed */
+            animation: ticker-animation 200s linear infinite; /* Adjust animation duration as needed */
         }
         @keyframes ticker-animation {
             0% {
-                transform: translateX(-10%);
+                transform: translateX(30%);
             }
             100% {
-                transform: translateX(10%);
+                transform: translateX(-100%);
             }
         }
         .support-button {
