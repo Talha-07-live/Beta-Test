@@ -1,3 +1,5 @@
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en"> 
 <head>
@@ -201,6 +203,19 @@
     </div>
     <footer><span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span></footer>
 
+    <div id="visitor-counter">
+        <?php
+            // PHP Visitor Counter Script
+            $counter_file = "counter.txt";
+            $counter = file_exists($counter_file) ? (int) file_get_contents($counter_file) : 0;
+            $counter++;
+
+            file_put_contents($counter_file, $counter);
+
+            echo "<p>Total Visitors: $counter</p>";
+        ?>
+    </div>
+
     <script>
         const PASSWORD = "Talha"; // Set your password here
         const loginForm = document.getElementById('login-form');
@@ -209,7 +224,7 @@
         const videoPlayer = document.getElementById('my-video');
         const iframePlayer = document.getElementById('my-iframe');
         const tickerContainer = document.querySelector('.ticker-container'); // Select the ticker container
-        
+
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
                 loginForm.style.display = 'none';
@@ -223,7 +238,7 @@
                 alert('Incorrect password. Please try again.');
             }
         });
-
+        
         function openSupport() {
             window.open("https://t.me/talhasmovie_request_bot", "_blank");
         }
@@ -244,3 +259,6 @@
     </script>
 </body>
 </html>
+
+
+    
