@@ -30,8 +30,10 @@
             display: none; /* Initially hide HLS video player */
         }
         #my-iframe {
-            position: absolute;
-            top: -200px;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
             left: -14px;
             width: 105%;
             max-width: 1000px;
