@@ -246,14 +246,6 @@
         function redirectToCricket() {
             window.location.href = "https://photospace.life/CUFIE5";
         }
-
-        function toggleFullScreen(element) {
-            if (!document.fullscreenElement) {
-                element.requestFullscreen().catch(err => {
-                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                });
-            } else {
-                document.exitFullscreen();
             }
         }
     </script>
