@@ -233,6 +233,8 @@
         const videoPlayer = document.getElementById('my-video');
         const iframePlayer = document.getElementById('my-iframe');
         const tickerContainer = document.querySelector('.ticker-container'); // Select the ticker container
+        const logoTopRight = document.getElementById('logo-top-right');
+        
         
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
@@ -242,6 +244,8 @@
                 iframePlayer.onclick = () => {
                 };
                 tickerContainer.style.display = 'block'; // Show ticker after successful login
+                logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
+                
             } else {
                 alert('Incorrect password. Please try again.');
             }
