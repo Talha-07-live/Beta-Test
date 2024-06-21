@@ -82,15 +82,18 @@
             }
         }
         .support-button, #cricket-btn, #copa-btn {
-            background-color: #28a745;
+            position: absolute;
+            top: -300px; /* Adjust the top value as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff6b6b;
             color: white;
             border: none;
             padding: 10px 20px;
-            font-size: 14px;
+            font-size: 10px;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 4px;
             transition: background-color 0.3s ease;
-            margin: 5px;
         }
         .support-button:hover, #cricket-btn:hover, #copa-btn:hover {
             background-color: #218838;
