@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Talha-07-Live</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/1.8.2/plyr.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,7 +23,7 @@
             align-items: center;
             color: white;
         }
-        #my-video {
+        #player {
             width: 100%;
             max-width: 1000px;
             border: 5px solid transparent;
@@ -70,16 +71,6 @@
             justify-content: center;
             margin-top: 20px; /* Added margin to separate from login form */
             position: relative; /* Added relative positioning */
-        }
-        .buffer-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 20px;
-            z-index: 10;
-            display: block; /* Initially hidden */
         }
         .ticker-container {
             position: absolute;
@@ -254,9 +245,8 @@
     </div>
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
-        <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
-        <div class="buffer-text" id="buffer-text">Please Wait For A Few Seconds For Buffering...</div>
-        <iframe id="my-iframe" src="https://talha-07-live.github.io/Talhas-Web-Host1/" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
+        <video id="player" preload="none" autoplay controls crossorigin></video>
+        <iframe id="my-iframe" src="" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
         <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
         <button class="support-button" onclick="openSupport()">Support</button>
         <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
@@ -280,14 +270,15 @@
         <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=be71ed1b8e490aace689fd6f1b06c8f6894b8a87'></script>
         <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1193066/t/0"></script>
     </div>
+    <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
+    <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script>
     <script>
         const PASSWORD = "Talha"; // Set your password here
         const loginForm = document.getElementById('login-form');
         const passwordInput = document.getElementById('password');
         const submitBtn = document.getElementById('submit-btn');
-        const videoPlayer = document.getElementById('my-video');
+        const videoPlayer = document.getElementById('player');
         const iframePlayer = document.getElementById('my-iframe');
-        const bufferText = document.getElementById('buffer-text');
         const tickerContainer = document.querySelector('.ticker-container'); // Select the ticker container
         const logoTopRight = document.getElementById('logo-top-right');
         const serverButtonsContainer = document.querySelector('.server-buttons'); // Select the server buttons container
@@ -295,14 +286,12 @@
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
                 loginForm.style.display = 'none';
-                videoPlayer.style.display = 'none';
-                iframePlayer.style.display = 'block';
-                iframePlayer.onclick = () => {
-                };
-                bufferText.style.display = 'none'; // Hide buffer text on successful login
+                videoPlayer.style.display = 'block';
+                iframePlayer.style.display = 'none';
                 tickerContainer.style.display = 'block'; // Show ticker after successful login
                 logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
                 serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
+                changeServer('server1'); // Load default server
             } else {
                 alert('Incorrect password. Please try again.');
             }
@@ -322,24 +311,38 @@
 
         function changeServer(server) {
             const servers = {
-                server1: "https://talha-07-live.github.io/Talhas-Web-Host1/",
+                server1: "https://live.teleradiocom.tj/5/3m.m3u8",
                 server2: "https://emdftinya.tinyuri.org/embed/english.php",
                 server3: "https://shooohantv.github.io/tf.html?id=ICC",
                 server4: "https://cdn247.xyz/cn1/axv.php?c=supercricket",
                 server5: "https://anym3u8player.com/tv/video-player.php?url=https%3A%2F%2Fmm5-97.tinyuri.org%2Flive%2Fm4-1080p.m3u8"
             };
-            iframePlayer.src = servers[server];
+            const link = servers[server];
+
+            if (link.endsWith('.m3u8')) {
+                if (Hls.isSupported()) {
+                    const hls = new Hls();
+                    hls.loadSource(link);
+                    hls.attachMedia(videoPlayer);
+                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                        videoPlayer.play();
+                    });
+                } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                    videoPlayer.src = link;
+                    videoPlayer.addEventListener('canplay', function() {
+                        videoPlayer.play();
+                    });
+                }
+                videoPlayer.style.display = 'block';
+                iframePlayer.style.display = 'none';
+            } else {
+                iframePlayer.src = link;
+                iframePlayer.style.display = 'block';
+                videoPlayer.style.display = 'none';
+            }
         }
 
-        // Show buffer text when video is buffering
-        videoPlayer.addEventListener('waiting', function() {
-            bufferText.style.display = 'block';
-        });
-
-        // Hide buffer text when video starts playing
-        videoPlayer.addEventListener('playing', function() {
-            bufferText.style.display = 'none';
-        });
+        plyr.setup(videoPlayer);
     </script>
 </body>
 </html>
