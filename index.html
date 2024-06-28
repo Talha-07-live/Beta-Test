@@ -245,8 +245,8 @@
     </div>
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
-        <video id="player" preload="none" autoplay controls crossorigin style="display: none;"></video>
-        <iframe id="my-iframe" src="" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
+        <video id="player" preload="none" autoplay controls crossorigin></video>
+        <iframe id="my-iframe" src="" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen allow="encrypted-media"></iframe>
         <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
         <button class="support-button" onclick="openSupport()">Support</button>
         <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
@@ -277,7 +277,7 @@
         const loginForm = document.getElementById('login-form');
         const passwordInput = document.getElementById('password');
         const submitBtn = document.getElementById('submit-btn');
-        const Player = document.getElementById('player');
+        const videoPlayer = document.getElementById('player');
         const iframePlayer = document.getElementById('my-iframe');
         const tickerContainer = document.querySelector('.ticker-container'); // Select the ticker container
         const logoTopRight = document.getElementById('logo-top-right');
@@ -286,7 +286,7 @@
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
                 loginForm.style.display = 'none';
-                Player.style.display = 'block';
+                videoPlayer.style.display = 'block';
                 iframePlayer.style.display = 'none';
                 tickerContainer.style.display = 'block'; // Show ticker after successful login
                 logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
@@ -325,24 +325,24 @@
                     hls.loadSource(link);
                     hls.attachMedia(videoPlayer);
                     hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                        Player.play();
+                        videoPlayer.play();
                     });
-                } else if (Player.canPlayType('application/vnd.apple.mpegurl')) {
-                    Player.src = link;
-                    Player.addEventListener('canplay', function() {
-                        Player.play();
+                } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                    videoPlayer.src = link;
+                    videoPlayer.addEventListener('canplay', function() {
+                        videoPlayer.play();
                     });
                 }
-                Player.style.display = 'block';
+                videoPlayer.style.display = 'block';
                 iframePlayer.style.display = 'none';
             } else {
                 iframePlayer.src = link;
                 iframePlayer.style.display = 'block';
-                Player.style.display = 'none';
+                videoPlayer.style.display = 'none';
             }
         }
 
-        plyr.setup(Player);
+        plyr.setup(videoPlayer);
     </script>
 </body>
 </html>
