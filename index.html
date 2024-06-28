@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 110vh;
+            height: 90vh;
             background-color: #111;
             margin: 0;
             flex-direction: column;
@@ -71,6 +71,16 @@
             margin-top: 20px; /* Added margin to separate from login form */
             position: relative; /* Added relative positioning */
         }
+        .buffer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 20px;
+            z-index: 10;
+            display: none; /* Initially hidden */
+        }
         .ticker-container {
             position: absolute;
             bottom: -68px;
@@ -118,8 +128,8 @@
             background-color: #ff6b6b;
             color: white;
             border: none;
-            padding: 7px 20px;
-            font-size: 6px;
+            padding: 12px 17px;
+            font-size: 8px;
             cursor: pointer;
             border-radius: 8px;
             transition: background-color 0.3s ease;
@@ -132,7 +142,7 @@
             background-color: #ff6b6b;
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 12px 17px;
             font-size: 8px;
             cursor: pointer;
             border-radius: 8px;
@@ -238,18 +248,19 @@
 </head>
 <body>
     <div id="login-form">
-        <h1>To Watch Copa America Live Enter The Password</h1>
+        <h1>To Watch Cricket World Cup Live Enter The Password</h1>
         <input type="password" id="password" placeholder="Password">
         <button id="submit-btn">Submit</button>
     </div>
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
         <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
-        <iframe id="my-iframe" src="https://talha-07-live.github.io/Talhas-Web-Host2/" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
+        <div class="buffer-text" id="buffer-text">Please Wait For A Few Seconds For Buffering...</div>
+        <iframe id="my-iframe" src="https://talha-07-live.github.io/Talhas-Web-Host1/" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
         <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
         <button class="support-button" onclick="openSupport()">Support</button>
-        <button id="cricket-btn" onclick="redirectToCricket()">Cricket World Cup Live</button>
-        <button id="copa-btn" onclick="redirectToCopa()">UEFA EURO Cup Live</button>
+        <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
+        <button id="copa-btn" onclick="redirectToCopa()">Copa America Live</button>
         <div class="ticker-container">
             <div class="ticker-text">
                 Welcome To Talha's Stream App, Click Inside The Player Play Button To Play Video And Wait For A Few Second For Buffer Loading. If Video Not Play Try Other Server Or Clear App Data An Any Other Issues Click "Support" Button And Submit Your Report, Thanks!             **[Note* By accessing our streaming App you acknowledge that we aggregate freely available streaming links we are not responsible any copyright concerns, please contact us at click "support" button]**
@@ -276,6 +287,7 @@
         const submitBtn = document.getElementById('submit-btn');
         const videoPlayer = document.getElementById('my-video');
         const iframePlayer = document.getElementById('my-iframe');
+        const bufferText = document.getElementById('buffer-text');
         const tickerContainer = document.querySelector('.ticker-container'); // Select the ticker container
         const logoTopRight = document.getElementById('logo-top-right');
         const serverButtonsContainer = document.querySelector('.server-buttons'); // Select the server buttons container
@@ -287,6 +299,7 @@
                 iframePlayer.style.display = 'block';
                 iframePlayer.onclick = () => {
                 };
+                bufferText.style.display = 'none'; // Hide buffer text on successful login
                 tickerContainer.style.display = 'block'; // Show ticker after successful login
                 logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
                 serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
@@ -300,23 +313,33 @@
         }
 
         function redirectToCricket() {
-            window.location.href = "https://talha-07-live.github.io/Talha_App_Cricket/";
+            window.location.href = "https://talha-07-live.github.io/Talha-s_App_Football_2/";
         }
 
         function redirectToCopa() {
-            window.location.href = "https://talha-07-live.github.io/Talha-s_App_Football_2/";
+            window.location.href = "https://talha-07-live.github.io/Talha-s_App_Football_1/";
         }
 
         function changeServer(server) {
             const servers = {
-                server1: "https://talha-07-live.github.io/Talhas-Web-Host2/",
-                server2: "https://shooohantv.github.io/tf2.html?id=COPA_1",
-                server3: "https://tv.durbinlive.pro/api/live/iframe.php?c=https://newsdigestcap.com/g1.html",
-                server4: "https://shooohantv.github.io/cobo2.html?id=NAYIB_C4",
-                server5: ""
+                server1: "https://talha-07-live.github.io/Talhas-Web-Host1/",
+                server2: "https://emdftinya.tinyuri.org/embed/english.php",
+                server3: "https://shooohantv.github.io/tf.html?id=ICC",
+                server4: "https://cdn247.xyz/cn1/axv.php?c=supercricket",
+                server5: "https://anym3u8player.com/tv/video-player.php?url=https%3A%2F%2Fmm5-97.tinyuri.org%2Flive%2Fm4-1080p.m3u8"
             };
             iframePlayer.src = servers[server];
         }
+
+        // Show buffer text when video is buffering
+        videoPlayer.addEventListener('waiting', function() {
+            bufferText.style.display = 'block';
+        });
+
+        // Hide buffer text when video starts playing
+        videoPlayer.addEventListener('playing', function() {
+            bufferText.style.display = 'none';
+        });
     </script>
 </body>
-    </html>
+</html>
