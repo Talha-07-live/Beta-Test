@@ -245,7 +245,7 @@
     </div>
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
-        <video id="video-player" preload="none" autoplay controls crossorigin></video>
+        <video id="player" preload="none" autoplay controls crossorigin></video>
         <iframe id="my-iframe" src="" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen allow="encrypted-media"></iframe>
         <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
         <button class="support-button" onclick="openSupport()">Support</button>
@@ -286,7 +286,7 @@
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
                 loginForm.style.display = 'none';
-                videoPlayer.style.display = 'block';
+                videoPlayer.style.display = 'none';
                 iframePlayer.style.display = 'none';
                 tickerContainer.style.display = 'block'; // Show ticker after successful login
                 logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
