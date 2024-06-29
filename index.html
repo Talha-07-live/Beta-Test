@@ -25,13 +25,17 @@
             color: white;
         }
         #my-video, #my-iframe {
-            width: 100%;
+            position: absolute;
+            top: -200px;
+            left: -14px;
+            width: 105%;
             max-width: 1000px;
             border: 5px solid transparent;
             border-radius: 10px;
             animation: border-animation 5s infinite;
             background-clip: border-box;
-            display: none;
+            display: none; /* Initially hide iframe */
+            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
         }
         #my-iframe {
             height: 225px;
