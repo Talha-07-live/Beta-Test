@@ -25,22 +25,15 @@
             color: white;
         }
         #my-video, #my-iframe {
-            
-            top: -200px;
-            left: -14px;
-            width: 105%;
+            width: 100%;
             max-width: 1000px;
             border: 5px solid transparent;
             border-radius: 10px;
             animation: border-animation 5s infinite;
             background-clip: border-box;
-            display: none; /* Initially hide iframe */
-            
+            display: none;
         }
         #my-iframe {
-            height: 225px;
-        }
-        #my-vifeo {
             height: 225px;
         }
         #password {
@@ -310,7 +303,7 @@
                 server1: "https://talha-07-live.github.io/Talhas-Web-Host1/",
                 server2: "https://emdftinya.tinyuri.org/embed/english.php",
                 server3: "https://shooohantv.github.io/tf.html?id=ICC",
-                server4: "https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8",
+                server4: "https://cdn247.xyz/cn1/axv.php?c=supercricket",
                 server5: "https://anym3u8player.com/tv/video-player.php?url=https%3A%2F%2Fmm5-97.tinyuri.org%2Flive%2Fm4-1080p.m3u8"
             };
             const serverUrl = servers[server];
@@ -324,6 +317,7 @@
 
         function setupHlsPlayer(url) {
             iframePlayer.style.display = 'none';
+            iframePlayer.src = '';
             videoPlayer.style.display = 'block';
             videoPlayer.pause();
             videoPlayer.src = ''; // Clear the current source
@@ -347,10 +341,10 @@
         function setupIframePlayer(url) {
             videoPlayer.style.display = 'none';
             videoPlayer.pause();
+            videoPlayer.src = '';
             iframePlayer.style.display = 'block';
             iframePlayer.src = url;
         }
     </script>
 </body>
-    </html>
-    
+</html>
