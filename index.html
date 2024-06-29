@@ -1,3 +1,7 @@
+}
+    </script>
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,7 +82,14 @@
             overflow: hidden;
             display: block; /* Ensure ticker container is displayed */
         }
-        .ticker-text {
+        .ticker1 {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%; /* Start off-screen */
+            animation: ticker-animation 60s linear infinite; /* Adjust animation duration as needed */
+            color: white;
+        }
+        .ticker2 {
             display: inline-block;
             white-space: nowrap;
             padding-left: 100%; /* Start off-screen */
@@ -247,14 +258,14 @@
         <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
         <iframe id="my-iframe" src="https://talha-07-live.github.io/Talhas-Web-Host1/" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
         <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
-        <button class="support-button" onclick="openSupport()">Support</button>
-        <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
-        <button id="copa-btn" onclick="redirectToCopa()">Copa America Live</button>
+        <button class="support-button" onclick="openSupport()">Open Support</button>
+        <button id="cricket-btn" onclick="redirectToCricket()">Cricket</button>
+        <button id="copa-btn" onclick="redirectToCopa()">Copa America</button>
         <div class="ticker-container">
-            <div class="ticker-text">
+            <div class="ticker1">
                 Welcome To Talha's Stream App, Click Inside The Player Play Button To Play Video And Wait For A Few Second For Buffer Loading. If Video Not Play Try Other Server Or Clear App Data An Any Other Issues Click "Support" Button And Submit Your Report, Thanks!
             </div>
-            <div class="ticker-text">
+            <div class="ticker2">
                 When You Try To Enter The Password And Keyboard Not Showing Then Click The Submit Button First And Then Try.
             </div>
         </div>
