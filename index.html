@@ -26,10 +26,17 @@
         hls.on(Hls.Events.MANIFEST_PARSED, function() {
           var availableLevels = hls.levels;
           var level720pIndex = availableLevels.findIndex(level => level.height === 720);
-          var highestLevel = availableLevels.length - 1;
 
-          if (availableLevels[highestLevel].height > 720 && level720pIndex !== -1) {
+          if (level720pIndex !== -1) {
+            hls.loadLevel = level720pIndex;
             hls.currentLevel = level720pIndex;
+          } else {
+            // If 720p is not available, find the highest level below 720p
+            var lowerLevelIndex = availableLevels.findIndex(level => level.height < 720);
+            if (lowerLevelIndex !== -1) {
+              hls.loadLevel = lowerLevelIndex;
+              hls.currentLevel = lowerLevelIndex;
+            }
           }
 
           video.play();
