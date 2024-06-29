@@ -93,6 +93,28 @@
                 transform: translateX(-100%);
             }
         }
+        .ticker-container {
+            position: absolute;
+            bottom: -68px;
+            width: 100%;
+            overflow: hidden;
+            display: none; /* Initially hide ticker */
+        }
+        .ticker-text {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%; /* Start off-screen */
+            animation: ticker-animation 60s linear infinite; /* Adjust animation duration as needed */
+            color: white;
+        }
+        @keyframes ticker-animation {
+            0% {
+                transform: translateX(2%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
         .support-button {
             position: absolute;
             top: -250px;
@@ -254,7 +276,10 @@
             <div class="ticker-text">
                 Welcome To Talha's Stream App, Click Inside The Player Play Button To Play Video And Wait For A Few Second For Buffer Loading. If Video Not Play Try Other Server Or Clear App Data An Any Other Issues Click "Support" Button And Submit Your Report, Thanks!             **[Note* By accessing our streaming App you acknowledge that we aggregate freely available streaming links we are not responsible any copyright concerns, please contact us at click "support" button]**
             </div>
-        </div>
+        <div class="ticker-container">
+            <div class="ticker-text">
+                When You Try To Enter The Password And Keyboard Not Showing Then Click The Submit Button First And Then Try.
+            </div>
         <div class="server-buttons">
             <button class="server-button" id="server1-btn" onclick="changeServer('server1')">Server 1</button>
             <button class="server-button" id="server2-btn" onclick="changeServer('server2')">Server 2</button>
@@ -288,6 +313,7 @@
                 iframePlayer.onclick = () => {
                 };
                 tickerContainer.style.display = 'block'; // Show ticker after successful login
+                tickerContainer.style.display = 'none'; // Show ticker after successful login
                 logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
                 serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
             } else {
