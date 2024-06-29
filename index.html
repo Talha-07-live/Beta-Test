@@ -44,6 +44,15 @@
             display: none; /* Initially hide iframe */
             cursor: pointer; /* Add cursor pointer to indicate it's clickable */
         }
+        #loading-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: white;
+            display: none; /* Initially hide the loading text */
+        }
         #password {
             padding: 10px;
             font-size: 16px;
@@ -82,14 +91,14 @@
             display: none; /* Initially hide ticker1 */
             white-space: nowrap;
             padding-left: 100%; /* Start off-screen */
-            animation: ticker-animation1 63s linear infinite; /* Adjusted animation duration for ticker speed */
+            animation: ticker-animation1 30s linear infinite; /* Adjusted animation duration for ticker speed */
             color: white;
         }
         .ticker2 {
             display: inline-block; /* Initially show ticker2 */
             white-space: nowrap;
             padding-left: 100%; /* Start off-screen */
-            animation: ticker-animation2 22s linear infinite; /* Adjusted animation duration for ticker speed */
+            animation: ticker-animation2 30s linear infinite; /* Adjusted animation duration for ticker speed */
             color: white;
         }
         @keyframes ticker-animation1 {
@@ -97,7 +106,7 @@
                 transform: translateX(2%);
             }
             100% {
-                transform: translateX(-1000%);
+                transform: translateX(-100%);
             }
         }
         @keyframes ticker-animation2 {
@@ -259,8 +268,8 @@
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
         <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
-        <iframe id="my-iframe" src="https://talha-07-live.github.io/Talhas-Web-Host1/" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
-        <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
+        <iframe id="my-iframe" src=""></iframe>
+        <div id="loading-text">Please wait, buffer loading...</div>
         <button class="support-button" onclick="openSupport()">Support</button>
         <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
         <button id="copa-btn" onclick="redirectToCopa()">Copa America Live</button>
@@ -269,7 +278,7 @@
                 Welcome To Talha's Stream App, Click Inside The Player Play Button To Play Video And Wait For A Few Second For Buffer Loading. If Video Not Play Try Other Server Or Clear App Data An Any Other Issues Click "Support" Button And Submit Your Report, Thanks! **[Note* By accessing our streaming App you acknowledge that we aggregate freely available streaming links we are not responsible any copyright concerns, please contact us at click "support" button]**
             </div>
             <div class="ticker2">
-                When You Try To Enter The Password And Keyboard Not Show Then Click The Submit Button First And Then Try Again.
+                When You Try To Enter The Password And Keyboard Not Showing Then Click The Submit Button First And Then Try.
             </div>
         </div>
         <div class="server-buttons">
@@ -293,6 +302,7 @@
         const submitBtn = document.getElementById('submit-btn');
         const videoPlayer = document.getElementById('my-video');
         const iframePlayer = document.getElementById('my-iframe');
+        const loadingText = document.getElementById('loading-text');
         const ticker1 = document.querySelector('.ticker1');
         const ticker2 = document.querySelector('.ticker2');
         const logoTopRight = document.getElementById('logo-top-right');
@@ -303,6 +313,7 @@
                 loginForm.style.display = 'none';
                 videoPlayer.style.display = 'none';
                 iframePlayer.style.display = 'block';
+                loadingText.style.display = 'block'; // Show loading text initially
                 ticker1.style.display = 'block'; // Show ticker1 after successful login
                 ticker2.style.display = 'none'; // Hide ticker2 after successful login
                 logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
@@ -333,6 +344,11 @@
                 server5: "https://anym3u8player.com/tv/video-player.php?url=https%3A%2F%2Fmm5-97.tinyuri.org%2Flive%2Fm4-1080p.m3u8"
             };
             iframePlayer.src = servers[server];
+            loadingText.style.display = 'block'; // Show loading text when changing server
+
+            iframePlayer.onload = () => {
+                loadingText.style.display = 'none'; // Hide loading text when iframe finishes loading
+            };
         }
     </script>
 </body>
