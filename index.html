@@ -15,6 +15,7 @@
             background-color: #111;
             margin: 0;
             flex-direction: column;
+            max-width: 1024px;
         }
         #login-form {
             display: flex;
@@ -23,7 +24,15 @@
             align-items: center;
             color: white;
         }
-        #player,
+        #my-video {
+            width: 100%;
+            max-width: 1000px;
+            border: 5px solid transparent;
+            border-radius: 10px;
+            animation: border-animation 5s infinite;
+            background-clip: border-box;
+            display: none; /* Initially hide HLS video player */
+        }
         #my-iframe {
             position: absolute;
             top: -200px;
@@ -237,15 +246,15 @@
     </div>
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
-        <video id="player" preload="none" autoplay controls crossorigin></video>
-        <iframe id="my-iframe" src="" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen allow="encrypted-media"></iframe>
+        <video id="my-video" preload="none" autoplay controls crossorigin></video>
+        <iframe id="my-iframe" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
         <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
         <button class="support-button" onclick="openSupport()">Support</button>
         <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
         <button id="copa-btn" onclick="redirectToCopa()">Copa America Live</button>
         <div class="ticker-container">
             <div class="ticker-text">
-                Welcome To Talha's Stream App, Click Inside The Player Play Button To Play Video And Wait For A Few Second For Buffer Loading. If Video Not Play Try Other Server Or Clear App Data An Any Other Issues Click "Support" Button And Submit Your Report, Thanks!             **[Note* By accessing our streaming App you acknowledge that we aggregate freely available streaming links we are not responsible any copyright concerns, please contact us at click "support" button]**
+                Welcome To Talha's Stream App, Click Inside The Player Play Button To Play Video And Wait For A Few Second For Buffer Loading. If Video Not Play Try Other Server Or Clear App Data An Any Other Issues Click "Support" Button And Submit Your Report, Thanks! **[Note* By accessing our streaming App you acknowledge that we aggregate freely available streaming links we are not responsible any copyright concerns, please contact us at click "support" button]**
             </div>
         </div>
         <div class="server-buttons">
@@ -269,7 +278,7 @@
         const loginForm = document.getElementById('login-form');
         const passwordInput = document.getElementById('password');
         const submitBtn = document.getElementById('submit-btn');
-        const videoPlayer = document.getElementById('player');
+        const videoPlayer = document.getElementById('my-video');
         const iframePlayer = document.getElementById('my-iframe');
         const tickerContainer = document.querySelector('.ticker-container'); // Select the ticker container
         const logoTopRight = document.getElementById('logo-top-right');
@@ -279,11 +288,12 @@
             if (passwordInput.value === PASSWORD) {
                 loginForm.style.display = 'none';
                 videoPlayer.style.display = 'none';
-                iframePlayer.style.display = 'none';
+                iframePlayer.style.display = 'block';
+                iframePlayer.onclick = () => {
+                };
                 tickerContainer.style.display = 'block'; // Show ticker after successful login
                 logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
                 serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
-                changeServer('server1'); // Load default server
             } else {
                 alert('Incorrect password. Please try again.');
             }
@@ -303,38 +313,41 @@
 
         function changeServer(server) {
             const servers = {
-                server1: "https://live.teleradiocom.tj/5/3m.m3u8",
+                server1: "https://talha-07-live.github.io/Talhas-Web-Host1/",
                 server2: "https://emdftinya.tinyuri.org/embed/english.php",
                 server3: "https://shooohantv.github.io/tf.html?id=ICC",
-                server4: "https://cdn247.xyz/cn1/axv.php?c=supercricket",
+                server4: "https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8",
                 server5: "https://anym3u8player.com/tv/video-player.php?url=https%3A%2F%2Fmm5-97.tinyuri.org%2Flive%2Fm4-1080p.m3u8"
             };
-            const link = servers[server];
+            const serverUrl = servers[server];
 
-            if (link.endsWith('.m3u8')) {
-                if (Hls.isSupported()) {
-                    const hls = new Hls();
-                    hls.loadSource(link);
-                    hls.attachMedia(videoPlayer);
-                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                        videoPlayer.play();
-                    });
-                } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-                    videoPlayer.src = link;
-                    videoPlayer.addEventListener('canplay', function() {
-                        videoPlayer.play();
-                    });
-                }
-                videoPlayer.style.display = 'block';
-                iframePlayer.style.display = 'none';
+            if (serverUrl.endsWith(".m3u8")) {
+                setupHlsPlayer(serverUrl);
             } else {
-                iframePlayer.src = link;
-                iframePlayer.style.display = 'block';
-                videoPlayer.style.display = 'none';
+                setupIframePlayer(serverUrl);
             }
         }
 
-        plyr.setup(videoPlayer);
+        function setupHlsPlayer(url) {
+            iframePlayer.style.display = 'none';
+            videoPlayer.style.display = 'block';
+
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(videoPlayer);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    videoPlayer.play();
+                });
+            }
+            plyr.setup(videoPlayer);
+        }
+
+        function setupIframePlayer(url) {
+            videoPlayer.style.display = 'none';
+            iframePlayer.style.display = 'block';
+            iframePlayer.src = url;
+        }
     </script>
 </body>
 </html>
