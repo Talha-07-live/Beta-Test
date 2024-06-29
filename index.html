@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,14 +23,27 @@
             align-items: center;
             color: white;
         }
-        #my-video, #my-iframe {
+        #my-video {
             width: 100%;
-            max-width: 100px;
+            max-width: 1000px;
             border: 5px solid transparent;
             border-radius: 10px;
             animation: border-animation 5s infinite;
             background-clip: border-box;
-            display: none;
+            display: none; /* Initially hide HLS video player */
+        }
+        #my-iframe {
+            position: absolute;
+            top: -200px;
+            left: -14px;
+            width: 105%;
+            max-width: 1000px;
+            border: 5px solid transparent;
+            border-radius: 10px;
+            animation: border-animation 5s infinite;
+            background-clip: border-box;
+            display: none; /* Initially hide iframe */
+            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
         }
         #password {
             padding: 10px;
@@ -56,20 +69,21 @@
             max-width: 800px;
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 20px; /* Added margin to separate from login form */
+            position: relative; /* Added relative positioning */
         }
         .ticker-container {
             position: absolute;
             bottom: -68px;
             width: 100%;
             overflow: hidden;
-            display: none;
+            display: none; /* Initially hide ticker */
         }
         .ticker-text {
             display: inline-block;
             white-space: nowrap;
-            padding-left: 100%;
-            animation: ticker-animation 60s linear infinite;
+            padding-left: 100%; /* Start off-screen */
+            animation: ticker-animation 60s linear infinite; /* Adjust animation duration as needed */
             color: white;
         }
         @keyframes ticker-animation {
@@ -113,7 +127,7 @@
         }
         #copa-btn {
             position: absolute;
-            top: 145px;
+            top: 145px; /* Adjust the top value as needed */
             left: 28%;
             transform: translateX(-28%);
             background-color: #ff6b6b;
@@ -179,14 +193,14 @@
             top: 220px;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;
+            width: 200px; /* Adjust the width as needed */
         }
         .logo-top-right {
             position: absolute;
             top: -190px;
             right: -2px;
-            width: 70px;
-            display: none;
+            width: 70px; /* Adjust the size of the top-right logo */
+            display: none; /* Initially hide logo */
         }
         .visitor-counter {
             position: absolute;
@@ -201,12 +215,12 @@
         }
         .server-buttons {
             position: absolute;
-            top: 80px;
+            top: 80px; /* Adjust this value to move the buttons up or down */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             gap: 10px;
-            display: none;
+            display: none; /* Initially hide server buttons */
         }
         .server-button {
             background-color: #ff6b6b;
@@ -231,15 +245,15 @@
     </div>
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
-        <video id="my-video" preload="none" autoplay controls crossorigin></video>
-        <iframe id="my-iframe" preload="none" width="100%" height="180px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
+        <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
+        <iframe id="my-iframe" src="https://talha-07-live.github.io/Talhas-Web-Host1/" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
         <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
         <button class="support-button" onclick="openSupport()">Support</button>
         <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
         <button id="copa-btn" onclick="redirectToCopa()">Copa America Live</button>
         <div class="ticker-container">
             <div class="ticker-text">
-                Welcome To Talha's Stream App, Click Inside The Player Play Button To Play Video And Wait For A Few Second For Buffer Loading. If Video Not Play Try Other Server Or Clear App Data An Any Other Issues Click "Support" Button And Submit Your Report, Thanks! **[Note* By accessing our streaming App you acknowledge that we aggregate freely available streaming links we are not responsible any copyright concerns, please contact us at click "support" button]**
+                Welcome To Talha's Stream App, Click Inside The Player Play Button To Play Video And Wait For A Few Second For Buffer Loading. If Video Not Play Try Other Server Or Clear App Data An Any Other Issues Click "Support" Button And Submit Your Report, Thanks!             **[Note* By accessing our streaming App you acknowledge that we aggregate freely available streaming links we are not responsible any copyright concerns, please contact us at click "support" button]**
             </div>
         </div>
         <div class="server-buttons">
@@ -274,6 +288,8 @@
                 loginForm.style.display = 'none';
                 videoPlayer.style.display = 'none';
                 iframePlayer.style.display = 'block';
+                iframePlayer.onclick = () => {
+                };
                 tickerContainer.style.display = 'block'; // Show ticker after successful login
                 logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
                 serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
@@ -296,50 +312,38 @@
 
         function changeServer(server) {
             const servers = {
-                server1: "https://talha-07-live.github.io/Talhas-Web-Host1/",
-                server2: "https://emdftinya.tinyuri.org/embed/english.php",
-                server3: "https://shooohantv.github.io/tf.html?id=ICC",
-                server4: "https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8",
-                server5: "https://anym3u8player.com/tv/video-player.php?url=https%3A%2F%2Fmm5-97.tinyuri.org%2Flive%2Fm4-1080p.m3u8"
+                server1: {
+                    video: "",
+                    iframe: "https://talha-07-live.github.io/Talhas-Web-Host1/"
+                },
+                server2: {
+                    video: "",
+                    iframe: "https://emdftinya.tinyuri.org/embed/english.php"
+                },
+                server3: {
+                    video: "https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8",
+                    iframe: ""
+                },
+                server4: {
+                    video: "",
+                    iframe: "https://cdn247.xyz/cn1/axv.php?c=supercricket"
+                },
+                server5: {
+                    video: "",
+                    iframe: "https://anym3u8player.com/tv/video-player.php?url=https%3A%2F%2Fmm5-97.tinyuri.org%2Flive%2Fm4-1080p.m3u8"
+                }
             };
-            const serverUrl = servers[server];
-
-            if (serverUrl.endsWith(".m3u8")) {
-                setupHlsPlayer(serverUrl);
-            } else {
-                setupIframePlayer(serverUrl);
-            }
-        }
-
-        function setupHlsPlayer(url) {
-            iframePlayer.style.display = 'none';
-            iframePlayer.src = '';
-            videoPlayer.style.display = 'block';
-            videoPlayer.pause();
-            videoPlayer.src = ''; // Clear the current source
 
             if (Hls.isSupported()) {
                 const hls = new Hls();
-                hls.loadSource(url);
+                hls.loadSource(servers[server].video);
                 hls.attachMedia(videoPlayer);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    videoPlayer.play();
-                });
-            } else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
-                videoPlayer.src = url;
-                videoPlayer.addEventListener('loadedmetadata', function() {
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
                     videoPlayer.play();
                 });
             }
-            plyr.setup(videoPlayer);
-        }
 
-        function setupIframePlayer(url) {
-            videoPlayer.style.display = 'none';
-            videoPlayer.pause();
-            videoPlayer.src = '';
-            iframePlayer.style.display = 'block';
-            iframePlayer.src = url;
+            iframePlayer.src = servers[server].iframe;
         }
     </script>
 </body>
