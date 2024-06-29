@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,29 +24,23 @@
             align-items: center;
             color: white;
         }
-        #my-video {
-            top: -200px;
-            left: -14px;
-            width: 105%;
+        .video-container {
+            position: relative;
+            width: 90%;
             max-width: 1000px;
-            border: 5px solid transparent;
-            border-radius: 10px;
-            animation: border-animation 5s infinite;
-            background-clip: border-box;
-            display: none; /* Initially hide HLS video player */
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
         }
+        #my-video,
         #my-iframe {
-            position: absolute;
-            top: -200px;
-            left: -14px;
-            width: 105%;
+            width: 100%;
             max-width: 1000px;
             border: 5px solid transparent;
             border-radius: 10px;
             animation: border-animation 5s infinite;
             background-clip: border-box;
-            display: none; /* Initially hide iframe */
-            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
+            display: none;
         }
         #password {
             padding: 10px;
@@ -66,27 +60,18 @@
         #submit-btn:hover {
             background-color: #0056b3;
         }
-        .video-container {
-            position: relative;
-            width: 90%;
-            max-width: 800px;
-            display: flex;
-            justify-content: center;
-            margin-top: 20px; /* Added margin to separate from login form */
-            position: relative; /* Added relative positioning */
-        }
         .ticker-container {
             position: absolute;
             bottom: -68px;
             width: 100%;
             overflow: hidden;
-            display: none; /* Initially hide ticker */
+            display: none;
         }
         .ticker-text {
             display: inline-block;
             white-space: nowrap;
-            padding-left: 100%; /* Start off-screen */
-            animation: ticker-animation 60s linear infinite; /* Adjust animation duration as needed */
+            padding-left: 100%;
+            animation: ticker-animation 60s linear infinite;
             color: white;
         }
         @keyframes ticker-animation {
@@ -130,7 +115,7 @@
         }
         #copa-btn {
             position: absolute;
-            top: 145px; /* Adjust the top value as needed */
+            top: 145px;
             left: 28%;
             transform: translateX(-28%);
             background-color: #ff6b6b;
@@ -196,14 +181,14 @@
             top: 220px;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px; /* Adjust the width as needed */
+            width: 200px;
         }
         .logo-top-right {
             position: absolute;
             top: -190px;
             right: -2px;
-            width: 70px; /* Adjust the size of the top-right logo */
-            display: none; /* Initially hide logo */
+            width: 70px;
+            display: none;
         }
         .visitor-counter {
             position: absolute;
@@ -218,12 +203,12 @@
         }
         .server-buttons {
             position: absolute;
-            top: 80px; /* Adjust this value to move the buttons up or down */
+            top: 80px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             gap: 10px;
-            display: none; /* Initially hide server buttons */
+            display: none;
         }
         .server-button {
             background-color: #ff6b6b;
@@ -248,8 +233,8 @@
     </div>
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
-        <video id="my-video" preload="none" autoplay controls crossorigin width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></video>
-        <iframe id="my-iframe" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
+        <video id="my-video" preload="none" autoplay controls crossorigin></video>
+        <iframe id="my-iframe" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen allow="encrypted-media"></iframe>
         <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
         <button class="support-button" onclick="openSupport()">Support</button>
         <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
@@ -291,8 +276,6 @@
                 loginForm.style.display = 'none';
                 videoPlayer.style.display = 'none';
                 iframePlayer.style.display = 'block';
-                iframePlayer.onclick = () => {
-                };
                 tickerContainer.style.display = 'block'; // Show ticker after successful login
                 logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
                 serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
