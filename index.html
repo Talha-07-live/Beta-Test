@@ -1,55 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plyr Player Example</title>
-    
-    <!-- Plyr CSS -->
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css">
-    
-    <!-- Optional: Font Awesome for icons (you can use other icon libraries or none at all) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    
-    <style>
-        /* Optional: Custom styles */
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        .player-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>HLS Demo</title>
+  <link rel="stylesheet" href="https://cdn.plyr.io/1.8.2/plyr.css">
+  <style>
+    body {
+      max-width: 1024px;
+    }
+  </style>
 </head>
 <body>
-    <div class="player-container">
-        <video id="player" playsinline controls>
-            <source src="https://ovo.eelov.com/live/n-1/chunks.m3u8" type="video/mp4">
-            <source src="https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8" type="video/mp4">
-            <!-- Add other video sources if needed -->
-            Your browser does not support HTML5 video.
-        </video>
-    </div>
+  <video preload="none" id="player" autoplay controls crossorigin poster="https://s10.gifyu.com/images/SYGkR.jpg"></video>
+  <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
+  <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script>
+  <script>
+    (function () {
+      var video = document.querySelector('#player');
 
-    <!-- Plyr JavaScript -->
-    <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
+      if (Hls.isSupported()) {
+        var hls = new Hls();
+        hls.loadSource('https://d1u68oyra9spme.cloudfront.net/master_4.m3u8');
+        hls.attachMedia(video);
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const player = new Plyr('#player', {
-                // Options for Plyr configuration
-                controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
-                // Customize loading UI
-                loading: {
-                    enabled: true, // Enable the loading indicator
-                    // Customize the loading spinner or use CSS for styling
-                    // You can also use your own HTML for the loading spinner
-                    // `loadingHtml` is optional and defaults to an SVG spinner.
-                }
-            });
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+          var availableLevels = hls.levels;
+          var level720pIndex = availableLevels.findIndex(level => level.height === 720);
+          var highestLevel = availableLevels.length - 1;
+
+          if (availableLevels[highestLevel].height > 720 && level720pIndex !== -1) {
+            hls.currentLevel = level720pIndex;
+          }
+
+          video.play();
         });
-    </script>
+      }
+
+      plyr.setup(video);
+    })();
+  </script>
 </body>
 </html>
