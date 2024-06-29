@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Talha-07-Live</title>
-    <link rel="stylesheet" href="https://cdn.plyr.io/1.8.2/plyr.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,7 +15,6 @@
             margin: 0;
             flex-direction: column;
         }
-
         #login-form {
             display: flex;
             font-size: 8px;
@@ -25,7 +22,6 @@
             align-items: center;
             color: white;
         }
-
         #player {
             width: 100%;
             max-width: 1000px;
@@ -33,14 +29,25 @@
             border-radius: 10px;
             animation: border-animation 5s infinite;
             background-clip: border-box;
-            display: none;
+            display: none; /* Initially hide the player */
         }
-
+        #my-iframe {
+            position: absolute;
+            top: -200px;
+            left: -14px;
+            width: 105%;
+            max-width: 1000px;
+            border: 5px solid transparent;
+            border-radius: 10px;
+            animation: border-animation 5s infinite;
+            background-clip: border-box;
+            display: none; /* Initially hide iframe */
+            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
+        }
         #password {
             padding: 10px;
             font-size: 16px;
         }
-
         #submit-btn {
             padding: 10px 20px;
             font-size: 16px;
@@ -52,65 +59,55 @@
             border-radius: 8px;
             transition: background-color 0.3s ease;
         }
-
         #submit-btn:hover {
             background-color: #0056b3;
         }
-
         .video-container {
             position: relative;
             width: 90%;
             max-width: 800px;
             display: flex;
             justify-content: center;
-            margin-top: 20px;
-            position: relative;
+            margin-top: 20px; /* Added margin to separate from login form */
+            position: relative; /* Added relative positioning */
         }
-
         .ticker-container {
             position: absolute;
             bottom: -68px;
             width: 100%;
             overflow: hidden;
-            display: block;
+            display: block; /* Ensure ticker container is displayed */
         }
-
         .ticker1 {
-            display: none;
+            display: none; /* Initially hide ticker1 */
             white-space: nowrap;
-            padding-left: 100%;
-            animation: ticker-animation1 63s linear infinite;
+            padding-left: 100%; /* Start off-screen */
+            animation: ticker-animation1 63s linear infinite; /* Adjusted animation duration for ticker speed */
             color: white;
         }
-
         .ticker2 {
-            display: inline-block;
+            display: inline-block; /* Initially show ticker2 */
             white-space: nowrap;
-            padding-left: 100%;
-            animation: ticker-animation2 22s linear infinite;
+            padding-left: 100%; /* Start off-screen */
+            animation: ticker-animation2 22s linear infinite; /* Adjusted animation duration for ticker speed */
             color: white;
         }
-
         @keyframes ticker-animation1 {
             0% {
                 transform: translateX(2%);
             }
-
             100% {
                 transform: translateX(-1000%);
             }
         }
-
         @keyframes ticker-animation2 {
             0% {
                 transform: translateX(2%);
             }
-
             100% {
                 transform: translateX(-100%);
             }
         }
-
         .support-button {
             position: absolute;
             top: -250px;
@@ -125,11 +122,9 @@
             border-radius: 8px;
             transition: background-color 0.3s ease;
         }
-
         .support-button:hover {
             background-color: #28a745;
         }
-
         #cricket-btn {
             position: absolute;
             top: 145px;
@@ -144,10 +139,9 @@
             border-radius: 8px;
             transition: background-color 0.3s ease;
         }
-
         #copa-btn {
             position: absolute;
-            top: 145px;
+            top: 145px; /* Adjust the top value as needed */
             left: 28%;
             transform: translateX(-28%);
             background-color: #ff6b6b;
@@ -159,18 +153,15 @@
             border-radius: 8px;
             transition: background-color 0.3s ease;
         }
-
         #copa-btn:hover {
             background-color: #d9534f;
         }
-
         footer {
             margin-top: 190px;
             font-size: 12px;
             color: #555;
             text-align: center;
         }
-
         .footer-text {
             font-size: 16px;
             font-weight: bold;
@@ -180,63 +171,51 @@
             animation: gradient-animation 5s infinite;
             background-size: 300%;
         }
-
         @keyframes gradient-animation {
             0% {
                 background-position: 0% 50%;
             }
-
             50% {
                 background-position: 100% 50%;
             }
-
             100% {
                 background-position: 0% 50%;
             }
         }
-
         @keyframes border-animation {
             0% {
                 border-color: #ff6b6b;
             }
-
             20% {
                 border-color: #ff9f43;
             }
-
             40% {
                 border-color: #feca57;
             }
-
             60% {
                 border-color: #48dbfb;
             }
-
             80% {
                 border-color: #1dd1a1;
             }
-
             100% {
                 border-color: #f368e0;
             }
         }
-
         .logo {
             position: absolute;
             top: 220px;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;
+            width: 200px; /* Adjust the width as needed */
         }
-
         .logo-top-right {
             position: absolute;
             top: -190px;
             right: -2px;
-            width: 70px;
-            display: none;
+            width: 70px; /* Adjust the size of the top-right logo */
+            display: none; /* Initially hide logo */
         }
-
         .visitor-counter {
             position: absolute;
             bottom: -90px;
@@ -248,16 +227,14 @@
             padding: -5px 0;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         }
-
         .server-buttons {
             position: absolute;
-            top: 80px;
+            top: 80px; /* Adjust this value to move the buttons up or down */
             left: 50%;
             transform: translateX(-50%);
-            display: none;
-            gap: 10px;
+            display: none; /* Initially hide server buttons */
+            gap: 10px; /* Adjust gap between server buttons */
         }
-
         .server-button {
             background-color: #ff6b6b;
             color: white;
@@ -268,13 +245,12 @@
             border-radius: 8px;
             transition: background-color 0.3s ease;
         }
-
         .server-button:hover {
             background-color: #d9534f;
         }
     </style>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.12/plyr.css" />
 </head>
-
 <body>
     <div id="login-form">
         <h1>To Watch Cricket World Cup Live Enter The Password</h1>
@@ -283,7 +259,10 @@
     </div>
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
-        <video id="player" controls crossorigin></video>
+        <div id="player">
+            <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
+            <iframe id="my-iframe" src="" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
+        </div>
         <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
         <button class="support-button" onclick="openSupport()">Support</button>
         <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
@@ -301,92 +280,84 @@
             <button class="server-button" id="server2-btn" onclick="changeServer('server2')">Server 2</button>
             <button class="server-button" id="server3-btn" onclick="changeServer('server3')">Server 3</button>
             <button class="server-button" id="server4-btn" onclick="changeServer('server4')">Server 4</button>
-        </div>
-        <div class="visitor-counter">
-            <!-- Histats.com  (div with counter) --><div id="histats_counter"></div>
+            <button class="server-button" id="server5-btn" onclick="changeServer('server5')">Server 5</button>
         </div>
     </div>
-
-    <footer>
-        <p class="footer-text">Made By Talha</p>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
+    <footer><span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span></footer>
+    <div class="visitor-counter">
+        <a href='https://www.free-counters.org/' style="text-decoration: none; color: inherit;">...</a>
+        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=be71ed1b8e490aace689fd6f1b06c8f6894b8a87'></script>
+        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1193066/t/0"></script>
+    </div>
+    <script src="https://cdn.plyr.io/3.6.12/plyr.polyfilled.js"></script>
     <script>
-        document.getElementById("submit-btn").addEventListener("click", function () {
-            var password = document.getElementById("password").value;
-            if (password === "Talha") {
-                document.getElementById("login-form").style.display = "none";
-                document.getElementById("player").style.display = "block";
-                document.querySelector(".server-buttons").style.display = "flex";
-                document.querySelector(".ticker1").style.display = "block";
-                document.getElementById("logo-top-right").style.display = "block";
-                startPlayer('https://str12.creacast.com/tonomundo7/live/playlist.m3u8');
+        const PASSWORD = "Talha"; // Set your password here
+        const loginForm = document.getElementById('login-form');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submit-btn');
+        const playerContainer = document.getElementById('player');
+        const videoPlayer = document.getElementById('my-video');
+        const iframePlayer = document.getElementById('my-iframe');
+        const ticker1 = document.querySelector('.ticker1');
+        const ticker2 = document.querySelector('.ticker2');
+        const logoTopRight = document.getElementById('logo-top-right');
+        const serverButtonsContainer = document.querySelector('.server-buttons'); // Select the server buttons container
+
+        const plyrPlayer = new Plyr(videoPlayer);
+
+        submitBtn.addEventListener('click', () => {
+            if (passwordInput.value === PASSWORD) {
+                loginForm.style.display = 'none';
+                playerContainer.style.display = 'block';
+                ticker1.style.display = 'block'; // Show ticker1 after successful login
+                ticker2.style.display = 'none'; // Hide ticker2 after successful login
+                logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
+                serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
             } else {
-                alert("Wrong password! Please try again.");
+                alert('Incorrect password. Please try again.');
             }
         });
 
-        function startPlayer(source) {
-            var video = document.getElementById('player');
-            if (Hls.isSupported()) {
-                var hls = new Hls();
-                hls.loadSource(source);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    video.play();
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = source;
-                video.addEventListener('canplay', function () {
-                    video.play();
-                });
-            }
-            var player = new Plyr(video);
-        }
-
         function openSupport() {
-            window.open("https://support.example.com", "_blank");
+            window.open("https://t.me/talhasmovie_request_bot", "_blank");
         }
 
         function redirectToCricket() {
-            window.open("https://cricketworldcup.example.com", "_blank");
+            window.location.href = "https://talha-07-live.github.io/Talha-s_App_Football_2/";
         }
 
         function redirectToCopa() {
-            window.open("https://copaamerica.example.com", "_blank");
+            window.location.href = "https://talha-07-live.github.io/Talha-s_App_Football_1/";
         }
 
         function changeServer(server) {
-            var source = '';
-            switch (server) {
-                case 'server1':
-                    source = 'https://str12.creacast.com/tonomundo7/live/playlist.m3u8';
-                    break;
-                case 'server2':
-                    source = 'https://cdn247.xyz/cn1/axv.php?c=supercricket';
-                    break;
-                case 'server3':
-                    source = 'https://str12.creacast.com/tonomundo7/live/playlist.m3u8';
-                    break;
-                case 'server4':
-                    source = 'https://emdftinya.tinyuri.org/embed/english.php';
-                    break;
+            const servers = {
+                server1: "https://talha-07-live.github.io/Talhas-Web-Host1/",
+                server2: "https://emdftinya.tinyuri.org/embed/english.php",
+                server3: "https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8",
+                server4: "https://cdn247.xyz/cn1/axv.php?c=supercricket",
+                server5: "https://anym3u8player.com/tv/video-player.php?url=https%3A%2F%2Fmm5-97.tinyuri.org%2Flive%2Fm4-1080p.m3u8"
+            };
+            
+            const serverUrl = servers[server];
+            if (serverUrl.endsWith('.m3u8')) {
+                plyrPlayer.source = {
+                    type: 'video',
+                    sources: [
+                        {
+                            src: serverUrl,
+                            type: 'application/x-mpegURL'
+                        }
+                    ]
+                };
+                iframePlayer.style.display = 'none';
+                videoPlayer.style.display = 'block';
+            } else {
+                iframePlayer.src = serverUrl;
+                videoPlayer.style.display = 'none';
+                iframePlayer.style.display = 'block';
             }
-            startPlayer(source);
         }
     </script>
-    <script type="text/javascript">
-        var _Hasync = _Hasync || [];
-        _Hasync.push(['Histats.start', '1,4817991,4,0,0,0,00010000']);
-        _Hasync.push(['Histats.fasi', '1']);
-        _Hasync.push(['Histats.track_hits', '']);
-        (function () {
-            var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-            hs.src = ('//s10.histats.com/js15_as.js');
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-        })();
-    </script>
 </body>
-
 </html>
