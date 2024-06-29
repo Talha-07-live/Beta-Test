@@ -82,17 +82,25 @@
             display: none; /* Initially hide ticker1 */
             white-space: nowrap;
             padding-left: 100%; /* Start off-screen */
-            animation: ticker-animation 60s linear infinite; /* Adjust animation duration as needed */
+            animation: ticker-animation1 60s linear infinite; /* Adjust animation duration as needed */
             color: white;
         }
         .ticker2 {
-            display: none; /* Initially hide ticker2 */
+            display: inline-block; /* Initially show ticker2 */
             white-space: nowrap;
             padding-left: 100%; /* Start off-screen */
-            animation: ticker-animation 60s linear infinite; /* Adjust animation duration as needed */
+            animation: ticker-animation2 60s linear infinite; /* Adjust animation duration as needed */
             color: white;
         }
-        @keyframes ticker-animation {
+        @keyframes ticker-animation1 {
+            0% {
+                transform: translateX(2%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        @keyframes ticker-animation2 {
             0% {
                 transform: translateX(2%);
             }
@@ -224,8 +232,6 @@
             top: 80px; /* Adjust this value to move the buttons up or down */
             left: 50%;
             transform: translateX(-50%);
-            display: flex;
-            gap: 10px;
             display: none; /* Initially hide server buttons */
         }
         .server-button {
@@ -253,14 +259,13 @@
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
         <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
         <iframe id="my-iframe" src="https://talha-07-live.github.io/Talhas-Web-Host1/" width="100%" height="225px" poster="https://s10.gifyu.com/images/SYGkR.jpg" frameborder="0" allowfullscreen style="display: none;" allow="encrypted-media"></iframe>
-        <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo-top-right">
-    </div>
-    <button class="support-button" onclick="openSupport()">Open Support</button>
-        <button id="cricket-btn" onclick="redirectToCricket()">Cricket</button>
-        <button id="copa-btn" onclick="redirectToCopa()">Copa America</button>
+        <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
+        <button class="support-button" onclick="openSupport()">Open Support</button>
+        <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
+        <button id="copa-btn" onclick="redirectToCopa()">Copa America Live</button>
         <div class="ticker-container">
             <div class="ticker1">
-                When You Try To Enter The Password And Keyboard Not Showing Then Click The Submit Button First And Then Try.
+                Welcome To Talha's Stream App, Click Inside The Player Play Button To Play Video And Wait For A Few Second For Buffer Loading. If Video Not Play Try Other Server Or Clear App Data An Any Other Issues Click "Support" Button And Submit Your Report, Thanks! **[Note* By accessing our streaming App you acknowledge that we aggregate freely available streaming links we are not responsible any copyright concerns, please contact us at click "support" button]**
             </div>
             <div class="ticker2">
                 When You Try To Enter The Password And Keyboard Not Showing Then Click The Submit Button First And Then Try.
@@ -287,10 +292,9 @@
         const submitBtn = document.getElementById('submit-btn');
         const videoPlayer = document.getElementById('my-video');
         const iframePlayer = document.getElementById('my-iframe');
-        const tickerContainer = document.querySelector('.ticker-container'); // Select the ticker container
-        const ticker1 = document.querySelector('.ticker1'); // Select ticker1
-        const ticker2 = document.querySelector('.ticker2'); // Select ticker2
-        const logoTopRight = document.querySelector('.logo-top-right'); // Select the top-right logo element
+        const ticker1 = document.querySelector('.ticker1');
+        const ticker2 = document.querySelector('.ticker2');
+        const logoTopRight = document.getElementById('logo-top-right');
         const serverButtonsContainer = document.querySelector('.server-buttons'); // Select the server buttons container
 
         submitBtn.addEventListener('click', () => {
@@ -299,10 +303,10 @@
                 videoPlayer.style.display = 'none';
                 iframePlayer.style.display = 'block';
                 ticker1.style.display = 'block'; // Show ticker1 after successful login
+                ticker2.style.display = 'none'; // Hide ticker2 after successful login
                 logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
                 serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
             } else {
-                ticker2.style.display = 'block'; // Show ticker2 for incorrect password
                 alert('Incorrect password. Please try again.');
             }
         });
