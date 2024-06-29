@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,7 +76,7 @@
             bottom: -68px;
             width: 100%;
             overflow: hidden;
-            display: none; /* Initially hide ticker */
+            display: block; /* Ensure ticker container is displayed */
         }
         .ticker-text {
             display: inline-block;
@@ -241,11 +241,6 @@
         <h1>To Watch Cricket World Cup Live Enter The Password</h1>
         <input type="password" id="password" placeholder="Password">
         <button id="submit-btn">Submit</button>
-        <div class="ticker-container">
-            <div class="ticker-text">
-                When You Try To Enter The Password And Keyboard Not Showing Then Click The Submit Button First And Then Try.
-            </div>
-        </div>
     </div>
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
@@ -255,6 +250,14 @@
         <button class="support-button" onclick="openSupport()">Support</button>
         <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
         <button id="copa-btn" onclick="redirectToCopa()">Copa America Live</button>
+        <div class="ticker-container">
+            <div class="ticker-text">
+                Welcome To Talha's Stream App, Click Inside The Player Play Button To Play Video And Wait For A Few Second For Buffer Loading. If Video Not Play Try Other Server Or Clear App Data An Any Other Issues Click "Support" Button And Submit Your Report, Thanks!
+            </div>
+            <div class="ticker-text">
+                When You Try To Enter The Password And Keyboard Not Showing Then Click The Submit Button First And Then Try.
+            </div>
+        </div>
         <div class="server-buttons">
             <button class="server-button" id="server1-btn" onclick="changeServer('server1')">Server 1</button>
             <button class="server-button" id="server2-btn" onclick="changeServer('server2')">Server 2</button>
@@ -285,7 +288,8 @@
                 loginForm.style.display = 'none';
                 videoPlayer.style.display = 'none';
                 iframePlayer.style.display = 'block';
-                iframePlayer.onclick = () => {};
+                iframePlayer.onclick = () => {
+                };
                 tickerContainer.style.display = 'block'; // Show ticker after successful login
                 logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
                 serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
