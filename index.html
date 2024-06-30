@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HDVD Player</title>
+    <title>Plyr HDVD Player</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
     <style>
         body {
             display: flex;
@@ -15,58 +16,56 @@
             color: #fff;
             font-family: Arial, sans-serif;
         }
-        video {
+        .plyr__video-wrapper {
             width: 80%;
             max-width: 800px;
-            height: auto;
-            border: 1px solid #fff;
         }
-        .controls {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-        }
-        button {
-            margin: 0 5px;
-            padding: 5px 10px;
-            background-color: #444;
-            border: none;
+        .buffering {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             color: #fff;
-            cursor: pointer;
+            font-size: 18px;
+            z-index: 10;
         }
-        button:hover {
-            background-color: #666;
+        .buffering.active {
+            display: block;
         }
     </style>
 </head>
 <body>
-    <div>
-        <video id="hdvdPlayer" controls>
+    <div class="plyr__video-wrapper">
+        <div class="buffering" id="bufferingIndicator">Buffering...</div>
+        <video id="player" controls>
             <source src="https://d1u68oyra9spme.cloudfront.net/master_4.m3u8" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        <div class="controls">
-            <button onclick="playVideo()">Play</button>
-            <button onclick="pauseVideo()">Pause</button>
-            <button onclick="stopVideo()">Stop</button>
-        </div>
     </div>
 
+    <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
     <script>
-        const video = document.getElementById('hdvdPlayer');
+        document.addEventListener('DOMContentLoaded', () => {
+            const player = new Plyr('#player');
+            const bufferingIndicator = document.getElementById('bufferingIndicator');
 
-        function playVideo() {
-            video.play();
-        }
+            player.on('waiting', event => {
+                bufferingIndicator.classList.add('active');
+            });
 
-        function pauseVideo() {
-            video.pause();
-        }
+            player.on('playing', event => {
+                bufferingIndicator.classList.remove('active');
+            });
 
-        function stopVideo() {
-            video.pause();
-            video.currentTime = 0;
-        }
+            player.on('pause', event => {
+                bufferingIndicator.classList.remove('active');
+            });
+
+            player.on('ended', event => {
+                bufferingIndicator.classList.remove('active');
+            });
+        });
     </script>
 </body>
 </html>
