@@ -1,22 +1,27 @@
-<script language="javascript">
-	 var vlc_controls = null;
-	 
-	 function init() {	
-		// load plugin
-		myvlc = new VLCObject("mymovie", "600", "350");
-	//	myvlc.addParam("MRL","https://fifabd.xyz/tttttt/play.php?id=1&q=720");
-		myvlc.write("vlccontent");
-		
-		// load controls
-		vlc_controls = new VLCcontrols(myvlc);
-		
-		vlc_controls.onready = function () {
-			vlc_controls.play("http://58.65.151.200:8080");
-		}
-		
-		}
-	 
-
-		
-		
-</script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Encrypted HLS Player</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+    <video id="video" controls></video>
+    <script>
+        if (Hls.isSupported()) {
+            var video = document.getElementById('video');
+            var hls = new Hls();
+            hls.loadSource('path-to-your-m3u8-playlist.m3u8');
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play();
+            });
+        }
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = 'path-to-your-m3u8-playlist.m3u8';
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
+            });
+        }
+    </script>
+</body>
+</html>
