@@ -1,28 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decrypted Video Player</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <title>HLS Player</title>
+  <!-- Include HLS.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-    <h1>Decrypted Video Player</h1>
-    
-    <video id="video" controls autoplay>
-        <source src="https://fifabd.xyz/tttttt/play.php?id=1&q=720" type="application/x-mpegURL">
-        Your browser does not support the video tag.
-    </video>
-    
-    <script>
-        var video = document.getElementById('video');
-        var hls = new Hls();
-        hls.loadSource('https://fifabd.xyz/tttttt/play.php?id=1&q=720');
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play();
-        });
-    </script>
+  <video id="video" controls></video>
 
+  <script>
+    if (Hls.isSupported()) {
+      var video = document.getElementById('video');
+      var hls = new Hls();
+      var url = 'https://fifabd.xyz/tttttt/play.php?id=1&q=720'; // Replace with your actual HLS playlist URL
+
+      hls.loadSource(url);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, function() {
+        video.play();
+      });
+    }
+    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = 'your_hls_playlist_url_here.m3u8'; // For Safari HLS support
+      video.addEventListener('loadedmetadata', function() {
+        video.play();
+      });
+    }
+  </script>
 </body>
 </html>
