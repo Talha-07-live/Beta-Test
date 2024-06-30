@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video.js HLS Player</title>
-  <!-- Video.js CSS -->
-  <link href="https://vjs.zencdn.net/7.18.1/video-js.css" rel="stylesheet" />
-  <!-- Video.js HLS -->
-  <script src="https://unpkg.com/video.js/dist/video.js"></script>
-  <script src="https://unpkg.com/@videojs/http-streaming/dist/videojs-http-streaming.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VLC Player Embed</title>
 </head>
 <body>
-  <video-js id="my-video" class="vjs-default-skin" controls preload="auto" width="640" height="264">
-    <source src="https://fifabd.xyz/tttttt/play.php?id=1&q=720" type="application/x-mpegURL">
-  </video-js>
-  <script>
-    var player = videojs('my-video');
-  </script>
+    <div id="vlc-player"></div>
+    
+    <script>
+        var vlc = new VLC('vlc-player');
+        vlc.play('https://fifabd.xyz/tttttt/play.php?id=1&q=720');
+        
+        function VLC(containerId) {
+            this.container = document.getElementById(containerId);
+            
+            this.play = function(url) {
+                var vlcEmbed = document.createElement('embed');
+                vlcEmbed.setAttribute('type', 'application/x-vlc-plugin');
+                vlcEmbed.setAttribute('pluginspage', 'http://www.videolan.org');
+                vlcEmbed.setAttribute('width', '100%');
+                vlcEmbed.setAttribute('height', '400');
+                vlcEmbed.setAttribute('target', url);
+                this.container.appendChild(vlcEmbed);
+            };
+        }
+    </script>
 </body>
 </html>
