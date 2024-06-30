@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HLS Player with VLC</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.14.3/video.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-vlc/0.1.0/videojs-vlc.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.14.3/video-js.min.css" rel="stylesheet">
 </head>
 <body>
-    <video id="video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264">
-        <source src="https://fifabd.xyz/tttttt/play.php?id=1&q=720" type="application/x-mpegURL">
-    </video>
+    <embed type="application/x-vlc-plugin" 
+           pluginspage="http://www.videolan.org"
+           width="640"
+           height="480"
+           id="vlc"
+           target="YOUR_HLS_LINK_HERE.m3u8"
+           autoplay="yes"
+           loop="yes"
+           toolbar="yes"
+           controls="yes"
+           nojava="true" />
     <script>
-        var player = videojs('video');
-        player.ready(function() {
-            this.tech({ IWillNotUseThisInPlugins: true }).sourceHandler_ = videojs.VLC;
-        });
+        document.getElementById('vlc').target = 'https://fifabd.xyz/tttttt/play.php?id=1&q=720';
     </script>
 </body>
 </html>
