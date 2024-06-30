@@ -6,22 +6,14 @@
   <link rel="stylesheet" href="https://cdn.plyr.io/1.8.2/plyr.css">
   <style>
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #000;
-      margin: 0;
-      color: #fff;
-      font-family: Arial, sans-serif;
+      max-width: 1030px;
     }
     .video-wrapper {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      padding-bottom: 56.25%;
       height: 0;
       overflow: hidden;
       max-width: 100%;
-      width: 100%;
     }
     .video-wrapper video {
       position: absolute;
@@ -30,27 +22,10 @@
       width: 100%;
       height: 100%;
     }
-    .buffering {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      font-size: 18px;
-      z-index: 10;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 10px 20px;
-      border-radius: 5px;
-    }
-    .buffering.active {
-      display: block;
-    }
   </style>
 </head>
 <body>
   <div class="video-wrapper">
-    <div class="buffering" id="bufferingIndicator">Buffering...</div>
     <video preload="none" id="player" autoplay controls crossorigin poster="https://s10.gifyu.com/images/SYGkR.jpg"></video>
   </div>
   <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
@@ -58,11 +33,10 @@
   <script>
     (function () {
       var video = document.querySelector('#player');
-      var bufferingIndicator = document.getElementById('bufferingIndicator');
 
       if (Hls.isSupported()) {
         var hls = new Hls();
-        hls.loadSource('https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8');
+        hls.loadSource('https://d1u68oyra9spme.cloudfront.net/master_4.m3u8');
         hls.attachMedia(video);
 
         hls.on(Hls.Events.MANIFEST_PARSED, function() {
@@ -81,26 +55,6 @@
           hls.currentLevel = targetIndex;
 
           video.play();
-        });
-
-        // Show buffering indicator on waiting event
-        video.addEventListener('waiting', function() {
-          bufferingIndicator.classList.add('active');
-        });
-
-        // Hide buffering indicator on playing event
-        video.addEventListener('playing', function() {
-          bufferingIndicator.classList.remove('active');
-        });
-
-        // Hide buffering indicator on pause event
-        video.addEventListener('pause', function() {
-          bufferingIndicator.classList.remove('active');
-        });
-
-        // Hide buffering indicator on ended event
-        video.addEventListener('ended', function() {
-          bufferingIndicator.classList.remove('active');
         });
       }
 
