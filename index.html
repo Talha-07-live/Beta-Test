@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
-  </head>
-  <body>
-    <video
-      id="my-video"
-      class="video-js"
-      controls
-      preload="auto"
+<head>
+  <title>Stream Video with VLC Plugin</title>
+</head>
+<body>
+  <h1>Stream Video with VLC Plugin</h1>
+  <object
+    id="vlc"
+    type="application/x-vlc-plugin"
+    width="640"
+    height="480"
+    classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921"
+    codebase="http://download.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab"
+  >
+    <param name="movie" value="https://fifabd.xyz/tttttt/play.php?id=1&q=720" />
+    <param name="allowFullScreen" value="true" />
+    <param name="autoPlay" value="true" />
+    <embed
+      type="application/x-vlc-plugin"
+      pluginspage="http://www.videolan.org"
       width="640"
-      height="264"
-      data-setup="{}"
-    >
-      <source src="https://fifabd.xyz/tttttt/play.php?id=1&q=720" type="video/mp4" />
-      <p class="vjs-no-js">
-        To view this video please enable JavaScript, and consider upgrading to a
-        web browser that
-        <a href="https://videojs.com/html5-video-support/" target="_blank"
-          >supports HTML5 video</a
-        >
-      </p>
-    </video>
+      height="480"
+      target="https://fifabd.xyz/tttttt/play.php?id=1&q=720"
+      autoplay="true"
+      loop="false"
+    />
+  </object>
 
-    <script>
-      // Initialize the Video.js player
-      var player = videojs('my-video');
-    </script>
-  </body>
+  <p>
+    If the video does not play, please use the following link to open it directly in VLC:
+    <a href="https://fifabd.xyz/tttttt/play.php?id=1&q=720">Open in VLC</a>
+  </p>
+</body>
 </html>
