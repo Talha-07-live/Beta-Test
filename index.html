@@ -3,28 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VLC Player Embed</title>
+    <title>Video.js Player</title>
+    <link href="https://vjs.zencdn.net/7.14.3/video-js.css" rel="stylesheet">
 </head>
 <body>
-    <div id="vlc-player"></div>
-    
-    <script>
-        var vlc = new VLC('vlc-player');
-        vlc.play('https://fifabd.xyz/tttttt/play.php?id=1&q=720');
-        
-        function VLC(containerId) {
-            this.container = document.getElementById(containerId);
-            
-            this.play = function(url) {
-                var vlcEmbed = document.createElement('embed');
-                vlcEmbed.setAttribute('type', 'application/x-vlc-plugin');
-                vlcEmbed.setAttribute('pluginspage', 'http://www.videolan.org');
-                vlcEmbed.setAttribute('width', '100%');
-                vlcEmbed.setAttribute('height', '400');
-                vlcEmbed.setAttribute('target', url);
-                this.container.appendChild(vlcEmbed);
-            };
-        }
-    </script>
+    <video id="my-video" class="video-js" controls preload="auto" width="100%" height="400"
+        data-setup='{}'>
+        <source src="https://fifabd.xyz/tttttt/play.php?id=1&q=720" type="video/mp4">
+        <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a
+            web browser that
+            <a href="https://videojs.com/html5-video-support/" target="_blank" rel="noopener">supports HTML5 video</a>
+        </p>
+    </video>
+
+    <script src="https://vjs.zencdn.net/7.14.3/video.min.js"></script>
 </body>
 </html>
