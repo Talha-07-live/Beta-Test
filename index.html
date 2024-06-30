@@ -8,14 +8,13 @@
     body {
       max-width: 1030px;
     }
-    .video-wrapper {
+    .video-container {
       position: relative;
-      padding-bottom: 56.25%;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
       height: 0;
       overflow: hidden;
-      max-width: 100%;
     }
-    .video-wrapper video {
+    .video-container video {
       position: absolute;
       top: 0;
       left: 0;
@@ -25,7 +24,7 @@
   </style>
 </head>
 <body>
-  <div class="video-wrapper">
+  <div class="video-container">
     <video preload="none" id="player" autoplay controls crossorigin poster="https://s10.gifyu.com/images/SYGkR.jpg"></video>
   </div>
   <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
