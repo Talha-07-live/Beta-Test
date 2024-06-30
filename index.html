@@ -7,6 +7,9 @@
   <style>
     body {
       max-width: 1030px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
     }
     .buffering {
       display: none;
@@ -29,13 +32,19 @@
       width: 84%; /* increased by 5% from 80% */
       max-width: 840px; /* increased by 5% from 800px */
       margin: 0 auto; /* center the video player */
+      background-color: #000;
+    }
+    video {
+      width: 100%;
+      height: auto;
+      display: block;
     }
   </style>
 </head>
 <body>
   <div class="video-wrapper">
     <div class="buffering" id="bufferingIndicator">Buffering...</div>
-    <video preload="none" id="player" autoplay controls crossorigin poster="https://s10.gifyu.com/images/SYGkR.jpg"></video>
+    <video preload="none" id="player" controls crossorigin poster="https://s10.gifyu.com/images/SYGkR.jpg"></video>
   </div>
   <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
   <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script>
