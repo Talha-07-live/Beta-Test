@@ -1,49 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>HLS Demo</title>
-  <link rel="stylesheet" href="https://cdn.plyr.io/1.8.2/plyr.css">
-  <style>
-    body {
-      max-width: 1030px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HDVD Player</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            margin: 0;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        video {
+            width: 80%;
+            max-width: 800px;
+            height: auto;
+            border: 1px solid #fff;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            background-color: #444;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #666;
+        }
+    </style>
 </head>
 <body>
-  <video preload="none" id="player" autoplay controls crossorigin poster="https://s10.gifyu.com/images/SYGkR.jpg"></video>
-  <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
-  <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script>
-  <script>
-    (function () {
-      var video = document.querySelector('#player');
+    <div>
+        <video id="hdvdPlayer" controls>
+            <source src="https://d1u68oyra9spme.cloudfront.net/master_4.m3u8" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="controls">
+            <button onclick="playVideo()">Play</button>
+            <button onclick="pauseVideo()">Pause</button>
+            <button onclick="stopVideo()">Stop</button>
+        </div>
+    </div>
 
-      if (Hls.isSupported()) {
-        var hls = new Hls();
-        hls.loadSource('https://d1u68oyra9spme.cloudfront.net/master_4.m3u8');
-        hls.attachMedia(video);
+    <script>
+        const video = document.getElementById('hdvdPlayer');
 
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          var availableLevels = hls.levels;
-          var targetResolution = 720;
-          var targetIndex = availableLevels.findIndex(level => level.height === targetResolution);
+        function playVideo() {
+            video.play();
+        }
 
-          // If 720p is not found, use the highest resolution below 720p
-          if (targetIndex === -1) {
-            targetIndex = availableLevels.reduce((prev, curr, index) => {
-              return (curr.height < targetResolution && curr.height > availableLevels[prev].height) ? index : prev;
-            }, 0);
-          }
+        function pauseVideo() {
+            video.pause();
+        }
 
-          hls.loadLevel = targetIndex;
-          hls.currentLevel = targetIndex;
-
-          video.play();
-        });
-      }
-
-      plyr.setup(video);
-    })();
-  </script>
+        function stopVideo() {
+            video.pause();
+            video.currentTime = 0;
+        }
+    </script>
 </body>
 </html>
