@@ -2,30 +2,31 @@
 <html>
 <head>
   <title>HLS Player</title>
-  <!-- Include HLS.js library -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <!-- Include Video.js CSS -->
+  <link href="https://vjs.zencdn.net/7.16.4/video-js.css" rel="stylesheet">
 </head>
 <body>
-  <video id="video" controls></video>
+  <!-- Video.js player -->
+  <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" data-setup='{}'>
+    <source src="your_hls_playlist_url_here.m3u8" type="application/x-mpegURL">
+  </video>
+
+  <!-- Include Video.js library -->
+  <script src="https://vjs.zencdn.net/7.16.4/video.js"></script>
+  <!-- Include videojs-contrib-hls for HLS support -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.16.0/videojs-contrib-hls.min.js"></script>
 
   <script>
-    if (Hls.isSupported()) {
-      var video = document.getElementById('video');
-      var hls = new Hls();
-      var url = 'https://fifabd.xyz/tttttt/play.php?id=1&q=720'; // Replace with your actual HLS playlist URL
+    // Initialize Video.js player
+    var player = videojs('my-video');
 
-      hls.loadSource(url);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, function() {
-        video.play();
-      });
-    }
-    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = 'your_hls_playlist_url_here.m3u8'; // For Safari HLS support
-      video.addEventListener('loadedmetadata', function() {
-        video.play();
-      });
-    }
+    // Optional: Enable HLS playback
+    player.ready(function() {
+      var options = {
+        // Additional options can be configured here
+      };
+      player.hls(options);
+    });
   </script>
 </body>
 </html>
