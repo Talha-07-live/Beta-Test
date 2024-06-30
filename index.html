@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VLC Player Example</title>
-    <script src="https://cdn.jsdelivr.net/npm/@videolan/vlc.js@latest"></script>
+    <title>TS Player Example</title>
+    <!-- Video.js CSS -->
+    <link href="https://vjs.zencdn.net/7.16.4/video-js.css" rel="stylesheet">
+    <!-- Video.js JS -->
+    <script src="https://vjs.zencdn.net/7.16.4/video.min.js"></script>
+    <!-- videojs-contrib-hls plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.16.0/videojs-contrib-hls.min.js"></script>
 </head>
 <body>
-    <h1>VLC Player Example</h1>
-    <div id="vlc-container" style="width: 640px; height: 360px;"></div>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var options = {
-                media: {
-                    url: "https://fifabd.xyz/tttttt/play.php?id=1&q=720",
-                    type: 'video/mp4'
-                }
-            };
+    <h1>TS Player Example</h1>
+    <!-- Video player container -->
+    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">
+        <source src="https://fifabd.xyz/tttttt/ts.php?ts=live-01/master_720/207012024013810.ts" type="application/x-mpegURL">
+    </video>
 
-            var vlcPlayer = new VLC(options);
-            document.getElementById("vlc-container").appendChild(vlcPlayer.el);
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var player = videojs('my-video');
+            player.play();
         });
     </script>
 </body>
