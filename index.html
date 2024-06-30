@@ -1,28 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS Player Example</title>
-    <!-- Video.js CSS -->
-    <link href="https://vjs.zencdn.net/7.16.4/video-js.css" rel="stylesheet">
-    <!-- Video.js JS -->
-    <script src="https://vjs.zencdn.net/7.16.4/video.min.js"></script>
-    <!-- videojs-contrib-hls plugin -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.16.0/videojs-contrib-hls.min.js"></script>
-</head>
-<body>
-    <h1>HLS Player Example</h1>
-    <!-- Video player container -->
-    <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360">
-        <source src="https://fifabd.xyz/tttttt/play.php?id=1&q=720" type="application/x-mpegURL">
-    </video>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var player = videojs('my-video');
-            player.play();
-        });
-    </script>
-</body>
-</html>
+<embed 
+    type="application/x-vlc-plugin" 
+    pluginspage="http://www.videolan.org" 
+    version="VideoLAN.VLCPlugin.2"
+    width="640"
+    height="480"
+    target="https://fifabd.xyz/tttttt/play.php?id=1&q=720"
+    id="vlc">
+</embed>
