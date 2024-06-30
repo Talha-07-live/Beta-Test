@@ -1,38 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS Plyr Video Player</title>
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video.js HLS Player</title>
+  <!-- Video.js CSS -->
+  <link href="https://vjs.zencdn.net/7.18.1/video-js.css" rel="stylesheet" />
+  <!-- Video.js HLS -->
+  <script src="https://unpkg.com/video.js/dist/video.js"></script>
+  <script src="https://unpkg.com/@videojs/http-streaming/dist/videojs-http-streaming.js"></script>
 </head>
 <body>
-    <video id="player" playsinline controls></video>
-
-    <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script>
-        const video = document.getElementById('player');
-        const source = 'https://fifabd.xyz/tttttt/play.php?id=1&q=720';
-
-        // Initialize Plyr
-        const player = new Plyr(video);
-
-        // Check for browser support of HLS
-        if (Hls.isSupported()) {
-            const hls = new Hls();
-            hls.loadSource(source);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play();
-            });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            // For Safari
-            video.src = source;
-            video.addEventListener('loadedmetadata', function() {
-                video.play();
-            });
-        }
-    </script>
+  <video-js id="my-video" class="vjs-default-skin" controls preload="auto" width="640" height="264">
+    <source src="https://fifabd.xyz/tttttt/play.php?id=1&q=720" type="application/x-mpegURL">
+  </video-js>
+  <script>
+    var player = videojs('my-video');
+  </script>
 </body>
 </html>
