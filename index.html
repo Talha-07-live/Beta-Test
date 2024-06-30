@@ -1,35 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Stream Video with VLC Plugin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VLC Player Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/@videolan/vlc.js@latest"></script>
 </head>
 <body>
-  <h1>Stream Video with VLC Plugin</h1>
-  <object
-    id="vlc"
-    type="application/x-vlc-plugin"
-    width="640"
-    height="480"
-    classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921"
-    codebase="http://download.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab"
-  >
-    <param name="movie" value="https://fifabd.xyz/tttttt/play.php?id=1&q=720" />
-    <param name="allowFullScreen" value="true" />
-    <param name="autoPlay" value="true" />
-    <embed
-      type="application/x-vlc-plugin"
-      pluginspage="http://www.videolan.org"
-      width="640"
-      height="480"
-      target="https://fifabd.xyz/tttttt/play.php?id=1&q=720"
-      autoplay="true"
-      loop="false"
-    />
-  </object>
+    <h1>VLC Player Example</h1>
+    <div id="vlc-container" style="width: 640px; height: 360px;"></div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var options = {
+                media: {
+                    url: "https://fifabd.xyz/tttttt/play.php?id=1&q=720",
+                    type: 'video/mp4'
+                }
+            };
 
-  <p>
-    If the video does not play, please use the following link to open it directly in VLC:
-    <a href="https://fifabd.xyz/tttttt/play.php?id=1&q=720">Open in VLC</a>
-  </p>
+            var vlcPlayer = new VLC(options);
+            document.getElementById("vlc-container").appendChild(vlcPlayer.el);
+        });
+    </script>
 </body>
 </html>
