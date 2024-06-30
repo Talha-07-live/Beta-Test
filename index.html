@@ -1,71 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plyr HDVD Player</title>
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #000;
-            margin: 0;
-            color: #fff;
-            font-family: Arial, sans-serif;
-        }
-        .plyr__video-wrapper {
-            width: 80%;
-            max-width: 800px;
-        }
-        .buffering {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #fff;
-            font-size: 18px;
-            z-index: 10;
-        }
-        .buffering.active {
-            display: block;
-        }
-    </style>
+  <meta charset="utf-8">
+  <title>HLS Demo</title>
+  <link rel="stylesheet" href="https://cdn.plyr.io/1.8.2/plyr.css">
+  <style>
+    body {
+      max-width: 1030px;
+    }
+    .buffering {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 18px;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+    .buffering.active {
+      display: block;
+    }
+    .video-wrapper {
+      position: relative;
+    }
+  </style>
 </head>
 <body>
-    <div class="plyr__video-wrapper">
-        <div class="buffering" id="bufferingIndicator">Buffering...</div>
-        <video id="player" controls>
-            <source src="https://bdixtv247.techpriyo.com/m3u/jadolist5.php?id=t_sports" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
+  <div class="video-wrapper">
+    <div class="buffering" id="bufferingIndicator">Buffering...</div>
+    <video preload="none" id="player" autoplay controls crossorigin poster="https://s10.gifyu.com/images/SYGkR.jpg"></video>
+  </div>
+  <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
+  <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script>
+  <script>
+    (function () {
+      var video = document.querySelector('#player');
+      var bufferingIndicator = document.getElementById('bufferingIndicator');
 
-    <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const player = new Plyr('#player');
-            const bufferingIndicator = document.getElementById('bufferingIndicator');
+      if (Hls.isSupported()) {
+        var hls = new Hls();
+        hls.loadSource('https://ovo.eelov.com/live/n-1/chunks.m3u8');
+        hls.attachMedia(video);
 
-            player.on('waiting', event => {
-                bufferingIndicator.classList.add('active');
-            });
+        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+          var availableLevels = hls.levels;
+          var targetResolution = 720;
+          var targetIndex = availableLevels.findIndex(level => level.height === targetResolution);
 
-            player.on('playing', event => {
-                bufferingIndicator.classList.remove('active');
-            });
+          // If 720p is not found, use the highest resolution below 720p
+          if (targetIndex === -1) {
+            targetIndex = availableLevels.reduce((prev, curr, index) => {
+              return (curr.height < targetResolution && curr.height > availableLevels[prev].height) ? index : prev;
+            }, 0);
+          }
 
-            player.on('pause', event => {
-                bufferingIndicator.classList.remove('active');
-            });
+          hls.loadLevel = targetIndex;
+          hls.currentLevel = targetIndex;
 
-            player.on('ended', event => {
-                bufferingIndicator.classList.remove('active');
-            });
+          video.play();
         });
-    </script>
+
+        // Show buffering indicator on waiting event
+        video.addEventListener('waiting', function() {
+          bufferingIndicator.classList.add('active');
+        });
+
+        // Hide buffering indicator on playing event
+        video.addEventListener('playing', function() {
+          bufferingIndicator.classList.remove('active');
+        });
+
+        // Hide buffering indicator on pause event
+        video.addEventListener('pause', function() {
+          bufferingIndicator.classList.remove('active');
+        });
+
+        // Hide buffering indicator on ended event
+        video.addEventListener('ended', function() {
+          bufferingIndicator.classList.remove('active');
+        });
+      }
+
+      plyr.setup(video);
+    })();
+  </script>
 </body>
 </html>
