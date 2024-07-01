@@ -9,14 +9,17 @@
         if(Hls.isSupported()) {
             var video = document.getElementById('video');
             var hls = new Hls();
-            hls.loadSource('https://fifabd.xyz/tttttt/play.php?id=1&q=720');
+            // Using a CORS proxy
+            var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            var videoUrl = 'https://fifabd.xyz/tttttt/play.php?id=1&q=720';
+            hls.loadSource(proxyUrl + videoUrl);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
                 video.play();
             });
         }
         else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = 'https://fifabd.xyz/tttttt/play.php?id=1&q=720';
+            video.src = 'https://cors-anywhere.herokuapp.com/https://fifabd.xyz/tttttt/play.php?id=1&q=720';
             video.addEventListener('canplay', function() {
                 video.play();
             });
