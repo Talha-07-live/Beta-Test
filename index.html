@@ -9,17 +9,22 @@
         if (Hls.isSupported()) {
             var video = document.getElementById('video');
             var hls = new Hls();
-            var proxyUrl = 'https://cors-proxy.io/?';
-            var videoUrl = 'https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8';
-            hls.loadSource(proxyUrl + encodeURIComponent(videoUrl));
+            var videoUrl = 'https://fifabd.xyz/tttttt/play.php?id=1&q=720';
+            hls.loadSource(videoUrl);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
                 video.play();
             });
+            hls.on(Hls.Events.ERROR, function(event, data) {
+                console.error("Error event:", data);
+            });
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = 'https://cors-proxy.io/?' + encodeURIComponent('https://fifabd.xyz/tttttt/play.php?id=1&q=720');
+            video.src = 'https://fifabd.xyz/tttttt/play.php?id=1&q=720';
             video.addEventListener('canplay', function() {
                 video.play();
+            });
+            video.addEventListener('error', function() {
+                console.error("Video error:", video.error);
             });
         }
     </script>
