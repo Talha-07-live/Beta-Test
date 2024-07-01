@@ -6,20 +6,18 @@
 <body>
     <video id="video" controls width="640" height="264"></video>
     <script>
-        if(Hls.isSupported()) {
+        if (Hls.isSupported()) {
             var video = document.getElementById('video');
             var hls = new Hls();
-            // Using a CORS proxy
-            var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            var proxyUrl = 'https://cors-proxy.io/?';
             var videoUrl = 'https://fifabd.xyz/tttttt/play.php?id=1&q=720';
-            hls.loadSource(proxyUrl + videoUrl);
+            hls.loadSource(proxyUrl + encodeURIComponent(videoUrl));
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
                 video.play();
             });
-        }
-        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = 'https://cors-anywhere.herokuapp.com/https://fifabd.xyz/tttttt/play.php?id=1&q=720';
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = 'https://cors-proxy.io/?' + encodeURIComponent('https://fifabd.xyz/tttttt/play.php?id=1&q=720');
             video.addEventListener('canplay', function() {
                 video.play();
             });
