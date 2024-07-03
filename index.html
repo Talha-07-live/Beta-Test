@@ -263,21 +263,22 @@
         <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
         <button class="support-button" onclick="openSupport()">Support</button>
         <button id="install-app-btn" onclick="installApp()">Android App</button>
-        <button id="cricket-btn" onclick="redirectToCricket()">Cricket World Cup Live</button>
-        <button id="copa-btn" onclick="redirectToCopa()">UEFA EURO Cup Live</button>
+        <button id="cricket-btn" onclick="redirectToCricket()">UEFA EURO Live</button>
+        <button id="copa-btn" onclick="redirectToCopa()">Copa America Live</button>
         <div class="ticker-container">
             <div class="ticker-text">
                 Click Inside The Player Play Button To Play Video And Wait For A Few Second For Buffer Loading. If Video Not Play Try Other Server Or Refresh The Page An Any Other Issues Click "Support" Button And Submit Your Report, Thanks!             **[Note* By accessing our streaming site you acknowledge that we aggregate freely available streaming links we are not responsible any copyright concerns, please contact us at click "support" button]**
             </div>
         </div>
         <div class="server-buttons">
-            <button class="server-button" id="server1-btn" onclick="changeServer('server1')">T-Sports</button>
+            <button class="server-button" id="server1-btn" onclick="changeServer('server1')">Server 1</button>
             <button class="server-button" id="server2-btn" onclick="changeServer('server2')">Server 2</button>
             <button class="server-button" id="server3-btn" onclick="changeServer('server3')">Server 3</button>
         </div>
     </div>
     <footer><span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span></footer>
-        <script id="visitor-counter">var _wau = _wau || []; _wau.push(["dynamic", "5gz17gcgar", "b1r", "0c343de69138", "small"]);</script><script async src="//waust.at/d.js"></script>
+    <div class="visitor-counter">
+        <script id="_waub1r">var _wau = _wau || []; _wau.push(["dynamic", "5gz17gcgar", "b1r", "f9cb9ca2c4c9", "small"]);</script><script async src="//waust.at/d.js"></script>
     </div>
     <script>
         const PASSWORD = "Talha"; // Set your password here
@@ -314,18 +315,18 @@
         }
 
         function redirectToCricket() {
-            window.location.href = "https://photospace.life/CUFIE5";
+            window.location.href = "https://photospace.life/CW4ZJG";
         }
 
         function redirectToCopa() {
-            window.location.href = "https://photospace.life/CW4ZJG";
+            window.location.href = "https://photospace.life/V7T7RD";
         }
 
         function changeServer(server) {
             const servers = {
-                server1: "https://anym3u8player.com/tv/p.php?url=https%3A%2F%2Fpc.sandipsitaula2023.com.np%2FTV%2Ftsport1.m3u8",
-                server2: "https://talha-07-live.github.io/Talhas-Web-Host2/",
-                server3: "https://talha-07-live.github.io/Talhas-Web-Host4/"
+                server1: "https://emdftinya.tinyuri.org/embed/english.php",
+                server2: "https://cdn247.xyz/cn1/axv.php?c=supercricket",
+                server3: "https://anym3u8player.com/p2p-player-generator-jwplayer/mplay.php?data=nCLCQmLtFml/wHRSNI+EmeWTWnnEpQdcxQMX0EFrPUzJCnYSpNG4hdKQm2A90WpMdVt4SbQvRfCQg3qG09sqnIFBCGmX89mTpUO9i1VGpbfi/ovzovKFPHWUAiKRoXlRb1qUNioEJjtffHBYEbGdrVZfovVtNQrI6niG1sNwZrxSCnBvaD7Oar0GyXzYDnMylWGgNer63tC72dxzBZR33plvESJ83szJ+QSpbtKwwR+k0UKlv0jwSwtCmIsj3fpm4jqqHTMc9G1Y2tc="
             };
             iframePlayer.src = servers[server];
         }
