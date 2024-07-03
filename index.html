@@ -73,8 +73,8 @@
           bufferingIndicator.classList.add('active');
         });
 
-        // Hide buffering indicator on playing event and seek back to buffer start time only once
-        video.addEventListener('playing', function() {
+        // Hide buffering indicator on canplay event and resume from buffer start time
+        video.addEventListener('canplay', function() {
           bufferingIndicator.classList.remove('active');
           if (isBuffering) {
             video.currentTime = bufferStartTime;
