@@ -26,13 +26,24 @@
     }
     .video-wrapper {
       position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+    }
+    .video-wrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
   </style>
 </head>
 <body>
   <div class="video-wrapper">
     <div class="buffering" id="bufferingIndicator">ℙ𝕝𝕖𝕒𝕤𝕖 𝔹𝕖 ℙ𝕒𝕥𝕚𝕖𝕟𝕥, 𝕋𝕒𝕝𝕙𝕒'𝕤 ℙ𝕝𝕒𝕪𝕖𝕣 𝕎𝕚𝕝𝕝 ℙ𝕝𝕒𝕪 𝕋𝕙𝕖 𝕍𝕚𝕕𝕖𝕠 𝕀𝕟 𝔸 𝕎𝕙𝕚𝕝𝕖. ℕ𝕠𝕨 𝕍𝕚𝕕𝕖𝕠 𝕀𝕤 𝔹𝕦𝕗𝕗𝕖𝕣𝕚𝕟𝕘.</div>
-    <video preload="none" id="player" autoplay controls crossorigin poster="https://s10.gifyu.com/images/SYGkR.jpg" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width:100%;"></video>
+    <video preload="none" id="player" autoplay controls crossorigin poster="https://s10.gifyu.com/images/SYGkR.jpg"></video>
   </div>
   <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
   <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script>
