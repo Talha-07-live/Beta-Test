@@ -77,8 +77,14 @@
           video.play();
         });
 
+        // Error handling
+        hls.on(Hls.Events.ERROR, function(event, data) {
+          console.error('HLS error:', data);
+        });
+
         // Show buffering indicator on waiting event and store current time
         video.addEventListener('waiting', function() {
+          console.log('Buffering started');
           bufferStartTime = video.currentTime;
           isBuffering = true;
           bufferingIndicator.classList.add('active');
@@ -86,6 +92,7 @@
 
         // Hide buffering indicator on canplay event and resume from buffer start time
         video.addEventListener('canplay', function() {
+          console.log('Buffering ended, resuming from', bufferStartTime);
           bufferingIndicator.classList.remove('active');
           if (isBuffering) {
             video.currentTime = bufferStartTime;
@@ -95,13 +102,17 @@
 
         // Hide buffering indicator on pause event
         video.addEventListener('pause', function() {
+          console.log('Video paused');
           bufferingIndicator.classList.remove('active');
         });
 
         // Hide buffering indicator on ended event
         video.addEventListener('ended', function() {
+          console.log('Video ended');
           bufferingIndicator.classList.remove('active');
         });
+      } else {
+        console.error('HLS not supported in this browser');
       }
 
       plyr.setup(video);
