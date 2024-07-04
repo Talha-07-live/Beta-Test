@@ -1,117 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>HLS Demo</title>
-  <link rel="stylesheet" href="https://cdn.plyr.io/1.8.2/plyr.css">
-  <style>
-    body {
-      max-width: 1030px;
-    }
-    .buffering {
-      display: none;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #fff;
-      font-size: 1px;
-      z-index: 10;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 1px 2px;
-      border-radius: 1px;
-    }
-    .buffering.active {
-      display: block;
-    }
-    .video-wrapper {
-      position: relative;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLS Player with Cookie</title>
+    <script src="hls.min.js"></script>
 </head>
 <body>
-  <div class="video-wrapper">
-    <div class="buffering" id="bufferingIndicator">ℙ𝕝𝕖𝕒𝕤𝕖 𝔹𝕖 ℙ𝕒𝕥𝕚𝕖𝕟𝕥, 𝕋𝕒𝕝𝕙𝕒'𝕤 ℙ𝕝𝕒𝕪𝕖𝕣 𝕎𝕚𝕝𝕝 ℙ𝕝𝕒𝕪 𝕋𝕙𝕖 𝕍𝕚𝕕𝕖𝕠 𝕀𝕟 𝔸 𝕎𝕙𝕚𝕝𝕖. ℕ𝕠𝕨 𝕍𝕚𝕕𝕖𝕠 𝕀𝕤 𝔹𝕦𝕗𝕗𝕖𝕣𝕚𝕟𝕘.</div>
-    <video preload="none" id="player" autoplay controls crossorigin poster="https://s10.gifyu.com/images/SYGkR.jpg" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width:100%;"></video>
-  </div>
-  <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
-  <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script>
-  <script>
-    (function () {
-      var video = document.querySelector('#player');
-      var bufferingIndicator = document.getElementById('bufferingIndicator');
-      var lastPosition = getCookie("videoPosition");
+    <video id="video" controls width="600"></video>
 
-      function setCookie(name, value, days) {
-        var expires = "";
-        if (days) {
-          var date = new Date();
-          date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-          expires = "; expires=" + date.toUTCString();
+    <script>
+        if (Hls.isSupported()) {
+            var video = document.getElementById('video');
+            var hls = new Hls();
+            var cookie = "Edge-Cache-Cookie=URLPrefix=aHR0cHM6Ly9tcHJvZC1jZG4udG9mZmVlbGl2ZS5jb20v:Expires=1720103013:KeyName=prod_live_events:Signature=bfc9LrBZJzEd5aiXFWAICAx_dv29vBGSTUkGY1g9NH014NGLCjXAUuKpG1q7Nw4N01LR-Ev1_ZCMq4seOxZMCw";
+
+            hls.loadSource('https://mprod-cdn.toffeelive.com/live/match-4/index.m3u8');
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play();
+            });
+
+            hls.config.xhrSetup = function(xhr, url) {
+                xhr.setRequestHeader('Cookie', cookie);
+            };
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = 'https://mprod-cdn.toffeelive.com/live/match-4/index.m3u8';
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
+            });
         }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
-      }
-
-      function getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-          var c = ca[i];
-          while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-      }
-
-      if (Hls.isSupported()) {
-        var hls = new Hls();
-        hls.loadSource('https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8');
-        hls.attachMedia(video);
-
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          var availableLevels = hls.levels;
-          var targetResolution = 720;
-          var targetIndex = availableLevels.findIndex(level => level.height === targetResolution);
-
-          if (targetIndex === -1) {
-            targetIndex = availableLevels.reduce((prev, curr, index) => {
-              return (curr.height < targetResolution && curr.height > availableLevels[prev].height) ? index : prev;
-            }, 0);
-          }
-
-          hls.loadLevel = targetIndex;
-          hls.currentLevel = targetIndex;
-
-          if (lastPosition) {
-            video.currentTime = lastPosition;
-          }
-
-          video.play();
-        });
-
-        video.addEventListener('timeupdate', function() {
-          setCookie("videoPosition", video.currentTime, 1);
-        });
-
-        video.addEventListener('waiting', function() {
-          bufferingIndicator.classList.add('active');
-        });
-
-        video.addEventListener('playing', function() {
-          bufferingIndicator.classList.remove('active');
-        });
-
-        video.addEventListener('pause', function() {
-          bufferingIndicator.classList.remove('active');
-        });
-
-        video.addEventListener('ended', function() {
-          bufferingIndicator.classList.remove('active');
-        });
-      }
-
-      plyr.setup(video);
-    })();
-  </script>
+    </script>
 </body>
 </html>
