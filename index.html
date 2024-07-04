@@ -3,23 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clappr Player</title>
+    <title>Clappr Player with Level Selector</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/clappr/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
 </head>
 <body>
     <div id="player"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dash-shaka-playback@latest/dist/dash-shaka-playback.min.js"></script>
     <script>
         var player = new Clappr.Player({
             parentId: '#player',
             source: 'https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8',
             autoPlay: true,
             poster: 'https://i.ytimg.com/vi/nfWlot6h_JM/hqdefault.jpg',
-            plugins: [DashShakaPlayback],
+            plugins: [ClapprLevelSelectorPlugin],
             height: 360,
-            width: 640
+            width: 640,
+            ClapprLevelSelectorPluginConfig: {
+                title: 'Quality',
+                labels: {
+                    2: 'High', // 500kbps
+                    1: 'Med', // 240kbps
+                    0: 'Low', // 120kbps
+                },
+                labelCallback: function(playbackLevel, customLabel) {
+                    return customLabel + ' ' + playbackLevel.level.height + 'p'; // High 720p
+                },
+                onLevelsAvailable: function(levels) {
+                    return levels.reverse(); // Example: reverse levels order
+                }
+            }
         });
     </script>
 </body>
