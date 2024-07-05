@@ -1,40 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Embedded Iframe with Ad Redirect</title>
+    <title>Embedded Iframe with Ad Redirect Overlay</title>
     <style>
-        iframe {
+        #iframe-container {
+            position: relative;
             width: 800px;
             height: 600px;
+        }
+        #myIframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0); /* Transparent */
         }
     </style>
 </head>
 <body>
-    <iframe id="myIframe" src="https://idn.gdplayertv.to/live-tv/fox-sports-1?alt=0&embed=1"></iframe>
+    <div id="iframe-container">
+        <iframe id="myIframe" src="https://idn.gdplayertv.to/live-tv/fox-sports-1?alt=0&embed=1"></iframe>
+        <div id="overlay"></div>
+    </div>
+
     <script>
-        document.getElementById('myIframe').onload = function() {
-            var iframe = document.getElementById('myIframe').contentWindow;
-
-            function redirectAds() {
-                // Example: find and redirect elements that are ads
-                // This example assumes ad elements have a specific class
-                // Modify the class name to match the actual ad structure
-                var ads = iframe.document.getElementsByClassName('ad-class');
-                for (var i = 0; i < ads.length; i++) {
-                    ads[i].onclick = function() {
-                        window.location.href = 'https://your-redirect-url.com';
-                    };
-                }
-            }
-
-            try {
-                // Run redirectAds function after iframe content loads
-                iframe.document.addEventListener('DOMContentLoaded', redirectAds);
-                // Retry redirecting ads every 2 seconds in case ads load dynamically
-                setInterval(redirectAds, 2000);
-            } catch (e) {
-                console.log('Unable to access iframe content due to cross-origin restrictions');
-            }
+        document.getElementById('overlay').onclick = function(event) {
+            // Redirect all clicks to a new URL
+            window.location.href = 'https://your-redirect-url.com';
         };
     </script>
 </body>
