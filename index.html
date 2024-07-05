@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Embedded Iframe with Fullscreen Button</title>
+    <title>Embedded Iframe with Controls</title>
     <style>
         #iframe-container {
             position: relative;
-            width: 400px;
-            height: 300px;
+            width: 800px;
+            height: 600px;
         }
         #myIframe {
             width: 100%;
@@ -22,19 +22,27 @@
             background: rgba(255, 255, 255, 0); /* Fully transparent */
             z-index: 2; /* Ensure it is on top of the iframe */
         }
-        #fullscreen-button {
-            display: block;
-            margin-top: 10px;
+        #controls {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3; /* Ensure controls are on top of the overlay */
+        }
+        .control-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
             padding: 10px;
-            background: #007bff;
-            color: #fff;
-            text-align: center;
+            margin: 0 5px;
             cursor: pointer;
-            width: 100px;
             border-radius: 5px;
         }
-        #fullscreen-button:hover {
-            background: #0056b3;
+        .control-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -42,10 +50,45 @@
     <div id="iframe-container">
         <iframe id="myIframe" src="https://viprow1.live/embed/25/argentina-vs-ecuador/stream-4"></iframe>
         <div id="overlay"></div>
+        <div id="controls">
+            <button class="control-button" id="playPauseButton">Play</button>
+            <button class="control-button" id="muteUnmuteButton">Mute</button>
+            <button class="control-button" id="fullscreenButton">Fullscreen</button>
+        </div>
     </div>
-    <div id="fullscreen-button">Fullscreen</div>
 
     <script>
+        var iframe = document.getElementById('myIframe');
+        var playPauseButton = document.getElementById('playPauseButton');
+        var muteUnmuteButton = document.getElementById('muteUnmuteButton');
+        var fullscreenButton = document.getElementById('fullscreenButton');
+
+        // Function to toggle play/pause of the iframe content
+        function togglePlayPause() {
+            if (iframe && iframe.contentWindow) {
+                // Send a message to the iframe to toggle play/pause
+                iframe.contentWindow.postMessage('togglePlayPause', '*');
+            }
+        }
+
+        // Function to toggle mute/unmute of the iframe content
+        function toggleMuteUnmute() {
+            if (iframe && iframe.contentWindow) {
+                // Send a message to the iframe to toggle mute/unmute
+                iframe.contentWindow.postMessage('toggleMuteUnmute', '*');
+            }
+        }
+
+        // Event listener for the play/pause button
+        playPauseButton.onclick = function() {
+            togglePlayPause();
+        };
+
+        // Event listener for the mute/unmute button
+        muteUnmuteButton.onclick = function() {
+            toggleMuteUnmute();
+        };
+
         // Function to request fullscreen for the iframe container
         function requestFullscreen(element) {
             if (element.requestFullscreen) {
@@ -60,10 +103,26 @@
         }
 
         // Event listener for the fullscreen button
-        document.getElementById('fullscreen-button').onclick = function() {
+        fullscreenButton.onclick = function() {
             var iframeContainer = document.getElementById('iframe-container');
             requestFullscreen(iframeContainer);
         };
+
+        // Receive messages from the iframe
+        window.addEventListener('message', function(event) {
+            // Ensure message is from the iframe and handle as needed
+            if (event.source === iframe.contentWindow && event.data === 'playbackStateChanged') {
+                // Handle playback state change if necessary
+                // For example, update play/pause button text
+                var currentState = playPauseButton.textContent.trim().toLowerCase();
+                playPauseButton.textContent = currentState === 'play' ? 'Pause' : 'Play';
+            } else if (event.source === iframe.contentWindow && event.data === 'muteStateChanged') {
+                // Handle mute state change if necessary
+                // For example, update mute/unmute button text
+                var currentMuteState = muteUnmuteButton.textContent.trim().toLowerCase();
+                muteUnmuteButton.textContent = currentMuteState === 'mute' ? 'Unmute' : 'Mute';
+            }
+        });
     </script>
 </body>
 </html>
