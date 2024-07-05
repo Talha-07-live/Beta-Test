@@ -1,1 +1,52 @@
-<iframe src="https://idn.gdplayertv.to/embed/UCxwitsUVNzwS5XBSC5UQV8Q/" width="640" height="320" scrolling="no" frameborder="0" loading "lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video with Poster</title>
+  <style>
+    .video-container {
+      position: relative;
+      width: 640px;
+      height: 320px;
+    }
+    .video-container iframe {
+      width: 100%;
+      height: 100%;
+    }
+    .poster {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://s10.gifyu.com/images/SYGkR.jpg') center center / cover no-repeat;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="video-container">
+  <div class="poster" id="poster"></div>
+  <iframe src="https://idn.gdplayertv.to/embed/spae-shower-tv-plus/" 
+          width="640" 
+          height="320" 
+          scrolling="no" 
+          frameborder="0" 
+          loading="lazy" 
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" 
+          allowfullscreen>
+  </iframe>
+</div>
+
+<script>
+  document.getElementById('poster').addEventListener('click', function() {
+    this.style.display = 'none';
+    var iframe = document.querySelector('.video-container iframe');
+    iframe.src += (iframe.src.includes('?') ? '&' : '?') + 'autoplay=1';
+  });
+</script>
+
+</body>
+</html>
