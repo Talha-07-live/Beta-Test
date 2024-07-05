@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Embedded Iframe with Fullscreen Button</title>
+    <title>Embedded Iframe with Controls</title>
     <style>
         #iframe-container {
             position: relative;
-            width: 800px;
-            height: 600px;
+            width: 100px;
+            height: 100px;
         }
         #myIframe {
             width: 100%;
@@ -22,19 +22,27 @@
             background: rgba(255, 255, 255, 0); /* Fully transparent */
             z-index: 2; /* Ensure it is on top of the iframe */
         }
-        #fullscreen-button {
-            display: block;
-            margin-top: 10px;
+        #controls {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3; /* Ensure controls are on top of the overlay */
+        }
+        .control-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
             padding: 10px;
-            background: #007bff;
-            color: #fff;
-            text-align: center;
+            margin: 0 5px;
             cursor: pointer;
-            width: 100px;
             border-radius: 5px;
         }
-        #fullscreen-button:hover {
-            background: #0056b3;
+        .control-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -42,10 +50,29 @@
     <div id="iframe-container">
         <iframe id="myIframe" src="https://idn.gdplayertv.to/live-tv/fox-sports-1?alt=0&embed=1"></iframe>
         <div id="overlay"></div>
+        <div id="controls">
+            <button class="control-button" id="playPauseButton">Play/Pause</button>
+            <button class="control-button" id="fullscreenButton">Fullscreen</button>
+        </div>
     </div>
-    <div id="fullscreen-button">Fullscreen</div>
 
     <script>
+        var iframe = document.getElementById('myIframe');
+        var playPauseButton = document.getElementById('playPauseButton');
+        var fullscreenButton = document.getElementById('fullscreenButton');
+
+        // Function to toggle play/pause of the iframe content
+        function togglePlayPause() {
+            if (iframe.contentWindow && iframe.contentWindow.postMessage) {
+                iframe.contentWindow.postMessage('togglePlayPause', '*');
+            }
+        }
+
+        // Event listener for the play/pause button
+        playPauseButton.onclick = function() {
+            togglePlayPause();
+        };
+
         // Function to request fullscreen for the iframe container
         function requestFullscreen(element) {
             if (element.requestFullscreen) {
@@ -60,10 +87,15 @@
         }
 
         // Event listener for the fullscreen button
-        document.getElementById('fullscreen-button').onclick = function() {
+        fullscreenButton.onclick = function() {
             var iframeContainer = document.getElementById('iframe-container');
             requestFullscreen(iframeContainer);
         };
+
+        // Receive messages from the iframe
+        window.addEventListener('message', function(event) {
+            // Handle messages from the iframe (if needed)
+        });
     </script>
 </body>
 </html>
