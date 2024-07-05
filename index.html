@@ -5,8 +5,8 @@
     <style>
         #iframe-container {
             position: relative;
-            width: 1920px;
-            height: 1080px;
+            width: 800px;
+            height: 600px;
         }
         #myIframe {
             width: 100%;
@@ -63,7 +63,8 @@
 
         // Function to toggle play/pause of the iframe content
         function togglePlayPause() {
-            if (iframe.contentWindow && iframe.contentWindow.postMessage) {
+            if (iframe && iframe.contentWindow) {
+                // Send a message to the iframe to toggle play/pause
                 iframe.contentWindow.postMessage('togglePlayPause', '*');
             }
         }
@@ -94,7 +95,10 @@
 
         // Receive messages from the iframe
         window.addEventListener('message', function(event) {
-            // Handle messages from the iframe (if needed)
+            // Ensure message is from the iframe and handle as needed
+            if (event.source === iframe.contentWindow && event.data === 'playbackStateChanged') {
+                // Handle playback state change if necessary
+            }
         });
     </script>
 </body>
