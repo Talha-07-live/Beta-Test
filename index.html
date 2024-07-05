@@ -1,1 +1,223 @@
-<iframe src="https://idn.gdplayertv.to/live-tv/fox-sports-1?alt=0&embed=1" sandboxscrolling="no" frameborder="0" width="700" height="430" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" sandbox="allow-scripts"></iframe>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Embedded Iframe with Ad Blocking</title>
+    <style>
+        #iframe-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+        }
+        #myIframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Add the provided ad-blocking CSS here */
+        A:link[HREF*="javascript:void"] IMG, 
+        A:link[HREF*="addata"] IMG, 
+        A:link[HREF*="ad."] IMG, 
+        A:link[HREF*="ads."] IMG, 
+        A:link[HREF*="/ad"] IMG, 
+        A:link[HREF*="/A="] IMG, 
+        A:link[HREF*="/click"] IMG, 
+        A:link[HREF*="?click"] IMG, 
+        A:link[HREF*="?banner"] IMG, 
+        A:link[HREF*="=click"] IMG, 
+        A:link[HREF*="clickurl="] IMG, 
+        A:link[HREF*=".atwola."] IMG, 
+        A:link[HREF*="spinbox."] IMG, 
+        A:link[HREF*="transfer.go"] IMG, 
+        A:link[HREF*="adfarm"] IMG, 
+        A:link[HREF*="adSpace"] IMG, 
+        A:link[HREF*="adserve"] IMG, 
+        A:link[HREF*=".banner"] IMG, 
+        A:link[HREF*="bluestreak"] IMG, 
+        A:link[HREF*="doubleclick"] IMG, 
+        A:link[HREF*="doubleclick"] IMG, 
+        A:link[HREF*="/rd."] IMG, 
+        A:link[HREF*="/0AD"] IMG, 
+        A:link[HREF*=".falkag."] IMG, 
+        A:link[HREF*="trackoffer."] IMG, 
+        A:link[HREF*="casalemedia."] IMG, 
+        A:link[HREF*="valueclick."] IMG, 
+        A:link[HREF*="betterbasketball."] IMG, 
+        A:link[HREF*="sponsors.phtml"] IMG, 
+        A:link[HREF*="realgmtix.phtml"] IMG, 
+        A:link[HREF*="BurstingPipe"] IMG,
+        A:link[HREF*="ebayobjects"] IMG,
+        A:link[HREF*="tracksponsor."] IMG { display: none ! important } 
+
+        /* disable ad iframes */
+        IFRAME[SRC*="addata"],
+        IFRAME[SRC*="ad."],
+        IFRAME[SRC*="ads."],
+        IFRAME[SRC*="/ad"],
+        IFRAME[SRC*="/A="],
+        IFRAME[SRC*="/click"],
+        IFRAME[SRC*="?click"],
+        IFRAME[SRC*="?banner"],
+        IFRAME[SRC*="=click"],
+        IFRAME[SRC*="clickurl="],
+        IFRAME[SRC*=".atwola."],
+        IFRAME[SRC*="spinbox."],
+        IFRAME[SRC*="transfer.go"],
+        IFRAME[SRC*="adfarm"],
+        IFRAME[SRC*="adSpace"],
+        IFRAME[SRC*="adserve"],
+        IFRAME[SRC*="adjuggler"],
+        IFRAME[SRC*=".banner"],
+        IFRAME[SRC*="bluestreak"],
+        IFRAME[SRC*="doubleclick"],
+        IFRAME[SRC*="/rd."],
+        IFRAME[SRC*="/0AD"],
+        IFRAME[SRC*=".falkag."], 
+        IFRAME[SRC*="trackoffer."],
+        IFRAME[SRC*="connextra."],
+        IFRAME[ID*="merchandisingMERC"],
+        IFRAME[SRC*="tracksponsor."] { display: none ! important } 
+
+        /* miscellaneous different blocking rules to block some stuff that gets through */
+        A:link[onmouseover*="AdSolution"] IMG,
+        *[class=sponsors],
+        *[class=sp_links],
+        *[class=advertising],
+        *[ID=sponsors],
+        *[ID=ad],
+        *[ID=inlinead],
+        *[ID=ad_creative],
+        *[ID=contextualLinks],
+        IMG[SRC*=".msads."] { display: none ! important } 
+
+        /* turning some false positives back off */
+        A:link[HREF*="/add"] IMG, 
+        A:link[HREF*="/adsl"] IMG,
+        A:link[HREF*="thread."] IMG,
+        A:link[HREF*="download."] IMG,
+        A:link[HREF*="downloads."] IMG,
+        A:link[HREF*="netflix.com/AddToQueue"] IMG,
+        A:link[HREF*="load."], 
+        A:link[HREF*="loads."], 
+        IFRAME[SRC*="load."], 
+        IFRAME[SRC*="loads."],
+        A:link[HREF*="click.mp3"] IMG { display: inline ! important }
+
+        /* kill old Facebook boxes */
+        DIV[id*="pagelet_adbox"],
+        DIV[id*="pagelet_pymkbox"],
+        DIV[id*="pagelet_adbox"],
+        DIV[id*="pagelet_connectbox"] { display: none ! important }
+    </style>
+</head>
+<body>
+    <div id="iframe-container">
+        <iframe id="myIframe" src="https://idn.gdplayertv.to/live-tv/fox-sports-1?alt=0&embed=1" allow="autoplay"></iframe>
+    </div>
+
+    <script>
+        // If possible, try to manipulate the iframe content
+        var iframe = document.getElementById('myIframe');
+
+        iframe.onload = function() {
+            try {
+                var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+                // Apply CSS to hide ad elements
+                var style = document.createElement('style');
+                style.textContent = `
+                    A:link[HREF*="javascript:void"] IMG, 
+                    A:link[HREF*="addata"] IMG, 
+                    A:link[HREF*="ad."] IMG, 
+                    A:link[HREF*="ads."] IMG, 
+                    A:link[HREF*="/ad"] IMG, 
+                    A:link[HREF*="/A="] IMG, 
+                    A:link[HREF*="/click"] IMG, 
+                    A:link[HREF*="?click"] IMG, 
+                    A:link[HREF*="?banner"] IMG, 
+                    A:link[HREF*="=click"] IMG, 
+                    A:link[HREF*="clickurl="] IMG, 
+                    A:link[HREF*=".atwola."] IMG, 
+                    A:link[HREF*="spinbox."] IMG, 
+                    A:link[HREF*="transfer.go"] IMG, 
+                    A:link[HREF*="adfarm"] IMG, 
+                    A:link[HREF*="adSpace"] IMG, 
+                    A:link[HREF*="adserve"] IMG, 
+                    A:link[HREF*=".banner"] IMG, 
+                    A:link[HREF*="bluestreak"] IMG, 
+                    A:link[HREF*="doubleclick"] IMG, 
+                    A:link[HREF*="doubleclick"] IMG, 
+                    A:link[HREF*="/rd."] IMG, 
+                    A:link[HREF*="/0AD"] IMG, 
+                    A:link[HREF*=".falkag."] IMG, 
+                    A:link[HREF*="trackoffer."] IMG, 
+                    A:link[HREF*="casalemedia."] IMG, 
+                    A:link[HREF*="valueclick."] IMG, 
+                    A:link[HREF*="betterbasketball."] IMG, 
+                    A:link[HREF*="sponsors.phtml"] IMG, 
+                    A:link[HREF*="realgmtix.phtml"] IMG, 
+                    A:link[HREF*="BurstingPipe"] IMG,
+                    A:link[HREF*="ebayobjects"] IMG,
+                    A:link[HREF*="tracksponsor."] IMG { display: none ! important } 
+                    IFRAME[SRC*="addata"],
+                    IFRAME[SRC*="ad."],
+                    IFRAME[SRC*="ads."],
+                    IFRAME[SRC*="/ad"],
+                    IFRAME[SRC*="/A="],
+                    IFRAME[SRC*="/click"],
+                    IFRAME[SRC*="?click"],
+                    IFRAME[SRC*="?banner"],
+                    IFRAME[SRC*="=click"],
+                    IFRAME[SRC*="clickurl="],
+                    IFRAME[SRC*=".atwola."],
+                    IFRAME[SRC*="spinbox."],
+                    IFRAME[SRC*="transfer.go"],
+                    IFRAME[SRC*="adfarm"],
+                    IFRAME[SRC*="adSpace"],
+                    IFRAME[SRC*="adserve"],
+                    IFRAME[SRC*="adjuggler"],
+                    IFRAME[SRC*=".banner"],
+                    IFRAME[SRC*="bluestreak"],
+                    IFRAME[SRC*="doubleclick"],
+                    IFRAME[SRC*="/rd."],
+                    IFRAME[SRC*="/0AD"],
+                    IFRAME[SRC*=".falkag."], 
+                    IFRAME[SRC*="trackoffer."],
+                    IFRAME[SRC*="connextra."],
+                    IFRAME[ID*="merchandisingMERC"],
+                    IFRAME[SRC*="tracksponsor."] { display: none ! important }
+                    A:link[onmouseover*="AdSolution"] IMG,
+                    *[class=sponsors],
+                    *[class=sp_links],
+                    *[class=advertising],
+                    *[ID=sponsors],
+                    *[ID=ad],
+                    *[ID=inlinead],
+                    *[ID=ad_creative],
+                    *[ID=contextualLinks],
+                    IMG[SRC*=".msads."] { display: none ! important }
+                    A:link[HREF*="/add"] IMG, 
+                    A:link[HREF*="/adsl"] IMG,
+                    A:link[HREF*="thread."] IMG,
+                    A:link[HREF*="download."] IMG,
+                    A:link[HREF*="downloads."] IMG,
+                    A:link[HREF*="netflix.com/AddToQueue"] IMG,
+                    A:link[HREF*="load."], 
+                    A:link[HREF*="loads."], 
+                    IFRAME[SRC*="load."], 
+                    IFRAME[SRC*="loads."],
+                    A:link[HREF*="click.mp3"] IMG { display: inline ! important }
+                    DIV[id*="pagelet_adbox"],
+                    DIV[id*="pagelet_pymkbox"],
+                    DIV[id*="pagelet_adbox"],
+                    DIV[id*="pagelet_connectbox"] { display: none ! important }
+                `;
+                iframeDocument.head.appendChild(style);
+            } catch (e) {
+                console.error("Failed to apply CSS to iframe:", e);
+            }
+        };
+    </script>
+</body>
+  </html>
+  
