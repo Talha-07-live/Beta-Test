@@ -1,47 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Embedded Iframe with Controls</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overlay Player</title>
     <style>
         #iframe-container {
             position: relative;
-            width: 800px;
-            height: 600px;
+            width: 800px; /* Adjust width as needed */
+            height: 450px; /* Adjust height as needed */
         }
         #myIframe {
             width: 100%;
             height: 100%;
             border: none;
+            z-index: 1; /* Ensure iframe is at the bottom */
+        }
+        #overlay-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2; /* Ensure overlay player is on top */
+        }
+        .control-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .control-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div id="iframe-container">
-        <iframe id="myIframe" src="https://idn.gdplayertv.to/live-tv/fox-sports-1?alt=0&embed=1" allow="autoplay"></iframe>
+        <iframe id="myIframe" src="https://idn.gdplayertv.to/live-tv/fox-sports-1?alt=0&embed=1"></iframe>
+        <div id="overlay-player">
+            <button class="control-button" id="playPauseButton">Play</button>
+            <button class="control-button" id="muteUnmuteButton">Unmute</button>
+            <button class="control-button" id="fullscreenButton">Fullscreen</button>
+        </div>
     </div>
 
     <script>
         var iframe = document.getElementById('myIframe');
+        var playPauseButton = document.getElementById('playPauseButton');
+        var muteUnmuteButton = document.getElementById('muteUnmuteButton');
+        var fullscreenButton = document.getElementById('fullscreenButton');
 
-        // Function to automatically play the iframe content
-        function autoPlay() {
-            if (iframe) {
-                iframe.contentWindow.postMessage('autoPlay', '*');
+        // Function to toggle play/pause of the iframe content
+        function togglePlayPause() {
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage('togglePlayPause', '*');
             }
         }
 
-        // Function to automatically unmute the iframe content
-        function autoUnmute() {
-            if (iframe) {
-                iframe.contentWindow.postMessage('autoUnmute', '*');
+        // Function to toggle mute/unmute of the iframe content
+        function toggleMuteUnmute() {
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage('toggleMuteUnmute', '*');
             }
         }
 
-        // Automatically trigger autoplay and unmute when iframe loads
-        iframe.onload = function() {
-            autoPlay();
-            autoUnmute();
+        // Event listener for the play/pause button
+        playPauseButton.onclick = function() {
+            togglePlayPause();
         };
+
+        // Event listener for the mute/unmute button
+        muteUnmuteButton.onclick = function() {
+            toggleMuteUnmute();
+        };
+
+        // Function to request fullscreen for the iframe container
+        function requestFullscreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) { // Firefox
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) { // IE/Edge
+                element.msRequestFullscreen();
+            }
+        }
+
+        // Event listener for the fullscreen button
+        fullscreenButton.onclick = function() {
+            var iframeContainer = document.getElementById('iframe-container');
+            requestFullscreen(iframeContainer);
+        };
+
+        // Receive messages from the iframe
+        window.addEventListener('message', function(event) {
+            if (event.source === iframe.contentWindow) {
+                // Handle messages for playback state change
+                if (event.data === 'playbackStateChanged') {
+                    var currentState = playPauseButton.textContent.trim().toLowerCase();
+                    playPauseButton.textContent = currentState === 'play' ? 'Pause' : 'Play';
+                }
+                // Handle messages for mute state change
+                else if (event.data === 'muteStateChanged') {
+                    var currentMuteState = muteUnmuteButton.textContent.trim().toLowerCase();
+                    muteUnmuteButton.textContent = currentMuteState === 'mute' ? 'Unmute' : 'Mute';
+                }
+            }
+        });
     </script>
 </body>
 </html>
