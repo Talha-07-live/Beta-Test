@@ -1,106 +1,41 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-        <title>Mitology TV</title>
-        <style type="text/css">
-            body {
-                width: 100%;
-                height: 100%;
-                background-color: #202020;
-            }
-    
-            h1 {
-                vertical-align: middle;
-                text-align: center;
-                color: #FFFFFF;
-            }
-    
-            a {
-                color: white;
-                font-weight: 900;
-                font-family: 'Montserrat', sans-serif;
-                text-decoration: solid;
-            }
-    
-            #header {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-            }
-    
-            #clappr:full-screen {
-                background: black;
-            }
-    
-            #clappr:-webkit-full-screen {
-                background: black;
-            }
-    
-            #clappr {
-                width: 100%;
-                height: 100%;
-                position: relative;
-                min-height: 600px;
-            }
-    
-            #clappr > div {
-                width: 100%;
-                height: 100%;
-                position: absolute;
-            }
-    
-            #clappr > div > div.media-control.live > div.media-control-layer {
-                width: 85% !important;
-                position: absolute;
-                margin-left: auto;
-                margin-right: auto;
-                left: 0;
-                right: 0;
-                text-align: center;
-            }
-    
-            #toggleFullscreen {
-                display: block;
-                margin: 10px auto;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="header">
-            <img src="images/MitologyTV-logo.png" style="width:200px;margin-top:120px;" />
-            <h1>La musica più bella di sempre ora la vedi in faccia.</h1>
-        </div>
-        <div id="clappr" style="border:2px solid white;width:80vw;margin:5% auto 0% auto;"></div>
-        <button id="toggleFullscreen">Toggle Fullscreen</button>
-        <script>
-            var player = new Clappr.Player({
-                source: "https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8",
-                parentId: "#clappr",
-                width: '100%',
-                height: '100%',
-                autoPlay: true,
-            });
-        </script>
-        <script>
-            document.getElementById('toggleFullscreen').addEventListener('click', function() {
-                toggleFullScreenHandler('clappr');
-            }, false);
-    
-            function toggleFullScreenHandler(targetId) {
-                var target = document.getElementById(targetId);
-    
-                if (target.requestFullscreen) {
-                    target.requestFullscreen();
-                } else if (target.mozRequestFullScreen) {
-                    target.mozRequestFullScreen();
-                } else if (target.webkitRequestFullscreen) {
-                    target.webkitRequestFullscreen();
-                } else if (target.msRequestFullscreen) {
-                    target.msRequestFullscreen();
+<html>
+<head>
+    <title>Embedded Iframe with Ad Redirect</title>
+    <style>
+        iframe {
+            width: 800px;
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <iframe id="myIframe" src="https://idn.gdplayertv.to/live-tv/fox-sports-1?alt=0&embed=1"></iframe>
+    <script>
+        document.getElementById('myIframe').onload = function() {
+            var iframe = document.getElementById('myIframe').contentWindow;
+
+            function redirectAds() {
+                // Example: find and redirect elements that are ads
+                // This example assumes ad elements have a specific class
+                // Modify the class name to match the actual ad structure
+                var ads = iframe.document.getElementsByClassName('ad-class');
+                for (var i = 0; i < ads.length; i++) {
+                    ads[i].onclick = function() {
+                        window.location.href = 'https://your-redirect-url.com';
+                    };
                 }
             }
-        </script>
-    </body>
-    </html>
+
+            try {
+                // Run redirectAds function after iframe content loads
+                iframe.document.addEventListener('DOMContentLoaded', redirectAds);
+                // Retry redirecting ads every 2 seconds in case ads load dynamically
+                setInterval(redirectAds, 2000);
+            } catch (e) {
+                console.log('Unable to access iframe content due to cross-origin restrictions');
+            }
+        };
+    </script>
+</body>
+</html>
