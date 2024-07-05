@@ -52,7 +52,7 @@
         <div id="overlay"></div>
         <div id="controls">
             <button class="control-button" id="playPauseButton">Play</button>
-            <button class="control-button" id="muteUnmuteButton">Mute</button>
+            <button class="control-button" id="muteUnmuteButton">Unmute</button>
             <button class="control-button" id="fullscreenButton">Fullscreen</button>
         </div>
     </div>
@@ -111,16 +111,19 @@
         // Receive messages from the iframe
         window.addEventListener('message', function(event) {
             // Ensure message is from the iframe and handle as needed
-            if (event.source === iframe.contentWindow && event.data === 'playbackStateChanged') {
-                // Handle playback state change if necessary
-                // For example, update play/pause button text
-                var currentState = playPauseButton.textContent.trim().toLowerCase();
-                playPauseButton.textContent = currentState === 'play' ? 'Pause' : 'Play';
-            } else if (event.source === iframe.contentWindow && event.data === 'muteStateChanged') {
-                // Handle mute state change if necessary
-                // For example, update mute/unmute button text
-                var currentMuteState = muteUnmuteButton.textContent.trim().toLowerCase();
-                muteUnmuteButton.textContent = currentMuteState === 'mute' ? 'Unmute' : 'Mute';
+            if (event.source === iframe.contentWindow) {
+                // Handle messages for playback state change
+                if (event.data === 'playbackStateChanged') {
+                    // Update play/pause button text
+                    var currentState = playPauseButton.textContent.trim().toLowerCase();
+                    playPauseButton.textContent = currentState === 'play' ? 'Pause' : 'Play';
+                }
+                // Handle messages for mute state change
+                else if (event.data === 'muteStateChanged') {
+                    // Update mute/unmute button text
+                    var currentMuteState = muteUnmuteButton.textContent.trim().toLowerCase();
+                    muteUnmuteButton.textContent = currentMuteState === 'mute' ? 'Unmute' : 'Mute';
+                }
             }
         });
     </script>
