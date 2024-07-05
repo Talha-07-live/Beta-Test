@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Embedded Iframe with Controls</title>
+    <title>Embedded Iframe with Fullscreen Button</title>
     <style>
         #iframe-container {
             position: relative;
@@ -13,28 +13,56 @@
             height: 100%;
             border: none;
         }
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0); /* Fully transparent */
+            z-index: 2; /* Ensure it is on top of the iframe */
+        }
+        #fullscreen-button {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            background: #007bff;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            width: 100px;
+            border-radius: 5px;
+        }
+        #fullscreen-button:hover {
+            background: #0056b3;
+        }
     </style>
 </head>
 <body>
     <div id="iframe-container">
-        <iframe id="myIframe" src="https://idn.gdplayertv.to/live-tv/fox-sports-1?alt=0&embed=1" allow="autoplay"></iframe>
+        <iframe id="myIframe" src="https://idn.gdplayertv.to/live-tv/fox-sports-1?alt=0&embed=1"></iframe>
+        <div id="overlay"></div>
     </div>
+    <div id="fullscreen-button">Fullscreen</div>
 
     <script>
-        var iframe = document.getElementById('myIframe');
-
-        iframe.onload = function() {
-            // Try to set autoplay and unmute via iframe content manipulation
-            var iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-
-            // Attempt to find and manipulate video elements within the iframe
-            var videos = iframeDocument.getElementsByTagName('video');
-            for (var i = 0; i < videos.length; i++) {
-                var video = videos[i];
-                video.autoplay = true;
-                video.muted = false;
-                video.play();
+        // Function to request fullscreen for the iframe container
+        function requestFullscreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) { // Firefox
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) { // IE/Edge
+                element.msRequestFullscreen();
             }
+        }
+
+        // Event listener for the fullscreen button
+        document.getElementById('fullscreen-button').onclick = function() {
+            var iframeContainer = document.getElementById('iframe-container');
+            requestFullscreen(iframeContainer);
         };
     </script>
 </body>
