@@ -3,125 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title>Video with Thumbnail</title>
     <style>
-        /* Add your styles here */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            margin: 0;
+            padding: 0;
         }
-        #login-form {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
+        .video-container {
+            position: relative;
         }
-        #password {
-            margin-bottom: 10px;
-            padding: 10px;
+        iframe {
             width: 100%;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            height: 500px;
         }
-        #submit-btn {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        #submit-btn:hover {
-            background-color: #0056b3;
-        }
-        #my-video, #my-iframe {
-            display: none;
-        }
-        .ticker1, .ticker2, #logo-top-right, .server-buttons {
+        .thumbnail {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
             display: none;
         }
     </style>
 </head>
 <body>
-    <div id="login-form">
-        <h2>Login</h2>
-        <input type="password" id="password" placeholder="Enter password">
-        <button id="submit-btn">Submit</button>
+    <div class="video-container">
+        <iframe id="videoPlayer" src="your_video_url" frameborder="0" allowfullscreen></iframe>
+        <img src="https://s12.gifyu.com/images/SrMx2.png" class="thumbnail" id="thumbnail" />
     </div>
-    
-    <video id="my-video" controls>
-        <source src="movie.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    
-    <iframe id="my-iframe" width="600" height="400"></iframe>
-    
-    <div class="ticker1">Ticker 1 Content</div>
-    <div class="ticker2">Ticker 2 Content</div>
-    
-    <img id="logo-top-right" src="logo.png" alt="Logo">
-    
-    <div class="server-buttons">
-        <button onclick="changeServer('server1')">Server 1</button>
-        <button onclick="changeServer('server2')">Server 2</button>
-        <button onclick="changeServer('server3')">Server 3</button>
-        <button onclick="changeServer('server4')">Server 4</button>
-        <button onclick="changeServer('server5')">Server 5</button>
-    </div>
-    
+
     <script>
-        const PASSWORD = "Talha"; // Set your password here
-        const loginForm = document.getElementById('login-form');
-        const passwordInput = document.getElementById('password');
-        const submitBtn = document.getElementById('submit-btn');
-        const videoPlayer = document.getElementById('my-video');
-        const iframePlayer = document.getElementById('my-iframe');
-        const ticker1 = document.querySelector('.ticker1');
-        const ticker2 = document.querySelector('.ticker2');
-        const logoTopRight = document.getElementById('logo-top-right');
-        const serverButtonsContainer = document.querySelector('.server-buttons'); // Select the server buttons container
+        const videoPlayer = document.getElementById('videoPlayer');
+        const thumbnail = document.getElementById('thumbnail');
 
-        submitBtn.addEventListener('click', () => {
-            if (passwordInput.value === PASSWORD) {
-                loginForm.style.display = 'none';
-                videoPlayer.style.display = 'none';
-                iframePlayer.style.display = 'block';
-                ticker1.style.display = 'block'; // Show ticker1 after successful login
-                ticker2.style.display = 'none'; // Hide ticker2 after successful login
-                logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
-                serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
+        function checkPlayerBar() {
+            // This is a placeholder. The actual implementation depends on your video player.
+            // Replace it with the correct condition to check if the player bar is visible.
+            const isPlayerBarVisible = true; // Change this condition appropriately.
+
+            if (isPlayerBarVisible) {
+                thumbnail.style.display = 'block';
             } else {
-                alert('Incorrect password. Please try again.');
+                thumbnail.style.display = 'none';
             }
-        });
-
-        function openSupport() {
-            window.open("https://t.me/talhasmovie_request_bot", "_blank");
         }
 
-        function redirectToCricket() {
-            window.location.href = "https://talha-07-live.github.io/Talha_App_Cricket/";
-        }
-
-        function redirectToCopa() {
-            window.location.href = "https://talha-07-live.github.io/Talha-s_App_Football_2/";
-        }
-
-        function changeServer(server) {
-            const servers = {
-                server1: "https://talha-07-live.github.io/Talhas-Web-Host6/",
-                server2: "https://idn.gdplayertv.to/embed/tsn1/",
-                server3: "https://idn.gdplayertv.to/embed/tyc-sports/",
-                server4: "https://idn.gdplayertv.to/embed/true-premier-football-1/",
-                server5: "https://idn.gdplayertv.to/embed/supersport-football/"
-            };
-            iframePlayer.src = servers[server];
-        }
+        // Call the function to check player bar visibility
+        setInterval(checkPlayerBar, 100); // Check every 500ms
     </script>
 </body>
 </html>
