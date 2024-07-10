@@ -11,7 +11,7 @@
             height: 100%;
             overflow: hidden;
         }
-        .video-container {
+        .iframe-container {
             position: relative;
             width: 100%;
             height: 100%;
@@ -23,69 +23,47 @@
         }
         .thumbnail {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background: url('https://s10.gifyu.com/images/SYGkR.jpg') no-repeat center center;
             background-size: cover;
-            z-index: 1;
-        }
-        .logo {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            width: 50px; /* Adjust size as needed */
-            display: none;
-            z-index: 2;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="video-container">
-        <div class="thumbnail" id="thumbnail"></div>
+    <div class="iframe-container">
         <iframe id="liveFrame" src="https://tv.durbinlive.pro/api/live/iframe.php?c=https://tv.durbinlive.pro/api/sports/twitter.php?id=1810827240491602142" allowfullscreen></iframe>
-        <img src="https://s12.gifyu.com/images/SrMx2.png" class="logo" id="logo" />
+        <div class="thumbnail" id="thumbnail"></div>
     </div>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const iframe = document.getElementById('liveFrame');
-            const logo = document.getElementById('logo');
             const thumbnail = document.getElementById('thumbnail');
 
-            iframe.addEventListener('load', function() {
-                const checkAndPlay = () => {
-                    try {
-                        const iframeDoc = iframe.contentWindow.document;
-                        const playButton = iframeDoc.querySelector('button'); // Adjust the selector to the correct play button element
-                        if (playButton) {
-                            playButton.click();
-                            thumbnail.style.display = 'none'; // Hide the thumbnail when video starts playing
-                        }
-                    } catch (e) {
-                        console.log('Error accessing iframe content:', e);
-                    }
-                };
-
-                checkAndPlay();
-                setInterval(checkAndPlay, 1000); // Attempt to play every 1 second
-
-                // Function to check player bar visibility
-                const checkPlayerBar = () => {
-                    try {
-                        const iframeDoc = iframe.contentWindow.document;
-                        const playerBar = iframeDoc.querySelector('.player-bar'); // Adjust the selector to the correct player bar element
-                        if (playerBar && playerBar.style.display !== 'none') {
-                            logo.style.display = 'block';
-                        } else {
-                            logo.style.display = 'none';
-                        }
-                    } catch (e) {
-                        console.log('Error accessing iframe content:', e);
-                    }
-                };
-
-                setInterval(checkPlayerBar, 500); // Check player bar visibility every 500ms
+            thumbnail.addEventListener('click', function() {
+                thumbnail.style.display = 'none';
+                playVideo();
             });
+
+            iframe.addEventListener('load', function() {
+                playVideo();
+
+                setInterval(playVideo, 1000); // Attempt to play every second
+            });
+
+            const playVideo = () => {
+                try {
+                    const playButton = iframe.contentWindow.document.querySelector('button'); // Adjust the selector to the correct play button element
+                    if (playButton) {
+                        playButton.click();
+                    }
+                } catch (e) {
+                    console.log('Error accessing iframe content:', e);
+                }
+            };
         });
     </script>
 </body>
