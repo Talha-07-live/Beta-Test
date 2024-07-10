@@ -31,8 +31,10 @@
             position: absolute;
             bottom: 10px;
             left: 10px;
-            width: 100px;
+            width: 50px; /* Set the desired width to 50px */
+            height: auto; /* Maintain aspect ratio */
             z-index: 3;
+            display: none; /* Initially hide the logo */
         }
         iframe {
             width: 100%;
@@ -47,12 +49,13 @@
     <div class="iframe-container">
         <div class="poster" id="poster"></div>
         <iframe id="liveFrame" src="https://tv.durbinlive.pro/api/live/iframe.php?c=https://tv.durbinlive.pro/api/sports/twitter.php?id=1810827240491602142" allowfullscreen></iframe>
-        <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo" class="logo">
+        <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo" class="logo" id="logo">
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const iframe = document.getElementById('liveFrame');
             const poster = document.getElementById('poster');
+            const logo = document.getElementById('logo');
             
             iframe.addEventListener('load', function() {
                 const checkAndPlay = () => {
@@ -62,12 +65,14 @@
                             playButton.click();
                         }
 
-                        // Check if the iframe status bar is visible
+                        // Check if the iframe status bar (player controls) is visible
                         const statusBar = iframe.contentWindow.document.querySelector('.status-bar'); // Adjust the selector to the correct status bar element
-                        if (statusBar && statusBar.style.display !== 'none') {
+                        if (statusBar && getComputedStyle(statusBar).display !== 'none') {
                             poster.style.display = 'block';
+                            logo.style.display = 'block';
                         } else {
                             poster.style.display = 'none';
+                            logo.style.display = 'none';
                         }
                     } catch (e) {
                         console.log('Error accessing iframe content:', e);
