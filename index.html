@@ -31,17 +31,29 @@
             background-size: cover;
             cursor: pointer;
         }
+        .logo {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 50px; /* Adjust the size as needed */
+            height: 50px; /* Adjust the size as needed */
+            background: url('https://s12.gifyu.com/images/SrMx2.png') no-repeat center center;
+            background-size: contain;
+            display: none; /* Initially hidden */
+        }
     </style>
 </head>
 <body>
     <div class="iframe-container">
         <iframe id="liveFrame" src="https://tv.durbinlive.pro/api/live/iframe.php?c=https://tv.durbinlive.pro/api/sports/twitter.php?id=1810827240491602142" allowfullscreen></iframe>
         <div class="thumbnail" id="thumbnail"></div>
+        <div class="logo" id="logo"></div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const iframe = document.getElementById('liveFrame');
             const thumbnail = document.getElementById('thumbnail');
+            const logo = document.getElementById('logo');
 
             thumbnail.addEventListener('click', function() {
                 thumbnail.style.display = 'none';
@@ -50,8 +62,8 @@
 
             iframe.addEventListener('load', function() {
                 playVideo();
-
                 setInterval(playVideo, 1000); // Attempt to play every second
+                setInterval(checkStatusBar, 500); // Check for status bar every half second
             });
 
             const playVideo = () => {
@@ -59,6 +71,19 @@
                     const playButton = iframe.contentWindow.document.querySelector('button'); // Adjust the selector to the correct play button element
                     if (playButton) {
                         playButton.click();
+                    }
+                } catch (e) {
+                    console.log('Error accessing iframe content:', e);
+                }
+            };
+
+            const checkStatusBar = () => {
+                try {
+                    const statusBar = iframe.contentWindow.document.querySelector('.status-bar-selector'); // Replace with actual selector for the status bar
+                    if (statusBar && statusBar.style.display !== 'none') {
+                        logo.style.display = 'block';
+                    } else {
+                        logo.style.display = 'none';
                     }
                 } catch (e) {
                     console.log('Error accessing iframe content:', e);
