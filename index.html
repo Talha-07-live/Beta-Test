@@ -4,17 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Embed Iframe</title>
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-    <video id="player" playsinline controls>
-        <source src="https://idn.gdplayertv.to/live-tv/fox-sports-1?alt=0&embed=1" type="application/x-mpegURL" />
-        Your browser does not support the video tag.
-    </video>
-
-    <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+    <iframe id="liveFrame" src="https://tv.durbinlive.pro/api/live/iframe.php?c=https://tv.durbinlive.pro/api/sports/twitter.php?id=1810821483608043875" allowfullscreen></iframe>
     <script>
-        const player = new Plyr('#player');
+        document.addEventListener("DOMContentLoaded", function() {
+            const iframe = document.getElementById('liveFrame');
+            
+            iframe.addEventListener('load', function() {
+                const checkAndPlay = () => {
+                    try {
+                        const playButton = iframe.contentWindow.document.querySelector('button'); // Adjust the selector to the correct play button element
+                        if (playButton) {
+                            playButton.click();
+                        }
+                    } catch (e) {
+                        console.log('Error accessing iframe content:', e);
+                    }
+                };
+
+                checkAndPlay();
+                
+                setInterval(checkAndPlay, 1000); // Attempt to play every 5 seconds
+            });
+        });
     </script>
 </body>
 </html>
