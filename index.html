@@ -1,338 +1,93 @@
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talha-07-Live</title>
+    <title>Login Page</title>
     <style>
         body {
+            background-color: #333;
+            color: white;
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 90vh;
-            background-color: #111;
+            height: 100vh;
             margin: 0;
-            flex-direction: column;
         }
-        #login-form {
-            display: flex;
-            font-size: 8px;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-        }
-        #my-video {
-            width: 100%;
-            max-width: 1000px;
-            border: 5px solid transparent;
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #444;
             border-radius: 10px;
-            animation: border-animation 5s infinite;
-            background-clip: border-box;
-            display: none; /* Initially hide HLS video player */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
-        #my-iframe {
-            position: absolute;
-            top: -200px;
-            left: -14px;
-            width: 105%;
-            max-width: 1000px;
-            border: 5px solid transparent;
-            border-radius: 10px;
-            animation: border-animation 5s infinite;
-            background-clip: border-box;
-            display: none; /* Initially hide iframe */
-            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
+
+        h2 {
+            margin-bottom: 20px;
         }
-        #password {
+
+        input[type="password"] {
             padding: 10px;
-            font-size: 16px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
         }
-        #submit-btn {
+
+        button {
             padding: 10px 20px;
-            font-size: 16px;
-            margin-top: 10px;
-            background-color: #007bff;
-            color: white;
+            margin: 5px;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
         }
-        #submit-btn:hover {
-            background-color: #0056b3;
+
+        button:hover {
+            background-color: #555;
         }
-        .video-container {
-            position: relative;
-            width: 90%;
-            max-width: 800px;
-            display: flex;
-            justify-content: center;
-            margin-top: 20px; /* Added margin to separate from login form */
-            position: relative; /* Added relative positioning */
+
+        .links {
+            margin: 20px 0;
         }
-        .ticker-container {
-            position: absolute;
-            bottom: -68px;
-            width: 100%;
-            overflow: hidden;
-            display: block; /* Ensure ticker container is displayed */
-        }
-        .ticker1 {
-            display: none; /* Initially hide ticker1 */
-            white-space: nowrap;
-            padding-left: 100%; /* Start off-screen */
-            animation: ticker-animation1 73s linear infinite; /* Adjusted animation duration for ticker speed */
-            color: white;
-        }
-        .ticker2 {
-            display: inline-block; /* Initially show ticker2 */
-            white-space: nowrap;
-            padding-left: 100%; /* Start off-screen */
-            animation: ticker-animation2 22s linear infinite; /* Adjusted animation duration for ticker speed */
-            color: white;
-        }
-        @keyframes ticker-animation1 {
-            0% {
-                transform: translateX(5%);
-            }
-            100% {
-                transform: translateX(-1110%);
-            }
-        }
-        @keyframes ticker-animation2 {
-            0% {
-                transform: translateX(2%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-        .support-button {
-            position: absolute;
-            top: -250px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-        .support-button:hover {
-            background-color: #28a745;
-        }
-        #cricket-btn {
-            position: absolute;
-            top: 145px;
-            left: 73%;
-            transform: translateX(-73%);
-            background-color: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 12px 17px;
-            font-size: 8px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-        #copa-btn {
-            position: absolute;
-            top: 145px; /* Adjust the top value as needed */
-            left: 28%;
-            transform: translateX(-28%);
-            background-color: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 12px 17px;
-            font-size: 8px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-        #copa-btn:hover {
-            background-color: #d9534f;
-        }
+
         footer {
-            margin-top: 190px;
-            font-size: 12px;
-            color: #555;
-            text-align: center;
+            margin-top: 20px;
         }
-        .footer-text {
-            font-size: 16px;
-            font-weight: bold;
-            background: linear-gradient(45deg, #ff6b6b, #ff9f43, #feca57, #48dbfb, #1dd1a1, #f368e0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-animation 5s infinite;
-            background-size: 300%;
+
+        footer p {
+            margin: 10px 0;
         }
-        @keyframes gradient-animation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-        @keyframes border-animation {
-            0% {
-                border-color: #ff6b6b;
-            }
-            20% {
-                border-color: #ff9f43;
-            }
-            40% {
-                border-color: #feca57;
-            }
-            60% {
-                border-color: #48dbfb;
-            }
-            80% {
-                border-color: #1dd1a1;
-            }
-            100% {
-                border-color: #f368e0;
-            }
-        }
-        .logo {
-            position: absolute;
-            top: 220px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px; /* Adjust the width as needed */
-        }
-        .logo-top-right {
-            position: absolute;
-            top: -190px;
-            right: -2px;
-            width: 70px; /* Adjust the size of the top-right logo */
-            display: none; /* Initially hide logo */
-        }
-        .visitor-counter {
-            position: absolute;
-            bottom: -90px;
-            width: -5%;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            background-color: #111;
-            padding: -5px 0;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        }
-        .server-buttons {
-            position: absolute;
-            top: 80px; /* Adjust this value to move the buttons up or down */
-            left: 50%;
-            transform: translateX(-50%);
-            display: none; /* Initially hide server buttons */
-            gap: 10px; /* Adjust gap between server buttons */
-        }
-        .server-button {
-            background-color: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 10px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-        .server-button:hover {
-            background-color: #d9534f;
+
+        footer img {
+            width: 100px;
         }
     </style>
 </head>
 <body>
-    <div id="login-form">
-        <h1>𝕋𝕠 𝕎𝕒𝕥𝕔𝕙 ℂ𝕠𝕡𝕒 𝔸𝕞𝕖𝕣𝕚𝕔𝕒 𝕃𝕚𝕧𝕖 𝔼𝕟𝕥𝕖𝕣 𝕋𝕙𝕖 ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕</h1>
-        <input type="ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕" id="password" placeholder="ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕">
-        <button id="submit-btn">𝕊𝕦𝕓𝕞𝕚𝕥</button>
-    </div>
-    <div class="video-container">
-        <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
-        <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
-        <iframe id="my-iframe" src="https://talha-07-live.github.io/Talhas-Web-Host6/" width="100%" height="225px" scrolling="no" frameborder="0" loading "lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
-        <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
-        <button class="support-button" onclick="openSupport()">𝕊𝕦𝕡𝕡𝕠𝕣𝕥</button>
-        <button id="cricket-btn" onclick="redirectToCricket()">ℂ𝕣𝕚𝕔𝕜𝕖𝕥 𝕎ℂ 𝕃𝕚𝕧𝕖</button>
-        <button id="copa-btn" onclick="redirectToCopa()">𝕌𝔼𝔽𝔸 𝔼𝕌ℝ𝕆 ℂ𝕦𝕡 𝕃𝕚𝕧𝕖</button>
-        <div class="ticker-container">
-            <div class="ticker1">
-                𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 𝕋𝕒𝕝𝕙𝕒'𝕤 𝕊𝕥𝕣𝕖𝕒𝕞 𝔸𝕡𝕡, ℂ𝕝𝕚𝕔𝕜 𝕀𝕟𝕤𝕚𝕕𝕖 𝕋𝕙𝕖 ℙ𝕝𝕒𝕪𝕖𝕣 ℙ𝕝𝕒𝕪 𝔹𝕦𝕥𝕥𝕠𝕟 𝕋𝕠 ℙ𝕝𝕒𝕪 𝕍𝕚𝕕𝕖𝕠 𝔸𝕟𝕕 𝕎𝕒𝕚𝕥 𝟙𝟘 𝕋𝕠 𝟚𝟘 𝕊𝕖𝕔𝕠𝕟𝕕 𝔽𝕠𝕣 𝔹𝕦𝕗𝕗𝕖𝕣 𝕃𝕠𝕒𝕕𝕚𝕟𝕘.(𝕊𝕠𝕞𝕖𝕥𝕚𝕞𝕖𝕤 𝕀𝕥'𝕤 𝕋𝕒𝕜𝕖 𝟛𝟘 𝕊𝕖𝕔𝕠𝕟𝕕, 𝔻𝕖𝕡𝕖𝕟𝕕 𝕆𝕟 𝕐𝕠𝕦𝕣 ℕ𝕖𝕥𝕨𝕠𝕣𝕜) 𝕀𝕗 𝕍𝕚𝕕𝕖𝕠 ℕ𝕠𝕥 ℙ𝕝𝕒𝕪 𝕋𝕣𝕪 𝕆𝕥𝕙𝕖𝕣 𝕊𝕖𝕣𝕧𝕖𝕣 𝔸𝕟 𝔸𝕟𝕪 𝕆𝕥𝕙𝕖𝕣 𝕀𝕤𝕤𝕦𝕖𝕤 ℂ𝕝𝕚𝕔𝕜 "𝕊𝕦𝕡𝕡𝕠𝕣𝕥" 𝔹𝕦𝕥𝕥𝕠𝕟 𝔸𝕟𝕕 𝕊𝕦𝕓𝕞𝕚𝕥 𝕐𝕠𝕦𝕣 ℝ𝕖𝕡𝕠𝕣𝕥, 𝕋𝕙𝕒𝕟𝕜𝕤! **[ℕ𝕠𝕥𝕖* 𝔹𝕪 𝕒𝕔𝕔𝕖𝕤𝕤𝕚𝕟𝕘 𝕠𝕦𝕣 𝕤𝕥𝕣𝕖𝕒𝕞𝕚𝕟𝕘 𝔸𝕡𝕡 𝕪𝕠𝕦 𝕒𝕔𝕜𝕟𝕠𝕨𝕝𝕖𝕕𝕘𝕖 𝕥𝕙𝕒𝕥 𝕨𝕖 𝕒𝕘𝕘𝕣𝕖𝕘𝕒𝕥𝕖 𝕗𝕣𝕖𝕖𝕝𝕪 𝕒𝕧𝕒𝕚𝕝𝕒𝕓𝕝𝕖 𝕤𝕥𝕣𝕖𝕒𝕞𝕚𝕟𝕘 𝕝𝕚𝕟𝕜𝕤 𝕨𝕖 𝕒𝕣𝕖 𝕟𝕠𝕥 𝕣𝕖𝕤𝕡𝕠𝕟𝕤𝕚𝕓𝕝𝕖 𝕒𝕟𝕪 𝕔𝕠𝕡𝕪𝕣𝕚𝕘𝕙𝕥 𝕔𝕠𝕟𝕔𝕖𝕣𝕟𝕤, 𝕡𝕝𝕖𝕒𝕤𝕖 𝕔𝕠𝕟𝕥𝕒𝕔𝕥 𝕦𝕤 𝕒𝕥 𝕔𝕝𝕚𝕔𝕜 "𝕤𝕦𝕡𝕡𝕠𝕣𝕥" 𝕓𝕦𝕥𝕥𝕠𝕟]** 
-            </div>
-            <div class="ticker2">
-                𝕎𝕙𝕖𝕟 𝕐𝕠𝕦 𝕋𝕣𝕪 𝕋𝕠 𝔼𝕟𝕥𝕖𝕣 𝕋𝕙𝕖 ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕 𝔸𝕟𝕕 𝕂𝕖𝕪𝕓𝕠𝕒𝕣𝕕 ℕ𝕠𝕥 𝕊𝕙𝕠𝕨 𝕋𝕙𝕖𝕟 ℂ𝕝𝕚𝕔𝕜 𝕋𝕙𝕖 𝕊𝕦𝕓𝕞𝕚𝕥 𝔹𝕦𝕥𝕥𝕠𝕟 𝔽𝕚𝕣𝕤𝕥 𝔸𝕟𝕕 𝕋𝕙𝕖𝕟 𝕋𝕣𝕪... 𝕀𝕗 𝕊𝕦𝕓𝕞𝕚𝕥 𝔹𝕦𝕥𝕥𝕠𝕟 ℕ𝕠𝕥 𝕎𝕠𝕣𝕜 ℝ𝕖𝕗𝕣𝕖𝕤𝕙 𝕋𝕙𝕚𝕤 ℙ𝕒𝕘𝕖.
-            </div>
+    <div class="container">
+        <h2>Enter Password</h2>
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="checkPassword()">Submit</button>
+        <div class="https://t.me/talhasmovie_request_bot">
+            <button onclick="window.location.href='#'">Support</button>
         </div>
-        <div class="server-buttons">
-            <button class="server-button" id="server1-btn" onclick="changeServer('server1')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟙</button>
-            <button class="server-button" id="server2-btn" onclick="changeServer('server2')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟚</button>
-            <button class="server-button" id="server3-btn" onclick="changeServer('server3')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟛</button>
-            <button class="server-button" id="server4-btn" onclick="changeServer('server4')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟜</button>
-            <button class="server-button" id="server5-btn" onclick="changeServer('server5')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟝</button>
-        </div>
-    </div>
-    <footer><span class="footer-text">𝕄𝕒𝕕𝕖 𝔹𝕪 <a href="" style="color: inherit; text-decoration: none;">𝕋𝕒𝕝𝕙𝕒</a></span></footer>
-    <div class="visitor-counter">
-        <a href='https://www.free-counters.org/' style="text-decoration: none; color: inherit;">...</a>
-        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=be71ed1b8e490aace689fd6f1b06c8f6894b8a87'></script>
-        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1193066/t/0"></script>
+        <footer>
+            <p>Made by Talha</p>
+            <img src="https://s10.gifyu.com/images/SYGkR.jpg" alt="Talha's Programming Project - 07">
+        </footer>
     </div>
     <script>
-        const PASSWORD = "Talha"; // Set your password here
-        const loginForm = document.getElementById('login-form');
-        const passwordInput = document.getElementById('password');
-        const submitBtn = document.getElementById('submit-btn');
-        const videoPlayer = document.getElementById('my-video');
-        const iframePlayer = document.getElementById('my-iframe');
-        const ticker1 = document.querySelector('.ticker1');
-        const ticker2 = document.querySelector('.ticker2');
-        const logoTopRight = document.getElementById('logo-top-right');
-        const serverButtonsContainer = document.querySelector('.server-buttons'); // Select the server buttons container
-
-        submitBtn.addEventListener('click', () => {
-            if (passwordInput.value === PASSWORD) {
-                loginForm.style.display = 'none';
-                videoPlayer.style.display = 'none';
-                iframePlayer.style.display = 'block';
-                ticker1.style.display = 'block'; // Show ticker1 after successful login
-                ticker2.style.display = 'none'; // Hide ticker2 after successful login
-                logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
-                serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password === 'Talha') {
+                alert('Password correct');
+                // Redirect or perform any other action
             } else {
-                alert('Incorrect password. Please try again.');
+                alert('Incorrect password');
             }
-        });
-
-        function openSupport() {
-            window.open("https://t.me/talhasmovie_request_bot", "_blank");
-        }
-
-        function redirectToCricket() {
-            window.location.href = "https://talha-07-live.github.io/Talha_App_Cricket/";
-        }
-
-        function redirectToCopa() {
-            window.location.href = "https://talha-07-live.github.io/Talha-s_App_Football_2/";
-        }
-
-        function changeServer(server) {
-            const servers = {
-                server1: "https://talha-07-live.github.io/Talhas-Web-Host6/",
-                server2: "https://idn.gdplayertv.to/embed/tsn1/",
-                server3: "https://bdadsnetwork.com/display/index.php?page=query/items/&aduid=1307&pid=857&width=300&height=250&displaytype=1&native=0&device_type=xsmall_dev_adblock&block_id=0&responsive=0&adcode_count=1&adSectionWidth=400&page_data=697e861cc83db731d5eba11fce83098b&time=1720636642&deliver=bokulsports.com&search_keywords=Bdix%20tv%2C%20Tsports%20live%2C%20Gtv%20live%2C%20Sports%20live%20tv%2C%20Tv%20steaming%2C%20All%20Football%20Tv%2C%20Football%20Live%20tv%2C%20cricket%20live%20tv%20%2C%20Premier%20League%20live%20TV%2C%20copa%20America%20live%20TV%2C%20t20%20World%20Cup%20live%20TV%2C%20IPL%20live%20TV%2C%20BPL%20live%20TV%2C%20South%20Africa%20cricket%20live%20TV%2C%20India%20cricket%20live%20TV%2C%20Bangladesh%20cricket%20live%20TV%2C%20zee%20TV%20live%20TV%2C%20gazi%20TV%20live%20TV%2C%20TSports%20live%20TV%2C%20super%20Sports%20live%20TV%2C%20Cricket%20World%20Cup%20live%20TV%2C%20%20Football%20&page_referrer=aHR0cHM6Ly9ib2t1bHNwb3J0cy5jb20vbGl2ZXR2L3dhdGNoL3VlZmEtZXVyby0yMDI0LzE3Nw==&page_title=UEFA%20Euro%202024%20%7C%20BokulSports.Com%20%C2%BB%20bdix%20tv%20%7C%20Football%20Live%20%7C%20Football%20Live%20Steaming%20%7C%20Cricket%20Live%20Streaming&meta_description=",
-                server4: "https://idn.gdplayertv.to/embed/true-premier-football-1/",
-                server5: "https://idn.gdplayertv.to/embed/supersport-football/"
-            };
-            iframePlayer.src = servers[server];
         }
     </script>
 </body>
