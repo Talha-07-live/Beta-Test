@@ -32,7 +32,7 @@
         .iframe-container .poster {
             position: absolute;
             top: 0px; /* Adjust the top position */
-            left: 20px; /* Adjust the left position */
+            left: 0px; /* Adjust the left position */
             width: 450px; /* Adjust the width */
             height: auto;
             z-index: 1;
@@ -50,5 +50,17 @@
         </iframe>
         <img src="https://s12.gifyu.com/images/SDoZ8.jpg" alt="Poster" class="poster">
     </div>
+    
+    <script>
+        document.getElementById('submitButton').addEventListener('click', function() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === 'Talha') {
+                document.getElementById('passwordContainer').style.display = 'none';
+                document.getElementById('iframeContainer').style.display = 'block';
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
+        });
+    </script>
 </body>
 </html>
