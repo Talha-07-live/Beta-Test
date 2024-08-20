@@ -71,6 +71,11 @@
             width: 100%;
             cursor: pointer;
         }
+
+        /* Basic ad blocker CSS (hides common ad containers) */
+        iframe[src*="ads"], iframe[src*="banner"], .ad, .ads, [id*="ad"], [class*="ad"] {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -84,13 +89,13 @@
         <iframe 
             src="https://tv.durbinlive.pro/" 
             scrolling="yes" 
-            allowfullscreen 
-            sandbox="allow-scripts allow-same-origin">
+            allowfullscreen>
         </iframe>
         <img src="https://s12.gifyu.com/images/SDoZ8.jpg" alt="Poster" class="poster">
     </div>
 
     <script>
+        // Check password
         document.getElementById('submitButton').addEventListener('click', function() {
             const password = document.getElementById('passwordInput').value;
             if (password === 'Talha') {
@@ -98,6 +103,28 @@
                 document.getElementById('iframeContainer').style.display = 'block';
             } else {
                 alert('Incorrect password. Please try again.');
+            }
+        });
+
+        // Basic JavaScript-based ad blocker (blocking known ad URLs)
+        document.addEventListener('DOMContentLoaded', function() {
+            const iframe = document.querySelector('iframe');
+            if (iframe) {
+                const adUrls = [
+                    'doubleclick.net', 
+                    'adservice.google.com', 
+                    'googlesyndication.com', 
+                    'ads.pubmatic.com',
+                    // Add more known ad URLs here
+                ];
+
+                iframe.onload = function() {
+                    const iframeDoc = iframe.contentWindow.document;
+                    adUrls.forEach(url => {
+                        const scripts = iframeDoc.querySelectorAll(`script[src*="${url}"]`);
+                        scripts.forEach(script => script.remove());
+                    });
+                };
             }
         });
     </script>
