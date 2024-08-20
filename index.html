@@ -89,8 +89,7 @@
         <iframe 
             src="https://tv.durbinlive.pro/" 
             scrolling="yes" 
-            allowfullscreen
-            sandbox="allow-same-origin allow-scripts">
+            allowfullscreen>
         </iframe>
         <img src="https://s12.gifyu.com/images/SDoZ8.jpg" alt="Poster" class="poster">
     </div>
@@ -104,6 +103,39 @@
                 document.getElementById('iframeContainer').style.display = 'block';
             } else {
                 alert('Incorrect password. Please try again.');
+            }
+        });
+
+        // Basic JavaScript-based ad blocker (blocking known ad URLs)
+        document.addEventListener('DOMContentLoaded', function() {
+            const iframe = document.querySelector('iframe');
+            if (iframe) {
+                iframe.onload = function() {
+                    const iframeDoc = iframe.contentWindow.document;
+
+                    // CSS for hiding common ad containers
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        .ad, .ads, [id*="ad"], [class*="ad"] {
+                            display: none !important;
+                        }
+                    `;
+                    iframeDoc.head.appendChild(style);
+
+                    // Attempt to remove known ad scripts
+                    const adUrls = [
+                        'doubleclick.net', 
+                        'adservice.google.com', 
+                        'googlesyndication.com', 
+                        'ads.pubmatic.com',
+                        // Add more known ad URLs here
+                    ];
+
+                    adUrls.forEach(url => {
+                        const scripts = iframeDoc.querySelectorAll(`script[src*="${url}"]`);
+                        scripts.forEach(script => script.remove());
+                    });
+                };
             }
         });
     </script>
