@@ -44,23 +44,10 @@
         .btn-primary:hover {
             background-color: #1abc9c;
         }
-        .btn-facebook {
-            background-color: #3b5998;
-            border-color: #3b5998;
-            color: #fff;
-            padding: 5px 5px;
-            font-size: 10px;
-            margin-top: 10px;
-            transition: background-color 0.3s ease-in-out;
-        }
-        .btn-facebook:hover {
-            background-color: #2d4373;
-            color: #fff;
-        }
         .donation-details {
             margin-top: 50px;
             background: #fff;
-            padding: -20px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
@@ -86,7 +73,7 @@
             color: #fff;
             padding: 20px 0;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 0px;
             position: relative;
         }
         .footer p {
@@ -95,9 +82,9 @@
         }
         .footer .up-arrow {
             position: absolute;
-            left: 90%;
+            left: 50%;
             transform: translateX(-50%);
-            bottom: 90px; /* Position above the copyright text */
+            bottom: 50px; /* Position above the copyright text */
             font-size: 30px;
             color: #90D5FF;
             background-color: #16a085;
@@ -110,9 +97,20 @@
             background-color: #1abc9c;
             color: #fff;
         }
+        .footer .facebook-link {
+            display: block;
+            margin-top: 10px;
+            color: #16a085;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+        .footer .facebook-link:hover {
+            color: #1abc9c;
+        }
         .copyright {
             margin-top: 10px;
-            font-size: 20px;
+            font-size: 14px;
             color: #bdc3c7;
         }
     </style>
@@ -149,16 +147,13 @@
         <h3>কাপড়-চোপড় ও শুকনা খাবার জমা দেওয়ার ঠিকানা:</h3>
         <p><i class="fas fa-map-marker-alt"></i> ঘোপ, সেন্ট্রাল রোড, হলুদমিলের সামনে।</p>
         <p>অথবা, আমাদের সাথে সরাসরি যোগাযোগ করুন উপরে দেওয়া যেকোনো একটি নাম্বারে।</p>
-        <!-- Facebook Group Button -->
-        <a href="https://www.facebook.com/profile.php?id=61564453421912&mibextid=ZbWKwL" target="_blank" class="btn btn-facebook">
-            <i class="fab fa-facebook-f"></i> Join Our Page
-        </a>
     </div>
 
     <div class="footer">
         <a href="#hero" class="up-arrow"><i class="fas fa-arrow-up"></i></a>
         <p>আসুন, সবাই একসাথে মানবিকতার পরিচয় দেই। 🌱</p>
-        <p class="copyright">&copy; 2024 •Made By ABU TALHA RAJ</p>
+        <a href="https://www.facebook.com/profile.php?id=61564453421912&mibextid=ZbWKwL" class="facebook-link">Visit Our Facebook Page</a>
+        <p class="copyright">&copy; 2024 • Made By ABU TALHA RAJ</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
