@@ -82,7 +82,7 @@
         }
         .footer .up-arrow {
             position: absolute;
-            left: 50%;
+            left: 90%;
             transform: translateX(-50%);
             bottom: 50px; /* Position above the copyright text */
             font-size: 30px;
@@ -97,21 +97,27 @@
             background-color: #1abc9c;
             color: #fff;
         }
-        .footer .facebook-link {
-            display: block;
+        .footer ul {
+            list-style-type: none;
+            padding: 0;
             margin-top: 10px;
+        }
+        .footer ul li {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #bdc3c7;
+        }
+        .footer ul li i {
+            margin-right: 10px;
             color: #16a085;
+        }
+        .footer ul li a {
+            color: #bdc3c7;
             text-decoration: none;
-            font-weight: bold;
             transition: color 0.3s ease-in-out;
         }
-        .footer .facebook-link:hover {
+        .footer ul li a:hover {
             color: #1abc9c;
-        }
-        .copyright {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #bdc3c7;
         }
     </style>
 </head>
@@ -152,7 +158,9 @@
     <div class="footer">
         <a href="#hero" class="up-arrow"><i class="fas fa-arrow-up"></i></a>
         <p>আসুন, সবাই একসাথে মানবিকতার পরিচয় দেই। 🌱</p>
-        <a href="https://www.facebook.com/profile.php?id=61564453421912&mibextid=ZbWKwL" class="facebook-link">Visit Our Facebook Page</a>
+        <ul>
+            <li><i class="fas fa-facebook"></i> <a href="https://www.facebook.com/profile.php?id=61564453421912&mibextid=ZbWKwL">Visit Our Facebook Page</a></li>
+        </ul>
         <p class="copyright">&copy; 2024 • Made By ABU TALHA RAJ</p>
     </div>
 
