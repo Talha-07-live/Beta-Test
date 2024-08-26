@@ -82,9 +82,9 @@
         }
         .footer .up-arrow {
             position: absolute;
-            left: 90%;
+            left: 50%;
             transform: translateX(-50%);
-            bottom: 70px; /* Position above the copyright text */
+            bottom: 50px;
             font-size: 30px;
             color: #90D5FF;
             background-color: #16a085;
@@ -97,27 +97,23 @@
             background-color: #1abc9c;
             color: #fff;
         }
-        .footer ul {
-            list-style-type: none;
-            padding: 0;
+        .footer .facebook-btn {
+            display: inline-block;
             margin-top: 10px;
+            font-size: 24px;
+            color: #fff;
+            background-color: #3b5998;
+            border-radius: 50%;
+            padding: 10px;
+            width: 50px;
+            height: 50px;
+            line-height: 30px;
+            text-align: center;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease;
         }
-        .footer ul li {
-            font-size: 16px;
-            margin-bottom: 10px;
-            color: #bdc3c7;
-        }
-        .footer ul li i {
-            margin-right: 10px;
-            color: #16a085;
-        }
-        .footer ul li a {
-            color: #bdc3c7;
-            text-decoration: none;
-            transition: color 0.3s ease-in-out;
-        }
-        .footer ul li a:hover {
-            color: #1abc9c;
+        .footer .facebook-btn:hover {
+            background-color: #2d4373;
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -158,9 +154,9 @@
     <div class="footer">
         <a href="#hero" class="up-arrow"><i class="fas fa-arrow-up"></i></a>
         <p>আসুন, সবাই একসাথে মানবিকতার পরিচয় দেই। 🌱</p>
-        <ul>
-            <li><i class="fas fa-facebook"></i> <a href="https://www.facebook.com/profile.php?id=61564453421912&mibextid=ZbWKwL">Visit Our Facebook Page</a></li>
-        </ul>
+        <a href="https://www.facebook.com/profile.php?id=61564453421912&mibextid=ZbWKwL" class="facebook-btn">
+            <i class="fab fa-facebook-f"></i>
+        </a>
         <p class="copyright">&copy; 2024 • Made By ABU TALHA RAJ</p>
     </div>
 
