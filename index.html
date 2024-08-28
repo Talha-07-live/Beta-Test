@@ -19,15 +19,6 @@
             background-color: #f4f4f4;
         }
 
-        header {
-            background-image: url('hero-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            text-align: center;
-            padding: 100px 0;
-        }
-
         nav {
             display: flex;
             justify-content: space-between;
@@ -65,22 +56,25 @@
         }
 
         .hero-section {
-            padding: 330px -50px;
+            padding: 250px 20px; /* Reduced padding to minimize gap */
             text-align: center;
-            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6tDnLjrpe1qqadJITvBrCcOjnYff0fSaODw&usqp=CAU'); /* Replace with your image */
+            background-image: url('https://s11.gifyu.com/images/So8Pl.jpg'); /* Replace with your image */
             background-size: cover;
             background-position: center;
             color: #fff;
+            margin-top: 0; /* Ensures it touches the nav bar */
         }
 
         .hero-section h2 {
             font-size: 50px;
             margin-bottom: 20px;
+            margin-top: -20px; /* Moves the text 20px up */
         }
 
         .hero-section p {
             font-size: 22px;
             margin-bottom: 30px;
+            margin-top: 10px; /* Moves the text 10px down */
         }
 
         .btn {
@@ -97,23 +91,34 @@
         }
 
         .about-section {
-            padding: 330px 0px;
+            padding: 320px 10px; /* Reduced padding */
             text-align: center;
-            background-image: url('https://s10.gifyu.com/images/So6nT.jpg'); /* Replace with your image */
+            background-image: url('https://s11.gifyu.com/images/So86k.jpg'); /* Replace with your image */
             background-size: cover;
             background-position: center;
             color: #fff;
+        }
+
+        .about-section h2 {
+            margin-bottom: 20px;
+            margin-top: -30px; /* Moves the text 30px up */
         }
 
         .about-section p {
             max-width: 800px;
             margin: 0 auto;
             font-size: 18px;
+            margin-top: 15px; /* Moves the text 15px down */
         }
 
         .team-section, .schedule-section, .results-section, .album-section {
             padding: 50px 20px;
             text-align: center;
+        }
+
+        .team-section h2 {
+            margin-bottom: 20px;
+            margin-top: -10px; /* Moves the text 10px up */
         }
 
         .team-container {
@@ -145,12 +150,19 @@
         .player-card h3 {
             margin: 15px 0 5px;
             font-size: 20px;
+            margin-top: -5px; /* Moves the text 5px up */
         }
 
         .player-card p {
             font-size: 16px;
             color: #777;
             margin-bottom: 15px;
+            margin-top: 10px; /* Moves the text 10px down */
+        }
+
+        .schedule-section h2 {
+            margin-bottom: 20px;
+            margin-top: -15px; /* Moves the text 15px up */
         }
 
         .schedule-section table {
@@ -169,6 +181,11 @@
         .schedule-section th {
             background-color: #333;
             color: #fff;
+        }
+
+        .results-section h2 {
+            margin-bottom: 20px;
+            margin-top: -20px; /* Moves the text 20px up */
         }
 
         .results-section .results-container {
@@ -191,15 +208,18 @@
             font-size: 24px;
             color: #f9a825;
             margin-bottom: 10px;
+            margin-top: -10px; /* Moves the text 10px up */
         }
 
         .results-box p {
             font-size: 18px;
             margin-bottom: 10px;
+            margin-top: 5px; /* Moves the text 5px down */
         }
 
         .album-section h2 {
             margin-bottom: 20px;
+            margin-top: -25px; /* Moves the text 25px up */
         }
 
         .album-container {
@@ -241,6 +261,7 @@
 
         .contact-info h3, .social-media h3 {
             margin-bottom: 10px;
+            margin-top: -10px; /* Moves the text 10px up */
         }
 
         .social-media a {
@@ -290,21 +311,15 @@
     <section id="team" class="team-section">
         <h2>Our Team</h2>
         <div class="team-container">
-            <!-- Player profiles -->
             <div class="player-card">
-                <img src="player1.jpg" alt="John Doe">
-                <h3>John Doe</h3>
-                <p>Forward</p>
+                <img src="https://via.placeholder.com/200" alt="Player 1">
+                <h3>Player 1</h3>
+                <p>Position: Forward</p>
             </div>
             <div class="player-card">
-                <img src="player2.jpg" alt="Jane Smith">
-                <h3>Jane Smith</h3>
-                <p>Midfielder</p>
-            </div>
-            <div class="player-card">
-                <img src="player3.jpg" alt="Mike Johnson">
-                <h3>Mike Johnson</h3>
-                <p>Defender</p>
+                <img src="https://via.placeholder.com/200" alt="Player 2">
+                <h3>Player 2</h3>
+                <p>Position: Midfielder</p>
             </div>
             <!-- Add more players as needed -->
         </div>
@@ -317,89 +332,65 @@
                 <tr>
                     <th>Date</th>
                     <th>Opponent</th>
-                    <th>Venue</th>
+                    <th>Location</th>
+                    <th>Time</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>25th August</td>
-                    <td>Rivals FC</td>
-                    <td>Wizard Stadium</td>
+                    <td>August 30, 2024</td>
+                    <td>Team A</td>
+                    <td>Home</td>
+                    <td>7:00 PM</td>
                 </tr>
-                <!-- Add more matches -->
+                <!-- Add more matches as needed -->
             </tbody>
         </table>
     </section>
 
     <section id="results" class="results-section">
-        <h2>Recent Results</h2>
+        <h2>Match Results</h2>
         <div class="results-container">
             <div class="results-box">
-                <h3>Wizard FC vs Rivals FC</h3>
-                <p>Score: 3-2</p>
-                <p>Result: Win</p>
+                <h3>August 20, 2024</h3>
+                <p>Wizard FC 2 - 1 Team B</p>
             </div>
             <div class="results-box">
-                <h3>Wizard FC vs Legends FC</h3>
-                <p>Score: 1-1</p>
-                <p>Result: Draw</p>
+                <h3>August 15, 2024</h3>
+                <p>Wizard FC 3 - 0 Team C</p>
             </div>
             <!-- Add more results as needed -->
         </div>
     </section>
 
     <section id="albums" class="album-section">
-        <h2>Our Albums</h2>
+        <h2>Photo Albums</h2>
         <div class="album-container">
             <div class="album-item">
-                <img src="album1.jpg" alt="Match Day Album">
-                <p>Match Day Highlights</p>
+                <img src="https://via.placeholder.com/200" alt="Album 1">
             </div>
             <div class="album-item">
-                <img src="album2.jpg" alt="Training Sessions">
-                <p>Training Sessions</p>
+                <img src="https://via.placeholder.com/200" alt="Album 2">
             </div>
-            <div class="album-item">
-                <img src="album3.jpg" alt="Team Events">
-                <p>Team Events</p>
-            </div>
-            <!-- Add more albums as needed -->
+            <!-- Add more album items as needed -->
         </div>
     </section>
 
-    <footer id="contact">
-        <h2>Contact Us</h2>
+    <footer>
         <div class="contact-container">
             <div class="contact-info">
-                <h3>Email</h3>
-                <p>wizardfc@example.com</p>
-            </div>
-            <div class="contact-info">
-                <h3>Phone</h3>
-                <p>+123 456 7890</p>
+                <h3>Contact Us</h3>
+                <p>Email: info@wizardfc.com</p>
+                <p>Phone: (555) 123-4567</p>
             </div>
             <div class="social-media">
                 <h3>Follow Us</h3>
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#">Facebook</a>
+                <a href="#">Twitter</a>
+                <a href="#">Instagram</a>
             </div>
         </div>
-        <p>&copy; 2024 Wizard Football Club. • Made By ABU TALHA RAJ All Rights Reserved.</p>
+        <p>&copy; 2024 Wizard Football Club</p>
     </footer>
-
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
 </body>
-    </html>
-    
+</html>
