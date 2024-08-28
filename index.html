@@ -1,171 +1,398 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Green Workers - Flood Relief Donation</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <title>Wizard Football Club</title>
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f4;
+        /* Reset CSS */
+        * {
             margin: 0;
             padding: 0;
-            color: #2c3e50;
+            box-sizing: border-box;
         }
-        .hero {
-            background-image: url('https://s12.gifyu.com/images/SoI7E.jpg');
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-image: url('hero-bg.jpg');
             background-size: cover;
             background-position: center;
-            padding: 250px 0;
+            color: #fff;
             text-align: center;
+            padding: 100px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 13px 40px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 12px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ffa000;
+        }
+
+        .hero-section {
+            padding: 330px 0px;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6tDnLjrpe1qqadJITvBrCcOjnYff0fSaODw&usqp=CAU'); /* Replace with your image */
+            background-size: cover;
+            background-position: center;
             color: #fff;
         }
-        .hero h1 {
-            font-size: 48px;
-            font-weight: 700;
+
+        .hero-section h2 {
+            font-size: 50px;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
-        .hero p {
-            font-size: 20px;
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+
+        .hero-section p {
+            font-size: 22px;
+            margin-bottom: 30px;
         }
-        .btn-primary {
-            background-color: #16a085;
-            border-color: #16a085;
+
+        .btn {
             padding: 10px 20px;
-            font-size: 18px;
-            transition: background-color 0.3s ease-in-out;
-        }
-        .btn-primary:hover {
-            background-color: #1abc9c;
-        }
-        .donation-details {
-            margin-top: 50px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-        .donation-details h3 {
-            color: #16a085;
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-        .donation-details ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .donation-details ul li {
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
-        .donation-details ul li i {
-            margin-right: 10px;
-            color: #16a085;
-        }
-        .footer {
-            background: #2c3e50;
+            background-color: #f9a825;
             color: #fff;
-            padding: 20px 0;
-            text-align: center;
-            margin-top: 0px;
-            position: relative;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
         }
-        .footer p {
-            margin: 0;
+
+        .btn:hover {
+            background-color: #ffa000;
+        }
+
+        .about-section {
+            padding: 330px 0px;
+            text-align: center;
+            background-image: url('https://s10.gifyu.com/images/So6nT.jpg'); /* Replace with your image */
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+
+        .about-section p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 18px;
+        }
+
+        .team-section, .schedule-section, .results-section, .album-section {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .team-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .player-card {
+            margin: 20px;
+            width: 200px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .player-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .player-card img {
+            width: 100%;
+            border-bottom: 4px solid #f9a825;
+        }
+
+        .player-card h3 {
+            margin: 15px 0 5px;
+            font-size: 20px;
+        }
+
+        .player-card p {
             font-size: 16px;
+            color: #777;
+            margin-bottom: 15px;
         }
-        .footer .up-arrow {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: 50px;
-            font-size: 30px;
-            color: #90D5FF;
-            background-color: #16a085;
-            border-radius: 50%;
-            padding: 10px;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease-in-out;
+
+        .schedule-section table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            margin-bottom: 50px;
         }
-        .footer .up-arrow:hover {
-            background-color: #1abc9c;
-            color: #fff;
-        }
-        .footer .facebook-btn {
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 24px;
-            color: #fff;
-            background-color: #3b5998;
-            border-radius: 50%;
-            padding: 10px;
-            width: 50px;
-            height: 50px;
-            line-height: 30px;
+
+        .schedule-section th, .schedule-section td {
+            padding: 15px;
+            border: 1px solid #ddd;
             text-align: center;
-            transition: background-color 0.3s ease-in-out, transform 0.3s ease;
         }
-        .footer .facebook-btn:hover {
-            background-color: #2d4373;
-            transform: scale(1.1);
+
+        .schedule-section th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .results-section .results-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .results-box {
+            margin: 20px;
+            width: 250px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .results-box h3 {
+            font-size: 24px;
+            color: #f9a825;
+            margin-bottom: 10px;
+        }
+
+        .results-box p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .album-section h2 {
+            margin-bottom: 20px;
+        }
+
+        .album-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .album-item {
+            margin: 15px;
+            width: 200px;
+            text-align: center;
+        }
+
+        .album-item img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .album-item img:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .contact-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding-bottom: 20px;
+        }
+
+        .contact-info h3, .social-media h3 {
+            margin-bottom: 10px;
+        }
+
+        .social-media a {
+            color: #fff;
+            margin: 0 10px;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .social-media a:hover {
+            color: #f9a825;
+        }
+
+        footer p {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="hero" id="hero">
-        <h1>Green Workers - Flood Relief Donation</h1>
-        <p>আপনার সাহায্য আমাদের শক্তি, মানুষের জীবন বাঁচাতে এগিয়ে আসুন।</p>
-        <a href="#donate" class="btn btn-primary">ডোনেট করতে ক্লিক করুন</a>
-    </div>
+    <header>
+        <nav>
+            <div class="logo">
+                <h1></h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#schedule">Schedule</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#albums">Albums</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="hero-section" id="home">
+            <h2>Welcome to Wizard Football Club</h2>
+            <p>The Home of Champions</p>
+            <a href="#about" class="btn">Learn More</a>
+        </div>
+    </header>
 
-    <div class="container donation-details" id="donate">
-        <h3>ডোনেশন পাঠানোর জন্য:</h3>
-        <p><strong>#অনলাইনে মাধ্যমে ডোনেশন পাঠাতে:</strong></p>
-        <ul>
-            <li><i class="fas fa-mobile-alt"></i> বিকাশ: 01755939565</li>
-            <li><i class="fas fa-mobile-alt"></i> নগদ: 01831633635</li>
-            <li><i class="fas fa-mobile-alt"></i> রকেট: 01537535916</li>
-            <li><i class="fas fa-mobile-alt"></i> উপায়: 01537535916</li>
-        </ul>
+    <section id="about" class="about-section">
+        <h2>About Us</h2>
+        <p>Wizard FC is a premier football club with a rich history of success and a commitment to excellence. We pride ourselves on developing talented players and competing at the highest levels of the sport.</p>
+    </section>
 
-        <p><strong>#ব্যাংকের মাধ্যমে ডোনেশন পাঠাতে:</strong></p>
-        <ul>
-            <li><i class="fas fa-university"></i> অগ্রণী ব্যাংক।</li>
-            <li><i class="fas fa-user"></i> অ্যাকাউন্ট নাম: ABU TALHA RAJ</li>
-            <li><i class="fas fa-file-invoice-dollar"></i> অ্যাকাউন্ট নম্বর: 0200022200261</li>
-        </ul>
+    <section id="team" class="team-section">
+        <h2>Our Team</h2>
+        <div class="team-container">
+            <!-- Player profiles -->
+            <div class="player-card">
+                <img src="player1.jpg" alt="John Doe">
+                <h3>John Doe</h3>
+                <p>Forward</p>
+            </div>
+            <div class="player-card">
+                <img src="player2.jpg" alt="Jane Smith">
+                <h3>Jane Smith</h3>
+                <p>Midfielder</p>
+            </div>
+            <div class="player-card">
+                <img src="player3.jpg" alt="Mike Johnson">
+                <h3>Mike Johnson</h3>
+                <p>Defender</p>
+            </div>
+            <!-- Add more players as needed -->
+        </div>
+    </section>
 
-        <p><strong>#ভিসা কার্ড:</strong></p>
-        <ul>
-            <li><i class="fas fa-credit-card"></i> A/C: 110212100015250</li>
-        </ul>
+    <section id="schedule" class="schedule-section">
+        <h2>Match Schedule</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Opponent</th>
+                    <th>Venue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>25th August</td>
+                    <td>Rivals FC</td>
+                    <td>Wizard Stadium</td>
+                </tr>
+                <!-- Add more matches -->
+            </tbody>
+        </table>
+    </section>
 
-        <h3>কাপড়-চোপড় ও শুকনা খাবার জমা দেওয়ার ঠিকানা:</h3>
-        <p><i class="fas fa-map-marker-alt"></i> ঘোপ, সেন্ট্রাল রোড, হলুদমিলের সামনে।</p>
-        <p>অথবা, আমাদের সাথে সরাসরি যোগাযোগ করুন উপরে দেওয়া যেকোনো একটি নাম্বারে।</p>
-    </div>
+    <section id="results" class="results-section">
+        <h2>Recent Results</h2>
+        <div class="results-container">
+            <div class="results-box">
+                <h3>Wizard FC vs Rivals FC</h3>
+                <p>Score: 3-2</p>
+                <p>Result: Win</p>
+            </div>
+            <div class="results-box">
+                <h3>Wizard FC vs Legends FC</h3>
+                <p>Score: 1-1</p>
+                <p>Result: Draw</p>
+            </div>
+            <!-- Add more results as needed -->
+        </div>
+    </section>
 
-    <div class="footer">
-        <a href="#hero" class="up-arrow"><i class="fas fa-arrow-up"></i></a>
-        <p>আসুন, সবাই একসাথে মানবিকতার পরিচয় দেই। 🌱</p>
-        <a href="https://www.facebook.com/profile.php?id=61564453421912&mibextid=ZbWKwL" class="facebook-btn">
-            <i class="fab fa-facebook-f"></i>
-        </a>
-        <p class="copyright">&copy; 2024 • Made By ABU TALHA RAJ</p>
-    </div>
+    <section id="albums" class="album-section">
+        <h2>Our Albums</h2>
+        <div class="album-container">
+            <div class="album-item">
+                <img src="album1.jpg" alt="Match Day Album">
+                <p>Match Day Highlights</p>
+            </div>
+            <div class="album-item">
+                <img src="album2.jpg" alt="Training Sessions">
+                <p>Training Sessions</p>
+            </div>
+            <div class="album-item">
+                <img src="album3.jpg" alt="Team Events">
+                <p>Team Events</p>
+            </div>
+            <!-- Add more albums as needed -->
+        </div>
+    </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <footer id="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Email</h3>
+                <p>wizardfc@example.com</p>
+            </div>
+            <div class="contact-info">
+                <h3>Phone</h3>
+                <p>+123 456 7890</p>
+            </div>
+            <div class="social-media">
+                <h3>Follow Us</h3>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <p>&copy; 2024 Wizard Football Club. • Made By ABU TALHA RAJ All Rights Reserved.</p>
+    </footer>
+
     <script>
+        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
+
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -173,4 +400,5 @@
         });
     </script>
 </body>
-</html>
+    </html>
+    
