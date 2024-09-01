@@ -1,9 +1,57 @@
+
+    </section>
+
+    <section id="contact" class="contact-section">
+        <h2>Contact Us</h2>
+        <form action="https://formspree.io/f/xkgwyjeo" method="POST" class="contact-form">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Team Padma. All Rights Reserved.</p>
+        <p>Follow us on:</p>
+        <div class="social-icons">
+            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth Scroll Script
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Slideshow Script
+        const slides = document.querySelectorAll('.hero-image-container img');
+        let currentSlide = 0;
+
+        function showNextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(showNextSlide, 5000); // Change slide every 5 seconds
+    </script>
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Padma - Art Beyond Limits</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOML1rN1/0rZ0O0I5Twz5+Jm+M66NtC6T6BLTPkI" crossorigin="anonymous">
     <style>
         /* Reset CSS */
         * {
@@ -17,7 +65,7 @@
             color: #333;
             background-color: #fafafa;
             line-height: 1.6;
-            scroll-behavior: smooth; /* CSS-based smooth scroll */
+            scroll-behavior: smooth;
         }
 
         nav {
@@ -235,11 +283,28 @@
             padding: 20px;
             text-align: center;
             font-size: 14px;
+            position: relative;
         }
 
         footer a {
             color: #ff4500;
             text-decoration: none;
+        }
+
+        footer .social-icons {
+            margin-top: 15px;
+        }
+
+        footer .social-icons a {
+            margin: 0 10px;
+            color: #f4f4f4;
+            font-size: 20px;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        footer .social-icons a:hover {
+            color: #ff4500;
+            transform: scale(1.2);
         }
     </style>
 </head>
@@ -258,10 +323,11 @@
 
     <div class="hero-section" id="home">
         <div class="hero-image-container">
-            <img src="https://via.placeholder.com/1500x900?text=Artwork+1" alt="Artwork 1" class="active">
-            <img src="https://via.placeholder.com/1500x900?text=Artwork+2" alt="Artwork 2">
-            <img src="https://via.placeholder.com/1500x900?text=Artwork+3" alt="Artwork 3">
-            <img src="https://via.placeholder.com/1500x900?text=Artwork+4" alt="Artwork 4">
+            <img src="https://s11.gifyu.com/images/SoO0w.jpg" alt="Artwork 1" class="active">
+            <img src="https://s11.gifyu.com/images/SoO0K.jpg" alt="Artwork 2">
+            <img src="https://s11.gifyu.com/images/SoO0N.jpg" alt="Artwork 3">
+            <img src="https://s11.gifyu.com/images/SoO0T.jpg" alt="Artwork 4">
+            <img src="https://s11.gifyu.com/images/SoO0H.jpg" alt="Artwork 1"
         </div>
         <div class="hero-content">
             <h2>Welcome to Team Padma</h2>
@@ -290,7 +356,6 @@
             <div class="gallery-item">
                 <img src="https://via.placeholder.com/400" alt="Artwork 4">
             </div>
-            <!-- Add more gallery items as needed -->
         </div>
     </section>
 
@@ -306,10 +371,11 @@
 
     <footer>
         <p>&copy; 2024 Team Padma. All Rights Reserved.</p>
-        <p>Follow us on 
-            <a href="https://www.instagram.com" target="_blank">Instagram</a>, 
-            <a href="https://www.facebook.com" target="_blank">Facebook</a>
-        </p>
+        <p>Follow us on:</p>
+        <div class="social-icons">
+            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        </div>
     </footer>
 
     <script>
@@ -317,7 +383,6 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
