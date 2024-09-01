@@ -66,35 +66,17 @@
             text-align: center;
             color: #fff;
             margin-top: 70px;
-            overflow: hidden;
-        }
-
-        .hero-image-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .hero-image-container img.active {
-            opacity: 1;
+            background-image: url('https://s11.gifyu.com/images/SoO0w.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .hero-content {
             position: relative;
             z-index: 10;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .hero-section h2 {
@@ -275,13 +257,6 @@
     </nav>
 
     <div class="hero-section" id="home">
-        <div class="hero-image-container">
-            <img src="https://s11.gifyu.com/images/SoO0w.jpg" alt="Artwork 1" class="active">
-            <img src="https://s11.gifyu.com/images/SoO0K.jpg" alt="Artwork 2">
-            <img src="https://s11.gifyu.com/images/SoO0N.jpg" alt="Artwork 3">
-            <img src="https://s11.gifyu.com/images/SoO0T.jpg" alt="Artwork 4">
-            <img src="https://s11.gifyu.com/images/SoO0H.jpg" alt="Artwork 5">
-        </div>
         <div class="hero-content">
             <h2>Welcome to Team Padma</h2>
             <p>Where Creativity Meets Mastery</p>
@@ -336,24 +311,5 @@
             <a href="https://instagram.com/yourprofile" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
     </footer>
-
-    <script>
-        let slideIndex = 0;
-        const slides = document.querySelectorAll('.hero-image-container img');
-
-        function showSlides() {
-            slides.forEach((slide, index) => {
-                slide.classList.remove('active');
-                if (index === slideIndex) {
-                    slide.classList.add('active');
-                }
-            });
-
-            slideIndex = (slideIndex + 1) % slides.length;
-            setTimeout(showSlides, 3000); // Change image every 3 seconds
-        }
-
-        showSlides();
-    </script>
 </body>
 </html>
