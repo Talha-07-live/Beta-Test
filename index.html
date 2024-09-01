@@ -66,17 +66,15 @@
             text-align: center;
             color: #fff;
             margin-top: 70px;
+            overflow: hidden;
             background-image: url('https://s11.gifyu.com/images/SoO0w.jpg');
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
         }
 
         .hero-content {
             position: relative;
             z-index: 10;
-            top: 50%;
-            transform: translateY(-50%);
         }
 
         .hero-section h2 {
@@ -107,14 +105,17 @@
         .about-section {
             padding: 100px 10px;
             text-align: center;
-            background-color: #f4f4f4;
             color: #333;
+            background-image: url('https://s11.gifyu.com/images/SoO0K.jpg');
+            background-size: cover;
+            background-position: center;
         }
 
         .about-section h2 {
             font-size: 40px;
             font-family: 'Times New Roman', serif;
             margin-bottom: 20px;
+            color: #fff;
         }
 
         .about-section p {
@@ -122,6 +123,7 @@
             margin: 0 auto;
             font-size: 20px;
             line-height: 1.8;
+            color: #f4f4f4;
         }
 
         .gallery-section {
@@ -234,14 +236,17 @@
             margin: 0 10px;
             color: #f4f4f4;
             font-size: 20px;
-            display: inline-block;
-            vertical-align: middle;
             transition: color 0.3s, transform 0.3s;
+            display: inline-block;
         }
 
         footer .social-icons a:hover {
             color: #ff4500;
             transform: scale(1.2);
+        }
+
+        footer .social-icons i {
+            display: inline-block;
         }
     </style>
 </head>
@@ -268,51 +273,48 @@
 
     <section id="about" class="about-section">
         <h2>About Us</h2>
-        <p>Team Padma is an elite group of painters dedicated to exploring the depths of artistic expression. Our mission is to bring beauty and emotion to life through the strokes of our brushes. Join us in our journey as we push the boundaries of creativity.</p>
+        <p>Team Padma is an elite group of painters dedicated to exploring the depths of artistic expression. Our mission is to bring beauty and emotion to life through the strokes of our brushes. Join us in our journey as we create timeless art that speaks to the soul.</p>
     </section>
 
     <section id="gallery" class="gallery-section">
-        <h2>Gallery</h2>
+        <h2>Our Gallery</h2>
         <div class="gallery-container">
             <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/SoO0w.jpg" alt="Gallery Image 1">
+                <img src="https://via.placeholder.com/400" alt="Artwork 1">
             </div>
             <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/SoO0K.jpg" alt="Gallery Image 2">
+                <img src="https://via.placeholder.com/400" alt="Artwork 2">
             </div>
             <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/SoO0N.jpg" alt="Gallery Image 3">
+                <img src="https://via.placeholder.com/400" alt="Artwork 3">
             </div>
             <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/SoO0T.jpg" alt="Gallery Image 4">
-            </div>
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/SoO0H.jpg" alt="Gallery Image 5">
+                <img src="https://via.placeholder.com/400" alt="Artwork 4">
             </div>
         </div>
     </section>
 
     <section id="contact" class="contact-section">
         <h2>Contact Us</h2>
-        <div class="contact-info">
-            <p>Email: info@teampadma.com</p>
-            <p>Phone: +123 456 7890</p>
-            <p>Address: 123 Artistic Avenue, Creativity City, Artland</p>
-        </div>
-        <form action="#" class="contact-form">
-            <input type="text" placeholder="Your Name">
-            <input type="email" placeholder="Your Email">
-            <textarea rows="5" placeholder="Your Message"></textarea>
+        <form action="https://formspree.io/f/xkgwyjeo" method="POST" class="contact-form">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
             <button type="submit">Send Message</button>
         </form>
+        <div class="contact-info">
+            <p>Email: contact@teampadma.com</p>
+            <p>Phone: +1 234 567 890</p>
+            <p>Address: 123 Art Street, Creativity City, 45678</p>
+        </div>
     </section>
 
     <footer>
-        <p>&copy; 2024 Team Padma. All rights reserved.</p>
+        <p>&copy; 2024 Team Padma. All rights reserved. <a href="https://www.facebook.com/TeamPadma" target="_blank">Facebook</a></p>
         <div class="social-icons">
-            <a href="https://www.facebook.com/yourpage" target="_blank"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://twitter.com/yourprofile" target="_blank"><i class="fab fa-twitter"></i></a>
-            <a href="https://instagram.com/yourprofile" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.facebook.com/TeamPadma" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/TeamPadma" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com/TeamPadma" target="_blank"><i class="fab fa-twitter"></i></a>
         </div>
     </footer>
 </body>
