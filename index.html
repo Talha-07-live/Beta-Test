@@ -197,15 +197,36 @@
             line-height: 1.8;
         }
 
-        .social-media a {
-            color: #f4f4f4;
-            margin: 0 10px;
-            font-size: 24px;
-            transition: color 0.3s;
+        .contact-form {
+            margin: 20px auto;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .social-media a:hover {
-            color: #ff4500;
+        .contact-form input,
+        .contact-form textarea {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            font-family: 'Georgia', serif;
+        }
+
+        .contact-form button {
+            padding: 15px;
+            background-color: #ff4500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .contact-form button:hover {
+            background-color: #e63900;
         }
 
         footer {
@@ -275,24 +296,24 @@
 
     <section id="contact" class="contact-section">
         <h2>Contact Us</h2>
-        <div class="contact-info">
-            <p>Email: contact@teampadma.com</p>
-            <p>Phone: +123 456 7890</p>
-        </div>
-        <div class="social-media">
-            <a href="https://www.facebook.com/your-page-link">Facebook</a>
-            <a href="https://twitter.com/your-page-link">Twitter</a>
-            <a href="https://www.instagram.com/your-page-link">Instagram</a>
-        </div>
+        <form action="https://formspree.io/f/xkgwyjeo" method="POST" class="contact-form">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send</button>
+        </form>
     </section>
 
     <footer>
         <p>&copy; 2024 Team Padma. All Rights Reserved.</p>
-        <p>Created by <a href="#">Your Name</a></p>
+        <p>Follow us on 
+            <a href="https://www.instagram.com" target="_blank">Instagram</a>, 
+            <a href="https://www.facebook.com" target="_blank">Facebook</a>
+        </p>
     </footer>
 
     <script>
-        // Smooth Scrolling with JavaScript
+        // Smooth Scroll Script
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
