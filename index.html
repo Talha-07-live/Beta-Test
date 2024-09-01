@@ -291,68 +291,69 @@
 
     <section id="about" class="about-section">
         <h2>About Us</h2>
-        <p>Team Padma is an elite group of painters dedicated to exploring the depths of artistic expression. Our mission is to bring beauty and emotion to life through the strokes of our brushes. Join us in our journey as we create timeless art that speaks to the soul.</p>
+        <p>Team Padma is an elite group of painters dedicated to exploring the depths of artistic expression. Our mission is to bring beauty and emotion to life through the strokes of our brushes. Join us in our journey as we push the boundaries of creativity.</p>
     </section>
 
     <section id="gallery" class="gallery-section">
-        <h2>Our Gallery</h2>
+        <h2>Gallery</h2>
         <div class="gallery-container">
             <div class="gallery-item">
-                <img src="https://via.placeholder.com/400" alt="Artwork 1">
+                <img src="https://s11.gifyu.com/images/SoO0w.jpg" alt="Gallery Image 1">
             </div>
             <div class="gallery-item">
-                <img src="https://via.placeholder.com/400" alt="Artwork 2">
+                <img src="https://s11.gifyu.com/images/SoO0K.jpg" alt="Gallery Image 2">
             </div>
             <div class="gallery-item">
-                <img src="https://via.placeholder.com/400" alt="Artwork 3">
+                <img src="https://s11.gifyu.com/images/SoO0N.jpg" alt="Gallery Image 3">
             </div>
             <div class="gallery-item">
-                <img src="https://via.placeholder.com/400" alt="Artwork 4">
+                <img src="https://s11.gifyu.com/images/SoO0T.jpg" alt="Gallery Image 4">
+            </div>
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/SoO0H.jpg" alt="Gallery Image 5">
             </div>
         </div>
     </section>
 
     <section id="contact" class="contact-section">
         <h2>Contact Us</h2>
-        <form action="https://formspree.io/f/xkgwyjeo" method="POST" class="contact-form">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="message" placeholder="Your Message" required></textarea>
-            <button type="submit">Send</button>
+        <div class="contact-info">
+            <p>Want to collaborate or learn more about our work? Get in touch with us!</p>
+        </div>
+        <form action="#" class="contact-form">
+            <input type="text" placeholder="Your Name">
+            <input type="email" placeholder="Your Email">
+            <textarea rows="5" placeholder="Your Message"></textarea>
+            <button type="submit">Send Message</button>
         </form>
     </section>
 
     <footer>
-        <p>&copy; 2024 Team Padma. All Rights Reserved.</p>
-        <p>Follow us on:</p>
+        <p>&copy; 2024 Team Padma. All rights reserved.</p>
         <div class="social-icons">
-            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.facebook.com/yourpage" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/yourprofile" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com/yourprofile" target="_blank"><i class="fab fa-instagram"></i></a>
         </div>
     </footer>
 
     <script>
-        // Smooth Scroll Script
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Slideshow Script
+        let slideIndex = 0;
         const slides = document.querySelectorAll('.hero-image-container img');
-        let currentSlide = 0;
 
-        function showNextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+        function showSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === slideIndex) {
+                    slide.classList.add('active');
+                }
+            });
+
+            slideIndex = (slideIndex + 1) % slides.length;
+            setTimeout(showSlides, 3000); // Change image every 3 seconds
         }
 
-        setInterval(showNextSlide, 5000); // Change slide every 5 seconds
+        showSlides();
     </script>
 </body>
 </html>
