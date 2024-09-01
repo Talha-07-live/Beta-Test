@@ -3,103 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talha's Stream Premium</title>
+    <title>Team Padma - Art Beyond Limits</title>
     <style>
-        html, body {
+        /* Reset CSS */
+        * {
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #0000FF;
-        }
-
-        .password-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 300px;
-            padding: 20px;
-            background: #111;
-            border: 1px solid #ccc;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-
-        .iframe-container {
-            display: none; /* Initially hidden */
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .iframe-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .iframe-container .poster {
-            position: absolute;
-            top: 0px; /* Adjust the top position */
-            left: -10px; /* Adjust the left position */
-            width: 450px; /* Adjust the width */
-            height: auto;
-            z-index: 1;
-            cursor: pointer;
-        }
-
-        #passwordInput {
-            padding: 10px;
-            font-size: 16px;
-            margin-bottom: 10px;
-            width: 100%;
             box-sizing: border-box;
         }
 
-        #submitButton {
-            padding: 10px;
-            font-size: 16px;
+        body {
+            font-family: 'Georgia', serif;
+            color: #333;
+            background-color: #fafafa;
+            line-height: 1.6;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 40px;
+            background-color: #1a1a1a;
+            color: #f4f4f4;
+            position: fixed;
             width: 100%;
-            cursor: pointer;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-family: 'Times New Roman', serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #f4f4f4;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff4500;
+        }
+
+        .hero-section {
+            padding: 280px 20px;
+            text-align: center;
+            background-image: url('https://via.placeholder.com/1500x900'); /* Replace with your image */
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            margin-top: 70px;
+        }
+
+        .hero-section h2 {
+            font-size: 60px;
+            font-family: 'Times New Roman', serif;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background-color: #ff4500;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #e63900;
+        }
+
+        .about-section {
+            padding: 100px 10px;
+            text-align: center;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .about-section h2 {
+            font-size: 40px;
+            font-family: 'Times New Roman', serif;
+            margin-bottom: 20px;
+        }
+
+        .about-section p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 20px;
+            line-height: 1.8;
+        }
+
+        .gallery-section {
+            padding: 70px 10px;
+            text-align: center;
+        }
+
+        .gallery-section h2 {
+            font-size: 36px;
+            font-family: 'Times New Roman', serif;
+            margin-bottom: 40px;
+        }
+
+        .gallery-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .gallery-item {
+            margin: 20px;
+            width: 250px;
+            height: 250px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .contact-section {
+            padding: 70px 10px;
+            background-color: #1a1a1a;
+            color: #f4f4f4;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 36px;
+            font-family: 'Times New Roman', serif;
+            margin-bottom: 30px;
+        }
+
+        .contact-info {
+            margin: 0 auto;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        .social-media a {
+            color: #f4f4f4;
+            margin: 0 10px;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+
+        .social-media a:hover {
+            color: #ff4500;
+        }
+
+        footer {
+            background-color: #333;
+            color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #ff4500;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <div class="password-container" id="passwordContainer">
-        <h2>Enter Password</h2>
-        <input type="password" id="passwordInput" placeholder="Enter password">
-        <button id="submitButton">Submit</button>
+    <nav>
+        <div class="logo">
+            <h1>Team Padma</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero-section" id="home">
+        <h2>Welcome to Team Padma</h2>
+        <p>Where Creativity Meets Mastery</p>
+        <a href="#about" class="btn">Discover More</a>
     </div>
 
-    <div class="iframe-container" id="iframeContainer">
-        <iframe 
-            src="https://embedstreamgate.com/embed?key=1922" 
-            scrolling="yes" 
-            allowfullscreen 
-            sandbox="allow-scripts allow-same-origin">
-        </iframe>
-        <img src="https://s12.gifyu.com/images/SDoZ8.jpg" alt="Poster" class="poster">
-    </div>
+    <section id="about" class="about-section">
+        <h2>About Us</h2>
+        <p>Team Padma is an elite group of painters dedicated to exploring the depths of artistic expression. Our mission is to bring beauty and emotion to life through the strokes of our brushes. Join us in our journey as we create timeless art that speaks to the soul.</p>
+    </section>
 
-    <script>
-        document.getElementById('submitButton').addEventListener('click', function() {
-            const password = document.getElementById('passwordInput').value;
-            if (password === 'Talha') {
-                document.getElementById('passwordContainer').style.display = 'none';
-                document.getElementById('iframeContainer').style.display = 'block';
-            } else {
-                alert('Incorrect password. Please try again.');
-            }
-        });
-    </script>
+    <section id="gallery" class="gallery-section">
+        <h2>Our Gallery</h2>
+        <div class="gallery-container">
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400" alt="Artwork 1">
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400" alt="Artwork 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400" alt="Artwork 3">
+            </div>
+            <div class="gallery-item">
+                <img src="https://via.placeholder.com/400" alt="Artwork 4">
+            </div>
+            <!-- Add more gallery items as needed -->
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <h2>Contact Us</h2>
+        <div class="contact-info">
+            <p>Email: contact@teampadma.com</p>
+            <p>Phone: +123 456 7890</p>
+        </div>
+        <div class="social-media">
+            <a href="https://www.facebook.com/your-page-link">Facebook</a>
+            <a href="https://twitter.com/your-page-link">Twitter</a>
+            <a href="https://www.instagram.com/your-page-link">Instagram</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Team Padma. All Rights Reserved.</p>
+        <p>Created by <a href="#">Your Name</a></p>
+    </footer>
 </body>
 </html>
