@@ -18,6 +18,9 @@
     <div id="player"></div>
 
     <script>
+        // JWPlayer API Key
+        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+
         // Function to intercept network requests and modify URLs
         function interceptNetworkRequests() {
             const originalOpen = XMLHttpRequest.prototype.open;
@@ -30,7 +33,7 @@
         }
 
         // Function to setup JWPlayer
-        function setupPlayer(videoUrl, widevineLicenseUrl) {
+        function setupPlayer(videoUrl, drmOptions = null) {
             const playerInstance = jwplayer("player").setup({
                 controls: true,
                 sharing: true,
@@ -58,11 +61,17 @@
                         sources: [
                             {
                                 file: videoUrl,
-                                type: "hls",
+                                type: drmOptions ? "dash" : "hls",
                                 label: "1080p",
                                 default: true
                             }
-                        ]
+                        ],
+                        drm: drmOptions ? {
+                            clearkey: {
+                                keyId: drmOptions.keyId,
+                                key: drmOptions.key
+                            }
+                        } : null
                     }
                 ],
                 advertising: {
@@ -116,8 +125,14 @@
         // Intercept network requests
         interceptNetworkRequests();
 
-        // Setup player with the video URL
-        setupPlayer("https://a39aivottlinear-a.akamaihd.net/OTTB/sin-nitro/live/clients/dash/enc/l8j2xgwt32/out/v1/fe72171ab2684ab8b9ee3e2ffcc9cff2/cenc.mpd", null);
+        // Setup player with the video URL and DRM options
+        setupPlayer(
+            "https://a39aivottlinear-a.akamaihd.net/OTTB/sin-nitro/live/clients/dash/enc/l8j2xgwt32/out/v1/fe72171ab2684ab8b9ee3e2ffcc9cff2/cenc.mpd",
+            {
+                keyId: "159a2b4e1d2d7f16892d35d935a2fb34",
+                key: "07809840dd0f511221ca78459167d1b3"
+            }
+        );
     </script>
 </body>
 </html>
