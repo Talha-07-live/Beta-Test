@@ -25,8 +25,8 @@
         function interceptNetworkRequests() {
             const originalOpen = XMLHttpRequest.prototype.open;
             XMLHttpRequest.prototype.open = function(method, url) {
-                if (url.startsWith('https://premium.talha1.000.pe/')) {
-                    url = url.replace('premium.talha1.000.pe/hls/live', 'premium.talha1.000.pe');
+                if (url.startsWith('https://talhas.stream.000.pe/')) {
+                    url = url.replace('talhas.stream.000.pe/hls/live', 'talhas.stream.000.pe');
                 }
                 return originalOpen.apply(this, arguments);
             };
@@ -41,7 +41,7 @@
                 autoplay: true,
                 displaydescription: true,
                 abouttext: "Video Player By Talha's Stream",
-                aboutlink: "https://t.me/+Abu Talha Raj",
+                aboutlink: "https://t.me/talhasmovie_request_bot",
 
                 skin: {
                     name: "netflix"
@@ -56,7 +56,7 @@
 
                 playlist: [
                     {
-                        title: "Anime",
+                        title: "Talha's Stream",
                         description: "You're Watching",
                         sources: [
                             {
@@ -127,7 +127,7 @@
 
         // Setup player with the video URL and DRM options
         setupPlayer(
-            "https://en.gdplayertv.to/live-tv/sky-sports-football/?embed=1",
+            "https://api005.backblazeb2.com/file/ssbucket/265e279c-50fe-11ef-b67c-e1ab35f4b07b.mkv?/(Talha)Spy.X.Family.Code.White.2023.Japanese.720p.BluRay.ESub.mkv",
             {
                 keyId: "159a2b4e1d2d7f16892d35d935a2fb34",
                 key: "07809840dd0f511221ca78459167d1b3"
