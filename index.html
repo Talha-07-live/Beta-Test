@@ -258,66 +258,80 @@
     </div>
     <div class="video-container">
         <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
-        <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/5be58e15-6e65-4ac2-b8d0-3da59664a9a0/ra/3t0vb4/v.m3u8"></video>
-        <img src="https://i.ibb.co/SrMP00W/SAVE-20230904-030458.jpg" alt="Logo" class="logo-top-right">
-        <iframe id="my-iframe" src="https://stream.novamovies.one:443/en/play/d14479ab-52fc-4ed0-bd7e-7a249edc3001" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="true" loading="lazy"></iframe>
-        <div class="server-buttons">
-            <button class="server-button" onclick="changeServer('https://stream.novamovies.one:443/en/play/d14479ab-52fc-4ed0-bd7e-7a249edc3001')">Server 1</button>
-            <button class="server-button" onclick="changeServer('https://stream.novamovies.one:443/en/play/9bd3d2b2-3fb0-4906-95c4-d97b1c2f99fa')">Server 2</button>
-            <button class="server-button" onclick="changeServer('https://stream.novamovies.one:443/en/play/2c3e9077-d23d-473e-9297-e862357f2d2c')">Server 3</button>
-        </div>
-        <button id="copa-btn" onclick="redirectToCricket()">Watch Now</button>
+        <video id="my-video" controls width="640" height="264" src="https://dzkyvlfyge.erbvr.com/PeaceTvBangla/tracks-v3a1/mono.m3u8"></video>
+        <iframe id="my-iframe" src="https://en.gdplayertv.to/embed/astro-cricket/?embed=1&autoplay=1&mute=1" width="100%" height="225px" scrolling="no" frameborder="0" loading "lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
+        <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
+        <button class="support-button" onclick="openSupport()">𝕊𝕦𝕡𝕡𝕠𝕣𝕥</button>
+        <button id="cricket-btn" onclick="redirectToCricket()">𝔼𝕌ℝ𝕆 ℂ𝕦𝕡 𝕃𝕚𝕧𝕖</button>
+        <button id="copa-btn" onclick="redirectToCopa()">ℂ𝕠𝕡𝕒 𝔸𝕞𝕖𝕣𝕚𝕔𝕒 𝕃𝕚𝕧𝕖</button>
         <div class="ticker-container">
-            <div class="ticker1">𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 𝕆𝕦𝕣 𝕃𝕚𝕧𝕖 𝕊𝕥𝕣𝕖𝕒𝕞𝕚𝕟𝕘! 𝕎𝕖 𝔸𝕡𝕠𝕝𝕠𝕘𝕚𝕫𝕖 𝔽𝕠𝕣 𝕒𝕟𝕪 𝕀𝕟𝕔𝕠𝕟𝕧𝕖𝕟𝕚𝕖𝕟𝕔𝕖.</div>
-            <div class="ticker2">𝕋𝕙𝕒𝕟𝕜 𝕪𝕠𝕦 𝕗𝕠𝕣 𝕪𝕠𝕦𝕣 𝕔𝕠𝕟𝕥𝕚𝕟𝕦𝕖𝕕 𝕤𝕦𝕡𝕡𝕠𝕣𝕥! 𝕎𝕖 𝕒𝕡𝕠𝕝𝕠𝕘𝕚𝕫𝕖 𝕗𝕠𝕣 𝕒𝕟𝕪 𝕚𝕟𝕔𝕠𝕟𝕧𝕖𝕟𝕚𝕖𝕟𝕔𝕖. 𝕎𝕒𝕥𝕔𝕙 𝕃𝕚𝕧𝕖 𝕎𝕚𝕥𝕙 𝕌𝕤.</div>
+            <div class="ticker1">
+                𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 𝕋𝕒𝕝𝕙𝕒'𝕤 𝕊𝕥𝕣𝕖𝕒𝕞 𝔸𝕡𝕡, ℂ𝕝𝕚𝕔𝕜 𝕀𝕟𝕤𝕚𝕕𝕖 𝕋𝕙𝕖 ℙ𝕝𝕒𝕪𝕖𝕣 ℙ𝕝𝕒𝕪 𝔹𝕦𝕥𝕥𝕠𝕟 𝕋𝕠 ℙ𝕝𝕒𝕪 𝕍𝕚𝕕𝕖𝕠 𝔸𝕟𝕕 𝕎𝕒𝕚𝕥 𝟙𝟘 𝕋𝕠 𝟚𝟘 𝕊𝕖𝕔𝕠𝕟𝕕 𝔽𝕠𝕣 𝔹𝕦𝕗𝕗𝕖𝕣 𝕃𝕠𝕒𝕕𝕚𝕟𝕘.(𝕊𝕠𝕞𝕖𝕥𝕚𝕞𝕖𝕤 𝕀𝕥'𝕤 𝕋𝕒𝕜𝕖 𝟛𝟘 𝕊𝕖𝕔𝕠𝕟𝕕, 𝔻𝕖𝕡𝕖𝕟𝕕 𝕆𝕟 𝕐𝕠𝕦𝕣 ℕ𝕖𝕥𝕨𝕠𝕣𝕜) 𝕀𝕗 𝕍𝕚𝕕𝕖𝕠 ℕ𝕠𝕥 ℙ𝕝𝕒𝕪 𝕋𝕣𝕪 𝕆𝕥𝕙𝕖𝕣 𝕊𝕖𝕣𝕧𝕖𝕣 𝔸𝕟 𝔸𝕟𝕪 𝕆𝕥𝕙𝕖𝕣 𝕀𝕤𝕤𝕦𝕖𝕤 ℂ𝕝𝕚𝕔𝕜 "𝕊𝕦𝕡𝕡𝕠𝕣𝕥" 𝔹𝕦𝕥𝕥𝕠𝕟 𝔸𝕟𝕕 𝕊𝕦𝕓𝕞𝕚𝕥 𝕐𝕠𝕦𝕣 ℝ𝕖𝕡𝕠𝕣𝕥, 𝕋𝕙𝕒𝕟𝕜𝕤! **[ℕ𝕠𝕥𝕖* 𝔹𝕪 𝕒𝕔𝕔𝕖𝕤𝕤𝕚𝕟𝕘 𝕠𝕦𝕣 𝕤𝕥𝕣𝕖𝕒𝕞𝕚𝕟𝕘 𝔸𝕡𝕡 𝕪𝕠𝕦 𝕒𝕔𝕜𝕟𝕠𝕨𝕝𝕖𝕕𝕘𝕖 𝕥𝕙𝕒𝕥 𝕨𝕖 𝕒𝕘𝕘𝕣𝕖𝕘𝕒𝕥𝕖 𝕗𝕣𝕖𝕖𝕝𝕪 𝕒𝕧𝕒𝕚𝕝𝕒𝕓𝕝𝕖 𝕤𝕥𝕣𝕖𝕒𝕞𝕚𝕟𝕘 𝕝𝕚𝕟𝕜𝕤 𝕨𝕖 𝕒𝕣𝕖 𝕟𝕠𝕥 𝕣𝕖𝕤𝕡𝕠𝕟𝕤𝕚𝕓𝕝𝕖 𝕒𝕟𝕪 𝕔𝕠𝕡𝕪𝕣𝕚𝕘𝕙𝕥 𝕔𝕠𝕟𝕔𝕖𝕣𝕟𝕤, 𝕡𝕝𝕖𝕒𝕤𝕖 𝕔𝕠𝕟𝕥𝕒𝕔𝕥 𝕦𝕤 𝕒𝕥 𝕔𝕝𝕚𝕔𝕜 "𝕤𝕦𝕡𝕡𝕠𝕣𝕥" 𝕓𝕦𝕥𝕥𝕠𝕟]** 
+            </div>
+            <div class="ticker2">
+                𝕎𝕙𝕖𝕟 𝕐𝕠𝕦 𝕋𝕣𝕪 𝕋𝕠 𝔼𝕟𝕥𝕖𝕣 𝕋𝕙𝕖 ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕 𝔸𝕟𝕕 𝕂𝕖𝕪𝕓𝕠𝕒𝕣𝕕 ℕ𝕠𝕥 𝕊𝕙𝕠𝕨 𝕋𝕙𝕖𝕟 ℂ𝕝𝕚𝕔𝕜 𝕋𝕙𝕖 𝕊𝕦𝕓𝕞𝕚𝕥 𝔹𝕦𝕥𝕥𝕠𝕟 𝔽𝕚𝕣𝕤𝕥 𝔸𝕟𝕕 𝕋𝕙𝕖𝕟 𝕋𝕣𝕪... 𝕀𝕗 𝕊𝕦𝕓𝕞𝕚𝕥 𝔹𝕦𝕥𝕥𝕠𝕟 ℕ𝕠𝕥 𝕎𝕠𝕣𝕜 𝕋𝕙𝕒𝕥'𝕤 𝕄𝕖𝕒𝕟 𝕋𝕙𝕚𝕤 ℙ𝕒𝕘𝕖 ℕ𝕠𝕥 𝔽𝕦𝕝𝕝𝕪 𝕃𝕠𝕒𝕕𝕖𝕕 𝕐𝕖𝕥, ℙ𝕝𝕖𝕒𝕤𝕖 𝕎𝕒𝕚𝕥 𝔽𝕖𝕨 𝕊𝕖𝕔𝕠𝕟𝕕 𝔽𝕠𝕣 ℙ𝕒𝕘𝕖 𝔽𝕦𝕝𝕝𝕪 𝕃𝕠𝕒𝕕𝕖𝕕.
+            </div>
         </div>
-        <div class="visitor-counter">
-            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=59grynf9o14&amp;m=0c&amp;c=ff0000&amp;cr1=ffffff&amp;sx=0"></script>
+        <div class="server-buttons">
+            <button class="server-button" id="server1-btn" onclick="changeServer('server1')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟙</button>
+            <button class="server-button" id="server2-btn" onclick="changeServer('server2')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟚</button>
+            <button class="server-button" id="server3-btn" onclick="changeServer('server3')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟛</button>
+            <button class="server-button" id="server4-btn" onclick="changeServer('server4')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟜</button>
+            <button class="server-button" id="server5-btn" onclick="changeServer('server5')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟝</button>
         </div>
     </div>
-    <footer>
-        <div class="footer-text">Click To Visit Our Page</div>
-        <p>𝕄𝕒𝕕𝕖 𝔹𝕪 𝔸𝔹𝕌 𝕋𝔸𝕃ℍ𝔸 ℝ𝔸𝕁</p>
-    </footer>
+    <footer><span class="footer-text">𝕄𝕒𝕕𝕖 𝔹𝕪 <a href="" style="color: inherit; text-decoration: none;">𝕋𝕒𝕝𝕙𝕒</a></span></footer>
+    <div class="visitor-counter"
+        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=be71ed1b8e490aace689fd6f1b06c8f6894b8a87'></script>
+        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1193066/t/0"></script>
+    </div>
     <script>
-        document.getElementById("submit-btn").addEventListener("click", function () {
-            var passwordInput = document.getElementById("password").value;
-            var myVideo = document.getElementById("my-video");
-            var myIframe = document.getElementById("my-iframe");
-            var logoTopRight = document.querySelector(".logo-top-right");
-            var serverButtons = document.querySelector(".server-buttons");
-            var ticker1 = document.querySelector(".ticker1");
+        const PASSWORD = "Talha"; // Set your password here
+        const loginForm = document.getElementById('login-form');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submit-btn');
+        const videoPlayer = document.getElementById('my-video');
+        const iframePlayer = document.getElementById('my-iframe');
+        const ticker1 = document.querySelector('.ticker1');
+        const ticker2 = document.querySelector('.ticker2');
+        const logoTopRight = document.getElementById('logo-top-right');
+        const serverButtonsContainer = document.querySelector('.server-buttons'); // Select the server buttons container
 
-            if (passwordInput === "Talha") {
-                myVideo.style.display = "none"; // Hide HLS video player
-                myIframe.style.display = "block"; // Show iframe
-                logoTopRight.style.display = "block"; // Show logo
-                serverButtons.style.display = "flex"; // Show server buttons
-                ticker1.style.display = "inline-block"; // Show ticker1
-                document.getElementById("copa-btn").style.display = "none"; // Hide "Watch Now" button
-                alert("𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 𝕆𝕦𝕣 𝕃𝕚𝕧𝕖 𝕊𝕥𝕣𝕖𝕒𝕞𝕚𝕟𝕘");
+        submitBtn.addEventListener('click', () => {
+            if (passwordInput.value === PASSWORD) {
+                loginForm.style.display = 'none';
+                videoPlayer.style.display = 'none';
+                iframePlayer.style.display = 'block';
+                ticker1.style.display = 'block'; // Show ticker1 after successful login
+                ticker2.style.display = 'none'; // Hide ticker2 after successful login
+                logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
+                serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
             } else {
-                alert("ℕ𝕠𝕥 𝕍𝕒𝕝𝕚𝕕!");
+                alert('Incorrect password. Please try again.');
             }
         });
 
-        function changeServer(serverUrl) {
-            var myIframe = document.getElementById("my-iframe");
-            myIframe.src = serverUrl;
+        function openSupport() {
+            window.open("https://t.me/talhasmovie_request_bot", "_blank");
         }
 
         function redirectToCricket() {
-            var myVideo = document.getElementById("my-video");
-            var myIframe = document.getElementById("my-iframe");
-            var copaBtn = document.getElementById("copa-btn");
-            var logoTopRight = document.querySelector(".logo-top-right");
-            var serverButtons = document.querySelector(".server-buttons");
+            window.location.href = "https://talha-07-live.github.io/Talha-s_App_Football_2/";
+        }
 
-            myVideo.style.display = "none"; // Hide HLS video player
-            myIframe.style.display = "block"; // Show iframe
-            logoTopRight.style.display = "block"; // Show logo
-            serverButtons.style.display = "flex"; // Show server buttons
-            copaBtn.style.display = "none"; // Hide "Watch Now" button
+        function redirectToCopa() {
+            window.location.href = "https://talha-07-live.github.io/Talha-s_App_Football_1/";
+        }
+
+        function changeServer(server) {
+            const servers = {
+                server1: "https://en.gdplayertv.to/embed/astro-cricket/?embed=1&autoplay=1&mute=1",
+                server2: "https://mhdtvplay.com/sports24/?play=sky-sports-criket-29",
+                server3: "https://en.gdplayertv.to/embed/supersport-cricket/?embed=1&autoplay=1&mute=1",
+                server4: "https://stream.crichd.vip/update/willowcricket.php",
+                server5: "https://en.gdplayertv.to/embed/fox-cricket/?embed=1&autoplay=1&mute=1"
+            };
+            iframePlayer.src = servers[server];
         }
     </script>
 </body>
