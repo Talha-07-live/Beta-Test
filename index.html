@@ -22,7 +22,7 @@
         function interceptNetworkRequests() {
             const originalOpen = XMLHttpRequest.prototype.open;
             XMLHttpRequest.prototype.open = function(method, url) {
-                if (url.startsWith('https://tataplaymt.slivcdn.com/')) {
+                if (url.startsWith('https://premium.talha1.000.pe/')) {
                     url = url.replace('tataplaymt.slivcdn.com/hls/live', 'sliv.drmlive.in');
                 }
                 return originalOpen.apply(this, arguments);
