@@ -4,10 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sky Sports Football TV</title>
+    <style>
+        /* Hide common ad elements using CSS */
+        .ad, #ad, .adsbygoogle, .advertisement, #banner-ad {
+            display: none !important;
+        }
+
+        /* Notification for users without an ad blocker */
+        #adblock-notice {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border: 1px solid #f5c6cb;
+            text-align: center;
+            display: none; /* Hidden by default, shown only if ads are detected */
+        }
+    </style>
 </head>
 <body>
     <h1>Sky Sports Football TV</h1>
+
+    <!-- Ad blocker notification -->
+    <div id="adblock-notice">
+        <p>We noticed you don't have an ad blocker installed. For the best experience, we recommend using <a href="https://ublockorigin.com" target="_blank">uBlock Origin</a>.</p>
+    </div>
+
     <iframe src="https://en.gdplayertv.to/live-tv/sky-sports-football/?embed=1" 
             width="800" height="450" allowfullscreen></iframe>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Common ad classes and IDs to block
+            const adClassesAndIds = ['.ad', '#ad', '.adsbygoogle', '.advertisement', '#banner-ad'];
+
+            // Remove elements with common ad classes and IDs
+            let adsFound = false;
+            adClassesAndIds.forEach(selector => {
+                const ads = document.querySelectorAll(selector);
+                ads.forEach(ad => {
+                    ad.remove();
+                    adsFound = true; // If any ads are found, set this to true
+                });
+            });
+
+            // Show ad blocker notification if ads were found
+            if (!adsFound) {
+                document.getElementById('adblock-notice').style.display = 'block';
+            }
+
+            // Observe DOM for dynamically loaded ads
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.nodeType === 1) {
+                            adClassesAndIds.forEach(selector => {
+                                if (node.matches(selector)) {
+                                    node.remove();
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            observer.observe(document.body, { childList: true, subtree: true });
+
+            // Block external ad scripts
+            const blockedDomains = ['example-ad.com', 'adserver.com'];
+            document.addEventListener('beforeload', function(event) {
+                const src = event.url;
+                if (blockedDomains.some(domain => src.includes(domain))) {
+                    event.preventDefault();
+                }
+            }, true);
+        });
+    </script>
 </body>
 </html>
