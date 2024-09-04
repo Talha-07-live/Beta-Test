@@ -23,7 +23,7 @@
             const originalOpen = XMLHttpRequest.prototype.open;
             XMLHttpRequest.prototype.open = function(method, url) {
                 if (url.startsWith('https://premium.talha1.000.pe/')) {
-                    url = url.replace('premium.talha1.000.pe/hls/live', 'sliv.drmlive.in');
+                    url = url.replace('premium.talha1.000.pe/hls/live', 'premium.talha1.000.pe');
                 }
                 return originalOpen.apply(this, arguments);
             };
