@@ -5,60 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom JW Player</title>
     <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
+    <!-- Optional: Include a custom skin CSS file -->
+    <!-- <link rel="stylesheet" href="path/to/custom-skin.css"> -->
+
     <style>
-        /* Basic styling for the player container */
         #player {
             width: 100%;
             height: 100vh;
             background: black;
         }
 
-        /* Custom styles to resemble the player from the screenshot */
-        .jw-skin-custom .jw-controlbar {
+        /* Optional: Custom styles for built-in skin */
+        .jw-skin-five .jw-controlbar {
             background-color: rgba(0, 0, 0, 0.8); /* Dark control bar */
         }
 
-        .jw-skin-custom .jw-button-color {
+        .jw-skin-five .jw-button-color {
             color: white; /* White icons */
         }
 
-        .jw-skin-custom .jw-icon-settings::before, 
-        .jw-skin-custom .jw-icon-fullscreen::before, 
-        .jw-skin-custom .jw-icon-playback::before, 
-        .jw-skin-custom .jw-icon-volume::before {
+        .jw-skin-five .jw-icon-settings::before, 
+        .jw-skin-five .jw-icon-fullscreen::before, 
+        .jw-skin-five .jw-icon-playback::before, 
+        .jw-skin-five .jw-icon-volume::before {
             color: white; /* White icons for settings, fullscreen, etc. */
         }
 
-        .jw-skin-custom .jw-text {
+        .jw-skin-five .jw-text {
             color: white; /* White text */
-        }
-
-        .jw-skin-custom .jw-display-icon-container .jw-icon {
-            background-color: transparent;
-            border: none;
-        }
-
-        .jw-skin-custom .jw-display-icon-container {
-            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for play button */
-            border-radius: 50%;
-        }
-
-        .jw-skin-custom .jw-title-primary {
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-        }
-
-        .jw-skin-custom .jw-title-secondary {
-            color: white;
-        }
-
-        .jw-skin-custom .jw-live-icon {
-            background-color: red;
-            color: white;
-            border-radius: 2px;
-            padding: 2px 5px;
-            font-size: 12px;
         }
     </style>
 </head>
@@ -84,7 +58,7 @@
             }
         }
 
-        // Function to setup JWPlayer for various video formats
+        // Function to setup JWPlayer with built-in or custom skin
         function setupPlayer(videoUrl) {
             const fileType = getFileType(videoUrl);
 
@@ -98,7 +72,7 @@
                 aboutlink: "https://t.me/talhasmovie_request_bot",
 
                 skin: {
-                    name: "custom"
+                    name: "five" // Use the built-in 'five' skin, or replace with 'custom-skin' for a custom skin
                 },
 
                 captions: {
@@ -170,7 +144,7 @@
             });
         }
 
-        // Example usage: Just replace this URL with the link to your MKV, MP4, HLS, or DASH video
+        // Example usage: Replace this URL with the link to your video file
         setupPlayer("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
     </script>
 </body>
