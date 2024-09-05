@@ -3,174 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JW Player with Customizations</title>
-    <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
+    <title>Fullscreen Video Player</title>
     <style>
+        /* Fullscreen Video CSS */
         #player {
-            width: 100%;
-            height: 100vh;
-            background: black;
+            position: absolute;
+            width: 100% !important;
+            height: 100% !important;
         }
+
+        /* ADBlock Modal CSS */
         .modal {
-            display: none;
+            display: none; /* Hidden by default */
             position: fixed;
             z-index: 1;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
         }
+
         .modal-container {
-            background: #fff;
+            background-color: #fefefe;
+            margin: 15% auto;
             padding: 20px;
-            border-radius: 5px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
             text-align: center;
         }
-        .modal-header img {
+
+        .modal-header {
+            position: relative;
+        }
+
+        .modal-header img.backdrop {
             width: 100%;
             height: auto;
         }
+
+        .modal-header strong {
+            display: block;
+            margin: 10px 0;
+        }
+
         .modal-header button {
-            border: none;
-            background: none;
-            cursor: pointer;
             position: absolute;
             top: 10px;
             right: 10px;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-top: 20px;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Player -->
     <div id="player"></div>
 
+    <!-- ADBlock Modal -->
     <div class="modal" id="adblockModal">
         <div class="modal-container">
             <div class="modal-header">
-                <img src="https://studio.blender.org/static-studio/films/images/sprite-fright/story.22d84f0a3410.png" alt="backdrop" />
+                <img src="https://studio.blender.org/static-studio/films/images/sprite-fright/story.22d84f0a3410.png" alt="backdrop" class="backdrop" />
                 <strong>🛑 ADBlock Detected! 🛑</strong>
-                <button type="button" id="close">
+                <button type="button" aria-label="Close" id="close">
                     <img src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij48cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+PHBhdGggZD0iTTEyIDEwLjU4Nmw0Ljk1LTQuOTUgMS40MTQgMS40MTQtNC45NSA0Ljk1IDQuOTUgNC45NS0xLjQxNCAxLjQxNC00Ljk1LTQuOTUtNC45NSA0Ljk1LTEuNDE0LTEuNDE0IDQuOTUtNC45NS00Ljk1LTQuOTVMNy4wNSA1LjYzNnoiIGZpbGw9InJnYmEoMjQ3LDI0NywyNDcsMSkiLz48L3N2Zz4=' alt="close" />
                 </button>
             </div>
             <div class="modal-body">
-                <span>Ads do help us to keep the website running, so please support us by whitelisting our site in your ad-blocking software. Once done, just refresh this web page.</span>
+                <span>Ads do help us to keep website running, so please support us by whitelisting our site in your Adblocking software. Apart from your browser adblocker, you may have to whitelist us in your VPN/Security software's adblockers as well. Once done, just refresh this web page.</span>
             </div>
         </div>
     </div>
 
+    <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
     <script>
-        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
-
-        function interceptNetworkRequests() {
-            const originalOpen = XMLHttpRequest.prototype.open;
-            XMLHttpRequest.prototype.open = function(method, url) {
-                if (url.startsWith('https://talhas.stream.000.pe/')) {
-                    url = url.replace('talhas.stream.000.pe/hls/live', 'talhas.stream.000.pe');
+        const playerInstance = jwplayer("player").setup({
+            controls: true,
+            sharing: true,
+            displaytitle: true,
+            displaydescription: true,
+            abouttext: "Buy Me a Coffee",
+            aboutlink: "https://www.buymeacoffee.com/pingo",
+            skin: {
+                name: "netflix"
+            },
+            logo: {
+                file: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg",
+                link: "https://www.buymeacoffee.com/pingo"
+            },
+            captions: {
+                color: "#FFF",
+                fontSize: 14,
+                backgroundOpacity: 0,
+                edgeStyle: "raised"
+            },
+            playlist: [
+                {
+                    title: "Sprite Fright - Open Movie by Blender Studio",
+                    description: "You're Watching",
+                    file: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" // Replace with your video URL
                 }
-                return originalOpen.apply(this, arguments);
-            };
-        }
+            ]
+        });
 
-        function setupPlayer(videoUrl, drmOptions = null) {
-            const playerInstance = jwplayer("player").setup({
-                controls: true,
-                sharing: true,
-                displaytitle: true,
-                autoplay: true,
-                displaydescription: true,
-                abouttext: "Video Player By Talha's Stream",
-                aboutlink: "https://t.me/talhasmovie_request_bot",
-                skin: {
-                    name: "netflix"
-                },
-                captions: {
-                    color: "#FFF",
-                    fontSize: 14,
-                    backgroundOpacity: 0,
-                    edgeStyle: "raised"
-                },
-                playlist: [
-                    {
-                        title: "Talha's Stream",
-                        description: "You're Watching",
-                        sources: [
-                            {
-                                file: videoUrl,
-                                type: drmOptions ? "dash" : "hls",
-                                label: "1080p",
-                                default: true
-                            }
-                        ],
-                        drm: drmOptions ? {
-                            clearkey: {
-                                keyId: drmOptions.keyId,
-                                key: drmOptions.key
-                            }
-                        } : null
-                    }
-                ],
-                advertising: {
-                    client: "vast",
-                    schedule: [
-                        {
-                            offset: "pre",
-                            tag: ""
-                        }
-                    ]
-                }
-            });
-
-            playerInstance.on("ready", function () {
-                const playerContainer = playerInstance.getContainer();
-                const buttonContainer = playerContainer.querySelector(".jw-button-container");
-                const spacer = buttonContainer.querySelector(".jw-spacer");
-                const timeSlider = playerContainer.querySelector(".jw-slider-time");
-                buttonContainer.replaceChild(timeSlider, spacer);
-
-                playerInstance.on("adBlock", () => {
-                    document.getElementById('adblockModal').style.display = 'flex';
-                });
-
-                document.getElementById('close').onclick = function() {
-                    document.getElementById('adblockModal').style.display = 'none';
-                    location.reload();
-                };
-
-                const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
-                const forwardContainer = rewindContainer.cloneNode(true);
-                const forwardDisplayButton = forwardContainer.querySelector(".jw-icon-rewind");
-                forwardDisplayButton.style.transform = "scaleX(-1)";
-                forwardDisplayButton.ariaLabel = "Forward 10 Seconds";
-                const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
-                nextContainer.parentNode.insertBefore(forwardContainer, nextContainer);
-
-                playerContainer.querySelector(".jw-display-icon-next").style.display = "none";
-                const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
-                const forwardControlBarButton = rewindControlBarButton.cloneNode(true);
-                forwardControlBarButton.style.transform = "scaleX(-1)";
-                forwardControlBarButton.ariaLabel = "Forward 10 Seconds";
-                rewindControlBarButton.parentNode.insertBefore(forwardControlBarButton, rewindControlBarButton.nextElementSibling);
-
-                [forwardDisplayButton, forwardControlBarButton].forEach((button) => {
-                    button.onclick = () => {
-                        playerInstance.seek(playerInstance.getPosition() + 10);
-                    };
-                });
-            });
-        }
-
-        interceptNetworkRequests();
-
-        setupPlayer(
-            "https://a39aivottlinear-a.akamaihd.net/OTTB/sin-nitro/live/clients/dash/enc/l8j2xgwt32/out/v1/fe72171ab2684ab8b9ee3e2ffcc9cff2/cenc.mpd",
-            {
-                keyId: "159a2b4e1d2d7f16892d35d935a2fb34",
-                key: "07809840dd0f511221ca78459167d1b3"
+        // Show ADBlock Modal if detected
+        window.onload = function() {
+            if (/* condition to check for adblock */) {
+                document.getElementById('adblockModal').style.display = 'block';
             }
-        );
+        };
+
+        // Close the modal
+        document.getElementById('close').onclick = function() {
+            document.getElementById('adblockModal').style.display = 'none';
+        };
     </script>
 </body>
 </html>
