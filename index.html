@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom JW Player</title>
+    <title>JW Player with Netflix Style</title>
     <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
-    <!-- Optional: Include a custom skin CSS file -->
-    <!-- <link rel="stylesheet" href="path/to/custom-skin.css"> -->
-
     <style>
         #player {
             width: 100%;
@@ -15,24 +12,55 @@
             background: black;
         }
 
-        /* Optional: Custom styles for built-in skin */
-        .jw-skin-five .jw-controlbar {
-            background-color: rgba(0, 0, 0, 0.8); /* Dark control bar */
+        /* Netflix-style skin */
+        .jw-skin-netflix .jw-controlbar {
+            background: rgba(0, 0, 0, 0.7); /* Dark semi-transparent control bar */
         }
 
-        .jw-skin-five .jw-button-color {
-            color: white; /* White icons */
+        .jw-skin-netflix .jw-button-color {
+            color: #ffffff; /* White icons */
         }
 
-        .jw-skin-five .jw-icon-settings::before, 
-        .jw-skin-five .jw-icon-fullscreen::before, 
-        .jw-skin-five .jw-icon-playback::before, 
-        .jw-skin-five .jw-icon-volume::before {
-            color: white; /* White icons for settings, fullscreen, etc. */
+        .jw-skin-netflix .jw-icon-settings::before, 
+        .jw-skin-netflix .jw-icon-fullscreen::before, 
+        .jw-skin-netflix .jw-icon-playback::before, 
+        .jw-skin-netflix .jw-icon-volume::before {
+            color: #ffffff; /* White icons for controls */
         }
 
-        .jw-skin-five .jw-text {
-            color: white; /* White text */
+        .jw-skin-netflix .jw-text {
+            color: #ffffff; /* White text */
+        }
+
+        .jw-skin-netflix .jw-display-icon-container {
+            background: rgba(0, 0, 0, 0.6); /* Semi-transparent background for play button */
+            border-radius: 50%;
+        }
+
+        .jw-skin-netflix .jw-title-primary {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .jw-skin-netflix .jw-title-secondary {
+            color: #b3b3b3; /* Light gray text for secondary title */
+        }
+
+        .jw-skin-netflix .jw-live-icon {
+            background-color: red;
+            color: white;
+            border-radius: 2px;
+            padding: 2px 5px;
+            font-size: 12px;
+        }
+
+        .jw-skin-netflix .jw-slider-container {
+            background: rgba(255, 255, 255, 0.1); /* Light slider background */
+        }
+
+        .jw-skin-netflix .jw-slider-time .jw-slider-bar {
+            background: #ffffff; /* White slider bar */
         }
     </style>
 </head>
@@ -58,7 +86,7 @@
             }
         }
 
-        // Function to setup JWPlayer with built-in or custom skin
+        // Function to setup JWPlayer with Netflix-style skin
         function setupPlayer(videoUrl) {
             const fileType = getFileType(videoUrl);
 
@@ -72,7 +100,7 @@
                 aboutlink: "https://t.me/talhasmovie_request_bot",
 
                 skin: {
-                    name: "five" // Use the built-in 'five' skin, or replace with 'custom-skin' for a custom skin
+                    name: "netflix" // Custom Netflix-style skin name
                 },
 
                 captions: {
@@ -108,39 +136,7 @@
             });
 
             playerInstance.on("ready", function () {
-                const playerContainer = playerInstance.getContainer();
-                const buttonContainer = playerContainer.querySelector(".jw-button-container");
-                const spacer = buttonContainer.querySelector(".jw-spacer");
-                const timeSlider = playerContainer.querySelector(".jw-slider-time");
-                buttonContainer.replaceChild(timeSlider, spacer);
-
-                playerInstance.on("adBlock", () => {
-                    const modal = document.querySelector("div.modal");
-                    modal.style.display = "flex";
-
-                    document.getElementById("close").addEventListener("click", () => location.reload());
-                });
-
-                const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
-                const forwardContainer = rewindContainer.cloneNode(true);
-                const forwardDisplayButton = forwardContainer.querySelector(".jw-icon-rewind");
-                forwardDisplayButton.style.transform = "scaleX(-1)";
-                forwardDisplayButton.ariaLabel = "Forward 10 Seconds";
-                const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
-                nextContainer.parentNode.insertBefore(forwardContainer, nextContainer);
-
-                playerContainer.querySelector(".jw-display-icon-next").style.display = "none";
-                const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
-                const forwardControlBarButton = rewindControlBarButton.cloneNode(true);
-                forwardControlBarButton.style.transform = "scaleX(-1)";
-                forwardControlBarButton.ariaLabel = "Forward 10 Seconds";
-                rewindControlBarButton.parentNode.insertBefore(forwardControlBarButton, rewindControlBarButton.nextElementSibling);
-
-                [forwardDisplayButton, forwardControlBarButton].forEach((button) => {
-                    button.onclick = () => {
-                        playerInstance.seek(playerInstance.getPosition() + 10);
-                    };
-                });
+                // Custom behavior here
             });
         }
 
