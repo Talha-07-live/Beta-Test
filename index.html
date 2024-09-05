@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JW Player with Customizations</title>
+    <title>Custom JW Player</title>
     <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
     <style>
         /* Basic styling for the player container */
@@ -11,6 +11,54 @@
             width: 100%;
             height: 100vh;
             background: black;
+        }
+
+        /* Custom styles to resemble the player from the screenshot */
+        .jw-skin-custom .jw-controlbar {
+            background-color: rgba(0, 0, 0, 0.8); /* Dark control bar */
+        }
+
+        .jw-skin-custom .jw-button-color {
+            color: white; /* White icons */
+        }
+
+        .jw-skin-custom .jw-icon-settings::before, 
+        .jw-skin-custom .jw-icon-fullscreen::before, 
+        .jw-skin-custom .jw-icon-playback::before, 
+        .jw-skin-custom .jw-icon-volume::before {
+            color: white; /* White icons for settings, fullscreen, etc. */
+        }
+
+        .jw-skin-custom .jw-text {
+            color: white; /* White text */
+        }
+
+        .jw-skin-custom .jw-display-icon-container .jw-icon {
+            background-color: transparent;
+            border: none;
+        }
+
+        .jw-skin-custom .jw-display-icon-container {
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for play button */
+            border-radius: 50%;
+        }
+
+        .jw-skin-custom .jw-title-primary {
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .jw-skin-custom .jw-title-secondary {
+            color: white;
+        }
+
+        .jw-skin-custom .jw-live-icon {
+            background-color: red;
+            color: white;
+            border-radius: 2px;
+            padding: 2px 5px;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -50,7 +98,7 @@
                 aboutlink: "https://t.me/talhasmovie_request_bot",
 
                 skin: {
-                    name: "netflix"
+                    name: "custom"
                 },
 
                 captions: {
@@ -62,7 +110,7 @@
 
                 playlist: [
                     {
-                        title: "Talha's Stream",
+                        title: "SONY HD (SET HD)",
                         description: "You're Watching",
                         sources: [
                             {
@@ -71,13 +119,7 @@
                                 label: "HD",
                                 default: true
                             }
-                        ],
-                        drm: fileType === "dash" ? {
-                            clearkey: {
-                                keyId: "159a2b4e1d2d7f16892d35d935a2fb34",
-                                key: "07809840dd0f511221ca78459167d1b3"
-                            }
-                        } : null
+                        ]
                     }
                 ],
                 advertising: {
