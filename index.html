@@ -6,7 +6,7 @@
     <title>JW Player with Customizations</title>
     <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
     <style>
-        /* Basic styling for the player container */
+        /* Optional: Basic styling for the player container */
         #player {
             width: 100%;
             height: 100vh;
@@ -21,25 +21,8 @@
         // JWPlayer API Key
         jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
 
-        // Function to determine the file type based on the URL extension
-        function getFileType(videoUrl) {
-            if (videoUrl.endsWith('.mp4')) {
-                return 'mp4';
-            } else if (videoUrl.endsWith('.mkv')) {
-                return 'video/mkv';
-            } else if (videoUrl.endsWith('.m3u8')) {
-                return 'hls';
-            } else if (videoUrl.endsWith('.mpd')) {
-                return 'dash';
-            } else {
-                return 'mp4'; // Default to MP4 if unknown
-            }
-        }
-
-        // Function to setup JWPlayer for various video formats
+        // Function to setup JWPlayer for MKV or MP4 video files
         function setupPlayer(videoUrl) {
-            const fileType = getFileType(videoUrl);
-
             const playerInstance = jwplayer("player").setup({
                 controls: true,
                 sharing: true,
@@ -67,17 +50,11 @@
                         sources: [
                             {
                                 file: videoUrl,
-                                type: fileType,
+                                type: videoUrl.endsWith(".mp4") ? "mp4" : "video/mkv",
                                 label: "HD",
                                 default: true
                             }
-                        ],
-                        drm: fileType === "dash" ? {
-                            clearkey: {
-                                keyId: "159a2b4e1d2d7f16892d35d935a2fb34",
-                                key: "07809840dd0f511221ca78459167d1b3"
-                            }
-                        } : null
+                        ]
                     }
                 ],
                 advertising: {
@@ -128,8 +105,8 @@
             });
         }
 
-        // Example usage: Just replace this URL with the link to your MKV, MP4, HLS, or DASH video
-        setupPlayer("https://f004.backblazeb2.com/file/switch-bucket/79fee3b0-241b-11ef-a1c0-6365c310f769.mkv");
+        // Setup player with the video URL (replace with your MKV or MP4 file URL)
+        setupPlayer("https://f004.backblazeb2.com/file/switch-bucket/79fee3b0-241b-11ef-a1c0-6365c310f769.mkv?/(Talha)Aavshem.2024.Dual.Audio.Hindi.Studio.Dub.OST.720p.WEB.DL.x264.mkv");
     </script>
 </body>
 </html>
