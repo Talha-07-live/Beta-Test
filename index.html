@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom JW Player with Skin</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
     <style>
         /* Custom styles based on the provided skin */
@@ -19,21 +20,19 @@
         .jw-text-live {
             color: red;
         }
+        /* Add spacing between buttons */
+        .jw-button-container {
+            display: flex;
+            justify-content: center; /* Center buttons horizontally */
+            gap: 10px; /* Adjust the gap between buttons */
+        }
+        /* Specific adjustments for individual buttons if needed */
+        .jw-icon-fullscreen,
+        .jw-icon-share,
+        .jw-icon-pip {
+            margin: 0 5px; /* Adjust margin as needed */
+        }
         /* Add more custom styles as needed */
-        .jw-button-container .jw-button {
-            margin: 0 10px; /* Adjust the spacing between buttons as needed */
-        }
-        /* Add label styles */
-        .label-text {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 5px;
-            border-radius: 3px;
-            z-index: 10;
-        }
     </style>
 </head>
 <body>
@@ -148,12 +147,6 @@
                         playerInstance.seek(playerInstance.getPosition() + 10);
                     };
                 });
-
-                // Add a label to identify changes
-                const label = document.createElement('div');
-                label.className = 'label-text';
-                label.innerText = 'Modified Buttons';
-                playerContainer.appendChild(label);
             });
         }
 
