@@ -66,7 +66,7 @@
         }
 
         // Function to setup JWPlayer with dynamic source detection
-        function setupPlayer(videoUrl, drmOptions = null) {
+        function setupPlayer(videoUrl, drmOptions = null, posterUrl = null) {
             const sourceType = determineSourceType(videoUrl);
 
             const playerInstance = jwplayer("player").setup({
@@ -117,7 +117,8 @@
                             tag: ""
                         }
                     ]
-                }
+                },
+                image: posterUrl // Add the poster image URL here
             });
 
             playerInstance.on("ready", function () {
@@ -153,13 +154,14 @@
         // Intercept network requests
         interceptNetworkRequests();
 
-        // Replace the URL below with your desired video URL
+        // Replace the URL below with your desired video URL and poster URL
         setupPlayer(
             "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", // Replace this with the MKV, MP4, HLS, or DASH URL
             {
                 keyId: "159a2b4e1d2d7f16892d35d935a2fb34", // Replace with your DRM keyId if needed
                 key: "07809840dd0f511221ca78459167d1b3"  // Replace with your DRM key if needed
-            }
+            },
+            "https://s12.gifyu.com/images/SYa8u.png" // Replace this with your poster image URL
         );
     </script>
 </body>
