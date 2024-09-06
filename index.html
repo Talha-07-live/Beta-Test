@@ -60,12 +60,12 @@ function setupPlayer(videoUrl, widevineLicenseUrl) {
 
         playlist: [
             {
-                title: "Sony SAB HD",
+                title: "Movie",
                 description: "You're Watching",
                 sources: [
                     {
                         file: videoUrl,
-                        type: "mp4",
+                        type: "mkv",
                         label: "1080p",
                         default: true
                     }
@@ -124,7 +124,7 @@ function setupPlayer(videoUrl, widevineLicenseUrl) {
 interceptNetworkRequests();
 
 // Setup player with the video URL
-setupPlayer("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", null);
+setupPlayer("https://api005.backblazeb2.com/file/ssbucket/ec66bc1e-6c34-11ef-a0a7-af229c331923.mkv", null);
 </script>
 </body>
 </html>
