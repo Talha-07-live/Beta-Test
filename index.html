@@ -3,36 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom JW Player with Skin</title>
+    <title>Talha's Player</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
     <style>
-        /* Custom styles based on the provided skin */
+        @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&display=swap");
+
+        :root {
+            --bg-red: #e50914;
+            --bg-white: #f7f7f7;
+            --bg-black: #181919;
+            --text-grey: #999;
+            --hover-grey: #333;
+        }
+
+        /* RESET CSS */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 62.5%;
+            font-family: 'Rubik', Arial, sans-serif;
+            background-color: var(--bg-black);
+            color: var(--bg-white);
+        }
+
+        /* JW Player Container */
         #player {
             width: 100%;
             height: 100vh;
-            background-color: #000;
+            background-color: var(--bg-black);
         }
-        .jw-icon-rewind,
-        .jw-icon-forward {
+
+        /* Title Styling */
+        .jwplayer .jw-title {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--bg-white);
+            font-size: 1.6rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .jwplayer .jw-title-primary {
+            color: var(--bg-white);
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 1rem;
+        }
+
+        /* Control Bar Styling */
+        .jwplayer .jw-controlbar {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 1rem;
+        }
+
+        .jwplayer .jw-icon,
+        .jwplayer .jw-slider-time {
+            color: var(--bg-white);
+        }
+
+        .jwplayer .jw-slider-time {
+            font-size: 1.4rem;
+        }
+
+        .jwplayer .jw-icon-rewind,
+        .jwplayer .jw-icon-forward {
             filter: brightness(0) invert(1); /* Make icons white */
         }
-        .jw-text-live {
+
+        .jwplayer .jw-text-live {
             color: red;
         }
+
         /* Add spacing between buttons */
-        .jw-button-container {
+        .jwplayer .jw-button-container {
             display: flex;
             justify-content: center; /* Center buttons horizontally */
             gap: 10px; /* Adjust the gap between buttons */
         }
-        /* Specific adjustments for individual buttons if needed */
-        .jw-icon-fullscreen,
-        .jw-icon-share,
-        .jw-icon-pip {
+
+        /* Specific adjustments for individual buttons */
+        .jwplayer .jw-icon-fullscreen,
+        .jwplayer .jw-icon-share,
+        .jwplayer .jw-icon-pip {
             margin: 0 5px; /* Adjust margin as needed */
         }
-        /* Add more custom styles as needed */
+
+        /* Tooltip Styling */
+        .jwplayer .jw-tooltip {
+            background-color: var(--bg-black);
+            color: var(--text-grey);
+            font-size: 1.2rem;
+        }
+
+        /* Progress Bar */
+        .jwplayer .jw-slider-time {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        .jwplayer .jw-progress {
+            background-color: var(--bg-red);
+        }
+
+        .jwplayer .jw-buffer {
+            background-color: var(--text-grey);
+        }
+
+        /* AdBlock Modal */
+        .modal {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 999;
+            font-family: "Rubik", Arial, sans-serif;
+        }
+
+        .modal .modal-container {
+            width: 60rem;
+            padding-bottom: 10rem;
+            background-color: var(--bg-black);
+            color: var(--bg-white);
+            border-radius: 0.3rem;
+        }
+
+        .modal .modal-container .modal-header {
+            position: relative;
+            border-radius: 0.3rem;
+            height: 30rem;
+        }
+
+        .modal .modal-container .modal-header strong {
+            position: absolute;
+            text-align: center;
+            top: 12rem;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--bg-white);
+        }
+
+        .modal .modal-container .modal-header::before {
+            top: 0;
+            left: 0;
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: linear-gradient(
+                0deg,
+                var(--bg-black),
+                rgba(24, 25, 25, 0.3) 150%
+            );
+            border-radius: 0.3rem 0.3rem 0 0;
+        }
+
+        .modal .modal-container .modal-header::after {
+            top: 0;
+            left: 0;
+            content: "";
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: linear-gradient(
+                0deg,
+                var(--bg-black),
+                rgba(24, 25, 25, 0.3) 100%
+            );
+            border-radius: 0.3rem 0.3rem 0 0;
+        }
+
+        .modal .modal-container .modal-header img {
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            height: auto;
+            border-radius: 0.3rem 0.3rem 0 0;
+        }
+
+        .modal .modal-container .modal-body {
+            padding: 2rem;
+        }
+
+        .modal .modal-container .modal-body p {
+            text-align: center;
+            font-size: 1.6rem;
+            color: var(--text-grey);
+        }
+
+        .modal .modal-container .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            border-top: 1px solid var(--hover-grey);
+        }
+
+        .modal .modal-container .modal-footer button {
+            background-color: var(--bg-red);
+            color: var(--bg-white);
+            padding: 1rem 2rem;
+            border-radius: 0.3rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .modal .modal-container .modal-footer button:hover {
+            background-color: var(--hover-grey);
+        }
     </style>
 </head>
 <body>
@@ -156,12 +348,12 @@
 
         // Replace the URL below with your desired video URL and poster URL
         setupPlayer(
-            "https://sliv.drmlive.in/2011671/SETHD/master.m3u8", // Replace this with the MKV, MP4, HLS, or DASH URL
+            "https://a39aivottlinear-a.akamaihd.net/OTTB/sin-nitro/live/clients/dash/enc/l8j2xgwt32/out/v1/fe72171ab2684ab8b9ee3e2ffcc9cff2/cenc.mpd", // Replace this with the MKV, MP4, HLS, or DASH URL
             {
                 keyId: "159a2b4e1d2d7f16892d35d935a2fb34", // Replace with your DRM keyId if needed
                 key: "07809840dd0f511221ca78459167d1b3"  // Replace with your DRM key if needed
             },
-            "https://s11.gifyu.com/images/S1zkC.jpg" // Replace this with your poster image URL
+            "" // Replace this with your poster image URL
         );
     </script>
 </body>
