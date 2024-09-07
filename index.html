@@ -14,38 +14,8 @@
             margin: 0;
             font-family: Arial, sans-serif;
         }
-        #loading-screen {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100vw;
-            background-color: #000000;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 9999;
-            flex-direction: column; /* Allows stacking of GIF and image */
-        }
-        #loading-gif {
-            position: absolute;
-            top: 30%;
-            left: 50%;
-            transform: translate(-50%, -25%);
-            width: 80%; /* Adjust size if needed */
-            height: auto;
-        }
-        #overlay-image {
-            position: absolute;
-            top: 60%; /* Adjust position */
-            left: 50%;
-            transform: translate(-50%, -30%);
-            width: 100%; /* Adjust size */
-            height: auto;
-            z-index: 10000; /* Ensure it appears above the GIF */
-        }
         .button-container {
-            display: none; /* Hidden initially */
+            display: flex; /* Display buttons immediately */
             flex-direction: column;
             gap: 20px;
             align-items: center;
@@ -83,7 +53,7 @@
             z-index: 1;
         }
         .android-app-button {
-            display: none; /* Hidden initially */
+            display: flex; /* Display the button immediately */
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -158,9 +128,5 @@
     <a href="https://www.upload-apk.com/XxFpoYVf8BiE3Vm" class="android-app-button" id="android-app-button" target="_blank">
         Android App
     </a>
-
-    <script>
-        // Show the main content after 3 seconds
-    </script>
 </body>
 </html>
