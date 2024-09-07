@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -124,7 +124,7 @@
             transition: background-color 0.3s ease;
         }
         .support-button:hover {
-            background-color: #28a745;
+            background-color: #218838;
         }
         footer {
             margin-top: 90px;
@@ -250,7 +250,7 @@
         <span class="footer-text">Made By <a href="" style="color: inherit; text-decoration: none;">Talha</a></span>
     </footer>
 
-    <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
+    <script src="https://content.jwplayer.com/libraries/KB5zFt7A.js"></script>
     <script>
         const PASSWORD = "Talha"; // Set your password here
         const loginForm = document.getElementById('login-form');
@@ -291,11 +291,11 @@
             mute: false,
             stretching: "uniform",
         }).on('error', function() {
-            videoPlayer.style.display = 'none'; // Hide HLS video player on error
+            videoPlayer.style.display = 'none'; // Hide JWPlayer on error
             iframePoster.style.display = 'block'; // Show iframe poster
             tickerContainer.style.display = 'none'; // Hide ticker
         }).on('ready', function() {
-            videoPlayer.style.display = 'block'; // Show HLS video player
+            videoPlayer.style.display = 'block'; // Show JWPlayer
             tickerContainer.style.display = 'block'; // Show ticker
         });
 
