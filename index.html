@@ -74,19 +74,21 @@
 
         // Function to setup JWPlayer with dynamic source detection
         function setupPlayer(videoUrls, drmOptions = null, posterUrl = null) {
-            const playlistItems = videoUrls.map((url, index) => {
+            const playlistItems = videoUrls.map((video) => {
+                const { title, description, image, sources } = video;
+
                 return {
-                    title: `Server ${index + 1}`,
-                    description: `Talha's Stream${index + 00}`,
-                    image: "https://s11.gifyu.com/images/S1l3T.jpg",
-                    sources: [
-                        {
-                            file: url,
-                            type: determineSourceType(url),
-                            label: "1080p",
-                            default: true
-                        }
-                    ],
+                    title: title || "Video Title",
+                    description: description || "Video Description",
+                    image: image || "https://s11.gifyu.com/images/S1l3T.jpg",
+                    sources: sources.map((sourceUrl) => {
+                        return {
+                            file: sourceUrl,
+                            type: determineSourceType(sourceUrl),
+                            label: `${sourceUrl.label}p`, // Labeling resolutions
+                            default: sourceUrl.default || false
+                        };
+                    }),
                     drm: drmOptions ? {
                         clearkey: {
                             keyId: drmOptions.keyId,
@@ -163,19 +165,49 @@
         // Intercept network requests
         interceptNetworkRequests();
 
-        // Replace the URLs below with your desired video URLs
+        // Replace the URLs below with your desired video URLs and resolutions
         setupPlayer(
             [
-                "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/74/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm.1080p.vp9.webm",
-                "https://example.com/video2.mp4",
-                "https://example.com/video3.m3u8",
-                "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/74/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm.1080p.vp9.webm",
-                "https://example.com/video2.mp4",
-                "https://example.com/video3.m3u8",
-                "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/74/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm.1080p.vp9.webm",
-                "https://example.com/video2.mp4",
-                "https://example.com/video3.m3u8"
-                
+                {
+                    title: "Sprite Fright - 1080p, 720p, 480p",
+                    description: "Open Movie by Blender Studio",
+                    image: "https://example.com/image.jpg",
+                    sources: [
+                        {
+                            file: "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/74/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm.1080p.vp9.webm",
+                            label: "1080",
+                            default: true
+                        },
+                        {
+                            file: "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/74/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm.720p.vp9.webm",
+                            label: "720"
+                        },
+                        {
+                            file: "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/74/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm.480p.vp9.webm",
+                            label: "480"
+                        }
+                    ]
+                },
+                {
+                    title: "Another Video",
+                    description: "Another description",
+                    image: "https://example.com/another_image.jpg",
+                    sources: [
+                        {
+                            file: "https://example.com/video2_1080p.mp4",
+                            label: "1080",
+                            default: true
+                        },
+                        {
+                            file: "https://example.com/video2_720p.mp4",
+                            label: "720"
+                        },
+                        {
+                            file: "https://example.com/video2_480p.mp4",
+                            label: "480"
+                        }
+                    ]
+                }
             ],
             {
                 keyId: "159a2b4e1d2d7f16892d35d935a2fb34", // Replace with your DRM keyId if needed
