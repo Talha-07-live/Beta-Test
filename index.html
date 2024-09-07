@@ -20,16 +20,26 @@
             height: 100% !important;
             background-color: #000;
         }
-        #title {
+        #you-are-watching {
             text-align: center;
             color: white;
-            font-size: 24px;
-            margin: 20px 0;
-            font-family: Arial, sans-serif;
+            font-size: 20px;
+            margin-top: 20px;
+            font-family: 'Arial', sans-serif;
+            font-weight: normal;
+        }
+        #episode-title {
+            text-align: center;
+            color: white;
+            font-size: 28px;
+            margin-top: 5px;
+            font-family: 'Arial', sans-serif;
+            letter-spacing: 1px;
+            font-weight: bold;
         }
         #player {
             width: 100% !important;
-            height: calc(100% - 60px); /* Adjust the height based on the title's size */
+            height: calc(100% - 80px); /* Adjust height based on the title's size */
             background-color: #000;
         }
         .jw-icon-rewind,
@@ -53,8 +63,9 @@
 </head>
 <body>
     <div id="player-container">
-        <div id="title">You are watching</div>
-        <div id="player">The World's Finest Assassin Gets Reincarnated In Another World As An Aristocrat</div>
+        <div id="you-are-watching">You are watching</div>
+        <div id="episode-title">Episode 1</div>
+        <div id="player"></div>
     </div>
 
     <script>
