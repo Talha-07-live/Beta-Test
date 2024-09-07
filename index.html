@@ -14,32 +14,10 @@
             height: 100%;
             overflow: hidden;
         }
-        #player-container {
-            position: relative;
+        #player {
+            position: absolute;
             width: 100% !important;
             height: 100% !important;
-            background-color: #000;
-        }
-        #you-are-watching {
-            text-align: center;
-            color: white;
-            font-size: 20px;
-            margin-top: 20px;
-            font-family: 'Arial', sans-serif;
-            font-weight: normal;
-        }
-        #episode-title {
-            text-align: center;
-            color: white;
-            font-size: 28px;
-            margin-top: 5px;
-            font-family: 'Arial', sans-serif;
-            letter-spacing: 1px;
-            font-weight: bold;
-        }
-        #player {
-            width: 100% !important;
-            height: calc(100% - 80px); /* Adjust height based on the title's size */
             background-color: #000;
         }
         .jw-icon-rewind,
@@ -62,8 +40,7 @@
     </style>
 </head>
 <body>
-    
-    </div>
+    <div id="player"></div>
 
     <script>
         jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
@@ -71,8 +48,9 @@
         function setupPlayer(videoUrls, drmOptions = null, posterUrl = null) {
             const playlistItems = videoUrls.map((url, index) => {
                 return {
-                    title: `Server - ${index + 1}`,
-                    description: "Talha's Stream",
+                    title: `Episode - ${index + 1}`,
+                    description: `Talha's Stream - ${index + 1}`,
+                    title: 'Abcdefghijklmnop'
                     image: "https://s11.gifyu.com/images/S1l3T.jpg",
                     sources: [
                         {
@@ -162,8 +140,18 @@
 
         setupPlayer(
             [
-                "https://a39aivottlinear-a.akamaihd.net/OTTB/sin-nitro/live/clients/dash/enc/l8j2xgwt32/out/v1/fe72171ab2684ab8b9ee3e2ffcc9cff2/cenc.mpd",
-                "https://kbsworld-ott.akamaized.net/hls/live/2002341/kbsworld/01.m3u8"
+                "https://api005.backblazeb2.com/file/ssbucket/75284717-6d31-11ef-8c1c-d50bcd41e956.mkv",
+                "https://api005.backblazeb2.com/file/ssbucket/f41be9ca-6d31-11ef-9f2d-d50bcd41e956.mkv",
+                "https://api005.backblazeb2.com/file/ssbucket/16a8f9db-6d32-11ef-8fad-d50bcd41e956.mkv",
+                "https://api005.backblazeb2.com/file/ssbucket/3b7d02d5-6d32-11ef-a9c0-d50bcd41e956.mkv",
+                "https://api005.backblazeb2.com/file/ssbucket/7a9935e2-6d32-11ef-bda7-d50bcd41e956.mkv",
+                "https://api005.backblazeb2.com/file/ssbucket/8f8ff59e-6d32-11ef-bc0f-d50bcd41e956.mkv",
+                "https://api005.backblazeb2.com/file/ssbucket/c28c4ddf-6d32-11ef-acfe-d50bcd41e956.mkv",
+                "https://api005.backblazeb2.com/file/ssbucket/ee561e30-6d32-11ef-b508-d50bcd41e956.mkv",
+                "https://api005.backblazeb2.com/file/ssbucket/233b9145-6d33-11ef-a839-d50bcd41e956.mkv",
+                "https://api005.backblazeb2.com/file/ssbucket/4139ac64-6d33-11ef-aedf-d50bcd41e956.mkv",
+                "https://api005.backblazeb2.com/file/ssbucket/6bce9e4b-6d33-11ef-960d-d50bcd41e956.mkv",
+                "https://api005.backblazeb2.com/file/ssbucket/91ec6cd7-6d33-11ef-8e28-d50bcd41e956.mkv"
             ],
             {
                 keyId: "159a2b4e1d2d7f16892d35d935a2fb34",
