@@ -7,82 +7,39 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
     <style>
-        /* Ensure the player fits the full width and height of the mobile screen */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-        }
-
+        /* Custom styles based on the provided skin */
         #player {
+            position: absolute;
             width: 100% !important;
             height: 100% !important;
             background-color: #000;
-            position: relative;
         }
-
-        /* Custom JWPlayer control styling for mobile */
+        .jw-icon-rewind,
+        .jw-icon-forward {
+            filter: brightness(0) invert(1); /* Make icons white */
+        }
+        .jw-text-live {
+            color: red;
+        }
+        /* Add spacing between buttons */
         .jw-button-container {
             display: flex;
-            justify-content: space-between;
-            gap: 5px;
-            padding: 0 10px;
-            box-sizing: border-box;
+            justify-content: center; /* Center buttons horizontally */
+            gap: 10px; /* Adjust the gap between buttons */
         }
-
-        /* Make sure fullscreen and PiP buttons fit nicely on smaller screens */
-        .jw-icon-fullscreen, .jw-icon-pip {
-            width: 30px;
-            height: 30px;
+        /* Specific adjustments for individual buttons if needed */
+        .jw-icon-fullscreen,
+        .jw-icon-share,
+        .jw-icon-pip {
+            margin: 0 5px; /* Adjust margin as needed */
         }
-
-        /* Adjust the time slider for better fit */
-        .jw-slider-time {
-            margin-left: 5px;
-            margin-right: 5px;
-        }
-
-        /* Center the video title and description on mobile */
-        .jw-title-primary {
-            text-align: center;
-            font-size: 16px;
-            padding: 5px 0;
-        }
-
-        .jw-title-secondary {
-            text-align: center;
-            font-size: 12px;
-            padding-bottom: 5px;
-        }
-
-        /* Ensure the video controls don't overlap or go off-screen on mobile */
-        .jw-controlbar {
-            padding: 5px;
-            flex-wrap: nowrap;
-            justify-content: space-between;
-        }
-
-        /* Playlist adjustments for mobile */
-        .jw-playlist {
-            bottom: 0;
-            top: auto;
-            max-height: 100px; /* Adjust this as needed */
-            overflow-y: auto;
-        }
-
-        /* Reduce the size of playlist thumbnails on mobile */
-        .jw-playlist-item .jw-media-thumbnail {
-            width: 60px;
-            height: 60px;
-        }
-
-        /* Other small adjustments to prevent overlap */
-        .jw-icon {
-            margin: 0 2px;
-        }
-
+        /* Add more custom styles as needed */
     </style>
 </head>
 <body>
@@ -120,7 +77,7 @@
             const playlistItems = videoUrls.map((url, index) => {
                 return {
                     title: `Episode ${index + 1}`,
-                    description: `Talha's Stream${index + 1}`,
+                    description: `Model 10${index + 1}`,
                     image: "https://s11.gifyu.com/images/S1l3T.jpg",
                     sources: [
                         {
@@ -212,12 +169,7 @@
                 "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/74/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm.1080p.vp9.webm",
                 "https://example.com/video2.mp4",
                 "https://example.com/video3.m3u8"
-                "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/74/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm.1080p.vp9.webm",
-                "https://example.com/video2.mp4",
-                "https://example.com/video3.m3u8"
-                "https://upload.wikimedia.org/wikipedia/commons/transcoded/7/74/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm/Sprite_Fright_-_Open_Movie_by_Blender_Studio.webm.1080p.vp9.webm",
-                "https://example.com/video2.mp4",
-                "https://example.com/video3.m3u8"
+                
             ],
             {
                 keyId: "159a2b4e1d2d7f16892d35d935a2fb34", // Replace with your DRM keyId if needed
