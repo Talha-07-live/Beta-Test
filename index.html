@@ -48,8 +48,8 @@
         function setupPlayer(videoUrls, drmOptions = null, posterUrl = null) {
             const playlistItems = videoUrls.map((url, index) => {
                 return {
-                    title: `Talha's Stream - Episode ${index + 1}`,
-                    description: "The World's Finest Assassin Gets Reincarnated In Another World As An Aristocrat",
+                    title: `Arena Sports 1${index + 1}`,
+                    description: "Talha's Stream",
                     image: "https://s11.gifyu.com/images/S1l3T.jpg",
                     sources: [
                         {
@@ -139,7 +139,6 @@
 
         setupPlayer(
             [
-                "https://webtvstream.bhtelecom.ba/hls6/arena1.mpd",
                 "https://webtvstream.bhtelecom.ba/hls6/arena2.mpd"
             ],
             {
