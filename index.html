@@ -3,21 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Stream</title>
+    <title>Live Stream on BokulSports</title>
+    
+    <!-- Video.js CSS -->
+    <link href="https://vjs.zencdn.net/7.17.0/video-js.css" rel="stylesheet" />
+    
+    <!-- jQuery (needed for some functionalities) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Video.js JavaScript -->
+    <script src="https://vjs.zencdn.net/7.17.0/video.min.js"></script>
+    
+    <!-- Video.js Hotkeys Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/videojs-hotkeys@0.2.27/videojs.hotkeys.min.js"></script>
 </head>
 <body>
     <h1>You are watching SSC1</h1>
-    <div style="text-align: center;">
-        <iframe src="https://live3.bokulsports.com/channel/axv.php?id=SSC1" 
-                width="100%" height="500" 
-                style="border: none;" 
-                allowfullscreen="true" 
-                webkitallowfullscreen="true" 
-                mozallowfullscreen="true">
-        </iframe>
-    </div>
 
-    <!-- Ad Script -->
+    <!-- Video.js Player -->
+    <video id="v_player" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360"
+        data-setup='{}'>
+        <source src="https://live3.bokulsports.com/channel/axv.php?id=SSC1" type="application/x-mpegURL">
+    </video>
+
+    <script>
+        // Initialize the Video.js Player
+        var player = videojs('v_player', {
+            techOrder: ['chromecast', 'html5']
+        });
+
+        // Player configuration
+        player.viavi({
+            shareMenu: false,
+            logo: "https://bokulsports.com/upload/images/logo.png",
+            logoposition: 'RT',
+            logourl: '#',
+            video_id: 'livetv202',
+            resume: true,
+            contextMenu: false,
+            buttonRewind: true,
+            buttonForward: true,
+            mousedisplay: true,
+            textTrackSettings: false
+        });
+
+        // Picture-in-Picture functionality
+        player.pip();
+
+        // Chromecast configuration
+        player.chromecast({
+            metatitle: '',
+            metasubtitle: 'Release : '
+        });
+
+        // Pre-roll ad configuration
+        player.vroll({
+            src: "https://bokulsports.com/upload/Ads/VID_20240607_211613_028.mp4",
+            type: "video/mp4",
+            href: "https://codecanyon.net/item/video-streaming-portal-tv-shows-movies-sports-videos-streaming/25581885",
+            offset: "0",
+            skip: "5",
+            id: 1
+        });
+
+        // Event listener for ad actions
+        player.on('vroll', function(event, data) {
+            var ad_id = data.id;
+            var action = data.action;
+
+            // Handle ad actions here
+            // Example: alert("Ad ID: " + ad_id + " Action: " + action);
+        });
+
+        // Overlay and delay functionality
+        player.ready(function(){
+            var player_ = this;
+            var show_on_start = true;
+            var close_delay = 5;
+            var parent = this.el().parentNode;
+            var closeBtn = parent.querySelector('.over-close');
+            var overlay = parent.querySelector('.div-over');
+            var timer;
+
+            function delay() {
+                clearTimeout(timer);
+                if(parseInt(close_delay) > 0) {
+                    closeBtn.innerHTML = close_delay;
+                    timer = window.setTimeout(delay, 1000);
+                    close_delay--;
+                } else {
+                    closeBtn.innerHTML = '';
+                    closeBtn.className = 'over-close';
+                }
+            }
+
+            function showOverlay() {
+                if(parseInt(close_delay) > 0) {
+                    delay();
+                } else {
+                    closeBtn.className = 'over-close';
+                }
+                overlay.style.display = 'block';
+            }
+
+            closeBtn.addEventListener('click', function(e) {
+                overlay.style.display = 'none';
+                player_.play();
+            }, false);
+
+            this.on("pause", function(){
+                if (!this.seeking() && this.paused()) {
+                    showOverlay();
+                }
+            });
+
+            this.on('play', function(e) {
+                overlay.style.display = 'none';
+            });
+
+            if(show_on_start) {
+                this.pause(); 
+                showOverlay();
+            } else {
+                overlay.style.display = 'none';
+            }
+        });
+
+        // Hotkeys configuration
+        player.ready(function() {
+            this.hotkeys({
+                volumeStep: 0.1,
+                seekStep: 5,
+                alwaysCaptureHotkeys: true
+            });
+        });
+
+        // Cookie Law Popup Initialization
+        $(document).ready(function() {
+            if ($(".eupopup").length > 0) {
+                $(document).euCookieLawPopup().init({
+                    'cookiePolicyUrl' : '#',
+                    'buttonContinueTitle' : 'Continue',
+                    'buttonLearnmoreTitle' : 'Learn more',
+                    'popupPosition' : 'bottom',
+                    'colorStyle' : 'default',
+                    'compactStyle' : false,
+                    'popupTitle' : 'BokulSports.Com',
+                    'popupText' : 'Welcome | Thank you very much for visiting our website'
+                });
+            }
+        });
+
+        // Function to show suggestions (for search functionality)
+        function showSuggestions(inputString) {
+            if (inputString.length <= 1) {
+                document.getElementById('search_output').innerHTML = '';
+            } else {
+                $.ajax({
+                    url: "https://bokulsports.com/search_elastic",
+                    method: "GET",
+                    data: { 's': inputString },
+                    dataType: 'text',
+                    beforeSend: function () {
+                        $("#search_box").css("background", "#0d0620 url(https://bokulsports.com/site_assets/images/LoaderIcon.gif) no-repeat 100%");
+                    },
+                    success: function (result) {
+                        $("#search_output").html(result);
+                        $("#search_box").css("background", "#0d0620");
+                    }
+                });
+            }
+        }
+
+        // Additional UI interactions
+        $('#trailer_model_button').on('click', function(e) {
+            player.pause();
+        });
+
+        $('#close_trailer_pop').on('click', function(e) {
+            player_trailer.pause();
+        });
+
+        $("li[data-path]").click(function() {
+            $("head link#theme").attr("href", $(this).data("path"));
+        });
+
+        // Google Analytics tracking
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-WS3DSHLZVZ');
+    </script>
+
+    <!-- Ad script integration (if needed) -->
     <script type="text/javascript">
         atOptions = {
             'key' : '6030c33aed56f2cac56ac5f0fe6fb284',
