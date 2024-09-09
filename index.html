@@ -47,6 +47,9 @@
     </div>
     <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
     <script>
+        // Set your JWPlayer key
+        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+
         function setupPlayer(videoUrl) {
             const playerInstance = jwplayer("player").setup({
                 controls: true,
@@ -130,28 +133,8 @@
             });
         }
 
-        function resolveAndSetupPlayer(videoUrl) {
-            if (videoUrl.includes('.php')) {
-                fetch('resolve_redirect.php?url=' + encodeURIComponent(videoUrl))
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.finalUrl) {
-                            setupPlayer(data.finalUrl);
-                        } else {
-                            alert("Failed to resolve the PHP link. Please provide a valid MPD or HLS link.");
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error resolving URL:', error);
-                        alert("Failed to resolve the PHP link. Please provide a valid MPD or HLS link.");
-                    });
-            } else {
-                setupPlayer(videoUrl);
-            }
-        }
-
-        // Resolve and setup player
-        resolveAndSetupPlayer("https://sliv.drmlive.in/2011671/SETHD/hdntl=exp=1725952934~acl=%2f*~id=1556784483112233~data=hdntl~hmac=bfffed9c380bcea8b15c56fceffb795fd54d292b504c83995f45d80dccdf9034/master_2000.m3u8?aka_me_session_id=AAAAAAAAAACm899mAAAAAI2r1qrISBHi6SOMF7%2fVKS3h5oNRd4d3HuIlsK6%2fOsw6ZfBGI+nuMWH+C%2f7N60tujpJUnfpR7Dd2&aka_media_format_type=hls");
+        // Resolve and setup player with the new video URL
+        setupPlayer("https://sliv.drmlive.in/2011671/SETHD/hdntl=exp=1725952934~acl=%2f*~id=1556784483112233~data=hdntl~hmac=bfffed9c380bcea8b15c56fceffb795fd54d292b504c83995f45d80dccdf9034/master_2000.m3u8?aka_me_session_id=AAAAAAAAAACm899mAAAAAI2r1qrISBHi6SOMF7%2fVKS3h5oNRd4d3HuIlsK6%2fOsw6ZfBGI+nuMWH+C%2f7N60tujpJUnfpR7Dd2&aka_media_format_type=hls");
     </script>
 </body>
 </html>
