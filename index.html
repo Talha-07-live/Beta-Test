@@ -18,28 +18,38 @@
     </style>
 </head>
 <body>
-    <iframe id="eurosportIframe" src="https://en.gdplayertv.to/live-tv/eurosport-1?embed=1" allow="fullscreen"></iframe>
+    <iframe id="eurosportIframe" src="https://en.gdplayertv.to/live-tv/eurosport-1?embed=1" allowfullscreen></iframe>
 
     <script>
         const iframe = document.getElementById('eurosportIframe');
 
+        // Function to block window.open in iframe
         iframe.onload = function() {
             try {
+                // Access the iframe's content window
                 const iframeWindow = iframe.contentWindow;
-                
-                // Override window.open to block new tabs/windows
+
+                // Override the window.open method
                 iframeWindow.open = function() {
-                    console.log('Blocked an attempt to open a new tab or window.');
+                    console.log('Blocked a new window/tab attempt.');
                     return null;
                 };
+
+                // Continuously monitor and block open attempts
+                setInterval(() => {
+                    iframeWindow.open = function() {
+                        console.log('Blocked a new window/tab attempt.');
+                        return null;
+                    };
+                }, 1000);
             } catch (e) {
                 console.warn('Cannot access iframe content due to cross-origin restrictions.');
             }
         };
 
-        // General safeguard against popups
-        window.open = function(url) {
-            console.log('Blocked an attempt to open a new tab or window.');
+        // Block any popups from the main page
+        window.open = function() {
+            console.log('Blocked a new window/tab attempt.');
             return null;
         };
     </script>
