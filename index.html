@@ -3,55 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eurosport 1</title>
+    <title>Video Player</title>
+    <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
     <style>
-        body, html {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
             margin: 0;
-            height: 100%;
-            overflow: hidden;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        iframe {
-            border: none;
+        #player {
+            width: 100%;
+            max-width: 720px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
 <body>
-    <iframe id="eurosportIframe" src="https://en.gdplayertv.to/live-tv/eurosport-1?embed=1" allowfullscreen></iframe>
+    <div id="player"></div>
+
+    <div class="modal">
+        <div class="modal-content">
+            <p>AdBlock detected. Please disable AdBlock to continue watching.</p>
+            <button id="close">Close</button>
+        </div>
+    </div>
 
     <script>
-        const iframe = document.getElementById('eurosportIframe');
+        // Function to intercept network requests and modify URLs
+        function interceptNetworkRequests() {
+            const originalOpen = XMLHttpRequest.prototype.open;
+            XMLHttpRequest.prototype.open = function(method, url) {
+                if (url.startsWith('https://tataplaymt.slivcdn.com/')) {
+                    url = url.replace('tataplaymt.slivcdn.com/hls/live', 'sliv.drmlive.in');
+                }
+                return originalOpen.apply(this, arguments);
+            };
+        }
 
-        // Function to block window.open in iframe
-        iframe.onload = function() {
-            try {
-                // Access the iframe's content window
-                const iframeWindow = iframe.contentWindow;
+        // Function to setup JWPlayer
+        function setupPlayer(videoUrl, widevineLicenseUrl) {
+            const playerInstance = jwplayer("player").setup({
+                controls: true,
+                sharing: true,
+                displaytitle: true,
+                autoplay: true,
+                displaydescription: true,
+                abouttext: "Video Player By DRMLIVE",
+                aboutlink: "https://t.me/+_RiCu2cz5TkxZmU1",
 
-                // Override the window.open method
-                iframeWindow.open = function() {
-                    console.log('Blocked a new window/tab attempt.');
-                    return null;
-                };
+                skin: {
+                    name: "netflix"
+                },
 
-                // Continuously monitor and block open attempts
-                setInterval(() => {
-                    iframeWindow.open = function() {
-                        console.log('Blocked a new window/tab attempt.');
-                        return null;
+                captions: {
+                    color: "#FFF",
+                    fontSize: 14,
+                    backgroundOpacity: 0,
+                    edgeStyle: "raised"
+                },
+
+                playlist: [
+                    {
+                        title: "Sony HD (SET HD)",
+                        description: "You're Watching",
+                        sources: [
+                            {
+                                file: videoUrl,
+                                type: "hls",
+                                label: "1080p",
+                                default: true
+                            }
+                        ]
+                    }
+                ],
+                advertising: {
+                    client: "vast",
+                    schedule: [
+                        {
+                            offset: "pre",
+                            tag: ""
+                        }
+                    ]
+                }
+            });
+
+            playerInstance.on("ready", function () {
+                const playerContainer = playerInstance.getContainer();
+                const buttonContainer = playerContainer.querySelector(".jw-button-container");
+                const spacer = buttonContainer.querySelector(".jw-spacer");
+                const timeSlider = playerContainer.querySelector(".jw-slider-time");
+                buttonContainer.replaceChild(timeSlider, spacer);
+
+                playerInstance.on("adBlock", () => {
+                    const modal = document.querySelector("div.modal");
+                    modal.style.display = "flex";
+
+                    document.getElementById("close").addEventListener("click", () => location.reload());
+                });
+
+                const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
+                const forwardContainer = rewindContainer.cloneNode(true);
+                const forwardDisplayButton = forwardContainer.querySelector(".jw-icon-rewind");
+                forwardDisplayButton.style.transform = "scaleX(-1)";
+                forwardDisplayButton.ariaLabel = "Forward 10 Seconds";
+                const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
+                nextContainer.parentNode.insertBefore(forwardContainer, nextContainer);
+
+                playerContainer.querySelector(".jw-display-icon-next").style.display = "none";
+                const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
+                const forwardControlBarButton = rewindControlBarButton.cloneNode(true);
+                forwardControlBarButton.style.transform = "scaleX(-1)";
+                forwardControlBarButton.ariaLabel = "Forward 10 Seconds";
+                rewindControlBarButton.parentNode.insertBefore(forwardControlBarButton, rewindControlBarButton.nextElementSibling);
+
+                [forwardDisplayButton, forwardControlBarButton].forEach((button) => {
+                    button.onclick = () => {
+                        playerInstance.seek(playerInstance.getPosition() + 10);
                     };
-                }, 1000);
-            } catch (e) {
-                console.warn('Cannot access iframe content due to cross-origin restrictions.');
-            }
-        };
+                });
+            });
+        }
 
-        // Block any popups from the main page
-        window.open = function() {
-            console.log('Blocked a new window/tab attempt.');
-            return null;
-        };
+        // Intercept network requests
+        interceptNetworkRequests();
+
+        // Setup player with the video URL
+        setupPlayer("https://sliv.drmlive.in/2011671/SETHD/master.m3u8", null);
     </script>
 </body>
 </html>
