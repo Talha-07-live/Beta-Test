@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player</title>
+    <title>JWPlayer Video Example</title>
     <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
     <style>
         body {
@@ -21,33 +21,33 @@
             width: 100%;
             max-width: 720px;
         }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
     </style>
 </head>
 <body>
     <div id="player"></div>
 
-    <div class="modal">
-        <div class="modal-content">
-            <p>AdBlock detected. Please disable AdBlock to continue watching.</p>
-            <button id="close">Close</button>
-        </div>
-    </div>
-
     <script>
+        // Set JWPlayer default configurations
+        var jwDefaults = {
+            "aspectratio": "16:9",
+            "autostart": true,
+            "cast": {},
+            "controls": true,
+            "displaydescription": true,
+            "displaytitle": true,
+            "height": 360,
+            "key": "rXvq9wnpIWWKBpO1lFXURYNPZZiMw5azZBa2EppllZv+HOzH2YVvptmR9uLQSdI/",
+            "mute": false,
+            "ph": 1,
+            "pid": "KB5zFt7A",
+            "playbackRateControls": false,
+            "preload": "metadata",
+            "repeat": false,
+            "stretching": "uniform",
+            "width": "100%"
+        };
+        jwplayer.defaults = jwDefaults;
+
         // Function to intercept network requests and modify URLs
         function interceptNetworkRequests() {
             const originalOpen = XMLHttpRequest.prototype.open;
@@ -60,27 +60,8 @@
         }
 
         // Function to setup JWPlayer
-        function setupPlayer(videoUrl, widevineLicenseUrl) {
+        function setupPlayer(videoUrl) {
             const playerInstance = jwplayer("player").setup({
-                controls: true,
-                sharing: true,
-                displaytitle: true,
-                autoplay: true,
-                displaydescription: true,
-                abouttext: "Video Player By DRMLIVE",
-                aboutlink: "https://t.me/+_RiCu2cz5TkxZmU1",
-
-                skin: {
-                    name: "netflix"
-                },
-
-                captions: {
-                    color: "#FFF",
-                    fontSize: 14,
-                    backgroundOpacity: 0,
-                    edgeStyle: "raised"
-                },
-
                 playlist: [
                     {
                         title: "Sony HD (SET HD)",
@@ -131,7 +112,7 @@
         interceptNetworkRequests();
 
         // Setup player with the video URL
-        setupPlayer("https://sliv.drmlive.in/2011671/SETHD/master.m3u8", null);
+        setupPlayer("https://sliv.drmlive.in/2011671/SETHD/master.m3u8");
     </script>
 </body>
 </html>
