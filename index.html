@@ -3,88 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JWPlayer Example</title>
+    <title>Talha's Player</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
     <style>
-        body {
+        body, html {
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
         #player {
-            width: 100%;
-            height: 80vh;
-            background: #000;
+            position: absolute;
+            width: 100% !important;
+            height: 100% !important;
+            background-color: #000;
         }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #fff;
-            padding: 20px;
-            border: 1px solid #ccc;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
+        .jw-icon-rewind,
+        .jw-icon-forward {
+            filter: brightness(0) invert(1); /* Make icons white */
         }
-        .modal p {
-            margin: 0;
+        .jw-text-live {
+            color: red;
         }
-        #close {
-            background: #007BFF;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
+        .jw-button-container {
+            display: flex;
+            justify-content: center; /* Center buttons horizontally */
+            gap: 10px; /* Adjust the gap between buttons */
+        }
+        .jw-icon-fullscreen,
+        .jw-icon-share,
+        .jw-icon-pip {
+            margin: 0 5px; /* Adjust margin as needed */
         }
     </style>
 </head>
 <body>
     <div id="player"></div>
-    <div class="modal">
-        <p>Ad Block Detected</p>
-        <button id="close">Close</button>
-    </div>
-    <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
+
     <script>
-        // Set your JWPlayer key
         jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
 
-        function setupPlayer(videoUrl) {
-            const playerInstance = jwplayer("player").setup({
+        function setupPlayer(videoUrls, drmOptions = null, posterUrl = null) {
+            const playlistItems = videoUrls.map((url, index) => {
+                return {
+                    title: " All Arena Sports Channel",
+                    description: "Talha's Stream",
+                    image: "https://s11.gifyu.com/images/S1l3T.jpg",
+                    sources: [
+                        {
+                            file: url,
+                            type: determineSourceType(url),
+                            label: "1080p",
+                            default: true
+                        }
+                    ],
+                    drm: drmOptions ? {
+                        clearkey: {
+                            keyId: drmOptions.keyId,
+                            key: drmOptions.key
+                        }
+                    } : null
+                };
+            });
+
+            jwplayer("player").setup({
                 controls: true,
                 sharing: true,
                 displaytitle: true,
                 autoplay: true,
                 displaydescription: true,
-                abouttext: "Video Player By DRMLIVE",
-                aboutlink: "https://t.me/+_RiCu2cz5TkxZmU1",
-
+                abouttext: "Video Player By Talha's Stream",
+                aboutlink: "https://t.me/talhasmovie_request_bot",
                 skin: {
                     name: "netflix"
                 },
-
                 captions: {
                     color: "#FFF",
                     fontSize: 14,
                     backgroundOpacity: 0,
                     edgeStyle: "raised"
                 },
-
-                playlist: [
-                    {
-                        title: "Zee Talkies",
-                        description: "You're Watching",
-                        sources: [
-                            {
-                                file: videoUrl,
-                                type: "hls",
-                                label: "1080p",
-                                default: true
-                            }
-                        ]
-                    }
-                ],
+                playlist: playlistItems,
                 advertising: {
                     client: "vast",
                     schedule: [
@@ -93,22 +94,14 @@
                             tag: ""
                         }
                     ]
-                }
-            });
-
-            playerInstance.on("ready", function () {
-                const playerContainer = playerInstance.getContainer();
+                },
+                image: posterUrl
+            }).on("ready", function () {
+                const playerContainer = jwplayer().getContainer();
                 const buttonContainer = playerContainer.querySelector(".jw-button-container");
                 const spacer = buttonContainer.querySelector(".jw-spacer");
                 const timeSlider = playerContainer.querySelector(".jw-slider-time");
                 buttonContainer.replaceChild(timeSlider, spacer);
-
-                playerInstance.on("adBlock", () => {
-                    const modal = document.querySelector("div.modal");
-                    modal.style.display = "flex";
-
-                    document.getElementById("close").addEventListener("click", () => location.reload());
-                });
 
                 const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
                 const forwardContainer = rewindContainer.cloneNode(true);
@@ -127,14 +120,33 @@
 
                 [forwardDisplayButton, forwardControlBarButton].forEach((button) => {
                     button.onclick = () => {
-                        playerInstance.seek(playerInstance.getPosition() + 10);
+                        jwplayer().seek(jwplayer().getPosition() + 10);
                     };
                 });
             });
         }
 
-        // Resolve and setup player with the new video URL
-        setupPlayer("https://sliv.drmlive.in/2011671/SETHD/hdntl=exp=1725952934~acl=%2f*~id=1556784483112233~data=hdntl~hmac=bfffed9c380bcea8b15c56fceffb795fd54d292b504c83995f45d80dccdf9034/master_2000.m3u8?aka_me_session_id=AAAAAAAAAACm899mAAAAAI2r1qrISBHi6SOMF7%2fVKS3h5oNRd4d3HuIlsK6%2fOsw6ZfBGI+nuMWH+C%2f7N60tujpJUnfpR7Dd2&aka_media_format_type=hls");
+        function determineSourceType(url) {
+            if (url.endsWith(".mkv") || url.endsWith(".mp4")) {
+                return "mp4";
+            } else if (url.endsWith(".m3u8")) {
+                return "hls";
+            } else if (url.endsWith(".mpd")) {
+                return "dash";
+            }
+            return "mp4"; // Default to MP4
+        }
+
+        setupPlayer(
+            [
+                "https://sliv.drmlive.in/2011671/SETHD/hdntl=exp=1725952934~acl=%2f*~id=1556784483112233~data=hdntl~hmac=bfffed9c380bcea8b15c56fceffb795fd54d292b504c83995f45d80dccdf9034/master_2000.m3u8?aka_me_session_id=AAAAAAAAAACm899mAAAAAI2r1qrISBHi6SOMF7%2fVKS3h5oNRd4d3HuIlsK6%2fOsw6ZfBGI+nuMWH+C%2f7N60tujpJUnfpR7Dd2&aka_media_format_type=hls"
+            ],
+            {
+                keyId: "523acf1f55485476817958a62a3f2ed9",
+                key: "52b3cea435ed25d445f9eae4883c7001"
+            },
+            ""
+        );
     </script>
 </body>
 </html>
