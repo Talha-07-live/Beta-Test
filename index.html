@@ -15,7 +15,7 @@
         .player-msg { color: white; }
         .player-next-btn { /* Add styles for the next episode button */ }
         .jw-orientation-portrait { /* Add styles for portrait orientation */ }
-        iframe { width: 100%; height: 500px; } /* Add default iframe styling */
+        iframe { width: 100%; height: 500px; border: none; } /* Add default iframe styling */
     </style>
 </head>
 <body>
@@ -35,6 +35,7 @@
             $("#player").removeClass("hide");
             $(".body").addClass("overflow3");
             myrotate("landscape");
+
             const playerInstance = jwplayer('jw').setup({
                 playlist: "/playlist.php?id=" + VideoID + "&t=" + encodeURIComponent(gettitle) + "&tm=" + t,
                 width: "100%",
@@ -73,18 +74,14 @@
                     createCookie("SE" + SeriesID, VideoID, 60);
                 }
 
-                // Append the iframe to the player-box and trigger play
-                $(".player-box").append('<iframe src="https://streamtape.net/e/9exx98qM8wIaMo1/" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>').trigger('play');
+                // Append the iframe to the player-box
+                $(".player-box").append('<iframe src="https://streamtape.net/e/9exx98qM8wIaMo1/" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>');
             });
 
             playerInstance.once('play', function() {
                 var type = $("#exampleModalScrollable").attr("data-type");
-                if (type == "t") {
-                    var SeriesID = $("#exampleModalScrollable").attr("data-post");
-                    var RecentPlay = "SE" + SeriesID;
-                } else {
-                    var RecentPlay = VideoID;
-                }
+                var RecentPlay = (type == "t") ? "SE" + $("#exampleModalScrollable").attr("data-post") : VideoID;
+
                 $.ajax({
                     type: "POST",
                     url: "/recentplay.php",
@@ -204,7 +201,7 @@
             var hs = document.createElement('script');
             hs.type = 'text/javascript';
             hs.async = true;
-            hs.src = ('//s10.histats.com/js15_as.js');
+           hs.src = ('//s10.histats.com/js15_as.js');
             (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
         })();
     </script>
