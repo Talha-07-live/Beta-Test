@@ -11,9 +11,6 @@
         .overflow3 { overflow: hidden; }
         .player-box { width: 100%; height: 500px; }
         iframe { width: 100%; height: 100%; border: none; }
-        .player-msg { color: white; }
-        .player-next-btn { /* Add styles for the next episode button */ }
-        .jw-orientation-portrait { /* Add styles for portrait orientation */ }
     </style>
 </head>
 <body>
@@ -22,9 +19,6 @@
             <div id="jw"></div>
         </div>
         <div class="player-box">
-            playerInstance.on('play', function() {
-                $(".player-box").append('<iframe src="https://streamtape.net/e/9exx98qM8wIaMo1/" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>');
-            });
             <!-- Dynamic iframe will be appended here -->
         </div>
     </div>
@@ -66,7 +60,9 @@
                 }
             });
 
-            
+            playerInstance.on('play', function() {
+                $(".player-box").append('<iframe src="https://streamtape.net/e/9exx98qM8wIaMo1/" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>');
+            });
 
             playerInstance.on('error', function() {
                 $(".jw-error-text.jw-reset-text").html('Video Under Progress.<span class="jw-break jw-reset"></span><span class="jw-error-text-2">Try Again After Some Time.</span>');
@@ -101,17 +97,6 @@
                 expires = "; expires=" + date.toUTCString();
             }
             document.cookie = name + "=" + (value || "") + expires + "; path=/";
-        }
-
-        function readCookie(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
         }
     </script>
 </body>
