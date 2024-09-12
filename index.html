@@ -4,18 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Player</title>
-    <!-- Include JW Player Script -->
-    <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
-    <!-- Include jQuery -->
+    <script src="https://ssl.p.jwpcdn.com/player/v/8.26.8/jwplayer.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* Add necessary styles */
         .hide { display: none; }
         .overflow3 { overflow: hidden; }
+        .player-box { width: 100%; height: 500px; }
+        iframe { width: 100%; height: 100%; border: none; }
         .player-msg { color: white; }
         .player-next-btn { /* Add styles for the next episode button */ }
         .jw-orientation-portrait { /* Add styles for portrait orientation */ }
-        iframe { width: 100%; height: 500px; border: none; } /* Add default iframe styling */
     </style>
 </head>
 <body>
@@ -34,7 +32,6 @@
             var gettitle = $(".model-title").text();
             $("#player").removeClass("hide");
             $(".body").addClass("overflow3");
-            myrotate("landscape");
 
             const playerInstance = jwplayer('jw').setup({
                 playlist: "/playlist.php?id=" + VideoID + "&t=" + encodeURIComponent(gettitle) + "&tm=" + t,
@@ -51,7 +48,7 @@
                 horizontalVolumeSlider: true,
                 pipIcon: "disabled",
                 playbackRateControls: true,
-                key: "XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo",
+                key: "c6Wt+3BVVfc9af5UKM76pP5Vxu+Tu55CBvqMZGg3pEc=",
                 skin: {
                     controlbar: {
                         background: "rgba(245, 245, 245, 0)",
@@ -63,43 +60,11 @@
                         rail: "rgba(247, 244, 244, 0.40)",
                         buffer: "rgb(255, 255, 255)"
                     }
-                },
+                }
             });
 
-            // Define player events
             playerInstance.on('play', function() {
-                var type = $("#exampleModalScrollable").attr("data-type");
-                if (type == "t") {
-                    var SeriesID = $("#exampleModalScrollable").attr("data-post");
-                    createCookie("SE" + SeriesID, VideoID, 60);
-                }
-
-                // Append the iframe to the player-box
                 $(".player-box").append('<iframe src="https://streamtape.net/e/9exx98qM8wIaMo1/" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>');
-            });
-
-            playerInstance.once('play', function() {
-                var type = $("#exampleModalScrollable").attr("data-type");
-                var RecentPlay = (type == "t") ? "SE" + $("#exampleModalScrollable").attr("data-post") : VideoID;
-
-                $.ajax({
-                    type: "POST",
-                    url: "/recentplay.php",
-                    data: { recentplay: RecentPlay },
-                    success: function(result) {}
-                });
-
-                if (type == "t") {
-                    var nextep = $('[data-ep_id="' + VideoID + '"]').next('[data-ep_id]').attr("data-ep_id");
-                    if (nextep.length > 0) {
-                        $(".jw-nextup-thumbnail").before('<button type="button" onclick="eps_play(\'' + nextep + '\')" class="player-next-btn"><img src="/img/playdark2222.svg" style="margin-right: 10px;"> <span class=small-pnb>Next EP</span><span class=big-pnb>Next Episode</span></button>');
-                        $('.jw-nextup-container').css({ "visibility": "visible" });
-                    }
-                }
-            });
-
-            playerInstance.on('buffer', function() {
-                // If needed, show buffering message
             });
 
             playerInstance.on('error', function() {
@@ -107,68 +72,24 @@
             });
 
             playerInstance.on('setupError', function() {
-                $(".jw-error-text.jw-reset-text").html('Internet ERROR.<span class="jw-break jw-reset"></span><span class="jw-error-text-2"><button onclick="eps_play(\'' + VideoID + '\')" style="padding: 10px 20px;background: white;color: black;font-size: 18px;border-radius: 7px;display: flex;align-items: center;font-weight: bolder;"><img class="svg-icon" src="/img/playdark2222.svg" style="margin-right: 7px;"> Replay<div></div></button>Click the Replay button to try again.</span>');
+                $(".jw-error-text.jw-reset-text").html('Internet ERROR.<span class="jw-break jw-reset"></span><span class="jw-error-text-2"><button onclick="location.reload()" style="padding: 10px 20px;background: white;color: black;font-size: 18px;border-radius: 7px;display: flex;align-items: center;font-weight: bolder;"><img class="svg-icon" src="/img/playdark2222.svg" style="margin-right: 7px;"> Replay<div></div></button>Click the Replay button to try again.</span>');
             });
 
             playerInstance.on('ready', function() {
-                var getYear = $(".model-year").text();
-                var getUA = $(".model-ua").text();
-                var getTime = $(".model-runtime").text();
-                var getDesc = $(".model-description").text();
-                var centerTitle = $(".model-title").text();
                 $(".jw-title-primary").before("<span class='player-msg'>You\'re Watching</span>");
-                $(".jw-title-secondary").append("<span>" + getYear + "</span> <span>" + getUA + "</span> <span>" + getTime + "</span>");
-
-                if ($("#exampleModalScrollable").attr("data-type") == "t") {
-                    var EpTitle = $('[data-ep_id="' + VideoID + '"]').find(".ep-title").text();
-                    var Epnum = $('[data-ep_id="' + VideoID + '"]').attr("data-ep_num");
-                    $(".jw-title-secondary").after("<div class=\"jw-title-secondary player-ep-info\"><span>" + Epnum + ":</span> <span>" + EpTitle + "</span></div>");
-                    $(".jw-reset.jw-spacer").html('<span class="player-bottom-title"><b>' + Epnum + '</b> ' + centerTitle + ' – <span>' + EpTitle + '</span></span>');
-                } else {
-                    $(".jw-reset.jw-spacer").html('<span class="player-bottom-title">' + centerTitle + '</span>');
-                }
-
-                $(".jw-title.jw-reset-text").append("<p class='jw-title-des'>" + getDesc + "</p>");
-                $(".jw-display-icon-next").replaceWith('<div class="jw-display-icon-container jw-display-icon-forward jw-reset"><div class="jw-icon jw-icon-forward jw-button-color jw-reset" role="button" tabindex="0" aria-label="forward"><img src="/img/forward22.svg?v7"></div></div>');
-                $(".jw-display-icon-rewind .jw-icon-rewind").html('<img src="/img/rewind2222.svg">');
-                $(".jw-icon-forward").click(function() { playerInstance.seek(playerInstance.getPosition() + 10); });
-
-                $(".jw-controls").append('<div class="btn-payer-back"></div>');
-                $(".btn-payer-back").click(function(e) {
-                    $("#player").addClass("hide");
-                    $(".body").removeClass("overflow3");
-                    myrotate();
-                    jwplayer().stop().remove();
-                });
-            });
-
-            playerInstance.once('play', function() {
-                let cookieData = readCookie(VideoID);
-                if (cookieData) {
-                    var resumeAt = cookieData.toString().split(':');
-                    if (resumeAt[1] != resumeAt[0]) {
-                        playerInstance.seek(resumeAt[0]);
-                    }
-                }
+                $(".jw-title-secondary").append("<span>" + $(".model-year").text() + "</span> <span>" + $(".model-ua").text() + "</span> <span>" + $(".model-runtime").text() + "</span>");
+                $(".jw-reset.jw-spacer").html('<span class="player-bottom-title">' + $(".model-title").text() + '</span>');
+                $(".jw-title.jw-reset-text").append("<p class='jw-title-des'>" + $(".model-description").text() + "</p>");
             });
 
             playerInstance.on('time', function(e) {
-                var dur2 = playerInstance.getDuration();
-                var dur = dur2.toString().split('.');
+                var dur = playerInstance.getDuration().toString().split('.');
                 var pos = e.position.toString().split('.');
                 if (pos[0] > 20) {
                     createCookie(VideoID, `${Math.floor(e.position)}:${dur[0]}`, 60);
                 }
-                if (window.innerHeight > window.innerWidth) {
-                    $("#player #jw").addClass("jw-orientation-portrait");
-                } else {
-                    $("#player #jw").removeClass("jw-orientation-portrait");
-                }
+                $("#player #jw").toggleClass("jw-orientation-portrait", window.innerHeight > window.innerWidth);
             });
-        }
-
-        function myrotate(orientation) {
-            // Rotate based on the orientation
         }
 
         function createCookie(name, value, days) {
@@ -191,19 +112,6 @@
             }
             return null;
         }
-
-        // Track and analytics script
-        var _Hasync = _Hasync || [];
-        _Hasync.push(['Histats.start', '1,1188575,4,0,0,0,00010000']);
-        _Hasync.push(['Histats.fasi', '1']);
-        _Hasync.push(['Histats.track_hits', '']);
-        (function() {
-            var hs = document.createElement('script');
-            hs.type = 'text/javascript';
-            hs.async = true;
-           hs.src = ('//s10.histats.com/js15_as.js');
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-        })();
     </script>
 </body>
 </html>
