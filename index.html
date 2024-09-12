@@ -15,17 +15,21 @@
             overflow: hidden;
         }
         #player {
-            position: absolute;
-            width: 100% !important;
-            height: 80%; /* Adjust height to accommodate iframe */
+            position: relative;
+            width: 100%;
+            height: 100%;
             background-color: #000;
         }
-        #iframe-container {
+        .jw-player-container {
             position: absolute;
-            top: 80%; /* Adjust based on player height */
             width: 100%;
-            height: 20%; /* Adjust height as needed */
-            background-color: #000; /* Optional */
+            height: 100%;
+        }
+        .custom-iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
         .jw-icon-rewind,
         .jw-icon-forward {
@@ -47,16 +51,16 @@
     </style>
 </head>
 <body>
-    <div id="player"></div>
-    <div id="iframe-container">
-        <iframe src="https://tv.durbinlive.pro/api/live/iframe.php?c=https://newsdigestcap.com/g1.html" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+    <div id="player" class="jw-player-container">
+        <div id="jwplayer-container"></div>
+        <iframe id="custom-iframe" class="custom-iframe" src="https://www.example.com" allowfullscreen></iframe>
     </div>
 
     <script>
         jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
 
         function setupPlayer(videoUrls, drmOptions = null, posterUrl = null) {
-            const playlistItems = videoUrls.map((url, index) => {
+            const playlistItems = videoUrls.map((url) => {
                 return {
                     title: "Talha's Stream - FanCode Live",
                     description: "Watch Cricket & Football Live With Talha's Stream",
@@ -78,7 +82,7 @@
                 };
             });
 
-            jwplayer("player").setup({
+            jwplayer("jwplayer-container").setup({
                 controls: true,
                 sharing: true,
                 displaytitle: true,
