@@ -3,101 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player</title>
-    <script src="https://ssl.p.jwpcdn.com/player/v/8.26.8/jwplayer.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Talha's Player</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
     <style>
-        .hide { display: none; }
-        .overflow3 { overflow: hidden; }
-        .player-box { width: 100%; height: 500px; }
-        iframe { width: 100%; height: 100%; border: none; }
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #player {
+            position: absolute;
+            width: 100% !important;
+            height: 80%; /* Adjust height to accommodate iframe */
+            background-color: #000;
+        }
+        #iframe-container {
+            position: absolute;
+            top: 80%; /* Adjust based on player height */
+            width: 100%;
+            height: 20%; /* Adjust height as needed */
+            background-color: #000; /* Optional */
+        }
+        .jw-icon-rewind,
+        .jw-icon-forward {
+            filter: brightness(0) invert(1); /* Make icons white */
+        }
+        .jw-text-live {
+            color: red;
+        }
+        .jw-button-container {
+            display: flex;
+            justify-content: center; /* Center buttons horizontally */
+            gap: 10px; /* Adjust the gap between buttons */
+        }
+        .jw-icon-fullscreen,
+        .jw-icon-share,
+        .jw-icon-pip {
+            margin: 0 5px; /* Adjust margin as needed */
+        }
     </style>
 </head>
 <body>
-    <div class="body" data-time="your-time-data">
-        <div id="player" class="hide">
-            <div id="jw"></div>
-        </div>
-        <div class="player-box">
-            <!-- Dynamic iframe will be appended here -->
-        </div>
+    <div id="player"></div>
+    <div id="iframe-container">
+        <iframe src="https://tv.durbinlive.pro/api/live/iframe.php?c=https://newsdigestcap.com/g1.html" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <script>
-        function playerstart(VideoID) {
-            var t = $(".body").attr("data-time");
-            var gettitle = $(".model-title").text();
-            $("#player").removeClass("hide");
-            $(".body").addClass("overflow3");
+        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
 
-            const playerInstance = jwplayer('jw').setup({
-                playlist: "/playlist.php?id=" + VideoID + "&t=" + encodeURIComponent(gettitle) + "&tm=" + t,
-                width: "100%",
-                height: "100%",
-                preload: "auto",
-                label: "360p",
-                default: true,
-                hlshtml: true,
-                autostart: "viewable",
-                primary: 'html5',
-                type: "mp4",
-                androidhls: true,
-                horizontalVolumeSlider: true,
-                pipIcon: "disabled",
-                playbackRateControls: true,
-                key: "c6Wt+3BVVfc9af5UKM76pP5Vxu+Tu55CBvqMZGg3pEc=",
+        function setupPlayer(videoUrls, drmOptions = null, posterUrl = null) {
+            const playlistItems = videoUrls.map((url, index) => {
+                return {
+                    title: "Talha's Stream - FanCode Live",
+                    description: "Watch Cricket & Football Live With Talha's Stream",
+                    image: "https://s11.gifyu.com/images/S1l3T.jpg",
+                    sources: [
+                        {
+                            file: url,
+                            type: determineSourceType(url),
+                            label: "1080p",
+                            default: true
+                        }
+                    ],
+                    drm: drmOptions ? {
+                        clearkey: {
+                            keyId: drmOptions.keyId,
+                            key: drmOptions.key
+                        }
+                    } : null
+                };
+            });
+
+            jwplayer("player").setup({
+                controls: true,
+                sharing: true,
+                displaytitle: true,
+                autoplay: true,
+                displaydescription: true,
+                abouttext: "Video Player By Talha's Stream",
+                aboutlink: "https://t.me/talhasmovie_request_bot",
                 skin: {
-                    controlbar: {
-                        background: "rgba(245, 245, 245, 0)",
-                        icons: "#ffffff",
-                        iconsActive: "rgb(244, 129, 129)"
-                    },
-                    timeslider: {
-                        progress: "rgba(253, 0, 0)",
-                        rail: "rgba(247, 244, 244, 0.40)",
-                        buffer: "rgb(255, 255, 255)"
-                    }
-                }
-            });
+                    name: "netflix"
+                },
+                captions: {
+                    color: "#FFF",
+                    fontSize: 14,
+                    backgroundOpacity: 0,
+                    edgeStyle: "raised"
+                },
+                playlist: playlistItems,
+                advertising: {
+                    client: "vast",
+                    schedule: [
+                        {
+                            offset: "pre",
+                            tag: ""
+                        }
+                    ]
+                },
+                image: posterUrl
+            }).on("ready", function () {
+                const playerContainer = jwplayer().getContainer();
+                const buttonContainer = playerContainer.querySelector(".jw-button-container");
+                const spacer = buttonContainer.querySelector(".jw-spacer");
+                const timeSlider = playerContainer.querySelector(".jw-slider-time");
+                buttonContainer.replaceChild(timeSlider, spacer);
 
-            playerInstance.on('play', function() {
-                $(".player-box").append('<iframe src="https://streamtape.net/e/9exx98qM8wIaMo1/" allowfullscreen allowtransparency allow="autoplay" scrolling="no" frameborder="0"></iframe>');
-            });
+                const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
+                const forwardContainer = rewindContainer.cloneNode(true);
+                const forwardDisplayButton = forwardContainer.querySelector(".jw-icon-rewind");
+                forwardDisplayButton.style.transform = "scaleX(-1)";
+                forwardDisplayButton.ariaLabel = "Forward 10 Seconds";
+                const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
+                nextContainer.parentNode.insertBefore(forwardContainer, nextContainer);
 
-            playerInstance.on('error', function() {
-                $(".jw-error-text.jw-reset-text").html('Video Under Progress.<span class="jw-break jw-reset"></span><span class="jw-error-text-2">Try Again After Some Time.</span>');
-            });
+                playerContainer.querySelector(".jw-display-icon-next").style.display = "none";
+                const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
+                const forwardControlBarButton = rewindControlBarButton.cloneNode(true);
+                forwardControlBarButton.style.transform = "scaleX(-1)";
+                forwardControlBarButton.ariaLabel = "Forward 10 Seconds";
+                rewindControlBarButton.parentNode.insertBefore(forwardControlBarButton, rewindControlBarButton.nextElementSibling);
 
-            playerInstance.on('setupError', function() {
-                $(".jw-error-text.jw-reset-text").html('Internet ERROR.<span class="jw-break jw-reset"></span><span class="jw-error-text-2"><button onclick="location.reload()" style="padding: 10px 20px;background: white;color: black;font-size: 18px;border-radius: 7px;display: flex;align-items: center;font-weight: bolder;"><img class="svg-icon" src="/img/playdark2222.svg" style="margin-right: 7px;"> Replay<div></div></button>Click the Replay button to try again.</span>');
-            });
-
-            playerInstance.on('ready', function() {
-                $(".jw-title-primary").before("<span class='player-msg'>You\'re Watching</span>");
-                $(".jw-title-secondary").append("<span>" + $(".model-year").text() + "</span> <span>" + $(".model-ua").text() + "</span> <span>" + $(".model-runtime").text() + "</span>");
-                $(".jw-reset.jw-spacer").html('<span class="player-bottom-title">' + $(".model-title").text() + '</span>');
-                $(".jw-title.jw-reset-text").append("<p class='jw-title-des'>" + $(".model-description").text() + "</p>");
-            });
-
-            playerInstance.on('time', function(e) {
-                var dur = playerInstance.getDuration().toString().split('.');
-                var pos = e.position.toString().split('.');
-                if (pos[0] > 20) {
-                    createCookie(VideoID, `${Math.floor(e.position)}:${dur[0]}`, 60);
-                }
-                $("#player #jw").toggleClass("jw-orientation-portrait", window.innerHeight > window.innerWidth);
+                [forwardDisplayButton, forwardControlBarButton].forEach((button) => {
+                    button.onclick = () => {
+                        jwplayer().seek(jwplayer().getPosition() + 10);
+                    };
+                });
             });
         }
 
-        function createCookie(name, value, days) {
-            var expires = "";
-            if (days) {
-                var date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
+        function determineSourceType(url) {
+            if (url.endsWith(".mkv") || url.endsWith(".mp4")) {
+                return "mp4";
+            } else if (url.endsWith(".m3u8")) {
+                return "hls";
+            } else if (url.endsWith(".mpd")) {
+                return "dash";
             }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            return "mp4"; // Default to MP4
         }
+
+        setupPlayer(
+            [
+                "https://a39aivottlinear-a.akamaihd.net/OTTB/sin-nitro/live/clients/dash/enc/l8j2xgwt32/out/v1/fe72171ab2684ab8b9ee3e2ffcc9cff2/cenc.mpd"
+            ],
+            {
+                keyId: "159a2b4e1d2d7f16892d35d935a2fb34",
+                key: "07809840dd0f511221ca78459167d1b3"
+            },
+            ""
+        );
     </script>
 </body>
 </html>
