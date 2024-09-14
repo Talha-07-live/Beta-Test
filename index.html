@@ -1,219 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watch Together with Chat</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
-    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-    <style>
-        body {
-            background-color: #121212;
-            color: #fff;
-            font-family: 'Roboto', sans-serif;
-        }
-        #playerContainer {
-            width: 80%;
-            margin: 0 auto;
-            padding-top: 20px;
-        }
-        #player {
-            width: 100%;
-            height: 500px;
-            background-color: #000;
-        }
-        .chat-box {
-            background-color: #1c1c1c;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px auto;
-            width: 80%;
-        }
-        .chat-message {
-            margin-bottom: 10px;
-        }
-        .custom-button {
-            background-color: #ff5722;
-            color: white;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .custom-button:hover {
-            background-color: #e64a19;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Watch Together with JW Player</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
+  <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+  <style>
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: 'Roboto', sans-serif;
+    }
+    #playerContainer {
+      width: 80%;
+      margin: 0 auto;
+      padding-top: 20px;
+    }
+    #player {
+      width: 100%;
+      height: 500px;
+      background-color: #000;
+    }
+    .dark-mode {
+      background-color: #000;
+      color: #fff;
+    }
+    .custom-button {
+      background-color: #ff5722;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .custom-button:hover {
+      background-color: #e64a19;
+    }
+    .chat-box {
+      background-color: #1c1c1c;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .chat-message {
+      margin-bottom: 10px;
+    }
+    .sync-status {
+      font-size: 12px;
+      color: #76ff03;
+    }
+    .user-count {
+      color: #76ff03;
+      font-size: 18px;
+      margin: 20px;
+    }
+  </style>
 </head>
-<body>
-    <div class="flex justify-between items-center p-5">
-        <h1 class="text-4xl font-bold">Watch Together</h1>
-    </div>
+<body class="text-center">
+  <div class="flex justify-between items-center p-5">
+    <h1 class="text-4xl font-bold">Watch Together</h1>
+    <button class="custom-button" onclick="toggleDarkMode()">Dark Mode</button>
+  </div>
 
-    <!-- JW Player Container -->
-    <div id="playerContainer">
-        <div id="player"></div>
-    </div>
+  <!-- JW Player Container -->
+  <div id="playerContainer">
+    <div id="player"></div>
+  </div>
+  
+  <p class="sync-status">Syncing...</p>
+  <p id="userCount" class="user-count">Users Online: 0</p>
 
-    <!-- Chat Box -->
-    <div class="chat-box">
-        <h3 class="text-xl font-semibold mb-3">Chat</h3>
-        <div id="chatMessages" class="h-64 overflow-y-auto mb-3"></div>
-        <textarea id="messageInput" class="w-full p-2" rows="2" placeholder="Type a message"></textarea>
-        <button class="custom-button mt-2" onclick="sendMessage()">Send</button>
-    </div>
+  <div class="chat-box mx-auto mt-5 w-4/5">
+    <h3 class="text-xl font-semibold mb-3">Chat</h3>
+    <div id="chatMessages" class="h-64 overflow-y-auto mb-3"></div>
+    <textarea id="messageInput" class="w-full p-2" rows="2" placeholder="Type a message"></textarea>
+    <button class="custom-button mt-2" onclick="sendMessage()">Send</button>
+  </div>
 
-    <script>
-        // Initialize Pusher
-        const pusher = new Pusher('666e8d4b69544d5be5b0', {
-            cluster: 'mt1',  // Use appropriate cluster
-            encrypted: true
-        });
+  <script>
+    // Firebase configuration (replace with your own)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      databaseURL: "YOUR_DATABASE_URL",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
 
-        // Subscribe to a Pusher channel
-        const channel = pusher.subscribe('chat');
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const userRef = database.ref('users');
+    const chatRef = database.ref('chat');
 
-        // Listen for messages
-        channel.bind('message', function(data) {
-            displayMessage(data.message);
-        });
+    // Track user presence
+    const userId = Date.now(); // Unique ID for each user (can be improved)
+    const userPresenceRef = userRef.child(userId);
 
-        // Display a message in the chat window
-        function displayMessage(message) {
-            const chatMessages = document.getElementById('chatMessages');
-            const newMessage = document.createElement('div');
-            newMessage.classList.add('chat-message');
-            newMessage.textContent = message;
-            chatMessages.appendChild(newMessage);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
+    function updateUserCount() {
+      userRef.once('value', snapshot => {
+        const onlineUsers = snapshot.numChildren();
+        document.getElementById('userCount').innerText = `Users Online: ${onlineUsers}`;
+      });
+    }
 
-        // Send a new message
-        function sendMessage() {
-            const messageInput = document.getElementById('messageInput');
-            const messageText = messageInput.value.trim();
+    userPresenceRef.set({ status: 'online' }).then(() => {
+      userPresenceRef.onDisconnect().remove(); // Remove user on disconnect
+      updateUserCount();
+    });
 
-            if (messageText !== "") {
-                // Send message to the Pusher server
-                fetch('https://your-backend-server/send-message', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ message: messageText })
-                }).then(response => {
-                    if (response.ok) {
-                        messageInput.value = '';
-                    }
-                });
-            }
-        }
+    chatRef.on('child_added', (snapshot) => {
+      const message = snapshot.val();
+      const chatMessages = document.getElementById('chatMessages');
+      const newMessage = document.createElement('div');
+      newMessage.classList.add('chat-message');
+      newMessage.textContent = message;
+      chatMessages.appendChild(newMessage);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
 
-        // JW Player setup
-        jwplayer.key = 'EP3tanOyfjurKgiA7KLnzMTekvDl1Wr14XmAOqNBk3eDc3Yyao+866DfCQaHUofh';
+    function sendMessage() {
+      const messageBox = document.getElementById('messageInput');
+      const message = messageBox.value;
 
-        function setupPlayer(videoUrls, drmOptions = null, posterUrl = null) {
-            const playlistItems = videoUrls.map((url) => {
-                return {
-                    title: "Talha's Stream - Arena Sports 2",
-                    description: "You're Watching",
-                    image: "https://s11.gifyu.com/images/S1l3T.jpg",
-                    sources: [
-                        {
-                            file: url,
-                            type: determineSourceType(url),
-                            label: "1080p",
-                            default: true
-                        }
-                    ],
-                    drm: drmOptions ? {
-                        clearkey: {
-                            keyId: drmOptions.keyId,
-                            key: drmOptions.key
-                        }
-                    } : null
-                };
-            });
+      if (message.trim() !== "") {
+        chatRef.push(message);
+        messageBox.value = '';
+      }
+    }
 
-            jwplayer("player").setup({
-                controls: true,
-                sharing: true,
-                displaytitle: true,
-                autoplay: true,
-                displaydescription: true,
-                abouttext: "Video Player By Talha's Stream",
-                aboutlink: "https://t.me/talhasmovie_request_bot",
-                skin: {
-                    name: "netflix"
-                },
-                captions: {
-                    color: "#FFF",
-                    fontSize: 14,
-                    backgroundOpacity: 0,
-                    edgeStyle: "raised"
-                },
-                playlist: playlistItems,
-                advertising: {
-                    client: "vast",
-                    schedule: [
-                        {
-                            offset: "pre",
-                            tag: ""
-                        }
-                    ]
-                },
-                image: posterUrl
-            }).on("ready", function () {
-                const playerContainer = jwplayer().getContainer();
-                const buttonContainer = playerContainer.querySelector(".jw-button-container");
-                const spacer = buttonContainer.querySelector(".jw-spacer");
-                const timeSlider = playerContainer.querySelector(".jw-slider-time");
-                buttonContainer.replaceChild(timeSlider, spacer);
+    // Dark Mode Toggle
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
 
-                const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
-                const forwardContainer = rewindContainer.cloneNode(true);
-                const forwardDisplayButton = forwardContainer.querySelector(".jw-icon-rewind");
-                forwardDisplayButton.style.transform = "scaleX(-1)";
-                forwardDisplayButton.ariaLabel = "Forward 10 Seconds";
-                const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
-                nextContainer.parentNode.insertBefore(forwardContainer, nextContainer);
+    // JW Player setup
+    jwplayer.key = 'EP3tanOyfjurKgiA7KLnzMTekvDl1Wr14XmAOqNBk3eDc3Yyao+866DfCQaHUofh';
 
-                playerContainer.querySelector(".jw-display-icon-next").style.display = "none";
-                const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
-                const forwardControlBarButton = rewindControlBarButton.cloneNode(true);
-                forwardControlBarButton.style.transform = "scaleX(-1)";
-                forwardControlBarButton.ariaLabel = "Forward 10 Seconds";
-                rewindControlBarButton.parentNode.insertBefore(forwardControlBarButton, rewindControlBarButton.nextElementSibling);
-
-                [forwardDisplayButton, forwardControlBarButton].forEach((button) => {
-                    button.onclick = () => {
-                        jwplayer().seek(jwplayer().getPosition() + 10);
-                    };
-                });
-            });
-        }
-
-        function determineSourceType(url) {
-            if (url.endsWith(".mkv") || url.endsWith(".mp4")) {
-                return "mp4";
-            } else if (url.endsWith(".m3u8")) {
-                return "hls";
-            } else if (url.endsWith(".mpd")) {
-                return "dash";
-            }
-            return "mp4"; // Default to MP4
-        }
-
-        setupPlayer(
-            [
-                "https://webtvstream.bhtelecom.ba/hls6/arena2.mpd"
-            ],
+    function setupPlayer(videoUrls, drmOptions = null, posterUrl = null) {
+      const playlistItems = videoUrls.map((url) => {
+        return {
+          title: "Talha's Stream - Arena Sports 2",
+          description: "You're Watching",
+          image: "https://s11.gifyu.com/images/S1l3T.jpg",
+          sources: [
             {
-                keyId: "c18b6aa739be4c0b774605fcfb5d6b68",
-                key: "e41c3a6f7532b2e3a828d9580124c89d"
-            },
-            ""
-        );
-    </script>
+              file: url,
+              type: determineSourceType(url),
+              label: "1080p",
+              default: true
+            }
+          ],
+          drm: drmOptions ? {
+            clearkey: {
+              keyId: drmOptions.keyId,
+              key: drmOptions.key
+            }
+          } : null
+        };
+      });
+
+      jwplayer("player").setup({
+        controls: true,
+        sharing: true,
+        displaytitle: true,
+        autoplay: true,
+        displaydescription: true,
+        abouttext: "Video Player By Talha's Stream",
+        aboutlink: "https://t.me/talhasmovie_request_bot",
+        skin: {
+          name: "netflix"
+        },
+        captions: {
+          color: "#FFF",
+          fontSize: 14,
+          backgroundOpacity: 0,
+          edgeStyle: "raised"
+        },
+        playlist: playlistItems,
+        advertising: {
+          client: "vast",
+          schedule: [
+            {
+              offset: "pre",
+              tag: ""
+            }
+          ]
+        },
+        image: posterUrl
+      }).on("ready", function () {
+        const playerContainer = jwplayer().getContainer();
+        const buttonContainer = playerContainer.querySelector(".jw-button-container");
+        const spacer = buttonContainer.querySelector(".jw-spacer");
+        const timeSlider = playerContainer.querySelector(".jw-slider-time");
+        buttonContainer.replaceChild(timeSlider, spacer);
+
+        const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
+        const forwardContainer = rewindContainer.cloneNode(true);
+        const forwardDisplayButton = forwardContainer.querySelector(".jw-icon-rewind");
+        forwardDisplayButton.style.transform = "scaleX(-1)";
+        forwardDisplayButton.ariaLabel = "Forward 10 Seconds";
+        const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
+        nextContainer.parentNode.insertBefore(forwardContainer, nextContainer);
+
+        playerContainer.querySelector(".jw-display-icon-next").style.display = "none";
+        const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
+        const forwardControlBarButton = rewindControlBarButton.cloneNode(true);
+        forwardControlBarButton.style.transform = "scaleX(-1)";
+        forwardControlBarButton.ariaLabel = "Forward 10 Seconds";
+        rewindControlBarButton.parentNode.insertBefore(forwardControlBarButton, rewindControlBarButton.nextElementSibling);
+
+        [forwardDisplayButton, forwardControlBarButton].forEach((button) => {
+          button.onclick = () => {
+            jwplayer().seek(jwplayer().getPosition() + 10);
+          };
+        });
+      });
+    }
+
+    function determineSourceType(url) {
+      if (url.endsWith(".mkv") || url.endsWith(".mp4")) {
+        return "mp4";
+      } else if (url.endsWith(".m3u8")) {
+        return "hls";
+      } else if (url.endsWith(".mpd")) {
+        return "dash";
+      }
+      return "mp4"; // Default to MP4
+    }
+
+    setupPlayer(
+      [
+        "https://webtvstream.bhtelecom.ba/hls6/arena2.mpd"
+      ],
+      {
+        keyId: "c18b6aa739be4c0b774605fcfb5d6b68",
+        key: "e41c3a6f7532b2e3a828d9580124c89d"
+      },
+      ""
+    );
+  </script>
 </body>
 </html>
