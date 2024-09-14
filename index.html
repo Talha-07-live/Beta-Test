@@ -7,73 +7,61 @@
     <style>
         /* Existing CSS here... */
 
-        /* Modal for iframe advertisement */
-        .iframe-modal {
+        /* Iframe advertisement in the corner */
+        .iframe-ad {
             position: fixed;
-            top: 0;
-            left: 0;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            height: 200px;
+            border: 2px solid #f9a825;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            background-color: #fff;
+        }
+
+        .iframe-ad iframe {
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-        }
-
-        .iframe-content {
-            position: relative;
-            width: 80%;
-            max-width: 900px;
-            background-color: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .iframe-content iframe {
-            width: 100%;
-            height: 500px;
             border: none;
         }
 
-        .close-btn {
+        .close-ad {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: -10px;
+            right: -10px;
             background-color: #ff0000;
             color: #fff;
             border: none;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
-            padding: 5px 10px;
-            border-radius: 5px;
+            padding: 5px;
+            border-radius: 50%;
         }
 
-        .close-btn:hover {
+        .close-ad:hover {
             background-color: #ff4444;
         }
     </style>
 </head>
 <body>
-    <!-- Existing content here... -->
+    <!-- Existing content of your website here... -->
 
-    <!-- Iframe Advertisement Modal -->
-    <div class="iframe-modal" id="iframeModal">
-        <div class="iframe-content">
-            <button class="close-btn" id="closeIframe">X</button>
-            <iframe src="https://talha-07-live.github.io/Talhas-Web-Host10/" title="Advertisement"></iframe> <!-- Replace with your iframe source -->
-        </div>
+    <!-- Iframe Advertisement in the corner -->
+    <div class="iframe-ad" id="iframeAd">
+        <button class="close-ad" id="closeAd">X</button>
+        <iframe src="https://talha-07-live.github.io/Talhas-Web-Host10/" title="Advertisement"></iframe> <!-- Replace with your ad URL -->
     </div>
 
-    <!-- JavaScript for modal behavior -->
+    <!-- JavaScript for closing the ad -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('iframeModal');
-            const closeBtn = document.getElementById('closeIframe');
+            const ad = document.getElementById('iframeAd');
+            const closeBtn = document.getElementById('closeAd');
 
-            // Close the modal when the close button is clicked
+            // Close the ad when the close button is clicked
             closeBtn.addEventListener('click', function() {
-                modal.style.display = 'none';
+                ad.style.display = 'none';
             });
         });
     </script>
