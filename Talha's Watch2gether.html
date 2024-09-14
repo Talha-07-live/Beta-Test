@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch2gether</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #20232a;
+            color: #61dafb;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            text-align: center;
+            background: #282c34;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #61dafb;
+        }
+
+        #controls {
+            margin-bottom: 20px;
+        }
+
+        #controls input, #controls button {
+            margin: 5px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        #controls input {
+            width: 70%;
+        }
+
+        #controls button {
+            background-color: #61dafb;
+            color: #282c34;
+            cursor: pointer;
+        }
+
+        #controls button:disabled {
+            background-color: #888;
+            cursor: not-allowed;
+        }
+
+        #player-container {
+            margin-bottom: 20px;
+        }
+
+        #video-player {
+            width: 100%;
+            height: 60vh;
+            border: none;
+            border-radius: 10px;
+            display: none; /* Initially hidden */
+        }
+
+        #chat-container {
+            border-top: 1px solid #61dafb;
+            padding-top: 10px;
+            display: none; /* Initially hidden */
+        }
+
+        #chat-box {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background: #3c4043;
+            color: #fff;
+        }
+
+        #chat-input {
+            width: 75%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        #send-msg {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #61dafb;
+            color: #282c34;
+            cursor: pointer;
+        }
+
+        #footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #61dafb;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Talha's Watch2gether</h1>
+        <div id="controls">
+            <input type="text" id="room-id" placeholder="Enter Room ID">
+            <button id="join-btn">Join Room</button>
+        </div>
+        <div id="player-container">
+            <iframe id="video-player" src="https://talha-07-live.github.io/Talhas-Web-Host10/" scrolling="no" frameborder="0" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
+        </div>
+        <div id="chat-container">
+            <div id="chat-box"></div>
+            <input type="text" id="chat-input" placeholder="Type a message...">
+            <button id="send-msg">Send</button>
+        </div>
+    </div>
+
+    <!-- Online Counter -->
+    <div id="footer">
+        <center>
+            <script type="text/javascript" src="//widget.supercounters.com/ssl/online_i.js"></script>
+            <script type="text/javascript">
+                sc_online_i(1699126, "ffffff", "e61c1c");
+            </script>
+            <br>
+            <noscript>
+                <a href="https://www.supercounters.com/">free online counter</a>
+            </noscript>
+        </center>
+    </div>
+
+    <script>
+        const roomInput = document.getElementById('room-id');
+        const joinBtn = document.getElementById('join-btn');
+        const videoPlayer = document.getElementById('video-player');
+        const playerContainer = document.getElementById('player-container');
+        const chatContainer = document.getElementById('chat-container');
+        const chatBox = document.getElementById('chat-box');
+        const chatInput = document.getElementById('chat-input');
+        const sendMsgBtn = document.getElementById('send-msg');
+        const correctRoomId = 'watch2talha';
+
+        // Handle room join
+        joinBtn.addEventListener('click', () => {
+            const enteredRoomId = roomInput.value.trim();
+            if (enteredRoomId === correctRoomId) {
+                videoPlayer.style.display = 'block';
+                chatContainer.style.display = 'block';
+            } else {
+                alert('Incorrect Room ID. Please enter the correct Room ID to join.');
+            }
+        });
+
+        // Handle sending messages in the chat
+        sendMsgBtn.addEventListener('click', () => {
+            const message = chatInput.value.trim();
+            if (message) {
+                // Create a new message div and append it to the chat box
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = message;
+                messageDiv.style.marginBottom = '10px';
+                messageDiv.style.textAlign = 'left'; // Align message to left
+                chatBox.appendChild(messageDiv);
+
+                // Clear the input field after sending
+                chatInput.value = '';
+
+                // Scroll to the bottom of the chat box
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        });
+
+        // Optionally, you can send the message when Enter key is pressed
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMsgBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
