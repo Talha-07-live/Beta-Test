@@ -3,339 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talha-07-Live</title>
+    <title>Wizard Football Club</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 110vh;
-            background-color: #111;
+        /* Reset CSS */
+        * {
             margin: 0;
-            flex-direction: column;
+            padding: 0;
+            box-sizing: border-box;
         }
-        #login-form {
+
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+        }
+
+        nav {
             display: flex;
-            font-size: 8px;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-        }
-        #my-video {
+            justify-content: space-between;
+            padding: 13px 40px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: fixed;
             width: 100%;
-            max-width: 1000px;
-            border: 5px solid transparent;
-            border-radius: 10px;
-            animation: border-animation 5s infinite;
-            background-clip: border-box;
-            display: none; /* Initially hide HLS video player */
+            top: 0;
+            z-index: 1000;
         }
-        #my-iframe {
-            position: absolute;
-            top: -200px;
-            left: -14px;
-            width: 105%;
-            max-width: 1000px;
-            border: 5px solid transparent;
-            border-radius: 10px;
-            animation: border-animation 5s infinite;
-            background-clip: border-box;
-            display: none; /* Initially hide iframe */
-            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
-        }
-        #password {
-            padding: 10px;
-            font-size: 16px;
-        }
-        #submit-btn {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin-top: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-        #submit-btn:hover {
-            background-color: #0056b3;
-        }
-        .video-container {
-            position: relative;
-            width: 90%;
-            max-width: 800px;
-            display: flex;
-            justify-content: center;
-            margin-top: 20px; /* Added margin to separate from login form */
-            position: relative; /* Added relative positioning */
-        }
-        .ticker-container {
-            position: absolute;
-            bottom: -68px;
-            width: 100%;
-            overflow: hidden;
-            display: block; /* Ensure ticker container is displayed */
-        }
-        .ticker1 {
-            display: none; /* Initially hide ticker1 */
-            white-space: nowrap;
-            padding-left: 100%; /* Start off-screen */
-            animation: ticker-animation1 73s linear infinite; /* Adjusted animation duration for ticker speed */
-            color: white;
-        }
-        .ticker2 {
-            display: inline-block; /* Initially show ticker2 */
-            white-space: nowrap;
-            padding-left: 100%; /* Start off-screen */
-            animation: ticker-animation2 22s linear infinite; /* Adjusted animation duration for ticker speed */
-            color: white;
-        }
-        @keyframes ticker-animation1 {
-            0% {
-                transform: translateX(5%);
-            }
-            100% {
-                transform: translateX(-1110%);
-            }
-        }
-        @keyframes ticker-animation2 {
-            0% {
-                transform: translateX(2%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-        .support-button {
-            position: absolute;
-            top: -250px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-        .support-button:hover {
-            background-color: #28a745;
-        }
-        #cricket-btn {
-            position: absolute;
-            top: 145px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #DEB887;
-            color: white;
-            border: none;
-            padding: 12px 17px;
-            font-size: 8px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-        #copa-btn {
-            position: absolute;
-            top: 145px; /* Adjust the top value as needed */
-            left: 28%;
-            transform: translateX(-28%);
-            background-color: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 12px 17px;
-            font-size: 8px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-        #copa-btn:hover {
-            background-color: #d9534f;
-        }
-        footer {
-            margin-top: 190px;
-            font-size: 12px;
-            color: #555;
-            text-align: center;
-        }
-        .footer-text {
-            font-size: 16px;
+
+        .logo h1 {
+            font-size: 28px;
             font-weight: bold;
-            background: linear-gradient(45deg, #ff6b6b, #ff9f43, #feca57, #48dbfb, #1dd1a1, #f368e0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-animation 5s infinite;
-            background-size: 300%;
         }
-        @keyframes gradient-animation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
         }
-        @keyframes border-animation {
-            0% {
-                border-color: #ff6b6b;
-            }
-            20% {
-                border-color: #ff9f43;
-            }
-            40% {
-                border-color: #feca57;
-            }
-            60% {
-                border-color: #48dbfb;
-            }
-            80% {
-                border-color: #1dd1a1;
-            }
-            100% {
-                border-color: #f368e0;
-            }
+
+        .nav-links li {
+            margin-left: 15px;
         }
-        .logo {
-            position: absolute;
-            top: 220px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 200px; /* Adjust the width as needed */
+
+        .nav-links a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 12px;
+            transition: color 0.3s;
         }
-        .logo-top-right {
-            position: absolute;
-            top: -185px;
-            right: 320px;
-            width: 60px; /* Adjust the size of the top-right logo */
-            display: none; /* Initially hide logo */
+
+        .nav-links a:hover {
+            color: #ffa000;
         }
-        .visitor-counter {
-            position: absolute;
-            bottom: -115px;
-            left: 50%;
-            transform: translateX(-50%);
+
+        .hero-section {
+            padding: 250px 10px;
+            text-align: center;
+            background-image: url('https://s11.gifyu.com/images/So8Pl.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            margin-top: 0;
         }
-        .server-buttons {
-            position: absolute;
-            top: 80px; /* Adjust this value to move the buttons up or down */
-            left: 50%;
-            transform: translateX(-50%);
-            display: none; /* Initially hide server buttons */
-            gap: 10px; /* Adjust gap between server buttons */
+
+        .hero-section h2 {
+            font-size: 50px;
+            margin-bottom: 20px;
         }
-        .server-button {
-            background-color: #ff6b6b;
-            color: white;
+
+        .hero-section p {
+            font-size: 22px;
+            margin-bottom: 30px;
+            margin-top: 70px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #f9a825;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #ffa000;
+        }
+
+        .about-section {
+            padding: 320px 10px;
+            text-align: center;
+            background-image: url('https://s11.gifyu.com/images/So86k.jpg');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+
+        /* Full-Screen Iframe */
+        #fullscreen-iframe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #fullscreen-iframe iframe {
+            width: 90%;
+            height: 90%;
             border: none;
-            padding: 10px 15px;
-            font-size: 10px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
         }
-        .server-button:hover {
-            background-color: #d9534f;
+
+        /* Close button for iframe */
+        #close-iframe {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 28px;
+            color: #fff;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div id="login-form">
-        <h1>𝔼𝕟𝕥𝕖𝕣 𝕋𝕙𝕖 ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕 𝕋𝕠 𝔾𝕠</h1>
-        <input type="ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕" id="password" placeholder="ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕">
-        <button id="submit-btn">𝕊𝕦𝕓𝕞𝕚𝕥</button>
-    </div>
-    <div class="video-container">
-        <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
-        <video id="my-video" controls width="640" height="264" src=""></video>
-        <iframe id="my-iframe" src="https://talhas.fancodelive.rf.gd/" width="100%" height="225px" scrolling="no" frameborder="0" loading "lazy" allow="accelerometer; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
-        <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
-        <button id="cricket-btn" onclick="redirectToCricket()">𝔹𝕒𝕔𝕜 𝕋𝕠 ℍ𝕠𝕞𝕖 ℙ𝕒𝕘𝕖</button>
-        <button class="support-button" onclick="openSupport()">𝕊𝕦𝕡𝕡𝕠𝕣𝕥</button>
-        
-        <div class="ticker-container">
-            <div class="ticker1">
-                𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 𝕋𝕒𝕝𝕙𝕒'𝕤 𝕊𝕥𝕣𝕖𝕒𝕞 𝔸𝕡𝕡, ℂ𝕝𝕚𝕔𝕜 𝕀𝕟𝕤𝕚𝕕𝕖 𝕋𝕙𝕖 ℙ𝕝𝕒𝕪𝕖𝕣 ℙ𝕝𝕒𝕪 𝔹𝕦𝕥𝕥𝕠𝕟 𝕋𝕠 ℙ𝕝𝕒𝕪 𝕍𝕚𝕕𝕖𝕠 𝔸𝕟𝕕 𝕎𝕒𝕚𝕥 𝟙𝟘 𝕋𝕠 𝟚𝟘 𝕊𝕖𝕔𝕠𝕟𝕕 𝔽𝕠𝕣 𝔹𝕦𝕗𝕗𝕖𝕣 𝕃𝕠𝕒𝕕𝕚𝕟𝕘.(𝕊𝕠𝕞𝕖𝕥𝕚𝕞𝕖𝕤 𝕀𝕥'𝕤 𝕋𝕒𝕜𝕖 𝟛𝟘 𝕊𝕖𝕔𝕠𝕟𝕕, 𝔻𝕖𝕡𝕖𝕟𝕕 𝕆𝕟 𝕐𝕠𝕦𝕣 ℕ𝕖𝕥𝕨𝕠𝕣𝕜) 𝕀𝕗 𝕍𝕚𝕕𝕖𝕠 ℕ𝕠𝕥 ℙ𝕝𝕒𝕪 𝕋𝕣𝕪 𝕆𝕥𝕙𝕖𝕣 𝕊𝕖𝕣𝕧𝕖𝕣 𝔸𝕟 𝔸𝕟𝕪 𝕆𝕥𝕙𝕖𝕣 𝕀𝕤𝕤𝕦𝕖𝕤 ℂ𝕝𝕚𝕔𝕜 "𝕊𝕦𝕡𝕡𝕠𝕣𝕥" 𝔹𝕦𝕥𝕥𝕠𝕟 𝔸𝕟𝕕 𝕊𝕦𝕓𝕞𝕚𝕥 𝕐𝕠𝕦𝕣 ℝ𝕖𝕡𝕠𝕣𝕥, 𝕋𝕙𝕒𝕟𝕜𝕤! **[ℕ𝕠𝕥𝕖* 𝔹𝕪 𝕒𝕔𝕔𝕖𝕤𝕤𝕚𝕟𝕘 𝕠𝕦𝕣 𝕤𝕥𝕣𝕖𝕒𝕞𝕚𝕟𝕘 𝔸𝕡𝕡 𝕪𝕠𝕦 𝕒𝕔𝕜𝕟𝕠𝕨𝕝𝕖𝕕𝕘𝕖 𝕥𝕙𝕒𝕥 𝕨𝕖 𝕒𝕘𝕘𝕣𝕖𝕘𝕒𝕥𝕖 𝕗𝕣𝕖𝕖𝕝𝕪 𝕒𝕧𝕒𝕚𝕝𝕒𝕓𝕝𝕖 𝕤𝕥𝕣𝕖𝕒𝕞𝕚𝕟𝕘 𝕝𝕚𝕟𝕜𝕤 𝕨𝕖 𝕒𝕣𝕖 𝕟𝕠𝕥 𝕣𝕖𝕤𝕡𝕠𝕟𝕤𝕚𝕓𝕝𝕖 𝕒𝕟𝕪 𝕔𝕠𝕡𝕪𝕣𝕚𝕘𝕙𝕥 𝕔𝕠𝕟𝕔𝕖𝕣𝕟𝕤, 𝕡𝕝𝕖𝕒𝕤𝕖 𝕔𝕠𝕟𝕥𝕒𝕔𝕥 𝕦𝕤 𝕒𝕥 𝕔𝕝𝕚𝕔𝕜 "𝕤𝕦𝕡𝕡𝕠𝕣𝕥" 𝕓𝕦𝕥𝕥𝕠𝕟]** 
+    <header>
+        <nav>
+            <div class="logo">
+                <h1>Wizard FC</h1>
             </div>
-            <div class="ticker2">
-                𝕎𝕙𝕖𝕟 𝕐𝕠𝕦 𝕋𝕣𝕪 𝕋𝕠 𝔼𝕟𝕥𝕖𝕣 𝕋𝕙𝕖 ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕 𝔸𝕟𝕕 𝕂𝕖𝕪𝕓𝕠𝕒𝕣𝕕 ℕ𝕠𝕥 𝕊𝕙𝕠𝕨 𝕋𝕙𝕖𝕟 ℂ𝕝𝕚𝕔𝕜 𝕋𝕙𝕖 𝕊𝕦𝕓𝕞𝕚𝕥 𝔹𝕦𝕥𝕥𝕠𝕟 𝔽𝕚𝕣𝕤𝕥 𝔸𝕟𝕕 𝕋𝕙𝕖𝕟 𝕋𝕣𝕪... 𝕀𝕗 𝕊𝕦𝕓𝕞𝕚𝕥 𝔹𝕦𝕥𝕥𝕠𝕟 ℕ𝕠𝕥 𝕎𝕠𝕣𝕜 𝕋𝕙𝕒𝕥'𝕤 𝕄𝕖𝕒𝕟 𝕋𝕙𝕚𝕤 ℙ𝕒𝕘𝕖 ℕ𝕠𝕥 𝔽𝕦𝕝𝕝𝕪 𝕃𝕠𝕒𝕕𝕖𝕕 𝕐𝕖𝕥, ℙ𝕝𝕖𝕒𝕤𝕖 𝕎𝕒𝕚𝕥 𝔽𝕖𝕨 𝕊𝕖𝕔𝕠𝕟𝕕 𝔽𝕠𝕣 ℙ𝕒𝕘𝕖 𝔽𝕦𝕝𝕝𝕪 𝕃𝕠𝕒𝕕𝕖𝕕.
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#schedule">Schedule</a></li>
+                <li><a href="#results">Results</a></li>
+                <li><a href="#albums">Albums</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" id="live-match-btn">Live Match</a></li>
+            </ul>
+        </nav>
+        <div class="hero-section" id="home">
+            <h2>Welcome to Wizard Football Club</h2>
+            <p>The Home of Champions</p>
+            <a href="#about" class="btn">Learn More</a>
+        </div>
+    </header>
+
+    <section id="about" class="about-section">
+        <h2>About Us</h2>
+        <p>Wizard FC is a premier football club with a rich history of success and a commitment to excellence. We pride ourselves on developing talented players and competing at the highest levels of the sport.</p>
+    </section>
+
+    <!-- Full-Screen Iframe for Live Match -->
+    <div id="fullscreen-iframe">
+        <span id="close-iframe">&times;</span>
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+    </div>
+
+    <footer id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Us</h3>
+                <p>Email: wizardfc@official.com</p>
+            </div>
+            <div class="social-media">
+                <h3>Follow Us</h3>
+                <a href="https://www.facebook.com/your-page-link">Facebook</a>
+                <a href="https://twitter.com/your-page-link">Twitter</a>
+                <a href="https://www.instagram.com/your-page-link">Instagram</a>
             </div>
         </div>
-        <div class="server-buttons">
-            <button class="server-button" id="server1-btn" onclick="changeServer('server1')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟙</button>
-            <button class="server-button" id="server2-btn" onclick="changeServer('server2')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟚</button>
-            <button class="server-button" id="server3-btn" onclick="changeServer('server3')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟛</button>
-            <button class="server-button" id="server4-btn" onclick="changeServer('server4')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟜</button>
-            <button class="server-button" id="server5-btn" onclick="changeServer('server5')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟝</button>
-        </div>
-    </div>
-    <footer><span class="footer-text">𝕄𝕒𝕕𝕖 𝔹𝕪 <a href="" style="color: inherit; text-decoration: none;">𝕋𝕒𝕝𝕙𝕒</a></span></footer>
-    <div class="visitor-counter"
-    <center>
-            <script type="text/javascript" src="//widget.supercounters.com/ssl/online_i.js"></script>
-            <script type="text/javascript">
-                sc_online_i(1699126, "ffffff", "e61c1c");
-            </script>
-            <br>
-            <noscript>
-                <a href="https://www.supercounters.com/">free online counter</a>
-            </noscript>
-        </center>
-    </div>
+        <p>&copy; 2021-2024 Wizard Football Club | All rights reserved.      • Made By ABU TALHA RAJ.</p>
+    </footer>
+    
+    <!-- JavaScript for Smooth Scrolling and Iframe Control -->
     <script>
-        const PASSWORD = "Talha"; // Set your password here
-        const loginForm = document.getElementById('login-form');
-        const passwordInput = document.getElementById('password');
-        const submitBtn = document.getElementById('submit-btn');
-        const videoPlayer = document.getElementById('my-video');
-        const iframePlayer = document.getElementById('my-iframe');
-        const ticker1 = document.querySelector('.ticker1');
-        const ticker2 = document.querySelector('.ticker2');
-        const logoTopRight = document.getElementById('logo-top-right');
-        const serverButtonsContainer = document.querySelector('.server-buttons'); // Select the server buttons containr
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a[href^="#"]');
 
-        submitBtn.addEventListener('click', () => {
-            if (passwordInput.value === PASSWORD) {
-                loginForm.style.display = 'none';
-                videoPlayer.style.display = 'none';
-                iframePlayer.style.display = 'block';
-                ticker1.style.display = 'block'; // Show ticker1 after successful login
-                ticker2.style.display = 'none'; // Hide ticker2 after successful login
-                logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
-                serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
-            } else {
-                alert('Incorrect password. Please try again.');
-            }
+            links.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Handle Live Match button click
+            const liveMatchBtn = document.getElementById('live-match-btn');
+            const iframeContainer = document.getElementById('fullscreen-iframe');
+            const closeIframe = document.getElementById('close-iframe');
+
+            liveMatchBtn.addEventListener('click', function() {
+                iframeContainer.style.display = 'flex'; // Show iframe
+            });
+
+            closeIframe.addEventListener('click', function() {
+                iframeContainer.style.display = 'none'; // Hide iframe
+            });
         });
-
-        function openSupport() {
-            window.open("https://t.me/talhasmovie_request_bot", "_blank");
-        }
-
-        function redirectToCricket() {
-            window.location.href = "https://talhas.stream.000.pe/";
-        }
-
-        function redirectToCopa() {
-            window.location.href = "";
-        }
-
-        function changeServer(server) {
-            const servers = {
-                server1: "https://talhas.fancodelive.rf.gd/",
-                server2: "https://talhas.arena1premium.rf.gd/",
-                server3: "https://talhas.arena2premium.rf.gd/",
-                server4: "https://talhas.arena3premium.rf.gd/",
-                server5: "https://talhas.arenasport1.rf.gd/"
-            };
-            iframePlayer.src = servers[server];
-        }
     </script>
 </body>
 </html>
