@@ -6,8 +6,9 @@
     <title>Watch Together</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #20232a;
+            color: #61dafb;
             margin: 0;
             display: flex;
             justify-content: center;
@@ -16,13 +17,19 @@
         }
 
         .container {
-            width: 80%;
+            width: 90%;
             max-width: 1200px;
             text-align: center;
-            background: white;
+            background: #282c34;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #61dafb;
         }
 
         #controls {
@@ -32,18 +39,23 @@
         #controls input, #controls button {
             margin: 5px;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: none;
             border-radius: 5px;
+            font-size: 1em;
+        }
+
+        #controls input {
+            width: 70%;
         }
 
         #controls button {
-            background-color: #007BFF;
-            color: white;
+            background-color: #61dafb;
+            color: #282c34;
             cursor: pointer;
         }
 
         #controls button:disabled {
-            background-color: #ccc;
+            background-color: #888;
             cursor: not-allowed;
         }
 
@@ -55,11 +67,11 @@
             width: 100%;
             height: 60vh;
             border: none;
+            border-radius: 10px;
         }
 
         #chat-container {
-            margin-top: 20px;
-            border-top: 1px solid #ccc;
+            border-top: 1px solid #61dafb;
             padding-top: 10px;
         }
 
@@ -67,25 +79,24 @@
             max-height: 200px;
             overflow-y: auto;
             margin-bottom: 10px;
-            border: 1px solid #ccc;
             padding: 10px;
             border-radius: 5px;
-            background: #f9f9f9;
+            background: #3c4043;
         }
 
         #chat-input {
-            width: 80%;
+            width: 75%;
             padding: 10px;
-            border: 1px solid #ccc;
+            border: none;
             border-radius: 5px;
         }
 
         #send-msg {
             padding: 10px;
-            border: 1px solid #ccc;
+            border: none;
             border-radius: 5px;
-            background-color: #007BFF;
-            color: white;
+            background-color: #61dafb;
+            color: #282c34;
             cursor: pointer;
         }
     </style>
@@ -119,7 +130,6 @@
         let socket;
         let currentRoom = null;
 
-        // Initialize WebSocket connection
         function initWebSocket() {
             socket = new WebSocket('wss://your-websocket-server-url');
 
@@ -135,7 +145,6 @@
             };
         }
 
-        // Join Room
         joinBtn.addEventListener('click', () => {
             const roomId = roomInput.value.trim();
             if (roomId && !currentRoom) {
@@ -146,7 +155,6 @@
             }
         });
 
-        // Leave Room
         leaveBtn.addEventListener('click', () => {
             if (currentRoom) {
                 socket.send(JSON.stringify({ type: 'leave', room: currentRoom }));
@@ -156,7 +164,6 @@
             }
         });
 
-        // Send Chat Message
         sendMsgBtn.addEventListener('click', () => {
             const message = chatInput.value.trim();
             if (message && currentRoom) {
@@ -165,7 +172,6 @@
             }
         });
 
-        // Initialize WebSocket on page load
         window.onload = initWebSocket;
     </script>
 </body>
