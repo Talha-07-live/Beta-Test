@@ -11,6 +11,7 @@
             color: #61dafb;
             margin: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -84,6 +85,7 @@
             padding: 10px;
             border-radius: 5px;
             background: #3c4043;
+            color: #fff;
         }
 
         #chat-input {
@@ -101,6 +103,13 @@
             color: #282c34;
             cursor: pointer;
         }
+
+        #footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #61dafb;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
@@ -111,8 +120,7 @@
             <button id="join-btn">Join Room</button>
         </div>
         <div id="player-container">
-            <iframe id="video-player" src="https://talha-07-live.github.io/Talhas-Web-Host10/" scrolling="no" frameborder="0" loading "lazy" allow="accelerometer; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
-></iframe>
+            <iframe id="video-player" src="https://talha-07-live.github.io/Talhas-Web-Host10/" scrolling="no" frameborder="0" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
         </div>
         <div id="chat-container">
             <div id="chat-box"></div>
@@ -121,22 +129,58 @@
         </div>
     </div>
 
+    <!-- Online Counter -->
+    <div id="footer">
+        <a href='https://www.free-counters.org/'>www.Free-Counters.org</a>
+        <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=99dd76114fc63d8d6db6e589c316f6309fc5f47b'></script>
+        <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1234270/t/5"></script>
+    </div>
+
     <script>
         const roomInput = document.getElementById('room-id');
         const joinBtn = document.getElementById('join-btn');
         const videoPlayer = document.getElementById('video-player');
         const playerContainer = document.getElementById('player-container');
         const chatContainer = document.getElementById('chat-container');
+        const chatBox = document.getElementById('chat-box');
+        const chatInput = document.getElementById('chat-input');
+        const sendMsgBtn = document.getElementById('send-msg');
         const correctRoomId = 'watch2talha';
 
+        // Handle room join
         joinBtn.addEventListener('click', () => {
             const enteredRoomId = roomInput.value.trim();
             if (enteredRoomId === correctRoomId) {
-                // Show the player and chat once the correct room ID is entered
                 videoPlayer.style.display = 'block';
                 chatContainer.style.display = 'block';
             } else {
                 alert('Incorrect Room ID. Please enter the correct Room ID to join.');
+            }
+        });
+
+        // Handle sending messages in the chat
+        sendMsgBtn.addEventListener('click', () => {
+            const message = chatInput.value.trim();
+            if (message) {
+                // Create a new message div and append it to the chat box
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = message;
+                messageDiv.style.marginBottom = '10px';
+                messageDiv.style.textAlign = 'left'; // Align message to left
+                chatBox.appendChild(messageDiv);
+
+                // Clear the input field after sending
+                chatInput.value = '';
+
+                // Scroll to the bottom of the chat box
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        });
+
+        // Optionally, you can send the message when Enter key is pressed
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMsgBtn.click();
             }
         });
     </script>
