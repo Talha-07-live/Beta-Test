@@ -68,11 +68,13 @@
             height: 60vh;
             border: none;
             border-radius: 10px;
+            display: none; /* Initially hidden */
         }
 
         #chat-container {
             border-top: 1px solid #61dafb;
             padding-top: 10px;
+            display: none; /* Initially hidden */
         }
 
         #chat-box {
@@ -107,10 +109,9 @@
         <div id="controls">
             <input type="text" id="room-id" placeholder="Enter Room ID">
             <button id="join-btn">Join Room</button>
-            <button id="leave-btn" disabled>Leave Room</button>
         </div>
         <div id="player-container">
-            <iframe id="video-player" src="" allowfullscreen></iframe>
+            <iframe id="video-player" src="https://talha-07-live.github.io/Talhas-Web-Host10/" allowfullscreen></iframe>
         </div>
         <div id="chat-container">
             <div id="chat-box"></div>
@@ -118,61 +119,25 @@
             <button id="send-msg">Send</button>
         </div>
     </div>
+
     <script>
         const roomInput = document.getElementById('room-id');
         const joinBtn = document.getElementById('join-btn');
-        const leaveBtn = document.getElementById('leave-btn');
         const videoPlayer = document.getElementById('video-player');
-        const chatBox = document.getElementById('chat-box');
-        const chatInput = document.getElementById('chat-input');
-        const sendMsgBtn = document.getElementById('send-msg');
-
-        let socket;
-        let currentRoom = null;
-
-        function initWebSocket() {
-            socket = new WebSocket('wss://your-websocket-server-url');
-
-            socket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                if (data.type === 'video') {
-                    videoPlayer.src = data.url;
-                } else if (data.type === 'chat') {
-                    const message = document.createElement('p');
-                    message.textContent = `${data.user}: ${data.message}`;
-                    chatBox.appendChild(message);
-                }
-            };
-        }
+        const playerContainer = document.getElementById('player-container');
+        const chatContainer = document.getElementById('chat-container');
+        const correctRoomId = 'T.a.l.h.a';
 
         joinBtn.addEventListener('click', () => {
-            const roomId = roomInput.value.trim();
-            if (roomId && !currentRoom) {
-                currentRoom = roomId;
-                socket.send(JSON.stringify({ type: 'join', room: roomId }));
-                joinBtn.disabled = true;
-                leaveBtn.disabled = false;
+            const enteredRoomId = roomInput.value.trim();
+            if (enteredRoomId === correctRoomId) {
+                // Show the player and chat once the correct room ID is entered
+                videoPlayer.style.display = 'block';
+                chatContainer.style.display = 'block';
+            } else {
+                alert('Incorrect Room ID. Please enter the correct Room ID to join.');
             }
         });
-
-        leaveBtn.addEventListener('click', () => {
-            if (currentRoom) {
-                socket.send(JSON.stringify({ type: 'leave', room: currentRoom }));
-                currentRoom = null;
-                joinBtn.disabled = false;
-                leaveBtn.disabled = true;
-            }
-        });
-
-        sendMsgBtn.addEventListener('click', () => {
-            const message = chatInput.value.trim();
-            if (message && currentRoom) {
-                socket.send(JSON.stringify({ type: 'chat', room: currentRoom, message }));
-                chatInput.value = '';
-            }
-        });
-
-        window.onload = initWebSocket;
     </script>
 </body>
 </html>
