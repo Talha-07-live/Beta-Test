@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wizard Football Club</title>
+    <title>Team Padma - Art Beyond Limits</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOML1rN1/0rZ0O0I5Twz5+Jm+M66NtC6T6BLTPkI" crossorigin="anonymous">
     <style>
         /* Reset CSS */
         * {
@@ -13,17 +14,19 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Georgia', serif;
             color: #333;
+            background-color: #fafafa;
             line-height: 1.6;
-            background-color: #f4f4f4;
+            scroll-behavior: smooth;
         }
 
         nav {
             display: flex;
             justify-content: space-between;
-            padding: 13px 40px;
-            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px 20px;
+            background-color: #2c3e50;
+            color: #f4f4f4;
             position: fixed;
             width: 100%;
             top: 0;
@@ -32,7 +35,9 @@
 
         .logo h1 {
             font-size: 28px;
+            font-family: 'Times New Roman', serif;
             font-weight: bold;
+            letter-spacing: 2px;
         }
 
         .nav-links {
@@ -41,216 +46,208 @@
         }
 
         .nav-links li {
-            margin-left: 15px;
+            margin-left: 20px;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: #fff;
-            font-size: 12px;
+            color: #f4f4f4;
+            font-size: 14px;
             transition: color 0.3s;
         }
 
         .nav-links a:hover {
-            color: #ffa000;
+            color: #ff4500;
         }
 
         .hero-section {
-            padding: 250px 10px; /* Reduced padding to minimize gap */
+            position: relative;
+            padding: 190px 30px;
             text-align: center;
-            background-image: url('https://s11.gifyu.com/images/So8Pl.jpg'); /* Replace with your image */
+            color: #fff;
+            margin-top: 50px;
+            overflow: hidden;
+            background-image: url('https://s11.gifyu.com/images/S1zLO.jpg');
             background-size: cover;
             background-position: center;
-            color: #fff;
-            margin-top: 0; /* Ensures it touches the nav bar */
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
         }
 
         .hero-section h2 {
-            font-size: 50px;
-            margin-bottom: 20px;
+            font-size: 60px;
+            font-family: 'Times New Roman', serif;
+            margin-bottom: 40px;
         }
 
         .hero-section p {
-            font-size: 22px;
-            margin-bottom: 30px;
-            margin-top: 70px;
+            font-size: 24px;
+            margin-bottom: 40px;
         }
 
         .btn {
-            padding: 10px 20px;
-            background-color: #f9a825;
+            padding: 12px 30px;
+            background-color: #ff4500;
             color: #fff;
             text-decoration: none;
+            font-size: 18px;
             border-radius: 5px;
             transition: background-color 0.3s;
         }
 
         .btn:hover {
-            background-color: #ffa000;
+            background-color: #e63900;
         }
 
         .about-section {
-            padding: 320px 10px; /* Reduced padding */
+            padding: 230px 30px;
             text-align: center;
-            background-image: url('https://s11.gifyu.com/images/So86k.jpg'); /* Replace with your image */
+            color: #333;
+            background-image: url('https://s11.gifyu.com/images/SoJZG.jpg');
             background-size: cover;
             background-position: center;
+        }
+
+        .about-section h2 {
+            font-size: 40px;
+            font-family: 'Luni Tool Stiny', serif;
+            margin-bottom: 20px;
             color: #fff;
         }
 
         .about-section p {
             max-width: 800px;
             margin: 0 auto;
-            font-size: 18px;
-        }
-
-        .team-section, .schedule-section, .results-section, .album-section {
-            padding: 50px 20px;
-            text-align: center;
-        }
-
-        .team-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .player-card {
-            margin: 20px;
-            width: 200px;
-            text-align: center;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            transition: transform 0.3s;
-        }
-
-        .player-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .player-card img {
-            width: 100%;
-            border-bottom: 4px solid #f9a825;
-        }
-
-        .player-card h3 {
-            margin: 15px 0 5px;
             font-size: 20px;
+            line-height: 1.8;
+            color: #f4f4f4;
         }
 
-        .player-card p {
-            font-size: 16px;
-            color: #777;
-            margin-bottom: 15px;
-        }
-
-        .schedule-section table {
-            width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
-            margin-bottom: 50px;
-        }
-
-        .schedule-section th, .schedule-section td {
-            padding: 15px;
-            border: 1px solid #ddd;
+        .gallery-section {
+            padding: 60px 30px;
+            background-color: #1a1a1a;
+            color: #f4f4f4;
             text-align: center;
         }
 
-        .schedule-section th {
-            background-color: #333;
-            color: #fff;
+        .gallery-section h2 {
+            font-size: 36px;
+            font-family: 'Times New Roman', serif;
+            margin-bottom: 40px;
         }
 
-        .results-section .results-container {
+        .gallery-container {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
         }
 
-        .results-box {
+        .gallery-item {
             margin: 20px;
             width: 250px;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .results-box h3 {
-            font-size: 24px;
-            color: #f9a825;
-            margin-bottom: 10px;
-        }
-
-        .results-box p {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .album-section h2 {
-            margin-bottom: 20px;
-        }
-
-        .album-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .album-item {
-            margin: 15px;
-            width: 200px;
-            text-align: center;
-        }
-
-        .album-item img {
-            width: 100%;
+            height: 250px;
+            overflow: hidden;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
         }
 
-        .album-item img:hover {
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item:hover {
             transform: scale(1.05);
+        }
+
+        .contact-section {
+            padding: 70px 10px;
+            background-color: #1a1a1a;
+            color: #f4f4f4;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 36px;
+            font-family: 'Times New Roman', serif;
+            margin-bottom: 30px;
+        }
+
+        .contact-info {
+            margin: 0 auto;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        .contact-form {
+            margin: 20px auto;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            font-family: 'Georgia', serif;
+        }
+
+        .contact-form button {
+            padding: 15px;
+            background-color: #ff4500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .contact-form button:hover {
+            background-color: #e63900;
         }
 
         footer {
             background-color: #333;
-            color: #fff;
-            padding: 30px 20px;
+            color: #f4f4f4;
+            padding: 20px;
             text-align: center;
+            font-size: 14px;
+            position: relative;
         }
 
-        .contact-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            padding-bottom: 20px;
+        footer a {
+            color: #ff4500;
+            text-decoration: none;
         }
 
-        .contact-info h3, .social-media h3 {
-            margin-bottom: 10px;
+        footer .social-icons {
+            margin-top: 15px;
         }
 
-        .social-media a {
-            color: #fff;
+        footer .social-icons a {
             margin: 0 10px;
-            font-size: 20px;
-            transition: color 0.3s;
+            display: inline-block;
         }
 
-        .social-media a:hover {
-            color: #f9a825;
+        footer .social-icons img {
+            width: 100px;
+            height: 30px;
+            transition: opacity 0.3s;
         }
 
-        footer p {
-            margin-top: 20px;
+        footer .social-icons img:hover {
+            opacity: 0.8;
         }
-
         .iframe-ad {
             position: fixed;
             bottom: 20px;
@@ -288,154 +285,106 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">
-                <h1></h1>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#team">Team</a></li>
-                <li><a href="#schedule">Schedule</a></li>
-                <li><a href="#results">Results</a></li>
-                <li><a href="#albums">Albums</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="hero-section" id="home">
-            <h2>Welcome to Wizard Football Club</h2>
-            <p>The Home of Champions</p>
-            <a href="#about" class="btn">Learn More</a>
+    <nav>
+        <div class="logo">
+            •Tҽαɱ Pαԃɱα•</>
         </div>
+        <ul class="nav-links">
+            <li><a href="#home">ℍ𝕠𝕞𝕖</a></li>
+            <li><a href="#about">𝔸𝕓𝕠𝕦𝕥</a></li>
+            <li><a href="#gallery">𝔾𝕒𝕝𝕝𝕖𝕣𝕪</a></li>
+            <li><a href="#contact">ℂ𝕠𝕟𝕥𝕒𝕔𝕥</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero-section" id="home">
+        <div class="hero-content">
+            <h2>𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 𝕋𝕖𝕒𝕞 ℙ𝕒𝕕𝕞𝕒</h2>
+            <p>𝕎𝕙𝕖𝕣𝕖 ℂ𝕣𝕖𝕒𝕥𝕚𝕧𝕚𝕥𝕪 𝕄𝕖𝕖𝕥𝕤 𝕄𝕒𝕤𝕥𝕖𝕣𝕪</p>
+            <a href="#about" class="btn">𝔻𝕚𝕤𝕔𝕠𝕧𝕖𝕣 𝕄𝕠𝕣𝕖</a>
+        </div>
+    </div>
     </header>
 
     <!-- Iframe Advertisement in the corner -->
     <div class="iframe-ad" id="iframeAd">
         <button class="close-ad" id="closeAd">X</button>
-        <iframe src="https://talha-07-live.github.io/Talhas-Web-Host10/" title="Video" scrolling="no" frameborder="0" loading="lazy" allow="accelerometer; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe> <!-- Replace with your ad URL -->
+        <iframe src="https://talhas.arena1premium.rf.gd" title="Video" scrolling="no" frameborder="0" loading="lazy" allow="accelerometer; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe> <!-- Replace with your ad URL -->
     </div>
 
     <section id="about" class="about-section">
-        <h2>About Us</h2>
-        <p>Wizard FC is a premier football club with a rich history of success and a commitment to excellence. We pride ourselves on developing talented players and competing at the highest levels of the sport.</p>
+        <h2>𝔸𝕓𝕠𝕦𝕥 𝕌𝕤</h2>
+        <p>𝕋𝕖𝕒𝕞 ℙ𝕒𝕕𝕞𝕒 𝕚𝕤 𝕒𝕟 𝕖𝕝𝕚𝕥𝕖 𝕘𝕣𝕠𝕦𝕡 𝕠𝕗 𝕡𝕒𝕚𝕟𝕥𝕖𝕣𝕤 𝕕𝕖𝕕𝕚𝕔𝕒𝕥𝕖𝕕 𝕥𝕠 𝕖𝕩𝕡𝕝𝕠𝕣𝕚𝕟𝕘 𝕥𝕙𝕖 𝕕𝕖𝕡𝕥𝕙𝕤 𝕠𝕗 𝕒𝕣𝕥𝕚𝕤𝕥𝕚𝕔 𝕖𝕩𝕡𝕣𝕖𝕤𝕤𝕚𝕠𝕟. 𝕆𝕦𝕣 𝕞𝕚𝕤𝕤𝕚𝕠𝕟 𝕚𝕤 𝕥𝕠 𝕓𝕣𝕚𝕟𝕘 𝕓𝕖𝕒𝕦𝕥𝕪 𝕒𝕟𝕕 𝕖𝕞𝕠𝕥𝕚𝕠𝕟 𝕥𝕠 𝕝𝕚𝕗𝕖 𝕥𝕙𝕣𝕠𝕦𝕘𝕙 𝕥𝕙𝕖 𝕤𝕥𝕣𝕠𝕜𝕖𝕤 𝕠𝕗 𝕠𝕦𝕣 𝕓𝕣𝕦𝕤𝕙𝕖𝕤. 𝕁𝕠𝕚𝕟 𝕦𝕤 𝕚𝕟 𝕠𝕦𝕣 𝕛𝕠𝕦𝕣𝕟𝕖𝕪 𝕒𝕤 𝕨𝕖 𝕔𝕣𝕖𝕒𝕥𝕖 𝕥𝕚𝕞𝕖𝕝𝕖𝕤𝕤 𝕒𝕣𝕥 𝕥𝕙𝕒𝕥 𝕤𝕡𝕖𝕒𝕜𝕤 𝕥𝕠 𝕥𝕙𝕖 𝕤𝕠𝕦𝕝.</p>
     </section>
 
-    <section id="team" class="team-section">
-        <h2>Our Team</h2>
-        <div class="team-container">
-            <!-- Player profiles -->
-            <div class="player-card">
-                <img src="https://s11.gifyu.com/images/SoRVb.jpg" alt="">
-                <h3>Sadaf Yani</h3>
-                <p>Forward</p>
+    <section id="gallery" class="gallery-section">
+        <h2>𝕆𝕦𝕣 𝔾𝕒𝕝𝕝𝕖𝕣𝕪</h2>
+        <div class="gallery-container">
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/S1zkU.jpg" alt="Artwork 1">
             </div>
-            <div class="player-card">
-                <img src="https://s11.gifyu.com/images/SoRVb.jpg" alt="">
-                <h3>Ayon Bhai</h3>
-                <p>Midfielder</p>
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/S1zkC.jpg" alt="Artwork 2">
             </div>
-            <div class="player-card">
-                <img src="https://s11.gifyu.com/images/SoRVb.jpg" alt="">
-                <h3>Mesba bhai</h3>
-                <p>Defender</p>
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/S1zkZ.jpg" alt="Artwork 3">
             </div>
-            <!-- Add more players as needed -->
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/S12Bo.jpg" alt="Artwork 4">
+            </div>
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/S12yG.jpg" alt="Artwork 5">
+            </div>
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/S12yP.jpg" alt="Artwork 6">
+            </div>
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/S12GS.jpg" alt="Artwork 7">
+            </div>
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/S12yO.jpg" alt="Artwork 8">
+            </div>
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/S12yB.jpg" alt="Artwork 9">
+            </div>
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/S1zkV.jpg" alt="Artwork 10">
+            </div>
+            <div class="gallery-item">
+                <img src="https://s11.gifyu.com/images/S12Gz.jpg" alt="Artwork 11">
+            </div>
         </div>
     </section>
 
-    <section id="schedule" class="schedule-section">
-        <h2>Match Schedule</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Opponent</th>
-                    <th>Location</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>August 15, 2024</td>
-                    <td>Team A</td>
-                    <td>Home</td>
-                    <td>7:00 PM</td>
-                </tr>
-                <tr>
-                    <td>August 22, 2024</td>
-                    <td>Team B</td>
-                    <td>Away</td>
-                    <td>6:00 PM</td>
-                </tr>
-                <tr>
-                    <td>August 29, 2024</td>
-                    <td>Team C</td>
-                    <td>Home</td>
-                    <td>8:00 PM</td>
-                </tr>
-                <!-- Add more matches as needed -->
-            </tbody>
-        </table>
-    </section>
-
-    <section id="results" class="results-section">
-        <h2>Match Results</h2>
-        <div class="results-container">
-            <!-- Win/Loss boxes -->
-            <div class="results-box">
-                <h3>Win</h3>
-                <p>Team A: 2 - 1</p>
-                <p>Wizard FC</p>
-            </div>
-            <div class="results-box">
-                <h3>Loss</h3>
-                <p>Team B: 3 - 2</p>
-                <p>Wizard FC</p>
-            </div>
-            <div class="results-box">
-                <h3>Win</h3>
-                <p>Team C: 0 - 4</p>
-                <p>Wizard FC</p>
-            </div>
-            <!-- Add more results as needed -->
+    <section id="contact" class="contact-section">
+        <h2>ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕌𝕤</h2>
+        <form action="https://formspree.io/f/xkgwyjeo" method="POST" class="contact-form">
+            <input type="text" name="name" placeholder="𝕐𝕠𝕦𝕣 ℕ𝕒𝕞𝕖" required>
+            <input type="email" name="_replyto" placeholder="𝕐𝕠𝕦𝕣 𝔼𝕞𝕒𝕚𝕝" required>
+            <textarea name="message" rows="5" placeholder="𝕐𝕠𝕦𝕣 𝕄𝕒𝕤𝕤𝕒𝕘𝕖" required></textarea>
+            <button type="submit">𝕊𝕖𝕟𝕕 𝕄𝕒𝕤𝕤𝕒𝕘𝕖</button>
+        </form>
+        <div class="contact-info">
+            <p>𝔼𝕞𝕒𝕚𝕝: contact@teampadma.com</p>
+            <p></p>
+            <p></p>
         </div>
     </section>
 
-    <section id="albums" class="album-section">
-        <h2>Our Albums</h2>
-        <div class="album-container">
-            <div class="album-item">
-                <img src="https://s11.gifyu.com/images/SoRVg.jpg" alt="Match Day Album">
-                <p>Match Day Highlights</p>
-            </div>
-            <div class="album-item">
-                <img src="https://s11.gifyu.com/images/SoRV6.jpg" alt="Training Sessions">
-                <p>Training Sessions</p>
-            </div>
-            <div class="album-item">
-                <img src="https://s11.gifyu.com/images/SoRV4.jpg" alt="Team Events">
-                <p>Team Events</p>
-            </div>
-            <!-- Add more albums as needed -->
+    <footer>
+        <p>&copy; 𝟚𝟘𝟚𝟜 𝕋𝕖𝕒𝕞 ℙ𝕒𝕕𝕞𝕒 | •𝕄𝕒𝕕𝕖 𝔹𝕪 𝔸𝔹𝕌 𝕋𝔸𝕃ℍ𝔸 ℝ𝔸𝕁 | 𝔸𝕝𝕝 𝕣𝕚𝕘𝕙𝕥𝕤 𝕣𝕖𝕤𝕖𝕣𝕧𝕖𝕕.
+        <div class="social-icons">
+            <h1>𝔽𝕠𝕝𝕝𝕠𝕨 𝕌𝕤 𝕆𝕟</h1>
+            <a href="https://www.facebook.com/TeamPadma" target="_blank">
+                <img src="https://s11.gifyu.com/images/SoXos.png" alt="Facebook">
+            </a>
+            <a href="https://www.instagram.com/TeamPadma" target="_blank">
+                <img src="https://s11.gifyu.com/images/SoXAg.png" alt="Instagram">
+            </a>
+            <a href="https://twitter.com/TeamPadma" target="_blank">
+                <img src="https://s11.gifyu.com/images/SoXoL.png" alt="Twitter">
+            </a>
         </div>
-    </section>
-
-    <footer id="contact">
-        <div class="contact-container">
-            <div class="contact-info">
-                <h3>Contact Us</h3>
-                <p>Email: wizardfc@official.com</p>
-                <p></p>
-            </div>
-            <div class="social-media">
-                <h3>Follow Us</h3>
-                <a href="https://www.facebook.com/your-page-link">Facebook</a>
-                <a href="https://twitter.com/your-page-link">Twitter</a>
-                <a href="https://www.instagram.com/your-page-link">Instagram</a>
-            </div>
-        </div>
-        <p>&copy; 2021-2024 Wizard Football Club | All rights reserved. • Made By ABU TALHA RAJ.</p>
     </footer>
 
     <script>
@@ -450,13 +399,15 @@
                 ad.style.display = 'none';
             });
 
-            // JavaScript for Smooth Scrolling
+    <!-- JavaScript for Smooth Scrolling -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             const links = document.querySelectorAll('a[href^="#"]');
 
             links.forEach(link => {
                 link.addEventListener('click', function(event) {
                     event.preventDefault();
-
+                    
                     const targetId = this.getAttribute('href').substring(1);
                     const targetElement = document.getElementById(targetId);
 
@@ -471,4 +422,5 @@
         });
     </script>
 </body>
+
 </html>
