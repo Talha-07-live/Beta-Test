@@ -445,6 +445,8 @@
 
             // Close the ad when the close button is clicked
             closeBtn.addEventListener('click', function() {
+                // Remove the iframe
+                ad.innerHTML = '';
                 ad.style.display = 'none';
             });
 
