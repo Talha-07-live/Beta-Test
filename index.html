@@ -380,23 +380,6 @@
         </div>
     </footer>
 
-    <div class="iframe-ad" id="iframeAd">
-        <button class="close-ad" id="closeAd">✖</button>
-        <iframe src="https://www.example.com"></iframe>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ad = document.getElementById('iframeAd');
-            const closeBtn = document.getElementById('closeAd');
-
-            // Close the ad when the close button is clicked
-            closeBtn.addEventListener('click', function() {
-                // Remove the iframe
-                ad.innerHTML = '';
-                ad.style.display = 'none';
-     });
-
     <!-- JavaScript for Smooth Scrolling -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -417,6 +400,23 @@
                     }
                 });
             });
+            <div class="iframe-ad" id="iframeAd">
+        <button class="close-ad" id="closeAd">✖</button>
+        <iframe src="https://www.example.com"></iframe>
+    </div>
+   </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ad = document.getElementById('iframeAd');
+            const closeBtn = document.getElementById('closeAd');
+
+            // Close the ad when the close button is clicked
+            closeBtn.addEventListener('click', function() {
+                // Remove the iframe
+                ad.innerHTML = '';
+                ad.style.display = 'none';
+     });
         });
     </script>
 </body>
