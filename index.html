@@ -371,6 +371,20 @@
         </div>
     </section>
 
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const ad = document.getElementById('iframeAd');
+            const closeBtn = document.getElementById('closeAd');
+
+            // Close the ad when the close button is clicked
+            closeBtn.addEventListener('click', function() {
+                // Remove the iframe
+                ad.innerHTML = '';
+                ad.style.display = 'none';
+            });
+            
     <footer>
         <p>&copy; 𝟚𝟘𝟚𝟜 𝕋𝕖𝕒𝕞 ℙ𝕒𝕕𝕞𝕒 | •𝕄𝕒𝕕𝕖 𝔹𝕪 𝔸𝔹𝕌 𝕋𝔸𝕃ℍ𝔸 ℝ𝔸𝕁 | 𝔸𝕝𝕝 𝕣𝕚𝕘𝕙𝕥𝕤 𝕣𝕖𝕤𝕖𝕣𝕧𝕖𝕕.
         <div class="social-icons">
@@ -386,18 +400,6 @@
             </a>
         </div>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ad = document.getElementById('iframeAd');
-            const closeBtn = document.getElementById('closeAd');
-
-            // Close the ad when the close button is clicked
-            closeBtn.addEventListener('click', function() {
-                // Remove the iframe
-                ad.innerHTML = '';
-                ad.style.display = 'none';
-            });
 
     <!-- JavaScript for Smooth Scrolling -->
     <script>
