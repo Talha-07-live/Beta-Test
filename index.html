@@ -3,419 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Padma - Art Beyond Limits</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOML1rN1/0rZ0O0I5Twz5+Jm+M66NtC6T6BLTPkI" crossorigin="anonymous">
+    <title>Talha-07-Live</title>
     <style>
-        /* Reset CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Georgia', serif;
-            color: #333;
-            background-color: #fafafa;
-            line-height: 1.6;
-            scroll-behavior: smooth;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 20px;
-            background-color: #2c3e50;
-            color: #f4f4f4;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo h1 {
-            font-size: 28px;
-            font-family: 'Times New Roman', serif;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-        }
-
-        .nav-links li {
-            margin-left: 20px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #f4f4f4;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #ff4500;
-        }
-
-        .hero-section {
-            position: relative;
-            padding: 190px 30px;
-            text-align: center;
-            color: #fff;
-            margin-top: 50px;
-            overflow: hidden;
-            background-image: url('https://s11.gifyu.com/images/S1zLO.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 10;
-        }
-
-        .hero-section h2 {
-            font-size: 60px;
-            font-family: 'Times New Roman', serif;
-            margin-bottom: 40px;
-        }
-
-        .hero-section p {
-            font-size: 24px;
-            margin-bottom: 40px;
-        }
-
-        .btn {
-            padding: 12px 30px;
-            background-color: #ff4500;
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #e63900;
-        }
-
-        .about-section {
-            padding: 230px 30px;
-            text-align: center;
-            color: #333;
-            background-image: url('https://s11.gifyu.com/images/SoJZG.jpg');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .about-section h2 {
-            font-size: 40px;
-            font-family: 'Luni Tool Stiny', serif;
-            margin-bottom: 20px;
-            color: #fff;
-        }
-
-        .about-section p {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 20px;
-            line-height: 1.8;
-            color: #f4f4f4;
-        }
-
-        .gallery-section {
-            padding: 60px 30px;
-            background-color: #1a1a1a;
-            color: #f4f4f4;
-            text-align: center;
-        }
-
-        .gallery-section h2 {
-            font-size: 36px;
-            font-family: 'Times New Roman', serif;
-            margin-bottom: 40px;
-        }
-
-        .gallery-container {
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .gallery-item {
-            margin: 20px;
-            width: 250px;
-            height: 250px;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.05);
-        }
-
-        .contact-section {
-            padding: 70px 10px;
-            background-color: #1a1a1a;
-            color: #f4f4f4;
-            text-align: center;
-        }
-
-        .contact-section h2 {
-            font-size: 36px;
-            font-family: 'Times New Roman', serif;
-            margin-bottom: 30px;
-        }
-
-        .contact-info {
-            margin: 0 auto;
-            max-width: 600px;
-            line-height: 1.8;
-        }
-
-        .contact-form {
-            margin: 20px auto;
-            max-width: 600px;
-            display: flex;
+            align-items: center;
+            height: 110vh;
+            background-color: #111;
+            margin: 0;
             flex-direction: column;
         }
-
-        .contact-form input,
-        .contact-form textarea {
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: none;
-            font-size: 16px;
-            font-family: 'Georgia', serif;
+        #login-form {
+            display: flex;
+            font-size: 8px;
+            flex-direction: column;
+            align-items: center;
+            color: white;
         }
-
-        .contact-form button {
-            padding: 15px;
-            background-color: #ff4500;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .contact-form button:hover {
-            background-color: #e63900;
-        }
-
-        footer {
-            background-color: #333;
-            color: #f4f4f4;
-            padding: 20px;
-            text-align: center;
-            font-size: 14px;
-            position: relative;
-        }
-
-        footer a {
-            color: #ff4500;
-            text-decoration: none;
-        }
-
-        footer .social-icons {
-            margin-top: 15px;
-        }
-
-        footer .social-icons a {
-            margin: 0 10px;
-            display: inline-block;
-        }
-
-        footer .social-icons img {
-            width: 100px;
-            height: 30px;
-            transition: opacity 0.3s;
-        }
-
-        footer .social-icons img:hover {
-            opacity: 0.8;
-        }
-        .iframe-ad {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 300px;
-            height: 200px;
-            border: 2px solid #f9a825;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            background-color: #fff;
-        }
-
-        .iframe-ad iframe {
+        #my-video {
             width: 100%;
-            height: 100%;
-            border: none;
+            max-width: 1000px;
+            border: 5px solid transparent;
+            border-radius: 10px;
+            animation: border-animation 5s infinite;
+            background-clip: border-box;
+            display: none; /* Initially hide HLS video player */
         }
-
-        .close-ad {
+        #my-iframe {
             position: absolute;
-            top: -10px;
-            right: -10px;
-            background-color: #ff0000;
-            color: #fff;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
+            top: -200px;
+            left: -14px;
+            width: 105%;
+            max-width: 1000px;
+            border: 5px solid transparent;
+            border-radius: 10px;
+            animation: border-animation 5s infinite;
+            background-clip: border-box;
+            display: none; /* Initially hide iframe */
+            cursor: pointer; /* Add cursor pointer to indicate it's clickable */
         }
-
-        .close-ad:hover {
-            background-color: #ff4444;
+        #password {
+            padding: 10px;
+            font-size: 16px;
+        }
+        #submit-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        #submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .video-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Added margin to separate from login form */
+            position: relative; /* Added relative positioning */
+        }
+        .ticker-container {
+            position: absolute;
+            bottom: -68px;
+            width: 100%;
+            overflow: hidden;
+            display: block; /* Ensure ticker container is displayed */
+        }
+        .ticker1 {
+            display: none; /* Initially hide ticker1 */
+            white-space: nowrap;
+            padding-left: 100%; /* Start off-screen */
+            animation: ticker-animation1 73s linear infinite; /* Adjusted animation duration for ticker speed */
+            color: white;
+        }
+        .ticker2 {
+            display: inline-block; /* Initially show ticker2 */
+            white-space: nowrap;
+            padding-left: 100%; /* Start off-screen */
+            animation: ticker-animation2 22s linear infinite; /* Adjusted animation duration for ticker speed */
+            color: white;
+        }
+        @keyframes ticker-animation1 {
+            0% {
+                transform: translateX(5%);
+            }
+            100% {
+                transform: translateX(-1110%);
+            }
+        }
+        @keyframes ticker-animation2 {
+            0% {
+                transform: translateX(2%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        .support-button {
+            position: absolute;
+            top: -250px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        .support-button:hover {
+            background-color: #28a745;
+        }
+        #cricket-btn {
+            position: absolute;
+            top: 145px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #DEB887;
+            color: white;
+            border: none;
+            padding: 12px 17px;
+            font-size: 8px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        #copa-btn {
+            position: absolute;
+            top: 145px; /* Adjust the top value as needed */
+            left: 28%;
+            transform: translateX(-28%);
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 17px;
+            font-size: 8px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        #copa-btn:hover {
+            background-color: #d9534f;
+        }
+        footer {
+            margin-top: 190px;
+            font-size: 12px;
+            color: #555;
+            text-align: center;
+        }
+        .footer-text {
+            font-size: 16px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #ff9f43, #feca57, #48dbfb, #1dd1a1, #f368e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-animation 5s infinite;
+            background-size: 300%;
+        }
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        @keyframes border-animation {
+            0% {
+                border-color: #ff6b6b;
+            }
+            20% {
+                border-color: #ff9f43;
+            }
+            40% {
+                border-color: #feca57;
+            }
+            60% {
+                border-color: #48dbfb;
+            }
+            80% {
+                border-color: #1dd1a1;
+            }
+            100% {
+                border-color: #f368e0;
+            }
+        }
+        .logo {
+            position: absolute;
+            top: 220px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px; /* Adjust the width as needed */
+        }
+        .logo-top-right {
+            position: absolute;
+            top: -185px;
+            right: 320px;
+            width: 60px; /* Adjust the size of the top-right logo */
+            display: none; /* Initially hide logo */
+        }
+        .visitor-counter {
+            position: absolute;
+            bottom: -115px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .server-buttons {
+            position: absolute;
+            top: 80px; /* Adjust this value to move the buttons up or down */
+            left: 50%;
+            transform: translateX(-50%);
+            display: none; /* Initially hide server buttons */
+            gap: 10px; /* Adjust gap between server buttons */
+        }
+        .server-button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        .server-button:hover {
+            background-color: #d9534f;
         }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="logo">
-            •Tҽαɱ Pαԃɱα•</>
+    <div id="login-form">
+        <h1>𝔼𝕟𝕥𝕖𝕣 𝕋𝕙𝕖 ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕 𝕋𝕠 𝔾𝕠</h1>
+        <input type="ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕" id="password" placeholder="ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕">
+        <button id="submit-btn">𝕊𝕦𝕓𝕞𝕚𝕥</button>
+    </div>
+    <div class="video-container">
+        <img src="https://s10.gifyu.com/images/SrMU9.png" alt="Logo" class="logo">
+        <video id="my-video" controls width="640" height="264" src=""></video>
+        <iframe id="my-iframe" src="https://talhas.fancodelive.rf.gd/" width="100%" height="225px" scrolling="no" frameborder="0" loading "lazy" allow="accelerometer; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
+        <img src="https://s12.gifyu.com/images/SrMx2.png" alt="Logo Top Right" class="logo-top-right" id="logo-top-right">
+        <button id="cricket-btn" onclick="redirectToCricket()">𝔹𝕒𝕔𝕜 𝕋𝕠 ℍ𝕠𝕞𝕖 ℙ𝕒𝕘𝕖</button>
+        <button class="support-button" onclick="openSupport()">𝕊𝕦𝕡𝕡𝕠𝕣𝕥</button>
+        
+        <div class="ticker-container">
+            <div class="ticker1">
+                𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 𝕋𝕒𝕝𝕙𝕒'𝕤 𝕊𝕥𝕣𝕖𝕒𝕞 𝔸𝕡𝕡, ℂ𝕝𝕚𝕔𝕜 𝕀𝕟𝕤𝕚𝕕𝕖 𝕋𝕙𝕖 ℙ𝕝𝕒𝕪𝕖𝕣 ℙ𝕝𝕒𝕪 𝔹𝕦𝕥𝕥𝕠𝕟 𝕋𝕠 ℙ𝕝𝕒𝕪 𝕍𝕚𝕕𝕖𝕠 𝔸𝕟𝕕 𝕎𝕒𝕚𝕥 𝟙𝟘 𝕋𝕠 𝟚𝟘 𝕊𝕖𝕔𝕠𝕟𝕕 𝔽𝕠𝕣 𝔹𝕦𝕗𝕗𝕖𝕣 𝕃𝕠𝕒𝕕𝕚𝕟𝕘.(𝕊𝕠𝕞𝕖𝕥𝕚𝕞𝕖𝕤 𝕀𝕥'𝕤 𝕋𝕒𝕜𝕖 𝟛𝟘 𝕊𝕖𝕔𝕠𝕟𝕕, 𝔻𝕖𝕡𝕖𝕟𝕕 𝕆𝕟 𝕐𝕠𝕦𝕣 ℕ𝕖𝕥𝕨𝕠𝕣𝕜) 𝕀𝕗 𝕍𝕚𝕕𝕖𝕠 ℕ𝕠𝕥 ℙ𝕝𝕒𝕪 𝕋𝕣𝕪 𝕆𝕥𝕙𝕖𝕣 𝕊𝕖𝕣𝕧𝕖𝕣 𝔸𝕟 𝔸𝕟𝕪 𝕆𝕥𝕙𝕖𝕣 𝕀𝕤𝕤𝕦𝕖𝕤 ℂ𝕝𝕚𝕔𝕜 "𝕊𝕦𝕡𝕡𝕠𝕣𝕥" 𝔹𝕦𝕥𝕥𝕠𝕟 𝔸𝕟𝕕 𝕊𝕦𝕓𝕞𝕚𝕥 𝕐𝕠𝕦𝕣 ℝ𝕖𝕡𝕠𝕣𝕥, 𝕋𝕙𝕒𝕟𝕜𝕤! **[ℕ𝕠𝕥𝕖* 𝔹𝕪 𝕒𝕔𝕔𝕖𝕤𝕤𝕚𝕟𝕘 𝕠𝕦𝕣 𝕤𝕥𝕣𝕖𝕒𝕞𝕚𝕟𝕘 𝔸𝕡𝕡 𝕪𝕠𝕦 𝕒𝕔𝕜𝕟𝕠𝕨𝕝𝕖𝕕𝕘𝕖 𝕥𝕙𝕒𝕥 𝕨𝕖 𝕒𝕘𝕘𝕣𝕖𝕘𝕒𝕥𝕖 𝕗𝕣𝕖𝕖𝕝𝕪 𝕒𝕧𝕒𝕚𝕝𝕒𝕓𝕝𝕖 𝕤𝕥𝕣𝕖𝕒𝕞𝕚𝕟𝕘 𝕝𝕚𝕟𝕜𝕤 𝕨𝕖 𝕒𝕣𝕖 𝕟𝕠𝕥 𝕣𝕖𝕤𝕡𝕠𝕟𝕤𝕚𝕓𝕝𝕖 𝕒𝕟𝕪 𝕔𝕠𝕡𝕪𝕣𝕚𝕘𝕙𝕥 𝕔𝕠𝕟𝕔𝕖𝕣𝕟𝕤, 𝕡𝕝𝕖𝕒𝕤𝕖 𝕔𝕠𝕟𝕥𝕒𝕔𝕥 𝕦𝕤 𝕒𝕥 𝕔𝕝𝕚𝕔𝕜 "𝕤𝕦𝕡𝕡𝕠𝕣𝕥" 𝕓𝕦𝕥𝕥𝕠𝕟]** 
+            </div>
+            <div class="ticker2">
+                𝕎𝕙𝕖𝕟 𝕐𝕠𝕦 𝕋𝕣𝕪 𝕋𝕠 𝔼𝕟𝕥𝕖𝕣 𝕋𝕙𝕖 ℙ𝕒𝕤𝕤𝕨𝕠𝕣𝕕 𝔸𝕟𝕕 𝕂𝕖𝕪𝕓𝕠𝕒𝕣𝕕 ℕ𝕠𝕥 𝕊𝕙𝕠𝕨 𝕋𝕙𝕖𝕟 ℂ𝕝𝕚𝕔𝕜 𝕋𝕙𝕖 𝕊𝕦𝕓𝕞𝕚𝕥 𝔹𝕦𝕥𝕥𝕠𝕟 𝔽𝕚𝕣𝕤𝕥 𝔸𝕟𝕕 𝕋𝕙𝕖𝕟 𝕋𝕣𝕪... 𝕀𝕗 𝕊𝕦𝕓𝕞𝕚𝕥 𝔹𝕦𝕥𝕥𝕠𝕟 ℕ𝕠𝕥 𝕎𝕠𝕣𝕜 𝕋𝕙𝕒𝕥'𝕤 𝕄𝕖𝕒𝕟 𝕋𝕙𝕚𝕤 ℙ𝕒𝕘𝕖 ℕ𝕠𝕥 𝔽𝕦𝕝𝕝𝕪 𝕃𝕠𝕒𝕕𝕖𝕕 𝕐𝕖𝕥, ℙ𝕝𝕖𝕒𝕤𝕖 𝕎𝕒𝕚𝕥 𝔽𝕖𝕨 𝕊𝕖𝕔𝕠𝕟𝕕 𝔽𝕠𝕣 ℙ𝕒𝕘𝕖 𝔽𝕦𝕝𝕝𝕪 𝕃𝕠𝕒𝕕𝕖𝕕.
+            </div>
         </div>
-        <ul class="nav-links">
-            <li><a href="#home">ℍ𝕠𝕞𝕖</a></li>
-            <li><a href="#about">𝔸𝕓𝕠𝕦𝕥</a></li>
-            <li><a href="#gallery">𝔾𝕒𝕝𝕝𝕖𝕣𝕪</a></li>
-            <li><a href="#contact">ℂ𝕠𝕟𝕥𝕒𝕔𝕥</a></li>
-        </ul>
-    </nav>
-
-    <div class="hero-section" id="home">
-        <div class="hero-content">
-            <h2>𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 𝕋𝕖𝕒𝕞 ℙ𝕒𝕕𝕞𝕒</h2>
-            <p>𝕎𝕙𝕖𝕣𝕖 ℂ𝕣𝕖𝕒𝕥𝕚𝕧𝕚𝕥𝕪 𝕄𝕖𝕖𝕥𝕤 𝕄𝕒𝕤𝕥𝕖𝕣𝕪</p>
-            <a href="#about" class="btn">𝔻𝕚𝕤𝕔𝕠𝕧𝕖𝕣 𝕄𝕠𝕣𝕖</a>
+        <div class="server-buttons">
+            <button class="server-button" id="server1-btn" onclick="changeServer('server1')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟙</button>
+            <button class="server-button" id="server2-btn" onclick="changeServer('server2')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟚</button>
+            <button class="server-button" id="server3-btn" onclick="changeServer('server3')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟛</button>
+            <button class="server-button" id="server4-btn" onclick="changeServer('server4')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟜</button>
+            <button class="server-button" id="server5-btn" onclick="changeServer('server5')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟝</button>
         </div>
     </div>
-
-    <section id="about" class="about-section">
-        <h2>𝔸𝕓𝕠𝕦𝕥 𝕌𝕤</h2>
-        <p>𝕋𝕖𝕒𝕞 ℙ𝕒𝕕𝕞𝕒 𝕚𝕤 𝕒𝕟 𝕖𝕝𝕚𝕥𝕖 𝕘𝕣𝕠𝕦𝕡 𝕠𝕗 𝕡𝕒𝕚𝕟𝕥𝕖𝕣𝕤 𝕕𝕖𝕕𝕚𝕔𝕒𝕥𝕖𝕕 𝕥𝕠 𝕖𝕩𝕡𝕝𝕠𝕣𝕚𝕟𝕘 𝕥𝕙𝕖 𝕕𝕖𝕡𝕥𝕙𝕤 𝕠𝕗 𝕒𝕣𝕥𝕚𝕤𝕥𝕚𝕔 𝕖𝕩𝕡𝕣𝕖𝕤𝕤𝕚𝕠𝕟. 𝕆𝕦𝕣 𝕞𝕚𝕤𝕤𝕚𝕠𝕟 𝕚𝕤 𝕥𝕠 𝕓𝕣𝕚𝕟𝕘 𝕓𝕖𝕒𝕦𝕥𝕪 𝕒𝕟𝕕 𝕖𝕞𝕠𝕥𝕚𝕠𝕟 𝕥𝕠 𝕝𝕚𝕗𝕖 𝕥𝕙𝕣𝕠𝕦𝕘𝕙 𝕥𝕙𝕖 𝕤𝕥𝕣𝕠𝕜𝕖𝕤 𝕠𝕗 𝕠𝕦𝕣 𝕓𝕣𝕦𝕤𝕙𝕖𝕤. 𝕁𝕠𝕚𝕟 𝕦𝕤 𝕚𝕟 𝕠𝕦𝕣 𝕛𝕠𝕦𝕣𝕟𝕖𝕪 𝕒𝕤 𝕨𝕖 𝕔𝕣𝕖𝕒𝕥𝕖 𝕥𝕚𝕞𝕖𝕝𝕖𝕤𝕤 𝕒𝕣𝕥 𝕥𝕙𝕒𝕥 𝕤𝕡𝕖𝕒𝕜𝕤 𝕥𝕠 𝕥𝕙𝕖 𝕤𝕠𝕦𝕝.</p>
-    </section>
-
-    <section id="gallery" class="gallery-section">
-        <h2>𝕆𝕦𝕣 𝔾𝕒𝕝𝕝𝕖𝕣𝕪</h2>
-        <div class="gallery-container">
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/S1zkU.jpg" alt="Artwork 1">
-            </div>
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/S1zkC.jpg" alt="Artwork 2">
-            </div>
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/S1zkZ.jpg" alt="Artwork 3">
-            </div>
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/S12Bo.jpg" alt="Artwork 4">
-            </div>
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/S12yG.jpg" alt="Artwork 5">
-            </div>
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/S12yP.jpg" alt="Artwork 6">
-            </div>
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/S12GS.jpg" alt="Artwork 7">
-            </div>
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/S12yO.jpg" alt="Artwork 8">
-            </div>
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/S12yB.jpg" alt="Artwork 9">
-            </div>
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/S1zkV.jpg" alt="Artwork 10">
-            </div>
-            <div class="gallery-item">
-                <img src="https://s11.gifyu.com/images/S12Gz.jpg" alt="Artwork 11">
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact-section">
-        <h2>ℂ𝕠𝕟𝕥𝕒𝕔𝕥 𝕌𝕤</h2>
-        <form action="https://formspree.io/f/xkgwyjeo" method="POST" class="contact-form">
-            <input type="text" name="name" placeholder="𝕐𝕠𝕦𝕣 ℕ𝕒𝕞𝕖" required>
-            <input type="email" name="_replyto" placeholder="𝕐𝕠𝕦𝕣 𝔼𝕞𝕒𝕚𝕝" required>
-            <textarea name="message" rows="5" placeholder="𝕐𝕠𝕦𝕣 𝕄𝕒𝕤𝕤𝕒𝕘𝕖" required></textarea>
-            <button type="submit">𝕊𝕖𝕟𝕕 𝕄𝕒𝕤𝕤𝕒𝕘𝕖</button>
-        </form>
-        <div class="contact-info">
-            <p>𝔼𝕞𝕒𝕚𝕝: contact@teampadma.com</p>
-            <p></p>
-            <p></p>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 𝟚𝟘𝟚𝟜 𝕋𝕖𝕒𝕞 ℙ𝕒𝕕𝕞𝕒 | •𝕄𝕒𝕕𝕖 𝔹𝕪 𝔸𝔹𝕌 𝕋𝔸𝕃ℍ𝔸 ℝ𝔸𝕁 | 𝔸𝕝𝕝 𝕣𝕚𝕘𝕙𝕥𝕤 𝕣𝕖𝕤𝕖𝕣𝕧𝕖𝕕.
-        <div class="social-icons">
-            <h1>𝔽𝕠𝕝𝕝𝕠𝕨 𝕌𝕤 𝕆𝕟</h1>
-            <a href="https://www.facebook.com/TeamPadma" target="_blank">
-                <img src="https://s11.gifyu.com/images/SoXos.png" alt="Facebook">
-            </a>
-            <a href="https://www.instagram.com/TeamPadma" target="_blank">
-                <img src="https://s11.gifyu.com/images/SoXAg.png" alt="Instagram">
-            </a>
-            <a href="https://twitter.com/TeamPadma" target="_blank">
-                <img src="https://s11.gifyu.com/images/SoXoL.png" alt="Twitter">
-            </a>
-        </div>
-    </footer>
-
-    <div class="iframe-ad" id="iframeAd">
-        <button class="close-ad" id="closeAd">✖</button>
-        <iframe src="https://talhas.arena1premium.rf.gd" title="Video" scrolling="no" frameborder="0" loading="lazy" allow="accelerometer; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe> <!-- Replace with your ad URL -->
+    <footer><span class="footer-text">𝕄𝕒𝕕𝕖 𝔹𝕪 <a href="" style="color: inherit; text-decoration: none;">𝕋𝕒𝕝𝕙𝕒</a></span></footer>
     </div>
 
+    <!-- Online Counter -->
+    <div class="visitor-counter"
+        <center>
+            <script type="text/javascript" src="//widget.supercounters.com/ssl/online_i.js"></script>
+            <script type="text/javascript">
+                sc_online_i(1699126, "ffffff", "e61c1c");
+            </script>
+            <br>
+            <noscript>
+                <a href="https://www.supercounters.com/">free online counter</a>
+            </noscript>
+        </center>
+    </div>
+    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const ad = document.getElementById('iframeAd');
-            const closeBtn = document.getElementById('closeAd');
+        const PASSWORD = "Talha"; // Set your password here
+        const loginForm = document.getElementById('login-form');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submit-btn');
+        const videoPlayer = document.getElementById('my-video');
+        const iframePlayer = document.getElementById('my-iframe');
+        const ticker1 = document.querySelector('.ticker1');
+        const ticker2 = document.querySelector('.ticker2');
+        const logoTopRight = document.getElementById('logo-top-right');
+        const serverButtonsContainer = document.querySelector('.server-buttons'); // Select the server buttons containr
 
-            // Close the ad when the close button is clicked
-            closeBtn.addEventListener('click', function() {
-                // Remove the iframe
-                ad.innerHTML = '';
-                ad.style.display = 'none';
-            });
-
-            // Smooth scrolling for all anchor links
-            const links = document.querySelectorAll('a[href^="#"]');
-
-            links.forEach(link => {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault();
-
-                    const targetId = this.getAttribute('href').substring(1);
-                    const targetElement = document.getElementById(targetId);
-
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
+        submitBtn.addEventListener('click', () => {
+            if (passwordInput.value === PASSWORD) {
+                loginForm.style.display = 'none';
+                videoPlayer.style.display = 'none';
+                iframePlayer.style.display = 'block';
+                ticker1.style.display = 'block'; // Show ticker1 after successful login
+                ticker2.style.display = 'none'; // Hide ticker2 after successful login
+                logoTopRight.style.display = 'block'; // Show the top-right logo after successful login
+                serverButtonsContainer.style.display = 'flex'; // Show server buttons after successful login
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
         });
+
+        function openSupport() {
+            window.open("https://t.me/talhasmovie_request_bot", "_blank");
+        }
+
+        function redirectToCricket() {
+            window.location.href = "https://talhas.stream.000.pe/";
+        }
+
+        function redirectToCopa() {
+            window.location.href = "";
+        }
+
+        function changeServer(server) {
+            const servers = {
+                server1: "https://talhas.fancodelive.rf.gd/",
+                server2: "https://talhas.arena1premium.rf.gd/",
+                server3: "https://talhas.arena2premium.rf.gd/",
+                server4: "https://talhas.arena3premium.rf.gd/",
+                server5: "https://talhas.arenasport1.rf.gd/"
+            };
+            iframePlayer.src = servers[server];
+        }
     </script>
 </body>
-</html>
+            </html>
