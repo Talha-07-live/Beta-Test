@@ -59,6 +59,11 @@
                             default: true
                         }
                     ],
+                    audioTracks: [
+                        { name: "English", language: "en", groupId: "1" }, // Example audio track in English
+                        { name: "Hindi", language: "hi", groupId: "2" }, // Example audio track in Hindi
+                        { name: "Spanish", language: "es", groupId: "3" } // Example audio track in Spanish
+                    ],
                     drm: drmOptions ? {
                         clearkey: {
                             keyId: drmOptions.keyId,
@@ -139,7 +144,7 @@
 
         setupPlayer(
             [
-                "https://a39aivottlinear-a.akamaihd.net/OTTB/sin-nitro/live/clients/dash/enc/l8j2xgwt32/out/v1/fe72171ab2684ab8b9ee3e2ffcc9cff2/cenc.mpd"
+                "https://api005.backblazeb2.com/file/ssbucket/ec66bc1e-6c34-11ef-a0a7-af229c331923.mkv"
             ],
             {
                 keyId: "159a2b4e1d2d7f16892d35d935a2fb34",
@@ -148,5 +153,8 @@
             ""
         );
     </script>
+    <div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: white;">
+        <p>To switch audio tracks, use the settings icon on the player control bar.</p>
+    </div>
 </body>
 </html>
