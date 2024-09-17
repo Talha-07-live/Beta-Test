@@ -3,30 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Stream</title>
+    <title>Custom iFrame</title>
+    <style>
+        .iframe-container {
+            position: relative;
+            width: 600px; /* Adjust width as needed */
+            height: 400px; /* Adjust height as needed */
+            overflow: hidden;
+            border: 1px solid #ccc; /* Optional border */
+        }
+        .iframe-container iframe {
+            position: absolute;
+            top: -50px; /* Adjust to show the desired part */
+            left: -100px; /* Adjust to show the desired part */
+            width: 800px; /* Adjust to the actual width of the iframe content */
+            height: 600px; /* Adjust to the actual height of the iframe content */
+        }
+    </style>
 </head>
 <body>
-    <h1>Live Streaming</h1>
-    <video id="video" controls width="640" height="360"></video>
-
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script>
-        if (Hls.isSupported()) {
-            var video = document.getElementById('video');
-            var hls = new Hls();
-            var proxyUrl = 'https://astrocricket.talha07.workers.dev/?url=https://sports.bdixtv24.com/m3u8.php/willowextra.m3u8';
-            hls.loadSource(proxyUrl);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play();
-            });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            // For Safari
-            video.src = 'https://sports.bdixtv24.com/m3u8.php/willowextra.m3u8';
-            video.addEventListener('loadedmetadata', function() {
-                video.play();
-            });
-        }
-    </script>
+    <div class="iframe-container">
+        <iframe src="https://www.bdixtv24.com/live-tv/willow-hd.html" frameborder="0"></iframe>
+    </div>
 </body>
 </html>
