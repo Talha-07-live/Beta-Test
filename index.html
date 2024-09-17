@@ -3,150 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talha's Player</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        #player {
-            position: absolute;
-            width: 100% !important;
-            height: 100% !important;
-            background-color: #000;
-        }
-        .jw-icon-rewind,
-        .jw-icon-forward {
-            filter: brightness(0) invert(1); /* Make icons white */
-        }
-        .jw-text-live {
-            color: red;
-        }
-        .jw-button-container {
-            display: flex;
-            justify-content: center; /* Center buttons horizontally */
-            gap: 10px; /* Adjust the gap between buttons */
-        }
-        .jw-icon-fullscreen,
-        .jw-icon-share,
-        .jw-icon-pip {
-            margin: 0 5px; /* Adjust margin as needed */
-        }
-    </style>
+    <title>JW Player Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jwplayer@8.21.1/jwplayer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p2pml@latest/dist/p2pml.min.js"></script>
+    <script>
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(["setCookieDomain", "*.anym3u8player.com"]);
+        _paq.push(["setDomains", ["*.anym3u8player.com"]]);
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="//analytics.techyhub.co/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '3']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
 </head>
 <body>
-    <div id="player"></div>
-
+    <div id="my-video">Loading the player...</div>
     <script>
-        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
-
-        function setupPlayer(videoUrls, drmOptions = null, posterUrl = null) {
-            const playlistItems = videoUrls.map((url, index) => {
-                return {
-                    title: "Talha's Stream - FanCode Live",
-                    description: "Watch Cricket & Football Live With Talha's Stream",
-                    image: "https://s11.gifyu.com/images/S1l3T.jpg",
-                    sources: [
-                        {
-                            file: url,
-                            type: determineSourceType(url),
-                            label: "1080p",
-                            default: true
-                        }
-                    ],
-                    drm: drmOptions ? {
-                        clearkey: {
-                            keyId: drmOptions.keyId,
-                            key: drmOptions.key
-                        }
-                    } : null
-                };
+        $(document).ready(function() {
+            $(".auto-load").hide();
+            var engine = new p2pml.hlsjs.Engine();
+            var player = jwplayer("my-video");
+            player.setup({
+                file: "https://astrocricket.talha07.workers.dev/?url=https://sports.bdixtv24.com/m3u8.php/willowextra.m3u8",
+                type: "application/x-mpegURL",
+                image: "https://anym3u8player.com/live.gif",
+                width: "100%",
+                aspectratio: "16:9",
+                autostart: false,
+                primary: "html5",
+                preload: "auto",
+                mute: false
             });
 
-            jwplayer("player").setup({
-                controls: true,
-                sharing: true,
-                displaytitle: true,
-                autoplay: true,
-                displaydescription: true,
-                abouttext: "Video Player By Talha's Stream",
-                aboutlink: "https://t.me/talhasmovie_request_bot",
-                skin: {
-                    name: "netflix"
-                },
-                captions: {
-                    color: "#FFF",
-                    fontSize: 14,
-                    backgroundOpacity: 0,
-                    edgeStyle: "raised"
-                },
-                playlist: playlistItems,
-                advertising: {
-                    client: "vast",
-                    schedule: [
-                        {
-                            offset: "pre",
-                            tag: ""
-                        }
-                    ]
-                },
-                image: posterUrl
-            }).on("ready", function () {
-                const playerContainer = jwplayer().getContainer();
-                const buttonContainer = playerContainer.querySelector(".jw-button-container");
-                const spacer = buttonContainer.querySelector(".jw-spacer");
-                const timeSlider = playerContainer.querySelector(".jw-slider-time");
-                buttonContainer.replaceChild(timeSlider, spacer);
-
-                const rewindContainer = playerContainer.querySelector(".jw-display-icon-rewind");
-                const forwardContainer = rewindContainer.cloneNode(true);
-                const forwardDisplayButton = forwardContainer.querySelector(".jw-icon-rewind");
-                forwardDisplayButton.style.transform = "scaleX(-1)";
-                forwardDisplayButton.ariaLabel = "Forward 10 Seconds";
-                const nextContainer = playerContainer.querySelector(".jw-display-icon-next");
-                nextContainer.parentNode.insertBefore(forwardContainer, nextContainer);
-
-                playerContainer.querySelector(".jw-display-icon-next").style.display = "none";
-                const rewindControlBarButton = buttonContainer.querySelector(".jw-icon-rewind");
-                const forwardControlBarButton = rewindControlBarButton.cloneNode(true);
-                forwardControlBarButton.style.transform = "scaleX(-1)";
-                forwardControlBarButton.ariaLabel = "Forward 10 Seconds";
-                rewindControlBarButton.parentNode.insertBefore(forwardControlBarButton, rewindControlBarButton.nextElementSibling);
-
-                [forwardDisplayButton, forwardControlBarButton].forEach((button) => {
-                    button.onclick = () => {
-                        jwplayer().seek(jwplayer().getPosition() + 10);
-                    };
+            player.on("play", function() {
+                $("#player .jw-preview").css("background-image", "none");
+            });
+            player.on("play", function() {
+                player.setConfig({
+                    image: ""
                 });
             });
-        }
 
-        function determineSourceType(url) {
-            if (url.endsWith(".mkv") || url.endsWith(".mp4")) {
-                return "mp4";
-            } else if (url.endsWith(".m3u8")) {
-                return "hls";
-            } else if (url.endsWith(".mpd")) {
-                return "dash";
-            }
-            return "mp4"; // Default to MP4
-        }
+            jwplayer_hls_provider.attach();
 
-        setupPlayer(
-            [
-                "https://astrocricket.talha07.workers.dev/?url=https://sports.bdixtv24.com/m3u8.php/skyscric.m3u8"
-            ],
-            {
-               // keyId: "159a2b4e1d2d7f16892d35d935a2fb34",
-                // key: "07809840dd0f511221ca78459167d1b3"
-            },
-            ""
-        );
+            p2pml.hlsjs.initJwPlayer(player, {
+                liveSyncDurationCount: 7,
+                loader: engine.createLoaderClass()
+            });
+        });
     </script>
 </body>
 </html>
