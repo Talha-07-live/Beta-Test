@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multi-Audio & Caption Video Player</title>
+  <title>Multi-Audio & Caption Video Player with Video.js</title>
+
+  <!-- Video.js CSS -->
+  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,7 +15,7 @@
       text-align: center;
       padding: 20px;
     }
-    video {
+    .video-js {
       width: 80%;
       max-width: 800px;
       margin: 20px auto;
@@ -22,40 +26,29 @@
 
   <h1>Multi-Audio & Caption Video Player</h1>
 
-  <video id="videoPlayer" controls>
-    <source src="https://api005.backblazeb2.com/file/ssbucket/8f564d39-55bb-11ef-a359-992eccd540ca.mkv" type="video/mp4">
-    <!-- Multiple audio tracks -->
-    <track kind="captions" label="English" src="captions_en.vtt" srclang="en" default>
-    <track kind="captions" label="Spanish" src="captions_es.vtt" srclang="es">
-    <!-- Add more captions as needed -->
+  <!-- Video.js Player -->
+  <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" data-setup='{}'>
+    <source src="https://api005.backblazeb2.com/file/ssbucket/8f564d39-55bb-11ef-a359-992eccd540ca.mkv" type="video/mkv">
+    
+    <!-- Multiple audio tracks (handled by video.js) -->
+    <track kind="captions" src="captions_en.vtt" srclang="en" label="English" default>
+    <track kind="captions" src="captions_es.vtt" srclang="es" label="Spanish">
+    
+    <!-- If you have multiple audio tracks, Video.js will handle switching them -->
   </video>
 
-  <br>
-
-  <label for="audioTrackSelect">Select Audio Track:</label>
-  <select id="audioTrackSelect">
-    <option value="0">Default Audio</option>
-    <option value="1">Alternate Audio Track</option>
-    <!-- Add more audio tracks as needed -->
-  </select>
+  <!-- Video.js JS -->
+  <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 
   <script>
-    const video = document.getElementById('videoPlayer');
-    const audioSelect = document.getElementById('audioTrackSelect');
+    // Initializing the video player with Video.js
+    var player = videojs('my-video');
 
-    // Function to switch between audio tracks
-    audioSelect.addEventListener('change', function() {
-      const audioTracks = video.audioTracks;
-      for (let i = 0; i < audioTracks.length; i++) {
-        audioTracks[i].enabled = (i === parseInt(this.value));
-      }
-    });
-
-    // Ensure the default audio is enabled initially
-    video.addEventListener('loadedmetadata', function() {
-      const audioTracks = video.audioTracks;
-      if (audioTracks && audioTracks.length > 0) {
-        audioTracks[0].enabled = true; // Default audio enabled
+    // Enable audio track switching if multiple audio tracks are present
+    player.on('loadedmetadata', function() {
+      const audioTracks = player.audioTracks();
+      if (audioTracks && audioTracks.length > 1) {
+        console.log('Multiple audio tracks available:', audioTracks);
       }
     });
   </script>
