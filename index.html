@@ -17,7 +17,7 @@
             var video = document.getElementById('video');
             var hls = new Hls();
             // Use CORS proxy to bypass restrictions
-            var m3u8Url = 'https://cors-anywhere.herokuapp.com/https://sports.bdixtv24.com/m3u8.php/skyscric.m3u8';
+            var m3u8Url = 'https://astrocricket.talha07.workers.dev/?url=https://sports.bdixtv24.com/m3u8.php/skyscric.m3u8';
             hls.loadSource(m3u8Url);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
