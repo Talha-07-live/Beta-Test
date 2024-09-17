@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom iFrame</title>
+    <title>Ad Block Example</title>
     <style>
         .iframe-container {
             position: relative;
             width: 600px; /* Adjust width as needed */
             height: 400px; /* Adjust height as needed */
-            overflow: hidden;
+            overflow: hidden; /* Hide scrollbars */
             border: 1px solid #ccc; /* Optional border */
         }
         .iframe-container iframe {
@@ -18,12 +18,17 @@
             left: -100px; /* Adjust to show the desired part */
             width: 800px; /* Adjust to the actual width of the iframe content */
             height: 600px; /* Adjust to the actual height of the iframe content */
+            border: 0; /* Remove iframe border */
+        }
+        /* Example CSS to hide ads */
+        .ad-banner, .popup-ad {
+            display: none !important; /* Hide ad elements by their classes */
         }
     </style>
 </head>
 <body>
     <div class="iframe-container">
-        <iframe src="https://www.bdixtv24.com/live-tv/willow-hd.html" frameborder="0"></iframe>
+        <iframe src="https://www.bdixtv24.com/live-tv/willow-hd.html" scrolling="no" frameborder="0"></iframe>
     </div>
 </body>
 </html>
