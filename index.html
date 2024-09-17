@@ -3,70 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JW Player Example</title>
-    <!-- Include jQuery -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <!-- Include JW Player -->
-    <script src="https://cdn.jsdelivr.net/npm/jwplayer@8.21.1/jwplayer.js"></script>
-    <!-- Include p2p Media Loader -->
-    <script src="https://cdn.jsdelivr.net/npm/p2pml@latest/dist/p2pml.min.js"></script>
+    <title>HLS Player</title>
     <style>
-        #my-video {
-            width: 100%;
-            height: auto;
-            background: #000; /* Black background for video container */
-        }
+        body { margin: 0; padding: 0; }
+        #video-container { width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        video { max-width: 100%; max-height: 100%; }
     </style>
 </head>
 <body>
-    <!-- Video Player Container -->
-    <div id="my-video">Loading the player...</div>
+    <div id="video-container">
+        <video id="video" controls></video>
+    </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
-        $(document).ready(function() {
-            // Hide any auto-load content
-            $(".auto-load").hide();
+        var video = document.getElementById('video');
+        var videoSrc = 'https://astrocricket.talha07.workers.dev/?url=https://sports.bdixtv24.com/m3u8.php/willowextra.m3u8'; // Replace with your M3U8 URL
 
-            // Initialize P2P Engine
-            var engine = new p2pml.hlsjs.Engine();
-
-            // Setup JW Player
-            var player = jwplayer("my-video");
-            player.setup({
-                file: "https://astrocricket.talha07.workers.dev/?url=https://sports.bdixtv24.com/m3u8.php/willowextra.m3u8",
-                type: "application/x-mpegURL",
-                image: "https://anym3u8player.com/live.gif",
-                width: "100%",
-                aspectratio: "16:9",
-                autostart: false,
-                primary: "html5",
-                preload: "auto",
-                mute: false
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play();
             });
-
-            // Remove preview image on play
-            player.on("play", function() {
-                $("#my-video .jw-preview").css("background-image", "none");
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+            video.addEventListener('loadedmetadata', function() {
+                video.play();
             });
-
-            // Remove image when playing
-            player.on("play", function() {
-                player.setConfig({
-                    image: ""
-                });
-            });
-
-            // Attach P2P HLS provider
-            if (typeof jwplayer_hls_provider !== 'undefined') {
-                jwplayer_hls_provider.attach();
-            }
-
-            // Initialize P2PML with JW Player
-            p2pml.hlsjs.initJwPlayer(player, {
-                liveSyncDurationCount: 7,
-                loader: engine.createLoaderClass()
-            });
-        });
+        } else {
+            console.error('HLS is not supported on this browser.');
+        }
     </script>
 </body>
 </html>
