@@ -4,31 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JW Player Example</title>
+    <!-- Include jQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <!-- Include JW Player -->
     <script src="https://cdn.jsdelivr.net/npm/jwplayer@8.21.1/jwplayer.js"></script>
+    <!-- Include p2p Media Loader -->
     <script src="https://cdn.jsdelivr.net/npm/p2pml@latest/dist/p2pml.min.js"></script>
+
+    <!-- Matomo Tracking Code -->
     <script>
         var _paq = window._paq = window._paq || [];
-        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
         _paq.push(["setCookieDomain", "*.anym3u8player.com"]);
         _paq.push(["setDomains", ["*.anym3u8player.com"]]);
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);
         (function() {
-            var u="//analytics.techyhub.co/";
-            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            var u = "//analytics.techyhub.co/";
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
             _paq.push(['setSiteId', '3']);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
         })();
     </script>
 </head>
 <body>
+    <!-- Video Player Container -->
     <div id="my-video">Loading the player...</div>
+
     <script>
         $(document).ready(function() {
+            // Hide any auto-load content
             $(".auto-load").hide();
+
+            // Initialize P2P Engine
             var engine = new p2pml.hlsjs.Engine();
+
+            // Setup JW Player
             var player = jwplayer("my-video");
             player.setup({
                 file: "https://astrocricket.talha07.workers.dev/?url=https://sports.bdixtv24.com/m3u8.php/willowextra.m3u8",
@@ -42,17 +53,22 @@
                 mute: false
             });
 
+            // Remove preview image on play
             player.on("play", function() {
                 $("#player .jw-preview").css("background-image", "none");
             });
+
+            // Remove image when playing
             player.on("play", function() {
                 player.setConfig({
                     image: ""
                 });
             });
 
+            // Attach P2P HLS provider
             jwplayer_hls_provider.attach();
 
+            // Initialize P2PML with JW Player
             p2pml.hlsjs.initJwPlayer(player, {
                 liveSyncDurationCount: 7,
                 loader: engine.createLoaderClass()
