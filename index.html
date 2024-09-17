@@ -1,57 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multi-Audio & Caption Video Player with Video.js</title>
+  <title>CodePen - Videojs Luxmty Skin  Advanced</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/video.js@8.12.0/dist/video-js.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Questrial&amp;display=swap'>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css'><link rel="stylesheet" href="./style.css">
 
-  <!-- Video.js CSS -->
-  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      text-align: center;
-      padding: 20px;
-    }
-    .video-js {
-      width: 80%;
-      max-width: 800px;
-      margin: 20px auto;
-    }
-  </style>
 </head>
 <body>
-
-  <h1>Multi-Audio & Caption Video Player</h1>
-
-  <!-- Video.js Player -->
-  <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264" data-setup='{}'>
-    <source src="https://api005.backblazeb2.com/file/ssbucket/8f564d39-55bb-11ef-a359-992eccd540ca.mkv" type="video/mkv">
-    
-    <!-- Multiple audio tracks (handled by video.js) -->
-    <track kind="captions" src="captions_en.vtt" srclang="en" label="English" default>
-    <track kind="captions" src="captions_es.vtt" srclang="es" label="Spanish">
-    
-    <!-- If you have multiple audio tracks, Video.js will handle switching them -->
-  </video>
-
-  <!-- Video.js JS -->
-  <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-
-  <script>
-    // Initializing the video player with Video.js
-    var player = videojs('my-video');
-
-    // Enable audio track switching if multiple audio tracks are present
-    player.on('loadedmetadata', function() {
-      const audioTracks = player.audioTracks();
-      if (audioTracks && audioTracks.length > 1) {
-        console.log('Multiple audio tracks available:', audioTracks);
-      }
-    });
-  </script>
-
+<!-- partial:index.partial.html -->
+<div class="player-container">
+ <video-js id="video-player" class="vjs-luxmty vjs-16-9 vjs-show-big-play-button-on-pause" poster="https://raw.githubusercontent.com/EmilioSG11/videojs-cosmos-skin/main/images/bbunny.jpg">
+  <source src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" type="" /> 
+ </video-js>
+</div>
+<!-- partial -->
+  <script src='https://cdn.jsdelivr.net/npm/video.js@8.12.0/dist/video.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/videojs-youtube@3.0.1/dist/Youtube.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/videojs-mobile-ui@1.0.1/dist/videojs-mobile-ui.min.js'></script>
+<script src='https://cdn.jsdelivr.net/gh/EmilioSG11/videojs-hls-quality-selector@main/dist/videojs-hls-quality-selector.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/videojs-logo@3.0.0/dist/videojs-logo.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@misterben/videojs-poster-time@1.0.0/dist/videojs-poster-time.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/videojs-contextmenu-ui@7.0.0/dist/videojs-contextmenu-ui.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/videojs-contrib-quality-menu@1.0.1/dist/videojs-contrib-quality-menu.js'></script>
+<script src='https://dl.dropbox.com/scl/fi/v0ulq6iiu152blz4h4vt9/luxmtyadv.min.js?rlkey=o1bzgv7mh6oa6gamnfwr2fljz'></script>
+<script src='https://dl.dropbox.com/scl/fi/ogug37z70m3c93xmcbo2j/demo-luxmty-advanced.js?rlkey=p122gt64kciuh2ufa9h9gvnkn'></script>
 </body>
 </html>
