@@ -16,7 +16,9 @@
         if (Hls.isSupported()) {
             var video = document.getElementById('video');
             var hls = new Hls();
-            hls.loadSource('https://sports.bdixtv24.com/m3u8.php/skyscric.m3u8');
+            // Use CORS proxy to bypass restrictions
+            var m3u8Url = 'https://cors-anywhere.herokuapp.com/https://sports.bdixtv24.com/m3u8.php/skyscric.m3u8';
+            hls.loadSource(m3u8Url);
             hls.attachMedia(video);
             hls.on(Hls.Events.MANIFEST_PARSED, function() {
                 video.play();
