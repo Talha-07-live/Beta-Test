@@ -10,22 +10,13 @@
     <script src="https://cdn.jsdelivr.net/npm/jwplayer@8.21.1/jwplayer.js"></script>
     <!-- Include p2p Media Loader -->
     <script src="https://cdn.jsdelivr.net/npm/p2pml@latest/dist/p2pml.min.js"></script>
-
-    <!-- Matomo Tracking Code -->
-    <script>
-        var _paq = window._paq = window._paq || [];
-        _paq.push(["setCookieDomain", "*.anym3u8player.com"]);
-        _paq.push(["setDomains", ["*.anym3u8player.com"]]);
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-        (function() {
-            var u = "//analytics.techyhub.co/";
-            _paq.push(['setTrackerUrl', u + 'matomo.php']);
-            _paq.push(['setSiteId', '3']);
-            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-            g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
-        })();
-    </script>
+    <style>
+        #my-video {
+            width: 100%;
+            height: auto;
+            background: #000; /* Black background for video container */
+        }
+    </style>
 </head>
 <body>
     <!-- Video Player Container -->
@@ -55,7 +46,7 @@
 
             // Remove preview image on play
             player.on("play", function() {
-                $("#player .jw-preview").css("background-image", "none");
+                $("#my-video .jw-preview").css("background-image", "none");
             });
 
             // Remove image when playing
@@ -66,7 +57,9 @@
             });
 
             // Attach P2P HLS provider
-            jwplayer_hls_provider.attach();
+            if (typeof jwplayer_hls_provider !== 'undefined') {
+                jwplayer_hls_provider.attach();
+            }
 
             // Initialize P2PML with JW Player
             p2pml.hlsjs.initJwPlayer(player, {
