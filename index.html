@@ -1,31 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CodePen - Videojs Luxmty Skin  Advanced</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/video.js@8.12.0/dist/video-js.min.css'>
-<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Questrial&amp;display=swap'>
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css'><link rel="stylesheet" href="./style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom iFrame Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        iframe {
+            width: 80%;
+            height: 400px;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<div class="player-container">
- <video-js id="video-player" class="vjs-luxmty vjs-16-9 vjs-show-big-play-button-on-pause" poster="https://raw.githubusercontent.com/EmilioSG11/videojs-cosmos-skin/main/images/bbunny.jpg">
-  <source src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" type="" /> 
- </video-js>
-</div>
-<!-- partial -->
-  <script src='https://cdn.jsdelivr.net/npm/video.js@8.12.0/dist/video.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/videojs-youtube@3.0.1/dist/Youtube.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/videojs-mobile-ui@1.0.1/dist/videojs-mobile-ui.min.js'></script>
-<script src='https://cdn.jsdelivr.net/gh/EmilioSG11/videojs-hls-quality-selector@main/dist/videojs-hls-quality-selector.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/videojs-logo@3.0.0/dist/videojs-logo.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/@misterben/videojs-poster-time@1.0.0/dist/videojs-poster-time.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/videojs-contextmenu-ui@7.0.0/dist/videojs-contextmenu-ui.min.js'></script>
-<script src='https://cdn.jsdelivr.net/npm/videojs-contrib-quality-menu@1.0.1/dist/videojs-contrib-quality-menu.js'></script>
-<script src='https://dl.dropbox.com/scl/fi/v0ulq6iiu152blz4h4vt9/luxmtyadv.min.js?rlkey=o1bzgv7mh6oa6gamnfwr2fljz'></script>
-<script src='https://dl.dropbox.com/scl/fi/ogug37z70m3c93xmcbo2j/demo-luxmty-advanced.js?rlkey=p122gt64kciuh2ufa9h9gvnkn'></script>
+
+    <h1>iFrame Video Player</h1>
+    <p>Insert the iFrame video link below:</p>
+
+    <input type="text" id="iframeUrl" placeholder="https://en.gdplayertv.to/live-tv/astro-cricket/?embed=1" size="50">
+    <button onclick="loadIframe()">Play Video</button>
+
+    <div id="videoPlayer" style="margin-top: 20px;">
+        <!-- iFrame will load here -->
+    </div>
+
+    <script>
+        function loadIframe() {
+            var iframeUrl = document.getElementById('iframeUrl').value;
+            var iframeElement = `<iframe src="${iframeUrl}" allowfullscreen></iframe>`;
+            document.getElementById('videoPlayer').innerHTML = iframeElement;
+        }
+    </script>
+
 </body>
 </html>
