@@ -3,54 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player</title>
-    <!-- Clappr CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@clappr/core@0.5.4/dist/clappr.min.css">
-    <!-- Add any additional CSS you might need here -->
+    <title>Embed Video Player</title>
     <style>
-        #player {
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        iframe {
+            border: none;
             width: 100%;
-            height: 100vh; /* Full viewport height */
         }
     </style>
 </head>
 <body>
-    <div id="player"></div>
-
-    <!-- Clappr JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@clappr/core@0.5.4/dist/clappr.min.js"></script>
-    <!-- SwarmCloudClapprPlugin JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swarmcloud-clappr-plugin@1.0.0/dist/swarmcloud.min.js"></script>
-
+    <iframe id="myIframe" src="https://hlsjs.video-dev.org/demo/?src=https%3A%2F%2Fhotflix-bd.online%2FT-Sports%2Ftracks-v1a1%2Fmono.m3u8%3Fremote%3D103.124.251.10%26token%3Dfa5c887c1d52a6d8b6aeb831604979e504d10ccf-d541e40565c83f9a1290093fde32aec9-1726656484-1726645684&demoConfig=eyJlbmFibGVTdHJlYW1pbmciOnRydWUsImF1dG9SZWNvdmVyRXJyb3IiOnRydWUsInN0b3BPblN0YWxsIjpmYWxzZSwiZHVtcGZNUDQiOmZhbHNlLCJsZXZlbENhcHBpbmciOi0xLCJsaW1pdE1ldHJpY3MiOi0xfQ==" allowfullscreen></iframe>
     <script>
-        var p2pConfig = {
-            // logLevel: 'debug',
-            trackerZone: 'us',        // if using USA tracker
-            token: "Qi7zWMfSg",
-            waitForPeer: true,
-            waitForPeerTimeout: 3.0,
-            sourceUrl: "https://hotflix-bd.online/hotflixbd/T-Sports/video.m3u8?token=d0b652aece28d502f5f898ec6d2bdc16d94f4571-cf3f2013cdcdcb7543ea5cc59cae9d94-1726655691-1726644891&remote=103.124.251.10",
-            // Other p2pConfig options provided
+        function resizeIframe() {
+            const iframe = document.getElementById('myIframe');
+            iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
         }
-
-        var player = new Clappr.Player({
-            source: "https://hotflix-bd.online/hotflixbd/T-Sports/video.m3u8?token=d0b652aece28d502f5f898ec6d2bdc16d94f4571-cf3f2013cdcdcb7543ea5cc59cae9d94-1726655691-1726644891&remote=103.124.251.10",
-            parentId: "#player",
-            poster: '',
-            width: '100%',
-            height: '100%',
-            autoPlay: true,
-            plugins: [SwarmCloudClapprPlugin],
-            playback: {
-                hlsjsConfig: {
-                    maxBufferSize: 0,       // Highly recommended setting in live mode
-                    maxBufferLength: 12,     // Highly recommended setting in live mode
-                    liveSyncDurationCount: 6,   // Highly recommended setting in live mode
-                    // Other hlsjsConfig options provided by hls.js
-                    p2pConfig
-                }
-            }
-        });
+        window.addEventListener('load', resizeIframe);
+        window.addEventListener('resize', resizeIframe);
     </script>
 </body>
 </html>
