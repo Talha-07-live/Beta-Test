@@ -35,48 +35,86 @@
   <video id="video" controls autoplay></video>
 
   <script>
-    const manifestUri = "https://drmlive.in/sports/Astro/default.mpd";
-    
-    async function init() {
+    // Initialize Shaka Player when the window loads
+    window.onload = function() {
       const video = document.getElementById('video');
-      const ui = video['ui'];
-      const controls = ui.getControls();
-      const player = controls.getPlayer();
+
+      // Initialize the Shaka player
+      const player = new shaka.Player(video);
+
+      // Attach the player to the window to make it accessible for debugging
       window.player = player;
-      window.ui = ui;
 
-      const config = {
-        enableKeyboardPlaybackControls: true,
-        seekBarColors: {
-          base: 'rgba(255,255,255,.2)',
-          buffered: 'rgba(255,255,255,.4)',
-          played: 'rgb(255,0,0)',
-        },
-      };
-      ui.configure(config);
-
+      // Configure the Shaka Player
       player.configure({
         drm: {
           clearKeys: {
             '03c2e0af2f8159f9f0ce9b5dbc865f10': 'cd84ed136b0cc71f8ab8cd4d4f6a2e4c',
-          },
-        },
+          }
+        }
       });
 
-      try {
-        await player.load(manifestUri);
+      // Load the MPD stream
+      const manifestUri = "https://drmlive.in/sports/Astro/default.mpd";
+
+      player.load(manifestUri).then(function() {
         console.log('The video has now been loaded!');
-      } catch (error) {
-        console.error('Error loading video', error);
-      }
-    }
+      }).catch(function(error) {
+        console.error('Error loading video:', error);
+      });
 
-    function initFailed(errorEvent) {
-      console.error('Unable to load the UI library!', errorEvent);
-    }
+      // Add keyboard controls
+      document.addEventListener('keydown', (e) => {
+        let is_fullscreen = () => !!document.fullscreenElement;
+        let audio_vol = video.volume;
+        if (e.key == 'f') {
+          if (is_fullscreen()) {
+            document.exitFullscreen();
+          } else {
+            video.requestFullscreen();
+          }
+          e.preventDefault();
+        } else if (e.key == ' ') {
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+          e.preventDefault();
+        } else if (e.key == "ArrowUp") {
+          e.preventDefault();
+          if (audio_vol != 1) {
+            try {
+              video.volume = audio_vol + 0.05;
+            } catch (err) {
+              video.volume = 1;
+            }
+          }
+        } else if (e.key == "ArrowDown") {
+          e.preventDefault();
+          if (audio_vol != 0) {
+            try {
+              video.volume = audio_vol - 0.05;
+            } catch (err) {
+              video.volume = 0;
+            }
+          }
+        } else if (e.key == 'm') {
+          e.preventDefault();
+          video.muted = !video.muted;
+        }
+      });
 
-    document.addEventListener('shaka-ui-loaded', init);
-    document.addEventListener('shaka-ui-load-failed', initFailed);
+      // Error handling
+      player.addEventListener('error', (error) => {
+        console.error('Error code:', error.code, 'object:', error);
+      });
+    };
+
+    // Handle UI load failure
+    document.addEventListener('shaka-ui-load-failed', function(errorEvent) {
+      console.error('Unable to load the Shaka Player UI:', errorEvent);
+    });
   </script>
 
 </body>
