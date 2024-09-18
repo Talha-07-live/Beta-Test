@@ -1,21 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - Clappr Player Sample HLS code for VOD</title>
-  
-
+  <title>Clappr Player with Auto-Refresh</title>
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<script type="text/javascript"
-      src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js">
-  </script>
+  <!-- Clappr JS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"></script>
+
   <div id="player"></div>
+
   <script>
-    var player = new Clappr.Player({source: "https://astrocricket.talha07.workers.dev/proxy/m3u8.php/ptvpk.m3u8", parentId: "#player" ,poster :'https://s11.gifyu.com/images/S1l3T.jpg'});
+    // Function to initialize or reload the player
+    function initPlayer() {
+      var player = new Clappr.Player({
+        source: "https://astrocricket.talha07.workers.dev/proxy/m3u8.php/ptvpk.m3u8",
+        parentId: "#player",
+        poster: 'https://s11.gifyu.com/images/S1l3T.jpg'
+      });
+    }
+
+    // Initialize the player
+    initPlayer();
+
+    // Refresh the player every 30 seconds (30,000 milliseconds)
+    setInterval(function() {
+      initPlayer();
+    }, 30000); // Refreshes the player every 30 seconds
   </script>
-<!-- partial -->
-  
 </body>
 </html>
