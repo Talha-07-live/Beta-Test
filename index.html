@@ -1,29 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Video Player</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-        iframe {
-            border: none;
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
-    <iframe id="myIframe" src="https://hlsjs.video-dev.org/demo/?src=https%3A%2F%2Fhotflix-bd.online%2FT-Sports%2Ftracks-v1a1%2Fmono.m3u8%3Fremote%3D103.124.251.10%26token%3Dfa5c887c1d52a6d8b6aeb831604979e504d10ccf-d541e40565c83f9a1290093fde32aec9-1726656484-1726645684&demoConfig=eyJlbmFibGVTdHJlYW1pbmciOnRydWUsImF1dG9SZWNvdmVyRXJyb3IiOnRydWUsInN0b3BPblN0YWxsIjpmYWxzZSwiZHVtcGZNUDQiOmZhbHNlLCJsZXZlbENhcHBpbmciOi0xLCJsaW1pdE1ldHJpY3MiOi0xfQ==" allowfullscreen></iframe>
-    <script>
-        function resizeIframe() {
-            const iframe = document.getElementById('myIframe');
-            iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
-        }
-        window.addEventListener('load', resizeIframe);
-        window.addEventListener('resize', resizeIframe);
-    </script>
-</body>
-</html>
+<script type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js">
+  </script>
+  <div id="player"></div>
+  <script>
+    var player = new Clappr.Player({source: "https://rdchannel.rd.go.th/contents/msteam_live_13-08-63.mp4", parentId: "#player" ,poster :'http://clappr.io/poster.png'});
+  </script>
+ 
