@@ -96,7 +96,7 @@
             <a href="#" onclick="loadIframe('https://talhas.arena3premium.rf.gd/')">Service 5</a>
         </div>
 
-        <iframe id="serviceFrame" onload="hidePoster()" scrolling="no" frameborder="0" loading "lazy" allow="accelerometer; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
+        <iframe id="serviceFrame" onload="hidePoster()"></iframe>
 
         <div class="error-message" id="error-message">
             Error: This domain is not allowed.
@@ -104,54 +104,62 @@
     </div>
 
     <script>
-        // List of allowed domains
-        const allowedDomains = [
-            'https://wizardfc.official.rf.gd/',
-            'https://wizardfc.official.rf.gd/'
-        ];
+        // Function to validate embedding
+        function isValidEmbed() {
+            const referrer = document.referrer;
+            // Add allowed domains here
+            const allowedDomains = [
+                "https://wizardfc.official.rf.gd/",
+                "https://wizardfc.official.rf.gd/"
+            ];
+            return allowedDomains.some(domain => referrer.startsWith(domain));
+        }
 
-        // Function to load the iframe with domain restriction
-        function loadIframe(serviceUrl) {
-            const domain = extractDomain(serviceUrl);
+        if (!isValidEmbed()) {
+            document.body.innerHTML = '<h1>চুরি করা মহাপাপ (By Order Of Talha, The Creator Of This Page)</h1><p></p>';
+        } else {
+            function loadIframe(serviceUrl) {
+                const domain = extractDomain(serviceUrl);
 
-            if (allowedDomains.includes(domain)) {
-                document.getElementById('serviceFrame').src = serviceUrl;
-                hideErrorMessage();
-            } else {
-                showErrorMessage();
+                if (allowedDomains.includes(domain)) {
+                    document.getElementById('serviceFrame').src = serviceUrl;
+                    hideErrorMessage();
+                } else {
+                    showErrorMessage();
+                }
+
+                toggleMenu();  // Close the menu after clicking a link
             }
 
-            toggleMenu();  // Close the menu after clicking a link
-        }
+            // Extract the domain from a URL
+            function extractDomain(url) {
+                const a = document.createElement('a');
+                a.href = url;
+                return a.hostname.replace('www.', '');  // Remove 'www.' for matching
+            }
 
-        // Extract the domain from a URL
-        function extractDomain(url) {
-            const a = document.createElement('a');
-            a.href = url;
-            return a.hostname.replace('www.', '');  // Remove 'www.' for matching
-        }
+            // Show error message if the domain is not allowed
+            function showErrorMessage() {
+                document.getElementById('error-message').style.display = 'block';
+                document.getElementById('serviceFrame').style.display = 'none';  // Hide iframe on error
+            }
 
-        // Show error message if the domain is not allowed
-        function showErrorMessage() {
-            document.getElementById('error-message').style.display = 'block';
-            document.getElementById('serviceFrame').style.display = 'none';  // Hide iframe on error
-        }
+            // Hide error message when a valid domain is loaded
+            function hideErrorMessage() {
+                document.getElementById('error-message').style.display = 'none';
+                document.getElementById('serviceFrame').style.display = 'block';
+            }
 
-        // Hide error message when a valid domain is loaded
-        function hideErrorMessage() {
-            document.getElementById('error-message').style.display = 'none';
-            document.getElementById('serviceFrame').style.display = 'block';
-        }
+            // Function to hide the poster and show the iframe after it loads
+            function hidePoster() {
+                document.getElementById('poster').style.display = 'none'; // Hide poster once iframe is loaded
+            }
 
-        // Function to hide the poster and show the iframe after it loads
-        function hidePoster() {
-            document.getElementById('poster').style.display = 'none'; // Hide poster once iframe is loaded
-        }
-
-        // Function to toggle the visibility of the menu
-        function toggleMenu() {
-            const navbar = document.getElementById('navbar');
-            navbar.style.display = navbar.style.display === 'block' ? 'none' : 'block';
+            // Function to toggle the visibility of the menu
+            function toggleMenu() {
+                const navbar = document.getElementById('navbar');
+                navbar.style.display = navbar.style.display === 'block' ? 'none' : 'block';
+            }
         }
     </script>
 
