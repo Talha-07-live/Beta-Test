@@ -58,34 +58,6 @@
         .navbar a:hover {
             background-color: #575757;
         }
-
-        /* Poster image and play button styles */
-        .poster-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://s11.gifyu.com/images/S1l3T.jpg');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-        }
-
-        .play-button {
-            background-color: rgba(0, 0, 0, 0.7);
-            border: none;
-            color: white;
-            padding: 20px;
-            font-size: 24px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .play-button:hover {
-            background-color: rgba(0, 0, 0, 0.9);
-        }
     </style>
 </head>
 <body>
@@ -100,29 +72,18 @@
             <a href="#" onclick="loadIframe('https://talhas.arenasport3.rf.gd/')">Service 5</a>
         </div>
 
-        <!-- Poster overlay with play button -->
-        <div class="poster-overlay" id="posterOverlay">
-            <button class="play-button" onclick="startIframe()">Play</button>
-        </div>
-
-        <iframe id="serviceFrame" src="https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master" allow="autoplay"></iframe>
+        <iframe id="serviceFrame" src="https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master"></iframe>
     </div>
 
     <script>
         function loadIframe(serviceUrl) {
             document.getElementById('serviceFrame').src = serviceUrl;
             toggleMenu();  // Close the menu after clicking a link
-            document.getElementById('posterOverlay').style.display = 'block'; // Show the poster for new iframe
         }
 
         function toggleMenu() {
             const navbar = document.getElementById('navbar');
             navbar.style.display = navbar.style.display === 'block' ? 'none' : 'block';
-        }
-
-        function startIframe() {
-            document.getElementById('serviceFrame').src = 'https://service1.com'; // Set iframe src when play button is clicked
-            document.getElementById('posterOverlay').style.display = 'none'; // Hide poster after starting the iframe
         }
     </script>
 
