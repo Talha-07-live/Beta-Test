@@ -47,7 +47,7 @@
         function isValidEmbed() {
             const referrer = document.referrer;
             // Add allowed domains here
-            const allowedDomains = ["https://t.talhasstream-cricket.000.pe/", ""];
+            const allowedDomains = ["https://t.talhasstream-cricket.000.pe/", "https://t.talhasstream-football-1.000.pe/"];
             return allowedDomains.some(domain => referrer.includes(domain));
         }
 
@@ -65,7 +65,7 @@
                         sources: [
                             {
                                 file: url,
-                                type: determineSourceType(url),
+                                type: "hls", // Explicitly set HLS type
                                 label: "1080p",
                                 default: true
                             }
@@ -106,7 +106,12 @@
                             }
                         ]
                     },
-                    image: posterUrl
+                    image: posterUrl,
+                    hlshtml: true, // Use HLS.js for HTML5 HLS playback
+                    requestHeaders: {
+                        // Add any headers the proxy might need here
+                        'X-Custom-Header': 'value'
+                    }
                 }).on("ready", function () {
                     const playerContainer = jwplayer().getContainer();
                     const buttonContainer = playerContainer.querySelector(".jw-button-container");
@@ -137,17 +142,6 @@
                 });
             }
 
-            function determineSourceType(url) {
-                if (url.endsWith(".mkv") || url.endsWith(".mp4")) {
-                    return "mp4";
-                } else if (url.endsWith(".m3u8")) {
-                    return "hls";
-                } else if (url.endsWith(".mpd")) {
-                    return "dash";
-                }
-                return "mp4"; // Default to MP4
-            }
-
             setupPlayer(
                 [
                     "https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master"
@@ -161,4 +155,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
