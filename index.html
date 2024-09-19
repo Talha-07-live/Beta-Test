@@ -87,6 +87,7 @@
 
         <iframe id="serviceFrame" src="https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master" onload="hidePoster()"></iframe>
     </div>
+
     <script>
         // Function to validate embedding
         function isValidEmbed() {
@@ -97,20 +98,22 @@
         }
 
         if (!isValidEmbed()) {
-            document.body.innerHTML = '<h1>চুরি করা মহাপাপ(By Order Of Talha, The Creator Of This Page)</h1><p></p>';
-        } else {
+            document.body.innerHTML = '<h1>চুরি করা মহাপাপ(By Order Of Talha, The Creator Of This Page)</h1>';
+        }
 
-    <script>
+        // Function to load a selected iframe service
         function loadIframe(serviceUrl) {
             document.getElementById('serviceFrame').src = serviceUrl;
             toggleMenu();  // Close the menu after clicking a link
         }
 
+        // Function to toggle the menu
         function toggleMenu() {
             const navbar = document.getElementById('navbar');
             navbar.style.display = navbar.style.display === 'block' ? 'none' : 'block';
         }
 
+        // Function to hide the poster once the iframe is loaded
         function hidePoster() {
             document.getElementById('poster').style.display = 'none'; // Hide poster once iframe is loaded
             document.getElementById('serviceFrame').style.display = 'block'; // Show iframe
