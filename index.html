@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full Screen Multi-iframe Page</title>
+    <title>Full Screen Multi-iframe Page with Poster</title>
     <style>
         body, html {
             margin: 0;
@@ -18,7 +18,19 @@
             height: 100%;
         }
 
+        .poster {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://s11.gifyu.com/images/S1l3T.jpg') center center no-repeat;
+            background-size: cover;
+            z-index: 1;
+        }
+
         iframe {
+            display: none; /* Hide iframe until loaded */
             width: 100%;
             height: 100%;
             border: none;
@@ -63,16 +75,17 @@
 <body>
 
     <div class="iframe-container">
+        <div class="poster" id="poster"></div> <!-- Poster image -->
         <button class="menu-button" onclick="toggleMenu()">Menu</button>
         <div class="navbar" id="navbar">
-            <a href="#" onclick="loadIframe('https://tv.mgsportstv.com/api/player/play.php?c=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master')">Service 1</a>
-            <a href="#" onclick="loadIframe('https://talhas.arena1premium.rf.gd/')">Service 2</a>
-            <a href="#" onclick="loadIframe('https://talhas.arena2premium.rf.gd/')">Service 3</a>
-            <a href="#" onclick="loadIframe('https://talhas.arena3premium.rf.gd/')">Service 4</a>
-            <a href="#" onclick="loadIframe('https://talhas.arenasport3.rf.gd/')">Service 5</a>
+            <a href="#" onclick="loadIframe('https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master')">Service 1</a>
+            <a href="#" onclick="loadIframe('https://tv.mgsportstv.com/api/player/play.php?c=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master')">Service 2</a>
+            <a href="#" onclick="loadIframe('https://talhas.arena1premium.rf.gd/')">Service 3</a>
+            <a href="#" onclick="loadIframe('https://talhas.arena2premium.rf.gd/')">Service 4</a>
+            <a href="#" onclick="loadIframe('https://talhas.arena3premium.rf.gd/')">Service 5</a>
         </div>
 
-        <iframe id="serviceFrame" src="https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master"></iframe>
+        <iframe id="serviceFrame" src="https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master" onload="hidePoster()"></iframe>
     </div>
 
     <script>
@@ -84,6 +97,11 @@
         function toggleMenu() {
             const navbar = document.getElementById('navbar');
             navbar.style.display = navbar.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function hidePoster() {
+            document.getElementById('poster').style.display = 'none'; // Hide poster once iframe is loaded
+            document.getElementById('serviceFrame').style.display = 'block'; // Show iframe
         }
     </script>
 
