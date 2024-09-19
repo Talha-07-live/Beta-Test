@@ -88,7 +88,7 @@
                 poster: 'https://s11.gifyu.com/images/S1l3T.jpg',
                 drm: {
                     keyId: 'c18b6aa739be4c0b774605fcfb5d6b68', // Replace with your second key ID
-                    key: 'e41c3a6f7532b2e3a828d9580124c89d'       // Replace with your second key
+                    key: 'e41c3a6f7532b2e3a828d9580124c89d'   // Replace with your second key
                 }
             }
         ];
@@ -133,6 +133,13 @@
                             }
                         });
                     }
+
+                    // Error handling for MPEG-DASH
+                    player.on(dashjs.MediaPlayer.events.ERROR, function (e) {
+                        console.error('DASH Error:', e);
+                    });
+                } else {
+                    console.error('DASH.js is not supported in this browser.');
                 }
             }
             
