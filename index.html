@@ -70,6 +70,12 @@
         .navbar a:hover {
             background-color: #575757;
         }
+
+        /* Highlight the active service link */
+        .navbar a.active {
+            background-color: #2196F3; /* Blue color for active link */
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -78,11 +84,11 @@
         <div class="poster" id="poster"></div> <!-- Poster image -->
         <button class="menu-button" onclick="toggleMenu()">Menu</button>
         <div class="navbar" id="navbar">
-            <a href="#" onclick="loadIframe('https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master')">Service 1</a>
-            <a href="#" onclick="loadIframe('https://tv.mgsportstv.com/api/player/play.php?c=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master')">Service 2</a>
-            <a href="#" onclick="loadIframe('https://talhas.arena1premium.rf.gd/')">Service 3</a>
-            <a href="#" onclick="loadIframe('https://talhas.arena2premium.rf.gd/')">Service 4</a>
-            <a href="#" onclick="loadIframe('https://talhas.arena3premium.rf.gd/')">Service 5</a>
+            <a href="#" onclick="loadIframe('https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master', this)">Service 1</a>
+            <a href="#" onclick="loadIframe('https://tv.mgsportstv.com/api/player/play.php?c=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master', this)">Service 2</a>
+            <a href="#" onclick="loadIframe('https://talhas.arena1premium.rf.gd/', this)">Service 3</a>
+            <a href="#" onclick="loadIframe('https://talhas.arena2premium.rf.gd/', this)">Service 4</a>
+            <a href="#" onclick="loadIframe('https://talhas.arena3premium.rf.gd/', this)">Service 5</a>
         </div>
 
         <iframe id="serviceFrame" src="https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master" onload="hidePoster()"></iframe>
@@ -93,7 +99,7 @@
         function isValidEmbed() {
             const referrer = document.referrer;
             // Add allowed domains here
-            const allowedDomains = ["https://t.talhasstream-cricket.000.pe/", "https://t.talhasstream-football-1.000.pe/"];
+            const allowedDomains = ["https://t.talhasstream-cricket.000.pe/", ""];
             return allowedDomains.some(domain => referrer.includes(domain));
         }
 
@@ -101,10 +107,18 @@
             document.body.innerHTML = '<h1>চুরি করা মহাপাপ(By Order Of Talha, The Creator Of This Page)</h1>';
         }
 
-        // Function to load a selected iframe service
-        function loadIframe(serviceUrl) {
+        // Function to load a selected iframe service and mark it as active
+        function loadIframe(serviceUrl, linkElement) {
             document.getElementById('serviceFrame').src = serviceUrl;
+            highlightActiveLink(linkElement);
             toggleMenu();  // Close the menu after clicking a link
+        }
+
+        // Function to highlight the active service link
+        function highlightActiveLink(activeLink) {
+            const links = document.querySelectorAll('.navbar a');
+            links.forEach(link => link.classList.remove('active'));  // Remove 'active' class from all links
+            activeLink.classList.add('active');  // Add 'active' class to the clicked link
         }
 
         // Function to toggle the menu
