@@ -92,12 +92,12 @@
         .scrolling-text {
             display: inline-block;
             white-space: nowrap;
-            animation: scroll 10s linear infinite; /* Make the text scroll continuously */
+            animation: scroll 30s linear infinite; /* Make the text scroll continuously */
         }
 
         @keyframes scroll {
             0% {
-                transform: translateX(0%); /* Start off-screen */
+                transform: translateX(100%); /* Start off-screen */
             }
             100% {
                 transform: translateX(-100%); /* Scroll to the left off-screen */
@@ -169,7 +169,7 @@
         // Hide the footer after 40 seconds
         setTimeout(function() {
             document.getElementById('footer').style.display = 'none';
-        }, 40000); // 40 seconds
+        }, 20000); // 40 seconds
     </script>
 
 </body>
