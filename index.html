@@ -79,14 +79,13 @@
 
         /* Footer styling with scrolling text */
         .footer {
-            position: fixed;
+            ion: fixed;
             top: 0;
             width: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
             padding: 10px;
             z-index: 3; /* Ensure it appears above other elements */
             overflow: hidden; /* Hide any overflowed content */
+            background-color: transparent; /* Fully transparent background */
         }
 
         .scrolling-text {
@@ -97,7 +96,7 @@
 
         @keyframes scroll {
             0% {
-                transform: translateX(100%); /* Start off-screen */
+                transform: translateX(50%); /* Start off-screen */
             }
             100% {
                 transform: translateX(-100%); /* Scroll to the left off-screen */
