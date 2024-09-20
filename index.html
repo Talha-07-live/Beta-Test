@@ -77,24 +77,39 @@
             color: white;
         }
 
-        /* Footer styling */
+        /* Footer styling with scrolling text */
         .footer {
             position: fixed;
             top: 0;
-            width: 80%;
+            width: 100%;
             background-color: rgba(0, 0, 0, 0.8);
             color: white;
-            text-align: center;
             padding: 10px;
             z-index: 3; /* Ensure it appears above other elements */
+            overflow: hidden; /* Hide any overflowed content */
+        }
+
+        .scrolling-text {
+            display: inline-block;
+            white-space: nowrap;
+            animation: scroll 10s linear infinite; /* Make the text scroll continuously */
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(100%); /* Start off-screen */
+            }
+            100% {
+                transform: translateX(-100%); /* Scroll to the left off-screen */
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Footer that will disappear after 40 seconds -->
+    <!-- Scrolling footer that will disappear after 40 seconds -->
     <div class="footer" id="footer">
-        This video may take 30 second To Play, After That, There Will Be No Buffering.  |  এই ভিডিওটি প্লে হতে 30 সেকেন্ড সময় লাগতে পারে, তারপরে কোন বাফারিং হবে না।
+        <div class="scrolling-text">This video may take 30 second To Play, After That, There Will Be No Buffering.  |  এই ভিডিওটি প্লে হতে 30 সেকেন্ড সময় লাগতে পারে, তারপর কোন বাফারিং হবে না।</div>
     </div>
 
     <div class="iframe-container">
