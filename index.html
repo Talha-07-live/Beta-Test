@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full Screen Multi-iframe Page with Poster</title>
+    <title>Talha's Stream</title>
     <style>
         body, html {
             margin: 0;
@@ -41,7 +41,7 @@
             top: 0px;
             left: 0px;
             z-index: 2;
-            background-color: #333;
+            background-color: #0000FF33;
             color: white;
             padding: 10px;
             cursor: pointer;
@@ -55,15 +55,15 @@
             top: 0px;
             left: 0px;
             background-color: rgba(0, 0, 0, 0.8);
-            padding: 10px;
-            border-radius: 5px;
+            padding: 3px;
+            border-radius: 10px;
             z-index: 2;
         }
 
         .navbar a {
             display: block;
             color: white;
-            padding: 10px 0;
+            padding: 3px 0;
             text-decoration: none;
         }
 
@@ -76,22 +76,40 @@
             background-color: #2196F3; /* Blue color for active link */
             color: white;
         }
+
+        /* Footer styling */
+        .footer {
+            position: fixed;
+            top: 0;
+            width: 80%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            z-index: 3; /* Ensure it appears above other elements */
+        }
     </style>
 </head>
 <body>
 
+    <!-- Footer that will disappear after 40 seconds -->
+    <div class="footer" id="footer">
+        This video may take 30 second To Play, After That, There Will Be No Buffering.  |  এই ভিডিওটি প্লে হতে 30 সেকেন্ড সময় লাগতে পারে, তারপরে কোন বাফারিং হবে না।
+    </div>
+
     <div class="iframe-container">
         <div class="poster" id="poster"></div> <!-- Poster image -->
-        <button class="menu-button" onclick="toggleMenu()">Click To Change Server</button>
+        <button class="menu-button" onclick="toggleMenu()">Change Server</button>
         <div class="navbar" id="navbar">
-            <a href="#" onclick="loadIframe('https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master', this)">Service 1</a>
-            <a href="#" onclick="loadIframe('https://tv.mgsportstv.com/api/player/play.php?c=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master', this)">Service 2</a>
+            <a href="#" onclick="loadIframe('https://tv2.mgsportstv.com/mpdmgdur.html?id=TNT_1_GB', this)">Service 1</a>
+            <a href="#" onclick="loadIframe('https://asl-sports.vercel.app/TNT/TNTSPORTS1.html', this)">Service 2</a>
             <a href="#" onclick="loadIframe('https://talhas.arena1premium.rf.gd/', this)">Service 3</a>
             <a href="#" onclick="loadIframe('https://talhas.arena2premium.rf.gd/', this)">Service 4</a>
             <a href="#" onclick="loadIframe('https://talhas.arena3premium.rf.gd/', this)">Service 5</a>
+            <a href="#" onclick="loadIframe('https://talhas.arenasport3.rf.gd/', this)">Service 6</a>
         </div>
 
-        <iframe id="serviceFrame" src="https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master" onload="hidePoster()" frameborder="0" loading "lazy" allow="accelerometer; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
+        <iframe id="serviceFrame" src="https://tv2.mgsportstv.com/mpdmgdur.html?id=TNT_1_GB" onload="hidePoster()" scrolling="no" frameborder="0" loading "lazy" allow="accelerometer; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
     </div>
 
     <script>
@@ -132,6 +150,11 @@
             document.getElementById('poster').style.display = 'none'; // Hide poster once iframe is loaded
             document.getElementById('serviceFrame').style.display = 'block'; // Show iframe
         }
+
+        // Hide the footer after 40 seconds
+        setTimeout(function() {
+            document.getElementById('footer').style.display = 'none';
+        }, 40000); // 40 seconds
     </script>
 
 </body>
