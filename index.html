@@ -324,13 +324,26 @@
         function changeServer(server) {
             const servers = {
                 server1: "https://talhas.fancodelive.rf.gd/",
-                server2: "https://talhas.arena1premium.rf.gd/",
+                server2: "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.figma.com/colors/blue/&ved=2ahUKEwiX9daSiNeIAxXy2zQHHVJCJJIQFnoECBUQAQ&usg=AOvVaw33k5pnSFXmsVPS3qQLKk2D",
                 server3: "https://talhas.arena2premium.rf.gd/",
                 server4: "https://talhas.arena3premium.rf.gd/",
                 server5: "https://talhas.arenasport1.rf.gd/"
             };
             iframePlayer.src = servers[server];
         }
-    </script>
-</body>
-</html>
+        // Function to switch iframe source based on the button clicke
+        function switchServer(sourceUrl, buttonId) {
+            // Change the iframe source
+            document.getElementById('my-iframe').src = sourceUrl;
+
+            // Remove the active class from all buttons
+            let buttons = document.querySelectorAll('.server-buttons');  // Assuming all buttons have 'server-button' class
+            buttons.forEach(function(button) {
+                button.classList.remove('active');
+            
+            // Add the active class to the clicked button
+            document.getElementById(buttonId).classList.add('active');
+            }
+                            </scrip>
+                            </body>
+                            </html>
