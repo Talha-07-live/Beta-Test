@@ -321,11 +321,20 @@
             window.location.href = "";
         }
         
-        // Function to highlight the active service link
-        function highlightActiveLink(activeLink) {
-            const links = document.querySelectorAll('.navbar a');
-            links.forEach(link => link.classList.remove('active'));  // Remove 'active' class from all links
-            activeLink.classList.add('active');  // Add 'active' class to the clicked link
+        // Function to switch iframe source based on the button clicke
+        function switchServer(sourceUrl, buttonId) {
+            // Change the iframe source
+            document.getElementById('iframeVideo').src = sourceUrl;
+
+            // Remove the active class from all buttons
+            let buttons = document.querySelectorAll('.server-button');  // Assuming all buttons have 'server-button' class
+            buttons.forEach(function(button) {
+                button.classList.remove('active');
+       });
+
+       // Add the active class to the clicked button
+       document.getElementById(buttonId).classList.add('active');
+   }
         }
 
         function changeServer(server) {
@@ -337,22 +346,6 @@
                 server5: "https://talhas.arenasport1.rf.gd/"
             };
             iframePlayer.src = servers[server];
-        }
-        function changeServer(server) {
-            // Logic to change server goes here
-            console.log("Server changed to:", server);
-            
-            // Get all server buttons
-            var serverButtons = document.querySelectorAll('.server-button');
-            
-            // Remove 'active' class from all button
-            serverButtons.forEach(function(button) {
-            button.classList.remove('active');
-        });
-            
-            // Add 'active' class to the clicked button
-            var activeButton = document.getElementById(server + '-btn');
-            activeButton.classList.add('active');
         }
     </script>
 </body>
