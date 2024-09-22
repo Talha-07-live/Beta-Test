@@ -243,9 +243,11 @@
         .server-button:hover {
             background-color: #d9534f;
         }
-        .active {
+        .server-button.active {
             background-color: #FFD700; /* Change background to green */
             color: #fff; /* Change text color */
+            font-weight: bold; /* Optional: make text bold */
+            border: 2px solid #fff; /* Add a border to highlight */
         }
     </style>
 </head>
@@ -319,18 +321,21 @@
             window.location.href = "";
         }
         
-        // Function to switch iframe source based on the button clicke
-        function switchServer(sourceUrl, buttonId) {
-            // Change the iframe source
-            document.getElementById('my-iframe').src = sourceUrl;
-
-            // Remove the active class from all buttons
-            let buttons = document.querySelectorAll('.server-buttons');  // Assuming all buttons have 'server-button' class
-            buttons.forEach(function(button) {
-                button.classList.remove('active');
+        function changeServer(server) {
+            // Logic to change server goes here
+            console.log("Server changed to:", server);
             
-            // Add the active class to the clicked button
-            document.getElementById(buttonId).classList.add('active');
+            // Get all server buttons
+            var serverButtons = document.querySelectorAll('.server-button');
+            
+            // Remove 'active' class from all button
+            serverButtons.forEach(function(button) {
+            button.classList.remove('active');
+        });
+            
+            // Add 'active' class to the clicked button
+            var activeButton = document.getElementById(server + '-btn');
+            activeButton.classList.add('active');
         }
 
         function changeServer(server) {
@@ -341,7 +346,7 @@
                 server4: "https://talhas.arena3premium.rf.gd/",
                 server5: "https://talhas.arenasport1.rf.gd/"
             };
-            iframePlayer.src = servers[server]; 
+            iframePlayer.src = servers[server];
         }
     </script>
 </body>
