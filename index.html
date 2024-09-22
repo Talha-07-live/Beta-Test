@@ -3,44 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TS Stream Player</title>
+    <title>NSPlayer</title>
     <style>
         body {
-            text-align: center;
             font-family: Arial, sans-serif;
+            text-align: center;
         }
         video {
             width: 80%;
             height: auto;
-            max-width: 800px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>TS Stream Player</h1>
-    <video id="video" controls></video>
 
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script>
-        if(Hls.isSupported()) {
-            var video = document.getElementById('video');
-            var hls = new Hls();
-            // Load your .ts or .m3u8 link here
-            hls.loadSource('http://starshare.live:8080/live/664140/664140/12.ts');
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED,function() {
-                video.play();
-            });
-        }
-        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            // For browsers that support HLS natively (Safari, etc.)
-            video.src = 'http://starshare.live:8080/live/664140/664140/12.ts';
-            video.addEventListener('canplay',function() {
-                video.play();
-            });
+<h1>Next Source Player</h1>
+<video id="nsPlayer" controls></video>
+
+<script>
+    const videoSources = [
+        'http://starshare.live:8080/live/664140/664140/12.ts',  // First video source
+        'source2.mp4',  // Second video source (fallback)
+        'source3.mp4'   // Third video source (fallback)
+    ];
+
+    const videoElement = document.getElementById('nsPlayer');
+    let currentSourceIndex = 0;
+
+    // Function to switch to the next source
+    function switchToNextSource() {
+        if (currentSourceIndex < videoSources.length - 1) {
+            currentSourceIndex++;
+            loadVideo();
         } else {
-            alert("Your browser does not support this video stream.");
+            alert('All sources have failed.');
         }
-    </script>
+    }
+
+    // Function to load and play the current source
+    function loadVideo() {
+        videoElement.src = videoSources[currentSourceIndex];
+        videoElement.load();
+        videoElement.play()
+            .catch(() => {
+                console.log('Error playing source:', videoSources[currentSourceIndex]);
+                switchToNextSource();
+            });
+    }
+
+    // Event listener for video error
+    videoElement.addEventListener('error', () => {
+        console.log('Video failed to load:', videoSources[currentSourceIndex]);
+        switchToNextSource();
+    });
+
+    // Load the first video when the page is ready
+    window.onload = loadVideo;
+</script>
+
 </body>
 </html>
