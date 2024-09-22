@@ -3,64 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NSPlayer</title>
+    <title>Flowplayer on GitHub Pages</title>
+    
+    <!-- Flowplayer CSS -->
+    <link rel="stylesheet" href="https://cdn.flowplayer.com/releases/7.2.7/skin/skin.css">
+    
+    <!-- Flowplayer JS -->
+    <script src="https://cdn.flowplayer.com/releases/7.2.7/flowplayer.min.js"></script>
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
+        body, html {
+            margin: 0;
+            padding: 0;
         }
-        video {
-            width: 80%;
-            height: auto;
-            margin-top: 20px;
+        .flowplayer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
 
-<h1>Next Source Player</h1>
-<video id="nsPlayer" controls></video>
+    <div class="flowplayer fixed-controls no-toggle no-time play-button obj" 
+        data-key="$812975748999788" 
+        data-live="true" 
+        data-share="false" 
+        data-ratio="0.5625" 
+        data-logo="">
+        <video autoplay="true">
+            <source type="application/x-mpegurl" src="http://starshare.live:8080/live/664140/664140/12.ts">
+        </video>
+    </div>
 
-<script>
-    const videoSources = [
-        'http://starshare.live:8080/live/664140/664140/12.ts',  // First video source
-        'source2.mp4',  // Second video source (fallback)
-        'source3.mp4'   // Third video source (fallback)
-    ];
-
-    const videoElement = document.getElementById('nsPlayer');
-    let currentSourceIndex = 0;
-
-    // Function to switch to the next source
-    function switchToNextSource() {
-        if (currentSourceIndex < videoSources.length - 1) {
-            currentSourceIndex++;
-            loadVideo();
-        } else {
-            alert('All sources have failed.');
-        }
-    }
-
-    // Function to load and play the current source
-    function loadVideo() {
-        videoElement.src = videoSources[currentSourceIndex];
-        videoElement.load();
-        videoElement.play()
-            .catch(() => {
-                console.log('Error playing source:', videoSources[currentSourceIndex]);
-                switchToNextSource();
+    <script>
+        flowplayer(function (api) {
+            api.on("load", function (e, api, video) {
+                document.getElementById("vinfo").textContent = api.engine.engineName + " engine playing " + video.type;
             });
-    }
-
-    // Event listener for video error
-    videoElement.addEventListener('error', () => {
-        console.log('Video failed to load:', videoSources[currentSourceIndex]);
-        switchToNextSource();
-    });
-
-    // Load the first video when the page is ready
-    window.onload = loadVideo;
-</script>
+        });
+    </script>
 
 </body>
 </html>
