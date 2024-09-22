@@ -3,13 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stream Player</title>
+    <title>TS Stream Player</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        video {
+            width: 80%;
+            height: auto;
+            max-width: 800px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Live Stream</h1>
-    <video controls width="640" height="360">
-        <source src="http://starshare.live:8080/live/664140/664140/12.ts" type="video/mp2t">
-        Your browser does not support the video tag.
-    </video>
+    <h1>TS Stream Player</h1>
+    <video id="video" controls></video>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        if(Hls.isSupported()) {
+            var video = document.getElementById('video');
+            var hls = new Hls();
+            // Load your .ts or .m3u8 link here
+            hls.loadSource('http://starshare.live:8080/live/664140/664140/12.ts');
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED,function() {
+                video.play();
+            });
+        }
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            // For browsers that support HLS natively (Safari, etc.)
+            video.src = 'http://starshare.live:8080/live/664140/664140/12.ts';
+            video.addEventListener('canplay',function() {
+                video.play();
+            });
+        } else {
+            alert("Your browser does not support this video stream.");
+        }
+    </script>
 </body>
 </html>
