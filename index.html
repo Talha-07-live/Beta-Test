@@ -330,11 +330,11 @@
             let buttons = document.querySelectorAll('.server-button');  // Assuming all buttons have 'server-button' class
             buttons.forEach(function(button) {
                 button.classList.remove('active');
-       });
-
-       // Add the active class to the clicked button
-       document.getElementById(buttonId).classList.add('active');
-   }
+            });
+            
+            // Add the active class to the clicked button
+            document.getElementById(buttonId).classList.add('active');
+        }
         }
 
         function changeServer(server) {
@@ -345,7 +345,7 @@
                 server4: "https://talhas.arena3premium.rf.gd/",
                 server5: "https://talhas.arenasport1.rf.gd/"
             };
-            iframePlayer.src = servers[server];
+            iframePlayer.src = servers[server]; 
         }
     </script>
 </body>
