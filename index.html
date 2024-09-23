@@ -71,35 +71,33 @@
             background-color: #575757;
         }
 
-        /* Highlight the active service link */
         .navbar a.active {
-            background-color: #2196F3; /* Blue color for active link */
+            background-color: #2196F3;
             color: white;
         }
 
-        /* Footer styling with scrolling text */
         .footer {
             position: absolute;
-            bottom: -80; /* Position at the bottom */
+            bottom: -80;
             width: 100%;
-            z-index: 2; /* Ensure it appears above the iframe but below the navbar */
-            overflow: hidden; /* Hide any overflowed content */
-            background-color: transparent; /* Fully transparent background */
+            z-index: 2;
+            overflow: hidden;
+            background-color: transparent;
         }
 
         .scrolling-text {
             display: inline-block;
             white-space: nowrap;
-            animation: scroll 30s linear infinite; /* Make the text scroll continuously */
+            animation: scroll 30s linear infinite;
             color: red;
         }
 
         @keyframes scroll {
             0% {
-                transform: translateX(52%); /* Start off-screen */
+                transform: translateX(52%);
             }
             100% {
-                transform: translateX(-100%); /* Scroll to the left off-screen */
+                transform: translateX(-100%);
             }
         }
     </style>
@@ -108,7 +106,7 @@
 
     <!-- Scrolling footer that will disappear after 40 seconds -->
     <div class="footer" id="footer">
-        <div class="scrolling-text">This video may take 30 second To Play, After That, There Will Be No Buffering.  |  এই ভিডিওটি প্লে হতে 30 সেকেন্ড সময় লাগতে পারে, তারপর কোন বাফারিং হবে না।</div>
+        <div class="scrolling-text">This video may take 30 second To Play, After That, There Will Be No Buffering. | এই ভিডিওটি প্লে হতে 30 সেকেন্ড সময় লাগতে পারে, তারপর কোন বাফারিং হবে না।</div>
     </div>
 
     <div class="iframe-container">
@@ -123,60 +121,30 @@
             <a href="#" onclick="loadIframe('https://talhas.arenasport3.rf.gd/', this)">Service 6</a>
         </div>
 
-        <iframe id="serviceFrame" src="https://tv2.mgsportstv.com/mpdmgdur.html?id=TNT_1_GB" onload="hidePoster()" scrolling="no" frameborder="0" loading="lazy" allow="accelerometer; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
+        <iframe id="serviceFrame" src="https://tv2.mgsportstv.com/mpdmgdur.html?id=TNT_1_GB" onload="hidePoster()" scrolling="no" frameborder="0" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
     </div>
 
     <script>
-        // Block all attempts to open new windows or tabs
+        // Block pop-up alerts and confirm dialogs
+        window.alert = function() {};
+        window.confirm = function() {
+            return false;
+        };
+
+        // Block window.open (to prevent hijacked pages or new tabs)
         window.open = function() {
-            console.log("Attempt to open new window blocked.");
             return null;
         };
-
-        // Block new tabs from links
-        document.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A' && e.target.target === '_blank') {
-                e.preventDefault();
-                console.log("Blocked link trying to open in a new tab.");
-            }
-        }, true);
-
-        // Block new tabs from form submissions
-        document.addEventListener('submit', function(e) {
-            if (e.target.target === '_blank') {
-                e.preventDefault();
-                console.log("Blocked form submission trying to open in a new tab.");
-            }
-        }, true);
-
-        // Prevent redirection attempts
-        window.onbeforeunload = function() {
-            console.log("Attempt to leave the page blocked.");
-            return "Blocked redirection.";
-        };
-
-        // Prevent changes to window.location
-        Object.defineProperty(window, 'location', {
-            configurable: false,
-            enumerable: true,
-            get: function() {
-                return window.location.href;
-            },
-            set: function(newLocation) {
-                console.log("Blocked attempt to change location to: " + newLocation);
-            }
-        });
 
         // Function to validate embedding
         function isValidEmbed() {
             const referrer = document.referrer;
-            // Add allowed domains here
             const allowedDomains = ["https://wizardfc.official.rf.gd/", ""];
             return allowedDomains.some(domain => referrer.includes(domain));
         }
 
         if (!isValidEmbed()) {
-            document.body.innerHTML = '<h1>চুরি করা মহাপাপ(By Order Of Talha, The Creator Of This Page)</h1>';
+            document.body.innerHTML = '<h1>চুরি করা মহাপাপ (By Order Of Talha, The Creator Of This Page)</h1>';
         }
 
         // Function to load a selected iframe service and mark it as active
@@ -189,8 +157,8 @@
         // Function to highlight the active service link
         function highlightActiveLink(activeLink) {
             const links = document.querySelectorAll('.navbar a');
-            links.forEach(link => link.classList.remove('active'));  // Remove 'active' class from all links
-            activeLink.classList.add('active');  // Add 'active' class to the clicked link
+            links.forEach(link => link.classList.remove('active'));
+            activeLink.classList.add('active');
         }
 
         // Function to toggle the menu
@@ -201,14 +169,28 @@
 
         // Function to hide the poster once the iframe is loaded
         function hidePoster() {
-            document.getElementById('poster').style.display = 'none'; // Hide poster once iframe is loaded
-            document.getElementById('serviceFrame').style.display = 'block'; // Show iframe
+            document.getElementById('poster').style.display = 'none';
+            document.getElementById('serviceFrame').style.display = 'block';
         }
 
         // Hide the footer after 40 seconds
         setTimeout(function() {
             document.getElementById('footer').style.display = 'none';
-        }, 32000); // 40 seconds
+        }, 32000);
+
+        // Monitor and prevent pop-up tabs from being opened in iframes
+        const blockPopups = () => {
+            const iframe = document.getElementById('serviceFrame');
+            iframe.contentWindow.alert = function() {};
+            iframe.contentWindow.confirm = function() {
+                return false;
+            };
+            iframe.contentWindow.open = function() {
+                return null;
+            };
+        };
+
+        window.onload = blockPopups;
     </script>
 
 </body>
