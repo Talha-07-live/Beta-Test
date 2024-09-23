@@ -331,20 +331,23 @@
             };
             iframePlayer.src = servers[server];
         }
-        // Function to switch iframe source based on the button clicked
-        function switchServer(sourceUrl, buttonId) {
-            // Change the iframe sourc
-            document.getElementById('my-iframe').src = sourceUrl;
+        <script>
+    function changeServer(server) {
+        // Logic to change server goes here
+        console.log("Server changed to:", server);
 
-            // Remove the active class from all button
-            let buttons = document.querySelectorAll('.server-buttons');  // Assuming all buttons have 'server-button' class
-            buttons.forEach(function(button) {
-                button.classList.remove('active');
-            });
-    
-            // Add the active class to the clicked butto
-            document.getElementById(buttonId).classList.add('active');
-        }
+        // Get all server buttons
+        var serverButtons = document.querySelectorAll('.server-button');
+
+        // Remove 'active' class from all buttons
+        serverButtons.forEach(function(button) {
+            button.classList.remove('active');
+        });
+
+        // Add 'active' class to the clicked button
+        var activeButton = document.getElementById(server + '-btn');
+        activeButton.classList.add('active');
+    }
     </script>
 </body>
 </html>
