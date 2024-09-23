@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talha's Stream</title>
+    <title>Talha's Secure Stream</title>
+
+    <!-- CSP to restrict form submissions and popups -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-ancestors 'self'; script-src 'self'; style-src 'self'; object-src 'none'; child-src 'none'; connect-src 'self'; form-action 'self';">
+
     <style>
         body, html {
             margin: 0;
@@ -106,7 +110,7 @@
 
     <!-- Scrolling footer that will disappear after 40 seconds -->
     <div class="footer" id="footer">
-        <div class="scrolling-text">This video may take 30 second To Play, After That, There Will Be No Buffering. | এই ভিডিওটি প্লে হতে 30 সেকেন্ড সময় লাগতে পারে, তারপর কোন বাফারিং হবে না।</div>
+        <div class="scrolling-text">This video may take 30 seconds To Play, After That, There Will Be No Buffering. | এই ভিডিওটি প্লে হতে 30 সেকেন্ড সময় লাগতে পারে, তারপর কোন বাফারিং হবে না।</div>
     </div>
 
     <div class="iframe-container">
@@ -121,10 +125,30 @@
             <a href="#" onclick="loadIframe('https://talhas.arenasport3.rf.gd/', this)">Service 6</a>
         </div>
 
-        <iframe id="serviceFrame" src="https://tv2.mgsportstv.com/mpdmgdur.html?id=TNT_1_GB" onload="hidePoster()" scrolling="no" frameborder="0" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
+        <!-- Regular iframe -->
+        <iframe id="serviceFrame" src="https://tv2.mgsportstv.com/mpdmgdur.html?id=TNT_1_GB" onload="hidePoster()" scrolling="no" frameborder="0" loading="lazy" 
+            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
     </div>
 
     <script>
+        // Override window.open to prevent external links
+        (function() {
+            const originalOpen = window.open;
+            window.open = function() {
+                console.log("Blocked: External window opening attempt");
+                return null; // Block any window.open attempts
+            };
+        })();
+
+        // Override target="_blank" behavior
+        document.addEventListener("click", function(e) {
+            const target = e.target;
+            if (target.tagName === 'A' && target.getAttribute('target') === '_blank') {
+                e.preventDefault(); // Prevent opening in a new tab
+                console.log("Blocked: External link attempt");
+            }
+        });
+
         // Only block certain pop-ups and confirm windows
         window.alert = function() {};
         window.confirm = function() {
