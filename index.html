@@ -247,7 +247,6 @@
             background-color: #4CAF50; /* Example active color */
             color: white;
         }
-
     </style>
 </head>
 <body>
@@ -333,10 +332,10 @@
         // Function to switch iframe source based on the button clicked
         function switchServer(sourceUrl, buttonId) {
             // Change the iframe sourc
-            document.getElementById('iframeVideo').src = sourceUrl;
+            document.getElementById('my-iframe').src = sourceUrl;
 
             // Remove the active class from all button
-            let buttons = document.querySelectorAll('.server-button');  // Assuming all buttons have 'server-button' class
+            let buttons = document.querySelectorAll('.server-buttons');  // Assuming all buttons have 'server-button' class
             buttons.forEach(function(button) {
                 button.classList.remove('active');
             });
