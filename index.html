@@ -243,12 +243,11 @@
         .server-button:hover {
             background-color: #d9534f;
         }
-        .server-button.active {
-            background-color: #FFD700; /* Change background to green */
-            color: #fff; /* Change text color */
-            font-weight: bold; /* Optional: make text bold */
-            border: 2px solid #fff; /* Add a border to highlight */
+        .active {
+            background-color: #4CAF50; /* Example active color */
+            color: white;
         }
+
     </style>
 </head>
 <body>
@@ -308,6 +307,20 @@
                 alert('Incorrect password. Please try again.');
             }
         });
+        // Function to switch iframe source based on the button clicked
+        function switchServer(sourceUrl, buttonId) {
+            // Change the iframe source
+            document.getElementById('iframeVideo').src = sourceUrl;
+
+            // Remove the active class from all buttons
+            let buttons = document.querySelectorAll('.server-button');  // Assuming all buttons have 'server-button' class
+            buttons.forEach(function(button) {
+                button.classList.remove('active');
+            });
+
+            // Add the active class to the clicked button
+            document.getElementById(buttonId).classList.add('active');
+        }
 
         function openSupport() {
             window.open("https://t.me/talhasmovie_request_bot", "_blank");
@@ -331,6 +344,6 @@
             };
             iframePlayer.src = servers[server];
         }
-    </scrip>
-        </body>
-        </html>
+    </script>
+</body>
+</html>
