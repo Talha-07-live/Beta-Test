@@ -3,200 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talha's Secure Stream</title>
-
-    <!-- CSP to restrict form submissions and popups -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-ancestors 'self'; script-src 'self'; style-src 'self'; object-src 'none'; child-src 'none'; connect-src 'self'; form-action 'self';">
-
+    <title>Stream Player</title>
+    <link href="https://vjs.zencdn.net/7.14.3/video-js.css" rel="stylesheet" />
     <style>
-        body, html {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow: hidden;
         }
 
-        .iframe-container {
-            position: relative;
+        .video-container {
+            margin: 50px auto;
+            width: 80%;
+        }
+
+        video {
             width: 100%;
-            height: 100%;
-        }
-
-        .poster {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://s11.gifyu.com/images/S1l3T.jpg') center center no-repeat;
-            background-size: cover;
-            z-index: 1;
-        }
-
-        iframe {
-            display: none; /* Hide iframe until loaded */
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .menu-button {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            z-index: 2;
-            background-color: #0000FF33;
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-        }
-
-        .navbar {
-            display: none;
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 3px;
-            border-radius: 10px;
-            z-index: 2;
-        }
-
-        .navbar a {
-            display: block;
-            color: white;
-            padding: 3px 0;
-            text-decoration: none;
-        }
-
-        .navbar a:hover {
-            background-color: #575757;
-        }
-
-        .navbar a.active {
-            background-color: #2196F3;
-            color: white;
-        }
-
-        .footer {
-            position: absolute;
-            bottom: -80;
-            width: 100%;
-            z-index: 2;
-            overflow: hidden;
-            background-color: transparent;
-        }
-
-        .scrolling-text {
-            display: inline-block;
-            white-space: nowrap;
-            animation: scroll 30s linear infinite;
-            color: red;
-        }
-
-        @keyframes scroll {
-            0% {
-                transform: translateX(52%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
+            height: auto;
         }
     </style>
 </head>
 <body>
-
-    <!-- Scrolling footer that will disappear after 40 seconds -->
-    <div class="footer" id="footer">
-        <div class="scrolling-text">This video may take 30 seconds To Play, After That, There Will Be No Buffering. | এই ভিডিওটি প্লে হতে 30 সেকেন্ড সময় লাগতে পারে, তারপর কোন বাফারিং হবে না।</div>
+    <div class="video-container">
+        <video id="videoPlayer" class="video-js vjs-default-skin" controls preload="auto">
+            <source src="https://live.drmlive-02.workers.dev/jc/144.m3u8" type="application/x-mpegURL">
+        </video>
     </div>
 
-    <div class="iframe-container">
-        <div class="poster" id="poster"></div> <!-- Poster image -->
-        <button class="menu-button" onclick="toggleMenu()">Change Server</button>
-        <div class="navbar" id="navbar">
-            <a href="#" onclick="loadIframe('https://tv2.mgsportstv.com/mpdmgdur.html?id=TNT_1_GB', this)">Service 1</a>
-            <a href="#" onclick="loadIframe('https://asl-sports.vercel.app/TNT/TNTSPORTS1.html', this)">Service 2</a>
-            <a href="#" onclick="loadIframe('https://talhas.arena1premium.rf.gd/', this)">Service 3</a>
-            <a href="#" onclick="loadIframe('https://talhas.arena2premium.rf.gd/', this)">Service 4</a>
-            <a href="#" onclick="loadIframe('https://talhas.arena3premium.rf.gd/', this)">Service 5</a>
-            <a href="#" onclick="loadIframe('https://talhas.arenasport3.rf.gd/', this)">Service 6</a>
-        </div>
-
-        <!-- Regular iframe -->
-        <iframe id="serviceFrame" src="https://tv2.mgsportstv.com/mpdmgdur.html?id=TNT_1_GB" onload="hidePoster()" scrolling="no" frameborder="0" loading="lazy" 
-            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
-    </div>
-
+    <script src="https://vjs.zencdn.net/7.14.3/video.js"></script>
     <script>
-        // Override window.open to prevent external links
-        (function() {
-            const originalOpen = window.open;
-            window.open = function() {
-                console.log("Blocked: External window opening attempt");
-                return null; // Block any window.open attempts
-            };
-        })();
-
-        // Override target="_blank" behavior
-        document.addEventListener("click", function(e) {
-            const target = e.target;
-            if (target.tagName === 'A' && target.getAttribute('target') === '_blank') {
-                e.preventDefault(); // Prevent opening in a new tab
-                console.log("Blocked: External link attempt");
-            }
-        });
-
-        // Only block certain pop-ups and confirm windows
-        window.alert = function() {};
-        window.confirm = function() {
-            return false;
-        };
-
-        // Function to validate embedding
-        function isValidEmbed() {
-            const referrer = document.referrer;
-            const allowedDomains = ["https://wizardfc.official.rf.gd/", ""];
-            return allowedDomains.some(domain => referrer.includes(domain));
-        }
-
-        if (!isValidEmbed()) {
-            document.body.innerHTML = '<h1>চুরি করা মহাপাপ (By Order Of Talha, The Creator Of This Page)</h1>';
-        }
-
-        // Function to load a selected iframe service and mark it as active
-        function loadIframe(serviceUrl, linkElement) {
-            document.getElementById('serviceFrame').src = serviceUrl;
-            highlightActiveLink(linkElement);
-            toggleMenu();  // Close the menu after clicking a link
-        }
-
-        // Function to highlight the active service link
-        function highlightActiveLink(activeLink) {
-            const links = document.querySelectorAll('.navbar a');
-            links.forEach(link => link.classList.remove('active'));
-            activeLink.classList.add('active');
-        }
-
-        // Function to toggle the menu
-        function toggleMenu() {
-            const navbar = document.getElementById('navbar');
-            navbar.style.display = navbar.style.display === 'block' ? 'none' : 'block';
-        }
-
-        // Function to hide the poster once the iframe is loaded
-        function hidePoster() {
-            document.getElementById('poster').style.display = 'none';
-            document.getElementById('serviceFrame').style.display = 'block';
-        }
-
-        // Hide the footer after 40 seconds
-        setTimeout(function() {
-            document.getElementById('footer').style.display = 'none';
-        }, 32000);
+        var player = videojs('videoPlayer');
+        player.play();
     </script>
-
 </body>
 </html>
