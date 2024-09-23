@@ -244,7 +244,7 @@
             background-color: #d9534f;
         }
         .server-button.active {
-            background-color: #28a745; /* Change background to green */
+            background-color: #FFD700; /* Change background to green */
             color: #fff; /* Change text color */
             font-weight: bold; /* Optional: make text bold */
             border: 2px solid #fff; /* Add a border to highlight */
@@ -278,7 +278,6 @@
             <button class="server-button" id="server2-btn" onclick="changeServer('server2')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟚</button>
             <button class="server-button" id="server3-btn" onclick="changeServer('server3')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟛</button>
             <button class="server-button" id="server4-btn" onclick="changeServer('server4')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟜</button>
-            <button class="server-button" id="server5-btn" onclick="changeServer('server5')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟝</button>
         </div>
     </div>
     <footer><span class="footer-text">𝕄𝕒𝕕𝕖 𝔹𝕪 <a href="" style="color: inherit; text-decoration: none;">𝕋𝕒𝕝𝕙𝕒</a></span></footer>
@@ -293,7 +292,7 @@
         const ticker1 = document.querySelector('.ticker1');
         const ticker2 = document.querySelector('.ticker2');
         const logoTopRight = document.getElementById('logo-top-right');
-        const serverButtonsContainer = document.querySelector('.server-buttons'); // Select the server buttons containr
+        const serverButtonsContainer = document.querySelector('.server-buttons'); // Select the server buttons container
 
         submitBtn.addEventListener('click', () => {
             if (passwordInput.value === PASSWORD) {
@@ -320,33 +319,40 @@
         function redirectToCopa() {
             window.location.href = "";
         }
+        
+        // Function to switch server and highlight the active button
         function changeServer(server) {
-            // Logic to change server goes her
-            console.log("Server changed to:", server);
+            // Change the iframe src or video player source based on the serve
+            let iframe = document.getElementById('my-iframe');
+            let video = document.getElementById('my-video');
 
-            // Get all server buttons
-            var serverButtons = document.querySelectorAll('.server-button');
+            if (server === 'server1') {
+                iframe.src = 'https://example.com/server1';
+                video.src = '';  // Clear HLS video if necessary
+                iframe.style.display = 'block';  // Show iframe
+                video.style.display = 'none';    // Hide video
+            } else if (server === 'server2') {
+                iframe.src = 'https://example.com/server2';
+                video.src = '';  // Clear HLS video if necessary
+                iframe.style.display = 'block';  // Show iframe
+                video.style.display = 'none';    // Hide vide
+            } else if (server === 'server3') {
+                iframe.src = 'https://example.com/server3';
+                video.src = '';  // Clear HLS video if necessary
+                iframe.style.display = 'block';  // Show ifram
+                video.style.display = 'none';    // Hide video
+            } else if (server === 'server4') {
+                iframe.src = 'https://example.com/server4';
+                video.src = '';  // Clear HLS video if necessary
+                iframe.style.display = 'block';  // Show iframe
+                video.style.display = 'none';    // Hide video
+            }
+
+            // Highlight the active server button
+            let buttons = document.querySelectorAll('.server-button');
+            buttons.forEach(button => button.classList.remove('active')); // Remove active class from all buttons
+            document.getElementById(server + '-btn').classList.add('active'); // Add active class to clicked butto
         }
-
-        function changeServer(server) {
-            const servers = {
-                server1: "https://talhas.fancodelive.rf.gd/",
-                server2: "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.figma.com/colors/blue/&ved=2ahUKEwiX9daSiNeIAxXy2zQHHVJCJJIQFnoECBUQAQ&usg=AOvVaw33k5pnSFXmsVPS3qQLKk2D",
-                server3: "https://talhas.arena2premium.rf.gd/",
-                server4: "https://talhas.arena3premium.rf.gd/",
-                server5: "https://talhas.arenasport1.rf.gd/"
-            };
-            iframePlayer.src = servers[server];
-        }
-        // Remove 'active' class from all buttons
-        serverButtons.forEach(function(button) {
-            button.classList.remove('active');
-        });
-
-        // Add 'active' class to the clicked button
-        var activeButton = document.getElementById(server + '-btn');
-        activeButton.classList.add('active');
-    }
-    </script>
+     <script>
 </body>
 </html>
