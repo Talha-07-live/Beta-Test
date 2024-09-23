@@ -320,6 +320,13 @@
         function redirectToCopa() {
             window.location.href = "";
         }
+        function changeServer(server) {
+            // Logic to change server goes her
+            console.log("Server changed to:", server);
+
+            // Get all server buttons
+            var serverButtons = document.querySelectorAll('.server-button');
+        }
 
         function changeServer(server) {
             const servers = {
