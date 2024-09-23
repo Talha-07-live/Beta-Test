@@ -330,21 +330,20 @@
             };
             iframePlayer.src = servers[server];
         }
-    </script>
-    // Function to switch iframe source based on the button clicked
-    function switchServer(sourceUrl, buttonId) {
-    // Change the iframe source
-    document.getElementById('iframeVideo').src = sourceUrl;
+        // Function to switch iframe source based on the button clicked
+        function switchServer(sourceUrl, buttonId) {
+            // Change the iframe sourc
+            document.getElementById('iframeVideo').src = sourceUrl;
 
-    // Remove the active class from all buttons
-    let buttons = document.querySelectorAll('.server-button');  // Assuming all buttons have 'server-button' class
-    buttons.forEach(function(button) {
-    button.classList.remove('active');
-    });
+            // Remove the active class from all button
+            let buttons = document.querySelectorAll('.server-button');  // Assuming all buttons have 'server-button' class
+            buttons.forEach(function(button) {
+                button.classList.remove('active');
+            });
     
-    // Add the active class to the clicked button
-    document.getElementById(buttonId).classList.add('active');
-    }
-</script>
+            // Add the active class to the clicked butto
+            document.getElementById(buttonId).classList.add('active');
+        }
+    </script>
 </body>
 </html>
