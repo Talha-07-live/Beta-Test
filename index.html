@@ -307,20 +307,6 @@
                 alert('Incorrect password. Please try again.');
             }
         });
-        // Function to switch iframe source based on the button clicked
-        function switchServer(sourceUrl, buttonId) {
-            // Change the iframe source
-            document.getElementById('iframeVideo').src = sourceUrl;
-
-            // Remove the active class from all buttons
-            let buttons = document.querySelectorAll('.server-button');  // Assuming all buttons have 'server-button' class
-            buttons.forEach(function(button) {
-                button.classList.remove('active');
-            });
-
-            // Add the active class to the clicked button
-            document.getElementById(buttonId).classList.add('active');
-        }
 
         function openSupport() {
             window.open("https://t.me/talhasmovie_request_bot", "_blank");
@@ -345,5 +331,20 @@
             iframePlayer.src = servers[server];
         }
     </script>
+    // Function to switch iframe source based on the button clicked
+    function switchServer(sourceUrl, buttonId) {
+    // Change the iframe source
+    document.getElementById('iframeVideo').src = sourceUrl;
+
+    // Remove the active class from all buttons
+    let buttons = document.querySelectorAll('.server-button');  // Assuming all buttons have 'server-button' class
+    buttons.forEach(function(button) {
+    button.classList.remove('active');
+    });
+    
+    // Add the active class to the clicked button
+    document.getElementById(buttonId).classList.add('active');
+    }
+</script>
 </body>
 </html>
