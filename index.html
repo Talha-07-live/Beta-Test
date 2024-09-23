@@ -278,6 +278,7 @@
             <button class="server-button" id="server2-btn" onclick="changeServer('server2')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟚</button>
             <button class="server-button" id="server3-btn" onclick="changeServer('server3')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟛</button>
             <button class="server-button" id="server4-btn" onclick="changeServer('server4')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟜</button>
+            <button class="server-button" id="server5-btn" onclick="changeServer('server5')">𝕊𝕖𝕣𝕧𝕖𝕣 𝟝</button>
         </div>
     </div>
     <footer><span class="footer-text">𝕄𝕒𝕕𝕖 𝔹𝕪 <a href="" style="color: inherit; text-decoration: none;">𝕋𝕒𝕝𝕙𝕒</a></span></footer>
@@ -332,7 +333,7 @@
                 iframe.style.display = 'block';  // Show iframe
                 video.style.display = 'none';    // Hide video
             } else if (server === 'server2') {
-                iframe.src = 'https://en.gdplayertv.to/live-tv/fox-cricket/?embed=1';
+                iframe.src = 'https://www.hlsplayer.net/embed?type=m3u8&src=https://wtf.pstvlive.xyz/ps_live.php?ps=https://prod-sports-eng-cf.jiocinema.com/hls/live/2100299/hd_akamai_androidmob_avc_eng_indvsban_190924/master';
                 video.src = '';  // Clear HLS video if necessary
                 iframe.style.display = 'block';  // Show iframe
                 video.style.display = 'none';    // Hide vide
@@ -342,6 +343,11 @@
                 iframe.style.display = 'block';  // Show ifram
                 video.style.display = 'none';    // Hide video
             } else if (server === 'server4') {
+                iframe.src = 'https://en.gdplayertv.to/live-tv/fox-cricket/?embed=1';
+                video.src = '';  // Clear HLS video if necessary
+                iframe.style.display = 'block';  // Show iframe
+                video.style.display = 'none';    // Hide video
+            } else if (server === 'server5') {
                 iframe.src = 'https://en.gdplayertv.to/live-tv/astro-cricket/?embed=1';
                 video.src = '';  // Clear HLS video if necessary
                 iframe.style.display = 'block';  // Show iframe
