@@ -37,8 +37,9 @@
 
                 // Wait for 5 seconds before loading the iframe source
                 setTimeout(function() {
-                    iframe.src = 'https://en.gdplayertv.to/live-tv/ssc-1/?embed=1';
-                }, 5000); // 5 seconds delay
+                    iframe.src = 'https://en.gdplayertv.to/live-tv/ssc-1/?embed=1&quality=480p
+                        ';
+                }, 1000); // 5 seconds delay
 
                 // Listen for messages from the iframe
                 window.addEventListener('message', function(event) {
