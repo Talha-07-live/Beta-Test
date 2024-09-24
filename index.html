@@ -9,16 +9,11 @@
             margin: 0;
             padding: 0;
             background-color: #f0f0f0;
-            text-align: center;
-            font-family: Arial, sans-serif;
         }
         iframe {
             width: 100%;
             height: 100vh;
             border: none;
-        }
-        h1 {
-            color: red;
         }
     </style>
     <script>
@@ -27,15 +22,17 @@
             const referrer = document.referrer;
             // Add allowed domains here
             const allowedDomains = [
-                "t.talhasstream-cricket.000.pe", 
-                "t.talhasstream-football-1.000.pe"
+                "https://t.talhasstream-cricket.000.pe/", 
+                "https://t.talhasstream-football-1.000.pe/",
+                "https://your-allowed-domain.com", // Add more allowed domains as needed
+                "https://another-allowed-domain.com"
             ];
             return allowedDomains.some(domain => referrer.includes(domain));
         }
 
         // Check if the page is embedded from an allowed domain
         if (!isValidEmbed()) {
-            document.body.innerHTML = '<h1>চুরি করা মহাপাপ (By Order Of Talha, The Creator Of This Page)</h1>';
+            document.body.innerHTML = '<h1>চুরি করা মহাপাপ (By Order Of Talha, The Creator Of This Page)</h1><p></p>';
         } else {
             window.onload = function() {
                 const iframe = document.getElementById('stream-iframe');
