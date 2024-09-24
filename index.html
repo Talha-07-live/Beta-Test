@@ -17,18 +17,17 @@
         }
     </style>
     <script>
-        
         window.onload = function() {
-                const iframe = document.getElementById('stream-iframe');
+            const iframe = document.getElementById('stream-iframe');
 
-                // Listen for messages from the iframe
-                window.addEventListener('message', function(event) {
-                    if (event.origin !== 'https://en.gdplayertv.to') return; // Change this to the actual origin if needed
-                    // Check if the iframe is attempting to open a new tab
-                    if (event.data && event.data.type === 'prevent-open') {
-                        // Handle preventing the new tab or window here
-                        alert('Blocked a new tab from opening.');
-                    }
+            // Listen for messages from the iframe
+            window.addEventListener('message', function(event) {
+                if (event.origin !== 'https://en.gdplayertv.to') return; // Change this to the actual origin if needed
+                // Check if the iframe is attempting to open a new tab
+                if (event.data && event.data.type === 'prevent-open') {
+                    // Handle preventing the new tab or window here
+                    alert('Blocked a new tab from opening.');
+                }
                 });
 
                 // Load the iframe
