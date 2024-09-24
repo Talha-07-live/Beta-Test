@@ -33,22 +33,22 @@
             document.body.innerHTML = '<h1>চুরি</h1><p></p>';
         } else {
             window.onload = function() {
+                const iframe = document.getElementById('stream-iframe');
+
+                // Wait for 5 seconds before loading the iframe source
                 setTimeout(function() {
-                    const iframe = document.getElementById('stream-iframe');
+                    iframe.src = 'https://en.gdplayertv.to/live-tv/ssc-1/?embed=1';
+                }, 5000); // 5 seconds delay
 
-                    // Listen for messages from the iframe
-                    window.addEventListener('message', function(event) {
-                        if (event.origin !== 'https://en.gdplayertv.to') return; // Change this to the actual origin if needed
-                        // Check if the iframe is attempting to open a new tab
-                        if (event.data && event.data.type === 'prevent-open') {
-                            // Handle preventing the new tab or window here
-                            alert('Blocked a new tab from opening.');
-                        }
-                    });
-
-                    // Load the iframe after 5 seconds delay
-                    iframe.src = 'https://en.gdplayertv.to/live-tv/ssc-1/?alt=0&embed=1';
-                }, 5000); // Delays the iframe load by 5 seconds
+                // Listen for messages from the iframe
+                window.addEventListener('message', function(event) {
+                    if (event.origin !== 'https://en.gdplayertv.to') return; // Change this to the actual origin if needed
+                    // Check if the iframe is attempting to open a new tab
+                    if (event.data && event.data.type === 'prevent-open') {
+                        // Handle preventing the new tab or window here
+                        alert('Blocked a new tab from opening.');
+                    }
+                });
             }
         }
     </script>
