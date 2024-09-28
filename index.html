@@ -8,22 +8,59 @@
 <body>
 
     <!-- First Facebook Video -->
-    <iframe id="video1" src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fabutalharaj002%2Fvideos%2F475659621772404%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+    <div id="fb-video1-container">
+        <div class="fb-video" 
+            data-href="https://www.facebook.com/abutalharaj002/videos/475659621772404/" 
+            data-width="560" 
+            data-show-text="false" 
+            data-autoplay="true"></div>
+    </div>
 
     <!-- Second Facebook Video (initially hidden) -->
-    <iframe id="video2" src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fabutalharaj002%2Fvideos%2F1032319684962549%2F&show_text=false&width=267&t=0" width="560" height="314" style="border:none;overflow:hidden; display:none;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+    <div id="fb-video2-container" style="display:none;">
+        <div class="fb-video" 
+            data-href="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fabutalharaj002%2Fvideos%2F1032319684962549%2F&show_text=false&width=267&t=0" 
+            data-width="560" 
+            data-show-text="false" 
+            data-autoplay="true"></div>
+    </div>
 
     <script>
-        window.onload = function() {
-            // Wait for 71 seconds (71000 milliseconds) before swapping videos
-            setTimeout(function() {
-                // Hide the first video
-                document.getElementById('video1').style.display = 'none';
-                
-                // Show the second video
-                document.getElementById('video2').style.display = 'block';
-            }, 71000); // 1 minute and 11 seconds = 71000 milliseconds
+        // Load the Facebook SDK
+        window.fbAsyncInit = function() {
+            FB.init({
+                xfbml      : true,
+                version    : 'v10.0'
+            });
+
+            // Subscribe to video player events
+            FB.Event.subscribe('xfbml.ready', function(msg) {
+                if (msg.type === 'video') {
+                    var video1Player = msg.instance;
+
+                    // Listen for the end of the first video
+                    video1Player.subscribe('finishedPlaying', function() {
+                        // Hide the first video container
+                        document.getElementById('fb-video1-container').style.display = 'none';
+                        
+                        // Show the second video container and reload it
+                        document.getElementById('fb-video2-container').style.display = 'block';
+
+                        // Reload the XFBML to render the second video
+                        FB.XFBML.parse(document.getElementById('fb-video2-container'));
+                    });
+                }
+            });
         };
+
+        // Load the Facebook SDK asynchronously
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
     </script>
 
 </body>
