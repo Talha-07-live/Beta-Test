@@ -3,10 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Facebook Video</title>
+    <title>Chained Facebook Video</title>
 </head>
 <body>
-    <!-- Facebook Video Embed -->
-    <iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fabutalharaj002%2Fvideos%2F475659621772404%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+
+    <!-- First Facebook Video -->
+    <iframe id="video1" src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fabutalharaj002%2Fvideos%2F475659621772404%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+
+    <!-- Second Facebook Video (initially hidden) -->
+    <iframe id="video2" src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fabutalharaj002%2Fvideos%2F1008172270764549%2F&show_text=false&width=560&t=0" width="560" height="314" style="border:none;overflow:hidden; display:none;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+
+    <script>
+        // Check if Facebook SDK is loaded
+        window.fbAsyncInit = function() {
+            // Initialize the Facebook SDK
+            FB.init({
+                appId      : 'your-app-id', // Optional if you have an app ID
+                xfbml      : true,
+                version    : 'v10.0'
+            });
+
+            // Add an event listener for the first video
+            FB.Event.subscribe('xfbml.render', function() {
+                var video1 = document.getElementById('video1');
+                
+                // Video Player SDK might need more handling here
+                video1.onload = function() {
+                    setTimeout(function() {
+                        // Simulating end of video after a fixed duration (e.g., 30 seconds)
+                        // You may need a more advanced solution for dynamic video length detection
+                        video1.style.display = 'none';
+                        document.getElementById('video2').style.display = 'block';
+                    }, 30000); // Change this duration to match the video length
+                };
+            });
+        };
+
+        // Load the SDK asynchronously
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
 </body>
 </html>
