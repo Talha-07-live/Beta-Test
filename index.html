@@ -1,137 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Cricket Stream</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Watch live cricket and football matches without ads. Explore all types of sports streaming on Talha's Stream!">
+    <meta name="keywords" content="live sports, cricket streaming, football streaming, no ads, Talha's Stream, premium sports, sports live, watch sports, talhas stream, Talhasstream, Talhas stream, talhas stream.com, Talhas Stream.com, talhasstream, talhas stream, Talhas.com, talhas.com, stream.com, Stream.com">
+    <meta name="author" content="Talha's Stream">
 
-    <!-- Add Bootstrap CSS from cdnjs -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Talha's Stream - Watch Live Sports Without Ads">
+    <meta property="og:description" content="Enjoy uninterrupted live sports streaming with no ads. Cricket, football, and all types of sports!">
+    <meta property="og:image" content="https://s11.gifyu.com/images/SAaI3.png">
+    <meta property="og:url" content="https://talhas.stream.000.pe">
+    <meta property="og:type" content="website">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Talha's Stream - Watch Live Sports Without Ads">
+    <meta name="twitter:description" content="Stream live sports matches ad-free on Talha's Stream!">
+    <meta name="twitter:image" content="https://s11.gifyu.com/images/SAaI3.png">
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://s11.gifyu.com/images/SAaI3.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="https://s11.gifyu.com/images/SAaI3.png" sizes="48x48" type="image/png">
+    <link rel="icon" href="https://s11.gifyu.com/images/SAaI3.png" sizes="96x96" type="image/png">
+    <link rel="icon" href="https://s11.gifyu.com/images/SAaI3.png" sizes="144x144" type="image/png">
+    <link rel="canonical" href="https://talhastream.rf.gd">
+
+    <!-- Structured Data for Organization and Logo -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Talha's Stream",
+      "url": "https://talhastream.rf.gd",
+      "logo": "https://s11.gifyu.com/images/SAaI3.png",
+      "sameAs": [
+        "https://twitter.com/your-twitter-handle",
+        "https://facebook.com/your-facebook-page"
+      ]
+    }
+    </script>
+
+    <title>Talha's Stream</title>
 
     <style>
         body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            background-color: #111;
             margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
             position: relative;
         }
-
-        iframe {
-            width: 100%;
-            height: 100vh;
-            border: none;
-        }
-
-        .footer-text {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            text-align: center;
-            color: red;
-            background-color: transparent;
-            font-size: 85%;
-            font-weight: bold;
-            white-space: nowrap;
-            overflow: hidden;
-            z-index: 10;
-        }
-
-        .footer-text span {
+        .button-with-image {
             display: inline-block;
-            padding-left: 95%;
-            animation: slide 25s linear infinite;
+            text-align: center;
+            color: #fff;
+            font-size: 11px;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            border-radius: 30px;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: background-color 0.3s ease;
+            width: 200px;
+            height: 200px;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
         }
-
-        @keyframes slide {
-            0% {
-                transform: translateX(8%);
-            }
-
-            100% {
-                transform: translateX(-100%);
-            }
+        .button-with-image:hover {
+            background-color: rgba(255, 255, 255, 0.2);
         }
-
-        /* Telegram Button */
-        .telegram-button {
+        .button-with-image img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 30px;
+        }
+        .button-with-image span {
             position: absolute;
-            top: 3px; /* Adjust to move up/down */
-            left: 3px; /* Adjust to move left/right */
-            z-index: 20;
-            cursor: pointer;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+        .android-app-button {
+            display: flex;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #004080;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0 0 15px rgba(0, 64, 128, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: bounce 2s infinite;
+            text-align: center;
+        }
+        .android-app-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(0, 64, 128, 0.7);
         }
 
-        .telegram-button img {
-            width: 60px;
-            height: 60px;
-            border-radius: 20%;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-15px);
+            }
+            60% {
+                transform: translateY(-7px);
+            }
         }
     </style>
-
-    <!-- Add jQuery from cdnjs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <script>
-        window.onload = function () {
-            // List of allowed domains
-            const allowedDomains = [
-                '',
-                '',
-                ''
-            ];
-
-            const referrer = document.referrer;
-
-            // Check if the request is coming from any of the allowed domains
-            const isAllowed = allowedDomains.some(domain => referrer.startsWith(domain));
-
-            if (!isAllowed) {
-                document.body.innerHTML = '<h1>চুরি করা মহাপাপ (By Order Of Talha, The Creator Of This Page)</h1>';
-                return;
-            }
-
-            const iframe = document.getElementById('stream-iframe');
-
-            // Listen for messages from the iframe
-            window.addEventListener('message', function (event) {
-                if (event.origin !== 'https://en.gdplayertv.to') return; // Change this to the actual origin if needed
-                if (event.data && event.data.type === 'prevent-open') {
-                    alert('Blocked a new tab from opening.');
-                }
-            });
-
-            // Load the iframe
-            iframe.src = 'https://en.gdplayertv.to/live-tv/astro-cricket/?embed=1';
-
-            // Hide the footer text after 10 seconds
-            setTimeout(function () {
-                document.querySelector('.footer-text').style.display = 'none';
-            }, 25000); // 25 seconds delay to hide the text
-        }
-
-        function openTelegram() {
-            window.open('https://t.me/talhasmovie_request_bot', '_blank');
-        }
-    </script>
 </head>
-
 <body>
-
-    <div class="footer-text">
-        <span>Welcome to Talha's Stream, You're Watching Astro Cricket Live on talhastream.rf.gd.</span>
+    <div class="button-container" id="main-content">
+        <a href="https://talhas.crickett.rf.gd/" class="button-with-image">
+            <img src="https://s12.gifyu.com/images/StN9A.gif" alt="All Types Cricket Match Live (Ads-Free)">
+            <span>All Types Cricket Match Live (Ads-Free)</span>
+        </a>
+        <a href="https://talhas.footballl.rf.gd/" class="button-with-image">
+            <img src="https://s12.gifyu.com/images/SoLKe.gif" alt="All Types Football Match Live 1 (Ads-Free)">
+            <span>All Types Football Match Live 1 (Ads-Free)</span>
+        </a>
+        <a href="https://talhas2.footballl.rf.gd/" class="button-with-image">
+            <img src="https://s10.gifyu.com/images/SoLNy.gif" alt="All Types Football Match Live 2 (Ads-Free)">
+            <span>All Types Football Match Live 2 (Ads-Free)</span>
+        </a>
+        <a href="https://talhas.premium0.000.pe/" class="button-with-image">
+            <img src="https://s12.gifyu.com/images/SoLxH.gif" alt="Talha's Premium 0 All Types Sports (Ads-Free)">
+            <span>Talha's Premium 0 All Types Sports (Ads-Free)</span>
+        </a>
+        <a href="https://talhas.premium1.000.pe/" class="button-with-image">
+            <img src="https://s12.gifyu.com/images/SoLLJ.gif" alt="Talha's Premium 1 All Types Sports (Ads-Free)">
+            <span>Talha's Premium 1 All Types Sports (Ads-Free)</span>
+        </a>
+        <a href="https://talhas.premium2.000.pe/" class="button-with-image">
+            <img src="https://s12.gifyu.com/images/SoLs8.gif" alt="Talha's Premium 2 All Types Sports (Ads-Free)">
+            <span>Talha's Premium 2 All Types Sports (Ads-Free)</span>
+        </a>
+        <a href="https://talhas.premium3.000.pe/" class="button-with-image">
+            <img src="https://s10.gifyu.com/images/SoLxZ.gif" alt="Talha's Premium 3 All Types Sports (With-Ads)">
+            <span>Talha's Premium 3 All Types Sports (With-Ads)</span>
+        </a>
+        <a href="https://talhas.premium4.000.pe/" class="button-with-image">
+            <img src="https://s12.gifyu.com/images/SoLxJ.gif" alt="Talha's Premium 4 All Types Sports (With-Ads)">
+            <span>Talha's Premium 4 All Types Sports (With-Ads)</span>
+        </a>
     </div>
-
-    <!-- Telegram Button -->
-    <div class="telegram-button" onclick="openTelegram()">
-        <img src="https://s1.gifyu.com/images/SAe3R.png" alt="Telegram">
-    </div>
-
-    <iframe id="stream-iframe" sandbox="allow-same-origin allow-scripts" scrolling="no" frameborder="0" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; idle-detection" allowfullscreen></iframe>
-
-    <!-- Add Bootstrap JS Bundle (includes Popper) from cdnjs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <a href="https://www.upload-apk.com/XxFpoYVf8BiE3Vm" class="android-app-button" id="android-app-button" target="_blank">
+        Android App
+    </a>
 </body>
-
 </html>
