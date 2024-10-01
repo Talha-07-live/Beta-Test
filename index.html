@@ -25,16 +25,17 @@
 
         .footer-text {
             position: absolute;
-            bottom: 0;
+            top: 0; /* Positioned at the top */
             width: 100%;
             text-align: center;
             color: red;
             background-color: transparent;
-            font-size: 1.5rem;
+            font-size: 80%; /* 20% smaller text */
             font-weight: bold;
             white-space: nowrap;
             overflow: hidden;
             visibility: hidden;
+            z-index: 10; /* Ensure it's above other content */
         }
 
         .footer-text span {
@@ -45,7 +46,7 @@
 
         @keyframes slide {
             0% {
-                transform: translateX(100%);
+                transform: translateX(52%);
             }
 
             100% {
@@ -61,9 +62,9 @@
         window.onload = function () {
             // List of allowed domains
             const allowedDomains = [
-                '',
-                '',
-                ''
+                //'https://talhas.footballl.rf.gd/',
+                //'https://wizardfc.official.rf.gd/',
+                //'https://bhaichurikorbenna.servert.rf.gd/'
             ];
 
             const referrer = document.referrer;
@@ -94,7 +95,7 @@
             // Show the footer text after 20 seconds
             setTimeout(function () {
                 document.querySelector('.footer-text').style.visibility = 'visible';
-            }, 20000); // 20 seconds delay
+            }, 10000); // 20 seconds delay
         }
     </script>
 </head>
@@ -102,7 +103,7 @@
 <body>
 
     <div class="footer-text">
-        <span>Welcome to Talha's Stream, You're Watching SSC 1 HD Live on Talhastream.rf.gd</span>
+        <span>Welcome to Talha's Stream, You're Watching SSC 1 HD Live on talhastream.rf.gd</span>
     </div>
 
     <iframe id="stream-iframe" sandbox="allow-same-origin allow-scripts" scrolling="no" frameborder="0" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; idle-detection" allowfullscreen></iframe>
