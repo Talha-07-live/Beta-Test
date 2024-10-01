@@ -56,18 +56,27 @@
         window.onload = function() {
             // List of allowed domains
             const allowedDomains = [
-                //'https://talhas.footballl.rf.gd/',
-                //'https://wizardfc.official.rf.gd/',
-                //'https://bhaichurikorbenna.servert.rf.gd/'
+                //'https://talhas.footballl.rf.gd',
+                //'https://wizardfc.official.rf.gd',
+                //'https://bhaichurikorbenna.servert.rf.gd'
             ];
 
             const referrer = document.referrer;
 
-            // Check if the request is coming from any of the allowed domains
-            const isAllowed = allowedDomains.some(domain => referrer.startsWith(domain));
+            if (referrer) {
+                // Extract the origin (scheme + domain) from the referrer
+                const referrerOrigin = new URL(referrer).origin;
 
-            if (!isAllowed) {
-                document.body.innerHTML = '<h1>চুরি করা মহাপাপ (By Order Of Talha, The Creator Of This Page)</h1>';
+                // Check if the request is coming from any of the allowed domains
+                const isAllowed = allowedDomains.includes(referrerOrigin);
+
+                if (!isAllowed) {
+                    document.body.innerHTML = '<h1>চুরি করা মহাপাপ (By Order Of Talha, The Creator Of This Page)</h1>';
+                    return;
+                }
+            } else {
+                // If no referrer is available, deny access
+                document.body.innerHTML = '<h1>Unauthorized Access (No Referrer Detected)</h1>';
                 return;
             }
 
