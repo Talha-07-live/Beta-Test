@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MPD Player with ClearKey</title>
+  <title>MPD Player with ClearKey DRM</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.0.3/shaka-player.compiled.js"></script>
 </head>
 <body>
   <video id="video" width="640" controls></video>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
       // Initialize the video player
       const video = document.getElementById('video');
       const player = new shaka.Player(video);
@@ -23,27 +23,33 @@
         '03c2e0af2f8159f9f0ce9b5dbc865f10': 'cd84ed136b0cc71f8ab8cd4d4f6a2e4c'
       };
 
-      // Configure the ClearKey for the player
+      // Apply ClearKey DRM configuration
       player.configure({
         drm: {
-          clearKeys: clearKeys
-        }
+          clearKeys: clearKeys,
+        },
       });
 
       // Load the manifest URL (MPD)
       const manifestUri = 'https://drmlive.in/sports/Astro/default.mpd';
 
-      // Try to load the video
-      player.load(manifestUri).then(function() {
-        console.log('The video has been successfully loaded!');
-      }).catch(onError);  // Handle any errors during loading
+      try {
+        // Try loading the DASH stream
+        await player.load(manifestUri);
+        console.log('The video has successfully loaded!');
+      } catch (error) {
+        // Handle any errors during loading
+        onError(error);
+      }
 
+      // Error logging function
       function onErrorEvent(event) {
         onError(event.detail);
       }
 
       function onError(error) {
-        console.error('Error code', error.code, 'object', error);
+        console.error('Error code', error.code, 'details:', error);
+        alert(`Error: ${error.message}. Check the console for more details.`);
       }
     });
   </script>
