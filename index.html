@@ -3,55 +3,110 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MPD Player with ClearKey DRM</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.0.3/shaka-player.compiled.js"></script>
+  <title>Shaka Player with ClearKey DRM</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.6/shaka-player.ui.min.js"></script>
 </head>
 <body>
   <video id="video" width="640" controls></video>
 
   <script>
-    document.addEventListener('DOMContentLoaded', async function() {
-      // Initialize the video player
+    function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    var key = getParameterByName('key');
+    var key2 = getParameterByName('key2');
+    
+    const manifestUri = "https://drmlive.in/sports/Astro/default.mpd";
+
+    async function init() {
       const video = document.getElementById('video');
-      const player = new shaka.Player(video);
+      const ui = video['ui'];
+      const controls = ui.getControls();
+      const player = controls.getPlayer();
+      window.player = player;
+      window.ui = ui;
 
-      // Listen for errors
-      player.addEventListener('error', onErrorEvent);
-
-      // ClearKey DRM configuration
-      const clearKeys = {
-        '03c2e0af2f8159f9f0ce9b5dbc865f10': 'cd84ed136b0cc71f8ab8cd4d4f6a2e4c'
+      const config = {
+        enableKeyboardPlaybackControls: true,
+        'seekBarColors': {
+          base: 'rgba(255,255,255,.2)',
+          buffered: 'rgba(255,255,255,.4)',
+          played: 'rgb(255,0,0)',
+        },
       };
 
-      // Apply ClearKey DRM configuration
+      ui.configure(config);
+
       player.configure({
         drm: {
-          clearKeys: clearKeys,
-        },
+          clearKeys: {
+            [key]: key2 || 'default_value_if_no_key2'
+          }
+        }
       });
 
-      // Load the manifest URL (MPD)
-      const manifestUri = 'https://drmlive.in/sports/Astro/default.mpd';
+      document.addEventListener('keydown', (e) => {
+        const videoContainer = document.querySelector('video');
+        let is_fullscreen = () => !!document.fullscreenElement;
+        let audio_vol = video.volume;
+
+        if (e.key == 'f') {
+          if (is_fullscreen()) {
+            document.exitFullscreen();
+          } else {
+            videoContainer.requestFullscreen();
+          }
+          e.preventDefault();
+        } else if (e.key == ' ') {
+          video.paused ? video.play() : video.pause();
+          e.preventDefault();
+        } else if (e.key == "ArrowUp") {
+          e.preventDefault();
+          video.volume = Math.min(audio_vol + 0.05, 1);
+        } else if (e.key == "ArrowDown") {
+          e.preventDefault();
+          video.volume = Math.max(audio_vol - 0.05, 0);
+        } else if (e.key == 'm') {
+          e.preventDefault();
+          video.muted = !video.muted;
+        }
+      });
+
+      player.addEventListener('error', onPlayerErrorEvent);
+      controls.addEventListener('error', onUIErrorEvent);
 
       try {
-        // Try loading the DASH stream
         await player.load(manifestUri);
-        console.log('The video has successfully loaded!');
+        console.log('The video has now been loaded!');
       } catch (error) {
-        // Handle any errors during loading
-        onError(error);
+        onPlayerError(error);
       }
+    }
 
-      // Error logging function
-      function onErrorEvent(event) {
-        onError(event.detail);
-      }
+    function onPlayerErrorEvent(errorEvent) {
+      onPlayerError(errorEvent.detail);
+    }
 
-      function onError(error) {
-        console.error('Error code', error.code, 'details:', error);
-        alert(`Error: ${error.message}. Check the console for more details.`);
-      }
-    });
+    function onPlayerError(error) {
+      console.error('Error code', error.code, 'object', error);
+    }
+
+    function onUIErrorEvent(errorEvent) {
+      onPlayerError(errorEvent.detail);
+    }
+
+    function initFailed(errorEvent) {
+      console.error('Unable to load the UI library!');
+    }
+
+    document.addEventListener('shaka-ui-loaded', init);
+    document.addEventListener('shaka-ui-load-failed', initFailed);
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/disable-devtool"></script>
 </body>
 </html>
