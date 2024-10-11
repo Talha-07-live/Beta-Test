@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iframe Popup Blocker - Stay on the Page</title>
+    <title>Stay on Page with Popup Protection</title>
     <style>
         body {
             margin: 0;
@@ -21,58 +21,39 @@
 </head>
 <body>
 
-    <h1>Stay on the Page - Video Embed</h1>
+    <h1>Stay on the Page with Iframe</h1>
 
-    <!-- Iframe embedding without sandbox -->
+    <!-- Embed iframe here -->
     <iframe 
         id="myIframe" 
-        src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
+        src="https://stream.crichd.sc/update/willowcricket.php" 
         allow="autoplay" 
         allowfullscreen></iframe>
 
     <script>
-        // Aggressively block focus switching to the new window or tab
-        (function() {
-            const originalOpen = window.open;
+        // Prevent navigation away from the page when a new window or tab tries to open
+        window.addEventListener('beforeunload', function(event) {
+            // This message will trigger a warning and block the navigation away
+            event.returnValue = 'Are you sure you want to leave this page?';
+            return 'Are you sure you want to leave this page?';  // Compatibility for older browsers
+        });
 
-            // Override window.open to allow the popups but refocus back on the original window
-            window.open = function(url, name, specs) {
-                const popup = originalOpen.apply(this, arguments);
-                console.log('Popup opened:', url);
-
-                // Bring focus back to the original page
-                setTimeout(() => {
-                    window.focus();
-                    console.log('Refocusing the main window.');
-                }, 100);  // Small delay to ensure focus is shifted back
-
-                return popup;
-            };
-
-            // Continuously force focus back on the main window
-            setInterval(function() {
-                window.focus();
-                console.log('Keeping focus on the main window.');
-            }, 500);  // Re-focus every half second to keep the page active
-
-        })();
-
-        // Prevent focus switching when the main window loses focus (due to popups)
+        // Refocus the main window if focus is lost (due to a popup or new window)
         window.addEventListener('blur', function() {
             setTimeout(() => {
                 window.focus();
-                console.log('Focus shifted back after blur.');
-            }, 100);  // Bring focus back to the main page immediately
+                console.log('Refocusing the main window.');
+            }, 50);  // Delay to ensure focus goes back to the main window
         });
 
-        // Handle iframe click events without leaving the page
+        // Handle iframe interactions, and log any click inside the iframe
         document.getElementById('myIframe').addEventListener('load', function() {
             const iframe = document.getElementById('myIframe');
             const iframeWindow = iframe.contentWindow || iframe.contentDocument.defaultView;
 
             try {
-                // Log iframe interactions
-                iframeWindow.document.addEventListener('click', function(event) {
+                // Log iframe click events
+                iframeWindow.document.addEventListener('click', function() {
                     console.log('Click event detected inside iframe.');
                 });
             } catch (e) {
