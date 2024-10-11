@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sandbox Iframe with Popup Block</title>
+    <title>Sandbox Iframe with Popup Prevention</title>
     <style>
         body {
             margin: 0;
@@ -17,19 +17,33 @@
             height: 500px;
             border: none;
         }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 500px;
+            background: rgba(255, 255, 255, 0); /* Transparent overlay */
+            z-index: 10; /* On top of the iframe */
+        }
     </style>
 </head>
 <body>
 
-    <h1>Video Embed With Sandbox Iframe</h1>
+    <h1>Video Embed with Popup Prevention</h1>
 
-    <!-- Iframe embedding with sandbox attribute -->
-    <iframe 
-        id="myIframe" 
-        src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups" 
-        allow="autoplay" 
-        allowfullscreen></iframe>
+    <div style="position: relative;">
+        <!-- Transparent overlay for blocking clicks on links -->
+        <div class="overlay" id="overlay"></div>
+        
+        <!-- Iframe embedding with sandbox attribute -->
+        <iframe 
+            id="myIframe" 
+            src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
+            sandbox="allow-same-origin allow-scripts allow-forms" 
+            allow="autoplay" 
+            allowfullscreen></iframe>
+    </div>
 
     <script>
         // Intercept window.open globally to block new tabs/windows
@@ -41,26 +55,20 @@
             };
         })();
 
-        // Function to prevent navigation from clicks on links inside the iframe
-        const blockIframeNavigation = () => {
+        // Add click event listener to the overlay to block navigation from links
+        document.getElementById('overlay').addEventListener('click', function(event) {
             const iframe = document.getElementById('myIframe');
-
-            // Add event listener to capture clicks
-            iframe.addEventListener('load', function() {
-                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-
-                // Add click event listener to the iframe document
-                iframeDocument.addEventListener('click', function(event) {
-                    if (event.target.tagName === 'A' || event.target.closest('A')) {
-                        event.preventDefault(); // Prevent the default behavior of anchor links
-                        console.log('Prevented navigation from link click inside iframe.');
-                    }
-                });
-            });
-        };
-
-        // Call the function to set up blocking
-        blockIframeNavigation();
+            const iframeWindow = iframe.contentWindow || iframe.contentDocument.defaultView;
+            try {
+                const link = iframeWindow.document.elementFromPoint(event.clientX, event.clientY);
+                if (link && (link.tagName === 'A' || link.closest('A'))) {
+                    event.preventDefault(); // Prevent navigation for link clicks
+                    console.log('Prevented navigation from link click inside iframe.');
+                }
+            } catch (e) {
+                console.error('Error accessing iframe content:', e);
+            }
+        });
     </script>
 
 </body>
