@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iframe Popup Blocker with Click Allowance</title>
+    <title>Iframe Popup Blocker with Click Handling</title>
     <style>
         body {
             margin: 0;
@@ -21,7 +21,7 @@
 </head>
 <body>
 
-    <h1>Video Embed With Popup Block and Click Allowance</h1>
+    <h1>Video Embed With Popup Block and Click Handling</h1>
 
     <!-- Iframe embedding with autoplay parameter -->
     <iframe 
@@ -40,45 +40,28 @@
             };
         })();
 
-        // Function to prevent navigation from clicks inside the iframe
+        // Function to prevent navigation from clicks on links inside the iframe
         const blockIframeNavigation = () => {
             const iframe = document.getElementById('myIframe');
-            // Create a transparent overlay to capture clicks
-            const overlay = document.createElement('div');
-            overlay.style.position = 'absolute';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100%';
-            overlay.style.height = '500px';
-            overlay.style.zIndex = '1'; // Ensure it is above the iframe
-            overlay.style.cursor = 'default'; // Change cursor to default
 
-            // Append the overlay to the body
-            document.body.appendChild(overlay);
+            // Create a wrapper div around the iframe
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'relative';
+            wrapper.style.width = '100%';
+            wrapper.style.height = '500px';
+            wrapper.style.zIndex = '0';
 
-            // Prevent navigation when the overlay is clicked
-            overlay.addEventListener('click', (event) => {
-                // Check if the click is on an anchor tag or a link
-                if (event.target.tagName === 'A' || event.target.closest('A')) {
-                    event.preventDefault(); // Prevent default link behavior
+            // Move the iframe inside the wrapper
+            wrapper.appendChild(iframe);
+            document.body.appendChild(wrapper);
+
+            // Add event listener to capture clicks
+            wrapper.addEventListener('click', function(event) {
+                const isAnchor = event.target.tagName === 'A' || event.target.closest('A');
+                if (isAnchor) {
+                    event.preventDefault(); // Prevent the default behavior of anchor links
                     console.log('Prevented navigation from link click.');
                 }
-            });
-
-            // Position the overlay directly over the iframe
-            const rect = iframe.getBoundingClientRect();
-            overlay.style.top = `${rect.top}px`;
-            overlay.style.left = `${rect.left}px`;
-            overlay.style.width = `${rect.width}px`;
-            overlay.style.height = `${rect.height}px`;
-
-            // Resize the overlay if the window is resized
-            window.addEventListener('resize', () => {
-                const rect = iframe.getBoundingClientRect();
-                overlay.style.top = `${rect.top}px`;
-                overlay.style.left = `${rect.left}px`;
-                overlay.style.width = `${rect.width}px`;
-                overlay.style.height = `${rect.height}px`;
             });
         };
 
