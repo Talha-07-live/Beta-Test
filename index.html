@@ -3,28 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iframe Popup Blocker with Autoplay</title>
+  <title>Iframe Popup Blocker with Click Blocking</title>
   <style>
     iframe {
       width: 100%;
       height: 500px;
       border: none;
     }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0); /* Transparent overlay */
+      z-index: 1; /* Above the iframe */
+    }
   </style>
 </head>
 <body>
 
-  <h1>Video Embed With Popup Block and Autoplay</h1>
+  <h1>Video Embed With Popup Block and Click Blocking</h1>
 
-  <!-- Iframe embedding with autoplay parameter -->
-  <iframe 
-    id="myIframe" 
-    src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
-    width="100%" 
-    height="500px" 
-    frameborder="0" 
-    allow="autoplay" 
-    allowfullscreen></iframe>
+  <div style="position: relative;">
+    <iframe 
+      id="myIframe" 
+      src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
+      width="100%" 
+      height="500px" 
+      frameborder="0" 
+      allow="autoplay" 
+      allowfullscreen></iframe>
+
+    <!-- Transparent overlay to capture clicks -->
+    <div class="overlay" id="overlay"></div>
+  </div>
 
   <script>
     // Intercept window.open globally to block new tabs/windows
@@ -36,25 +49,12 @@
       };
     })();
 
-    // Monitor focus event to close any new popups that might be triggered
-    window.addEventListener('focus', function() {
-      // Check if a new window was opened
-      const originalOpen = window.open;
-      window.open = function(url, name, specs) {
-        const newWindow = originalOpen.apply(this, arguments);
-        if (newWindow) {
-          newWindow.close();  // Close the popup immediately
-          console.log('Detected and closed a popup window:', url);
-        }
-        return null;
-      };
+    // Prevent clicks from navigating away
+    document.getElementById('overlay').addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent default click behavior
+      event.stopPropagation(); // Stop the event from bubbling up
+      console.log('Click detected and prevented from navigating away.');
     });
-
-    // Log iframe load event
-    document.getElementById('myIframe').addEventListener('load', function() {
-      console.log('Iframe loaded. Attempts to interact with it will be monitored.');
-    });
-
   </script>
 
 </body>
