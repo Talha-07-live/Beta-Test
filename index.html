@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iframe Popup Blocker with Click Handling</title>
+    <title>Sandbox Iframe with Popup Block</title>
     <style>
         body {
             margin: 0;
@@ -21,12 +21,13 @@
 </head>
 <body>
 
-    <h1>Video Embed With Popup Block and Click Handling</h1>
+    <h1>Video Embed With Sandbox Iframe</h1>
 
-    <!-- Iframe embedding with autoplay parameter -->
+    <!-- Iframe embedding with sandbox attribute -->
     <iframe 
         id="myIframe" 
         src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
+        sandbox="allow-same-origin allow-scripts allow-forms allow-popups" 
         allow="autoplay" 
         allowfullscreen></iframe>
 
@@ -44,24 +45,17 @@
         const blockIframeNavigation = () => {
             const iframe = document.getElementById('myIframe');
 
-            // Create a wrapper div around the iframe
-            const wrapper = document.createElement('div');
-            wrapper.style.position = 'relative';
-            wrapper.style.width = '100%';
-            wrapper.style.height = '500px';
-            wrapper.style.zIndex = '0';
-
-            // Move the iframe inside the wrapper
-            wrapper.appendChild(iframe);
-            document.body.appendChild(wrapper);
-
             // Add event listener to capture clicks
-            wrapper.addEventListener('click', function(event) {
-                const isAnchor = event.target.tagName === 'A' || event.target.closest('A');
-                if (isAnchor) {
-                    event.preventDefault(); // Prevent the default behavior of anchor links
-                    console.log('Prevented navigation from link click.');
-                }
+            iframe.addEventListener('load', function() {
+                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+                // Add click event listener to the iframe document
+                iframeDocument.addEventListener('click', function(event) {
+                    if (event.target.tagName === 'A' || event.target.closest('A')) {
+                        event.preventDefault(); // Prevent the default behavior of anchor links
+                        console.log('Prevented navigation from link click inside iframe.');
+                    }
+                });
             });
         };
 
