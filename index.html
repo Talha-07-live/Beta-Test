@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aggressive Popup Blocker for Iframe</title>
+    <title>Stay on Page with Popup Blocker</title>
     <style>
         body {
             margin: 0;
@@ -21,9 +21,9 @@
 </head>
 <body>
 
-    <h1>Video Embed with Aggressive Popup Blocking</h1>
+    <h1>Video Embed with Popup Block</h1>
 
-    <!-- Iframe embedding without sandbox -->
+    <!-- Iframe embedding -->
     <iframe 
         id="myIframe" 
         src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
@@ -31,67 +31,48 @@
         allowfullscreen></iframe>
 
     <script>
-        // Aggressive popup blocker function
+        // Intercept and override window.open to stay on the page
         (function() {
-            // Override window.open to block new windows or tabs
             const originalOpen = window.open;
             window.open = function(url, name, specs) {
-                console.log('Blocked new window/tab:', url);
-                return null; // Prevent new windows or tabs from opening
-            };
+                const popup = originalOpen.apply(this, arguments);
+                console.log('A new window/tab was opened:', url);
 
-            // Override window.location assignments inside the iframe to block redirects
-            const originalAssign = window.location.assign;
-            window.location.assign = function(url) {
-                console.log('Blocked redirect to:', url);
-            };
+                // Focus back to the main window immediately
+                if (popup) {
+                    setTimeout(() => {
+                        window.focus();
+                    }, 100);  // Delay focus to ensure the new window opens
+                }
 
-            // Close any newly created windows
-            const blockedWindows = [];
-            const closePopups = setInterval(function() {
-                blockedWindows.forEach(win => {
-                    if (!win.closed) {
-                        win.close();
-                        console.log('Closed popup window.');
-                    }
-                });
-            }, 100);
+                return popup;  // Allow the popup to open but stay on the current page
+            };
         })();
 
-        // Prevent link-based navigation within the iframe
-        const blockIframeNavigation = () => {
+        // Monitor focus shifts, force focus back to the main window
+        window.addEventListener('blur', function() {
+            setTimeout(() => {
+                window.focus();  // Refocus the current page
+                console.log('Forced focus back to main window.');
+            }, 100);  // Small delay to ensure we refocus after any new windows pop
+        });
+
+        // Handle iframe click events without redirecting or leaving the page
+        document.getElementById('myIframe').addEventListener('load', function() {
             const iframe = document.getElementById('myIframe');
+            const iframeWindow = iframe.contentWindow || iframe.contentDocument.defaultView;
 
-            iframe.addEventListener('load', function() {
-                try {
-                    const iframeWindow = iframe.contentWindow || iframe.contentDocument.defaultView;
+            try {
+                // Add click event listener to the iframe
+                iframeWindow.document.addEventListener('click', function(event) {
+                    const target = event.target || event.srcElement;
 
-                    // Block any click event that targets a link (<a>) inside the iframe
-                    iframeWindow.document.addEventListener('click', function(event) {
-                        const target = event.target || event.srcElement;
-                        
-                        if (target.tagName === 'A' || target.closest('A')) {
-                            event.preventDefault();  // Prevent navigation
-                            console.log('Blocked a link inside iframe.');
-                        }
-                    }, true);
-                } catch (e) {
-                    console.error('Cross-origin iframe; unable to access content:', e);
-                }
-            });
-        };
-
-        blockIframeNavigation();
-
-        // Detect and block any window focus shifts to newly opened tabs or windows
-        window.addEventListener('focus', function() {
-            const blockedWindows = [];
-            blockedWindows.forEach(function(popup) {
-                if (popup && !popup.closed) {
-                    popup.close();
-                    console.log('Closed popup after focus shift.');
-                }
-            });
+                    // Log click events
+                    console.log('Click event inside iframe detected.');
+                });
+            } catch (e) {
+                console.error('Cross-origin iframe; unable to access content:', e);
+            }
         });
     </script>
 
