@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iframe Popup Blocker Without Sandbox</title>
+    <title>Aggressive Popup Blocker for Iframe</title>
     <style>
         body {
             margin: 0;
@@ -21,7 +21,7 @@
 </head>
 <body>
 
-    <h1>Video Embed With Popup Block (No Sandbox)</h1>
+    <h1>Video Embed with Popup Block (Aggressive)</h1>
 
     <!-- Iframe embedding without sandbox -->
     <iframe 
@@ -31,42 +31,60 @@
         allowfullscreen></iframe>
 
     <script>
-        // Intercept window.open globally to block new tabs/windows
+        // Prevent new windows/tabs by continuously monitoring and closing them
+        let blockedWindows = [];
+
+        // Overriding window.open globally to block popups
         (function() {
             const originalOpen = window.open;
             window.open = function(url, name, specs) {
-                console.log('Blocked attempt to open a new window or tab:', url);
-                return null;  // Prevent the opening of new tabs/windows
+                console.log('Attempt to open a new window/tab detected. Blocking:', url);
+                return null;  // Block the new window or tab
             };
         })();
 
-        // Detect clicks inside the iframe and prevent navigation
-        const blockIframeNavigation = () => {
-            const iframe = document.getElementById('myIframe');
-
-            iframe.addEventListener('load', function() {
-                const iframeWindow = iframe.contentWindow || iframe.contentDocument.defaultView;
-
-                try {
-                    // Add an event listener to the iframe's document
-                    iframeWindow.document.addEventListener('click', function(event) {
-                        const target = event.target || event.srcElement;
-                        
-                        // Prevent navigation if the target is a link (<a> tag)
-                        if (target.tagName === 'A' || target.closest('A')) {
-                            event.preventDefault();
-                            console.log('Blocked navigation from link click inside iframe.');
-                        }
-                    }, true);
-                } catch (e) {
-                    console.error('Unable to access iframe content due to cross-origin policy:', e);
+        // Monitor and close any new popups immediately after they are created
+        const closeNewWindows = setInterval(function() {
+            for (let i = 0; i < blockedWindows.length; i++) {
+                if (!blockedWindows[i].closed) {
+                    blockedWindows[i].close();
+                    console.log('Closed a newly opened window.');
                 }
-            });
-        };
+            }
+        }, 100);
 
-        // Call the function to set up navigation blocking
-        blockIframeNavigation();
+        // Detect focus shift when a new window/tab is opened
+        window.addEventListener('focus', function() {
+            if (blockedWindows.length > 0) {
+                blockedWindows.forEach(win => {
+                    if (!win.closed) {
+                        win.close();
+                        console.log('Closed a popup window/tab after focus shift.');
+                    }
+                });
+            }
+        });
 
+        // Add an event listener to iframe load to attempt blocking popup navigation
+        document.getElementById('myIframe').addEventListener('load', function() {
+            const iframe = document.getElementById('myIframe');
+            const iframeWindow = iframe.contentWindow || iframe.contentDocument.defaultView;
+
+            try {
+                // Add click event listener to prevent link clicks from opening new windows
+                iframeWindow.document.addEventListener('click', function(event) {
+                    const target = event.target || event.srcElement;
+
+                    // If a link is clicked, prevent its default behavior
+                    if (target.tagName === 'A' || target.closest('A')) {
+                        event.preventDefault();
+                        console.log('Blocked a link click inside the iframe.');
+                    }
+                });
+            } catch (e) {
+                console.error('Error accessing iframe content due to cross-origin restrictions:', e);
+            }
+        });
     </script>
 
 </body>
