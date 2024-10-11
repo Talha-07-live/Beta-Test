@@ -96,14 +96,14 @@
 
             // Listen for messages from the iframe
             window.addEventListener('message', function (event) {
-                if (event.origin !== 'https://crichdplayer.com') return; // Change this to the actual origin if needed
+                if (event.origin !== '//stream.crichd.sc') return; // Change this to the actual origin if needed
                 if (event.data && event.data.type === 'prevent-open') {
                     alert('Blocked a new tab from opening.');
                 }
             });
 
             // Load the iframe
-            iframe.src = 'https://crichdplayer.com/sky-sports-cricket-live-stream-me';
+            iframe.src = '//stream.crichd.sc/update/foxsoccerplus.php';
 
             // Hide the footer text after 10 seconds
             setTimeout(function () {
