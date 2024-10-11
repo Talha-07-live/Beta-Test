@@ -36,23 +36,42 @@
       };
     })();
 
-    // Prevent clicks that would navigate away
-    document.getElementById('myIframe').addEventListener('load', function() {
-      const iframeWindow = document.getElementById('myIframe').contentWindow;
+    // Function to prevent navigation from clicks inside the iframe
+    const blockIframeNavigation = () => {
+      const iframe = document.getElementById('myIframe');
       
-      // If you have access to the iframe (same-origin), you can block events here
-      try {
-        iframeWindow.document.addEventListener('click', function(event) {
-          // Check if the target is a link
-          if (event.target.tagName === 'A' || event.target.closest('A')) {
-            event.preventDefault(); // Prevent default link behavior
-            console.log('Prevented navigation from link click.');
-          }
-        }, true);
-      } catch (error) {
-        console.error('Cross-origin access error:', error);
-      }
-    });
+      // Create a wrapper div
+      const wrapper = document.createElement('div');
+      wrapper.style.position = 'relative';
+      wrapper.style.width = '100%';
+      wrapper.style.height = '500px';
+      
+      // Move the iframe inside the wrapper
+      wrapper.appendChild(iframe);
+      
+      // Create a transparent overlay to capture clicks
+      const overlay = document.createElement('div');
+      overlay.style.position = 'absolute';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.zIndex = '1'; // Ensure it is above the iframe
+      overlay.style.cursor = 'pointer'; // Change cursor to pointer to indicate interaction
+      
+      // Prevent navigation when the overlay is clicked
+      overlay.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevent click from propagating to the iframe
+        console.log('Click detected on overlay, preventing navigation.');
+      });
+
+      // Append overlay to wrapper
+      wrapper.appendChild(overlay);
+      document.body.appendChild(wrapper);
+    };
+
+    // Call the function to set up blocking
+    blockIframeNavigation();
   </script>
 
 </body>
