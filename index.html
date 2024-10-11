@@ -3,21 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iframe Popup Blocker with Click Blocking</title>
+  <title>Iframe Popup Blocker with Autoplay</title>
   <style>
     iframe {
       width: 100%;
       height: 500px;
       border: none;
-    }
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0); /* Transparent overlay */
-      z-index: 1; /* Above the iframe */
     }
   </style>
 </head>
@@ -25,19 +16,15 @@
 
   <h1>Video Embed With Popup Block and Click Blocking</h1>
 
-  <div style="position: relative;">
-    <iframe 
-      id="myIframe" 
-      src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
-      width="100%" 
-      height="500px" 
-      frameborder="0" 
-      allow="autoplay" 
-      allowfullscreen></iframe>
-
-    <!-- Transparent overlay to capture clicks -->
-    <div class="overlay" id="overlay"></div>
-  </div>
+  <!-- Iframe embedding with autoplay parameter -->
+  <iframe 
+    id="myIframe" 
+    src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
+    width="100%" 
+    height="500px" 
+    frameborder="0" 
+    allow="autoplay" 
+    allowfullscreen></iframe>
 
   <script>
     // Intercept window.open globally to block new tabs/windows
@@ -49,11 +36,22 @@
       };
     })();
 
-    // Prevent clicks from navigating away
-    document.getElementById('overlay').addEventListener('click', function(event) {
-      event.preventDefault(); // Prevent default click behavior
-      event.stopPropagation(); // Stop the event from bubbling up
-      console.log('Click detected and prevented from navigating away.');
+    // Prevent clicks that would navigate away
+    document.getElementById('myIframe').addEventListener('load', function() {
+      const iframeWindow = document.getElementById('myIframe').contentWindow;
+      
+      // If you have access to the iframe (same-origin), you can block events here
+      try {
+        iframeWindow.document.addEventListener('click', function(event) {
+          // Check if the target is a link
+          if (event.target.tagName === 'A' || event.target.closest('A')) {
+            event.preventDefault(); // Prevent default link behavior
+            console.log('Prevented navigation from link click.');
+          }
+        }, true);
+      } catch (error) {
+        console.error('Cross-origin access error:', error);
+      }
     });
   </script>
 
