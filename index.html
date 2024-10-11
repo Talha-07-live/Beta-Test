@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ad-Free Iframe</title>
+  <title>Iframe Block Popups</title>
   <style>
     iframe {
       width: 100%;
@@ -13,42 +13,42 @@
   </style>
 </head>
 <body>
-  
-  <h1>Ad-Free Video Embed</h1>
 
-  <!-- Iframe with sandbox restrictions -->
-  <iframe id="myIframe" 
+  <h1>Video Embed Without Popups</h1>
+
+  <!-- Iframe without sandbox -->
+  <iframe 
+    id="myIframe"
     src="https://stream.crichd.sc/update/willowcricket.php" 
-    sandbox="allow-scripts allow-same-origin" 
     frameborder="0" 
-    allowfullscreen></iframe>
+    allowfullscreen>
+  </iframe>
 
   <script>
-    // Function to block popups using window.open override
-    function blockPopups() {
-      // Override window.open to block new tabs or windows
-      window.open = function() {
-        console.log('Popup blocked!');
-        return null;
-      };
+    // Block window.open globally
+    window.open = function() {
+      console.log('Popup blocked!');
+      return null;
+    };
 
-      // Prevent navigation from iframe links or ads that might redirect
-      window.onbeforeunload = function(event) {
-        event.preventDefault();
-        return '';
-      };
+    // Optionally block target="_blank" links inside the iframe
+    document.getElementById('myIframe').addEventListener('load', function() {
+      const iframe = document.getElementById('myIframe');
 
-      // Intercept click events to stop unwanted iframe behavior
-      document.addEventListener('click', function(event) {
-        if (event.target.closest('iframe')) {
-          event.preventDefault(); // Block the default action (like popups)
-          console.log('Iframe click intercepted');
-        }
-      }, true);
-    }
+      // Listen for clicks inside the iframe and block default behavior
+      iframe.contentWindow.document.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent any action that opens new windows/tabs
+        console.log('Iframe click intercepted and blocked');
+      });
+    });
 
-    // Call the function on page load
-    blockPopups();
+    // Catch attempts to trigger navigation events inside the iframe
+    document.addEventListener('click', function(event) {
+      if (event.target.closest('iframe')) {
+        event.preventDefault(); // Prevent click actions from opening popups
+        console.log('Click inside iframe prevented');
+      }
+    }, true);
   </script>
 
 </body>
