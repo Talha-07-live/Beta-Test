@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stay on Page with Popup Blocker</title>
+    <title>Iframe Popup Blocker - Stay on the Page</title>
     <style>
         body {
             margin: 0;
@@ -21,9 +21,9 @@
 </head>
 <body>
 
-    <h1>Video Embed with Popup Block</h1>
+    <h1>Stay on the Page - Video Embed</h1>
 
-    <!-- Iframe embedding -->
+    <!-- Iframe embedding without sandbox -->
     <iframe 
         id="myIframe" 
         src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
@@ -31,44 +31,49 @@
         allowfullscreen></iframe>
 
     <script>
-        // Intercept and override window.open to stay on the page
+        // Aggressively block focus switching to the new window or tab
         (function() {
             const originalOpen = window.open;
+
+            // Override window.open to allow the popups but refocus back on the original window
             window.open = function(url, name, specs) {
                 const popup = originalOpen.apply(this, arguments);
-                console.log('A new window/tab was opened:', url);
+                console.log('Popup opened:', url);
 
-                // Focus back to the main window immediately
-                if (popup) {
-                    setTimeout(() => {
-                        window.focus();
-                    }, 100);  // Delay focus to ensure the new window opens
-                }
+                // Bring focus back to the original page
+                setTimeout(() => {
+                    window.focus();
+                    console.log('Refocusing the main window.');
+                }, 100);  // Small delay to ensure focus is shifted back
 
-                return popup;  // Allow the popup to open but stay on the current page
+                return popup;
             };
+
+            // Continuously force focus back on the main window
+            setInterval(function() {
+                window.focus();
+                console.log('Keeping focus on the main window.');
+            }, 500);  // Re-focus every half second to keep the page active
+
         })();
 
-        // Monitor focus shifts, force focus back to the main window
+        // Prevent focus switching when the main window loses focus (due to popups)
         window.addEventListener('blur', function() {
             setTimeout(() => {
-                window.focus();  // Refocus the current page
-                console.log('Forced focus back to main window.');
-            }, 100);  // Small delay to ensure we refocus after any new windows pop
+                window.focus();
+                console.log('Focus shifted back after blur.');
+            }, 100);  // Bring focus back to the main page immediately
         });
 
-        // Handle iframe click events without redirecting or leaving the page
+        // Handle iframe click events without leaving the page
         document.getElementById('myIframe').addEventListener('load', function() {
             const iframe = document.getElementById('myIframe');
             const iframeWindow = iframe.contentWindow || iframe.contentDocument.defaultView;
 
             try {
-                // Add click event listener to the iframe
+                // Log iframe interactions
                 iframeWindow.document.addEventListener('click', function(event) {
-                    const target = event.target || event.srcElement;
-
-                    // Log click events
-                    console.log('Click event inside iframe detected.');
+                    console.log('Click event detected inside iframe.');
                 });
             } catch (e) {
                 console.error('Cross-origin iframe; unable to access content:', e);
