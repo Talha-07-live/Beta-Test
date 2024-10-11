@@ -1,78 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iframe Popup Blocker with Autoplay</title>
-  <style>
-    iframe {
-      width: 100%;
-      height: 500px;
-      border: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iframe Popup Blocker with Click Allowance</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Video Embed With Popup Block and Click Blocking</h1>
+    <h1>Video Embed With Popup Block and Click Allowance</h1>
 
-  <!-- Iframe embedding with autoplay parameter -->
-  <iframe 
-    id="myIframe" 
-    src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
-    width="100%" 
-    height="500px" 
-    frameborder="0" 
-    allow="autoplay" 
-    allowfullscreen></iframe>
+    <!-- Iframe embedding with autoplay parameter -->
+    <iframe 
+        id="myIframe" 
+        src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
+        allow="autoplay" 
+        allowfullscreen></iframe>
 
-  <script>
-    // Intercept window.open globally to block new tabs/windows
-    (function() {
-      const originalOpen = window.open;
-      window.open = function(url, name, specs) {
-        console.log('Blocked attempt to open a new window or tab:', url);
-        return null;  // Prevent the opening of new tabs/windows
-      };
-    })();
+    <script>
+        // Intercept window.open globally to block new tabs/windows
+        (function() {
+            const originalOpen = window.open;
+            window.open = function(url, name, specs) {
+                console.log('Blocked attempt to open a new window or tab:', url);
+                return null;  // Prevent the opening of new tabs/windows
+            };
+        })();
 
-    // Function to prevent navigation from clicks inside the iframe
-    const blockIframeNavigation = () => {
-      const iframe = document.getElementById('myIframe');
-      
-      // Create a wrapper div
-      const wrapper = document.createElement('div');
-      wrapper.style.position = 'relative';
-      wrapper.style.width = '100%';
-      wrapper.style.height = '500px';
-      
-      // Move the iframe inside the wrapper
-      wrapper.appendChild(iframe);
-      
-      // Create a transparent overlay to capture clicks
-      const overlay = document.createElement('div');
-      overlay.style.position = 'absolute';
-      overlay.style.top = '0';
-      overlay.style.left = '0';
-      overlay.style.width = '100%';
-      overlay.style.height = '100%';
-      overlay.style.zIndex = '1'; // Ensure it is above the iframe
-      overlay.style.cursor = 'pointer'; // Change cursor to pointer to indicate interaction
-      
-      // Prevent navigation when the overlay is clicked
-      overlay.addEventListener('click', (event) => {
-        event.stopPropagation(); // Prevent click from propagating to the iframe
-        console.log('Click detected on overlay, preventing navigation.');
-      });
+        // Function to prevent navigation from clicks inside the iframe
+        const blockIframeNavigation = () => {
+            const iframe = document.getElementById('myIframe');
+            // Create a transparent overlay to capture clicks
+            const overlay = document.createElement('div');
+            overlay.style.position = 'absolute';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100%';
+            overlay.style.height = '500px';
+            overlay.style.zIndex = '1'; // Ensure it is above the iframe
+            overlay.style.cursor = 'default'; // Change cursor to default
 
-      // Append overlay to wrapper
-      wrapper.appendChild(overlay);
-      document.body.appendChild(wrapper);
-    };
+            // Append the overlay to the body
+            document.body.appendChild(overlay);
 
-    // Call the function to set up blocking
-    blockIframeNavigation();
-  </script>
+            // Prevent navigation when the overlay is clicked
+            overlay.addEventListener('click', (event) => {
+                // Check if the click is on an anchor tag or a link
+                if (event.target.tagName === 'A' || event.target.closest('A')) {
+                    event.preventDefault(); // Prevent default link behavior
+                    console.log('Prevented navigation from link click.');
+                }
+            });
+
+            // Position the overlay directly over the iframe
+            const rect = iframe.getBoundingClientRect();
+            overlay.style.top = `${rect.top}px`;
+            overlay.style.left = `${rect.left}px`;
+            overlay.style.width = `${rect.width}px`;
+            overlay.style.height = `${rect.height}px`;
+
+            // Resize the overlay if the window is resized
+            window.addEventListener('resize', () => {
+                const rect = iframe.getBoundingClientRect();
+                overlay.style.top = `${rect.top}px`;
+                overlay.style.left = `${rect.left}px`;
+                overlay.style.width = `${rect.width}px`;
+                overlay.style.height = `${rect.height}px`;
+            });
+        };
+
+        // Call the function to set up blocking
+        blockIframeNavigation();
+    </script>
 
 </body>
 </html>
