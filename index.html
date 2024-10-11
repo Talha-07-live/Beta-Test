@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iframe Popup Blocker</title>
+  <title>Iframe Popup Blocker with Autoplay</title>
   <style>
     iframe {
       width: 100%;
@@ -14,15 +14,16 @@
 </head>
 <body>
 
-  <h1>Video Embed With Popup Block</h1>
+  <h1>Video Embed With Popup Block and Autoplay</h1>
 
-  <!-- Iframe embedding -->
+  <!-- Iframe embedding with autoplay parameter -->
   <iframe 
     id="myIframe" 
-    src="https://stream.crichd.sc/update/willowcricket.php" 
+    src="https://stream.crichd.sc/update/willowcricket.php?autoplay=1" 
     width="100%" 
     height="500px" 
     frameborder="0" 
+    allow="autoplay" 
     allowfullscreen></iframe>
 
   <script>
@@ -49,8 +50,7 @@
       };
     });
 
-    // Since we can't directly access the iframe content, we rely on global interception
-    // Log iframe click event (won't work due to cross-origin policy)
+    // Log iframe load event
     document.getElementById('myIframe').addEventListener('load', function() {
       console.log('Iframe loaded. Attempts to interact with it will be monitored.');
     });
