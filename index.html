@@ -26,7 +26,7 @@
     allowfullscreen></iframe>
 
   <script>
-    // Intercept any window.open event from the iframe
+    // Intercept window.open globally to block new tabs/windows
     (function() {
       const originalOpen = window.open;
       window.open = function(url, name, specs) {
@@ -37,12 +37,11 @@
 
     // Monitor focus event to close any new popups that might be triggered
     window.addEventListener('focus', function() {
-      const newWindows = [];
+      // Check if a new window was opened
       const originalOpen = window.open;
       window.open = function(url, name, specs) {
         const newWindow = originalOpen.apply(this, arguments);
         if (newWindow) {
-          newWindows.push(newWindow);
           newWindow.close();  // Close the popup immediately
           console.log('Detected and closed a popup window:', url);
         }
@@ -50,16 +49,10 @@
       };
     });
 
-    // Detect click events within the iframe and block navigation
+    // Since we can't directly access the iframe content, we rely on global interception
+    // Log iframe click event (won't work due to cross-origin policy)
     document.getElementById('myIframe').addEventListener('load', function() {
-      const iframe = document.getElementById('myIframe');
-      const iframeWindow = iframe.contentWindow || iframe.contentDocument.defaultView;
-
-      // Prevent navigation to external URLs or new tabs/windows
-      iframeWindow.document.addEventListener('click', function(event) {
-        event.preventDefault();  // Prevent the default behavior
-        console.log('Click inside iframe detected and prevented');
-      }, true);
+      console.log('Iframe loaded. Attempts to interact with it will be monitored.');
     });
 
   </script>
