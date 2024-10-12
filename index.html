@@ -10,73 +10,39 @@
     <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" id="target-iframe"></iframe>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function blockPopups(iframe) {
-                try {
-                    let iframeWindow = iframe.contentWindow;
-                    if (iframeWindow) {
-                        iframeWindow.open = function() {
-                            console.log("Blocked a window.open call in the iframe!");
-                            return null;
-                        };
-
-                        iframeWindow.addEventListener('click', function(event) {
-                            event.stopPropagation();
-                            console.log("Intercepted a click event in the iframe!");
-                        }, true);
-                        
-                        iframeWindow.addEventListener('contextmenu', function(event) {
-                            event.stopPropagation();
-                            console.log("Intercepted a contextmenu event in the iframe!");
-                        }, true);
-
-                        let originalSetTimeout = iframeWindow.setTimeout;
-                        iframeWindow.setTimeout = function(callback, delay) {
-                            let wrapper = function() {
-                                try {
-                                    callback();
-                                } catch (e) {
-                                    console.log("Caught an exception from the callback.");
-                                }
-                            };
-                            return originalSetTimeout(wrapper, delay);
-                        };
-                    }
-                } catch (e) {
-                    console.log("Unable to access iframe content due to cross-origin restrictions.");
-                }
-            }
-
-            function blockMainPopups() {
-                window.open = function() {
-                    console.log("Blocked a window.open call in the main document!");
-                    return null;
-                };
-            }
-
-            let iframe = document.getElementById('target-iframe');
-            iframe.onload = function() {
-                blockPopups(iframe);
+        function blockPopupsAndKeepFocus() {
+            let originalOpen = window.open;
+            window.open = function() {
+                console.log("Blocked a window.open call!");
+                return null;
             };
 
-            blockMainPopups();
+            window.addEventListener('focus', function() {
+                if (document.hidden) {
+                    console.log("Window lost focus, returning to main window...");
+                    window.focus();
+                }
+            });
+
+            window.addEventListener('blur', function() {
+                setTimeout(() => {
+                    console.log("Window lost focus, returning to main window...");
+                    window.focus();
+                }, 100);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            blockPopupsAndKeepFocus();
 
             let observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     mutation.addedNodes.forEach(function(node) {
                         if (node.tagName === 'IFRAME') {
-                            node.onload = function() {
-                                blockPopups(node);
-                            };
+                            blockPopupsAndKeepFocus();
                         }
                     });
                 });
             });
 
-            observer.observe(document.body, { childList: true, subtree: true });
-
-            setInterval(blockMainPopups, 1000);
-        });
-    </script>
-</body>
-</html>
+            observer.observe(document.body, {
