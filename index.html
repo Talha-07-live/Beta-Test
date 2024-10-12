@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iframe Message Listener - Popup Blocker</title>
+    <title>Block Iframe Ads</title>
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: Arial, sans-serif;
+            margin: 20px;
         }
         iframe {
             width: 100%;
@@ -20,39 +17,20 @@
     </style>
 </head>
 <body>
-
-    <h1>Iframe Communication - Stay on Page</h1>
-
-    <!-- Embed iframe -->
-    <iframe 
-        id="myIframe" 
-        src="https://stream.crichd.sc/update/willowcricket.php" 
-        allow="autoplay" 
-        allowfullscreen></iframe>
+    <h1>Embedded Video Player</h1>
+    <iframe id="videoIframe" src="https://stream.crichd.sc/update/willowcricket.php"></iframe>
 
     <script>
-        // Listen for messages from the iframe
-        window.addEventListener('message', function (event) {
-            // Ensure the event is coming from the correct origin
-            if (event.origin !== 'https://stream.crichd.sc') {
-                console.log('Blocked message from untrusted origin:', event.origin);
-                return;  // Ignore messages from different origins
-            }
+        document.getElementById('videoIframe').onload = function() {
+            const iframe = document.getElementById('videoIframe');
+            const iframeWindow = iframe.contentWindow;
 
-            // Check the message data and handle it accordingly
-            if (event.data && event.data.type === 'prevent-open') {
-                alert('Blocked a new tab from opening.');
-                // Block or prevent opening of new tabs or windows
-            }
-        });
-
-        // Prevent navigation away from the page using 'beforeunload'
-        window.addEventListener('beforeunload', function(event) {
-            event.returnValue = 'Are you sure you want to leave this page?';
-            return 'Are you sure you want to leave this page?';  // Older browser compatibility
-        });
-
+            // Override the window.open function to prevent pop-ups
+            iframeWindow.open = function() {
+                console.log('Pop-up blocked');
+                return null;
+            };
+        };
     </script>
-
 </body>
 </html>
