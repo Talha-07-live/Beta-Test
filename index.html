@@ -10,34 +10,40 @@
     <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" id="target-iframe"></iframe>
 
     <script>
-        function blockLinks() {
-            // Prevent default behavior of all links
+        function blockAllLinksAndRedirects() {
             document.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', function(event) {
                     event.preventDefault();
                     console.log("Blocked a link click!");
                 });
             });
-        }
 
-        function blockPopupsAndRedirects() {
-            // Block window.open, location.assign, and location.replace
+            // Block any form of navigation
+            window.onbeforeunload = function() {
+                console.log("Blocked navigation attempt!");
+                return false;
+            };
+            
+            window.onhashchange = function() {
+                console.log("Blocked hash change!");
+                history.pushState(null, null, window.location.pathname);
+            };
+
+            // Override the click behavior of all elements to prevent redirects
+            document.querySelectorAll('*').forEach(element => {
+                element.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    console.log("Blocked a click event!");
+                });
+            });
+
+            // Prevent new windows and tabs from opening
             window.open = function() {
                 console.log("Blocked a window.open call!");
                 return null;
             };
 
-            window.location.assign = function() {
-                console.log("Blocked a location.assign call!");
-                return null;
-            };
-
-            window.location.replace = function() {
-                console.log("Blocked a location.replace call!");
-                return null;
-            };
-
-            // Override the click behavior of all links within iframes
+            // Also handle iframes
             let iframes = document.querySelectorAll('iframe');
             iframes.forEach(iframe => {
                 try {
@@ -47,15 +53,13 @@
                             console.log("Blocked a window.open call in the iframe!");
                             return null;
                         };
-
-                        iframeWindow.location.assign = function() {
-                            console.log("Blocked a location.assign call in the iframe!");
-                            return null;
+                        iframeWindow.onbeforeunload = function() {
+                            console.log("Blocked iframe navigation attempt!");
+                            return false;
                         };
-
-                        iframeWindow.location.replace = function() {
-                            console.log("Blocked a location.replace call in the iframe!");
-                            return null;
+                        iframeWindow.onhashchange = function() {
+                            console.log("Blocked iframe hash change!");
+                            iframeWindow.history.pushState(null, null, iframeWindow.location.pathname);
                         };
 
                         iframeWindow.addEventListener('click', function(event) {
@@ -70,29 +74,21 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            blockLinks();
-            blockPopupsAndRedirects();
+            blockAllLinksAndRedirects();
 
             let observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     if (mutation.addedNodes.length) {
-                        blockLinks();
-                        mutation.addedNodes.forEach(node => {
-                            if (node.tagName === 'IFRAME') {
-                                node.onload = function() {
-                                    blockPopupsAndRedirects();
-                                };
-                            }
-                        });
+                        blockAllLinksAndRedirects();
                     }
                 });
             });
 
             observer.observe(document.body, { childList: true, subtree: true });
-        });
 
-        // Continuous enforcement loop
-        setInterval(blockPopupsAndRedirects, 1000);
+            // Continuous enforcement loop
+            setInterval(blockAllLinksAndRedirects, 1000);
+        });
     </script>
 </body>
 </html>
