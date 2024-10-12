@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Block Iframe Ads</title>
+    <title>Block Iframe Pop-ups</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,11 +21,17 @@
     <iframe id="videoIframe" src="https://stream.crichd.sc/update/willowcricket.php"></iframe>
 
     <script>
+        // Override the window.open method globally
+        window.open = function() {
+            console.log('Pop-up blocked');
+            return null;
+        };
+
         document.getElementById('videoIframe').onload = function() {
             const iframe = document.getElementById('videoIframe');
             const iframeWindow = iframe.contentWindow;
 
-            // Override the window.open function to prevent pop-ups
+            // Override the window.open method within the iframe
             iframeWindow.open = function() {
                 console.log('Pop-up blocked');
                 return null;
