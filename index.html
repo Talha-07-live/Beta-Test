@@ -3,72 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stay on Page</title>
+    <title>Locked Down DOM</title>
 </head>
 <body>
-    <h1>Iframe Blocker Example</h1>
+    <h1>Locked Down DOM Example</h1>
     <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" id="target-iframe"></iframe>
 
     <script>
-        function blockPopupsAndKeepFocus() {
-            // Override window.open to prevent new tabs and windows
-            let originalOpen = window.open;
+        function blockLinks() {
+            // Prevent default behavior of all links
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    console.log("Blocked a link click!");
+                });
+            });
+        }
+
+        function blockPopupsAndRedirects() {
+            // Block window.open, location.assign, and location.replace
             window.open = function() {
                 console.log("Blocked a window.open call!");
                 return null;
             };
 
-            // Override window.location.assign to prevent navigation
-            let originalAssign = window.location.assign;
             window.location.assign = function() {
                 console.log("Blocked a location.assign call!");
                 return null;
             };
 
-            // Override window.location.replace to prevent navigation
-            let originalReplace = window.location.replace;
             window.location.replace = function() {
                 console.log("Blocked a location.replace call!");
                 return null;
             };
 
-            // Refocus on the main window if it loses focus
-            window.addEventListener('blur', function() {
-                setTimeout(() => {
-                    console.log("Refocusing on the main window...");
-                    window.focus();
-                }, 100);
-            });
+            // Override the click behavior of all links within iframes
+            let iframes = document.querySelectorAll('iframe');
+            iframes.forEach(iframe => {
+                try {
+                    let iframeWindow = iframe.contentWindow;
+                    if (iframeWindow) {
+                        iframeWindow.open = function() {
+                            console.log("Blocked a window.open call in the iframe!");
+                            return null;
+                        };
 
-            // Handle focus changes due to new windows or tabs
-            window.addEventListener('focus', function() {
-                if (document.hidden) {
-                    console.log("Main window lost focus, bringing it back...");
-                    window.focus();
+                        iframeWindow.location.assign = function() {
+                            console.log("Blocked a location.assign call in the iframe!");
+                            return null;
+                        };
+
+                        iframeWindow.location.replace = function() {
+                            console.log("Blocked a location.replace call in the iframe!");
+                            return null;
+                        };
+
+                        iframeWindow.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            console.log("Blocked a click event in the iframe!");
+                        }, true);
+                    }
+                } catch (e) {
+                    console.log("Unable to access iframe content due to cross-origin restrictions.");
                 }
             });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            blockPopupsAndKeepFocus();
+            blockLinks();
+            blockPopupsAndRedirects();
 
             let observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.tagName === 'IFRAME') {
-                            node.onload = function() {
-                                blockPopupsAndKeepFocus();
-                            };
-                        }
-                    });
+                    if (mutation.addedNodes.length) {
+                        blockLinks();
+                        mutation.addedNodes.forEach(node => {
+                            if (node.tagName === 'IFRAME') {
+                                node.onload = function() {
+                                    blockPopupsAndRedirects();
+                                };
+                            }
+                        });
+                    }
                 });
             });
 
             observer.observe(document.body, { childList: true, subtree: true });
-
-            // Continuous enforcement loop to reset functions every second
-            setInterval(blockPopupsAndKeepFocus, 1000);
         });
+
+        // Continuous enforcement loop
+        setInterval(blockPopupsAndRedirects, 1000);
     </script>
 </body>
 </html>
