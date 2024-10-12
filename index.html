@@ -31,11 +31,15 @@
             const iframe = document.getElementById('videoIframe');
             const iframeWindow = iframe.contentWindow;
 
-            // Override the window.open method within the iframe
-            iframeWindow.open = function() {
-                console.log('Pop-up blocked');
-                return null;
+            // Use a Proxy to override the window.open method within the iframe
+            const proxyHandler = {
+                apply: function(target, thisArg, argumentsList) {
+                    console.log('Pop-up blocked');
+                    return null;
+                }
             };
+
+            iframeWindow.open = new Proxy(iframeWindow.open, proxyHandler);
 
             // Use MutationObserver to monitor for new windows
             const observer = new MutationObserver(function(mutations) {
