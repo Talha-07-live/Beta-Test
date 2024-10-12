@@ -7,45 +7,42 @@
 </head>
 <body>
     <h1>Iframe Blocker Example</h1>
-    <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" id="target-iframe"></iframe>
+    <iframe id="target-iframe" src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400"></iframe>
 
     <script>
-        function blockIframeWindows(iframe) {
-            try {
-                let iframeWindow = iframe.contentWindow;
-                if (iframeWindow) {
-                    iframeWindow.open = function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            function applyCSP(iframe) {
+                let csp = "default-src 'self'; script-src 'none';";
+
+                let iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                if (iframeDoc) {
+                    let metaTag = iframeDoc.createElement('meta');
+                    metaTag.httpEquiv = "Content-Security-Policy";
+                    metaTag.content = csp;
+                    iframeDoc.head.appendChild(metaTag);
+
+                    // Also block window.open
+                    iframe.contentWindow.open = function() {
                         console.log("Blocked a window.open call in the iframe!");
                         return null;
                     };
-
-                    // Additional security measures: disable certain events
-                    iframeWindow.addEventListener('click', function(event) {
-                        event.stopPropagation();
-                        event.preventDefault();
-                        console.log("Blocked a click event in the iframe!");
-                    }, true);
-                    
-                    iframeWindow.addEventListener('contextmenu', function(event) {
-                        event.stopPropagation();
-                        event.preventDefault();
-                        console.log("Blocked a contextmenu event in the iframe!");
-                    }, true);
+                } else {
+                    console.log("Unable to access iframe content.");
                 }
-            } catch (e) {
-                console.log("Unable to access iframe content due to cross-origin restrictions.");
             }
-        }
 
-        document.addEventListener('DOMContentLoaded', function() {
             let iframe = document.getElementById('target-iframe');
-            blockIframeWindows(iframe);
+            iframe.onload = function() {
+                applyCSP(iframe);
+            };
 
             let observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     mutation.addedNodes.forEach(function(node) {
                         if (node.tagName === 'IFRAME') {
-                            blockIframeWindows(node);
+                            node.onload = function() {
+                                applyCSP(node);
+                            };
                         }
                     });
                 });
