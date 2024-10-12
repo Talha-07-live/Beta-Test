@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Iframe Blocker Example</h1>
-    <iframe id="target-iframe" src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400"></iframe>
+    <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" id="target-iframe"></iframe>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -19,16 +19,47 @@
                             console.log("Blocked a window.open call in the iframe!");
                             return null;
                         };
+
+                        iframeWindow.addEventListener('click', function(event) {
+                            event.stopPropagation();
+                            console.log("Intercepted a click event in the iframe!");
+                        }, true);
+                        
+                        iframeWindow.addEventListener('contextmenu', function(event) {
+                            event.stopPropagation();
+                            console.log("Intercepted a contextmenu event in the iframe!");
+                        }, true);
+
+                        let originalSetTimeout = iframeWindow.setTimeout;
+                        iframeWindow.setTimeout = function(callback, delay) {
+                            let wrapper = function() {
+                                try {
+                                    callback();
+                                } catch (e) {
+                                    console.log("Caught an exception from the callback.");
+                                }
+                            };
+                            return originalSetTimeout(wrapper, delay);
+                        };
                     }
                 } catch (e) {
                     console.log("Unable to access iframe content due to cross-origin restrictions.");
                 }
             }
 
+            function blockMainPopups() {
+                window.open = function() {
+                    console.log("Blocked a window.open call in the main document!");
+                    return null;
+                };
+            }
+
             let iframe = document.getElementById('target-iframe');
             iframe.onload = function() {
                 blockPopups(iframe);
             };
+
+            blockMainPopups();
 
             let observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
@@ -44,11 +75,7 @@
 
             observer.observe(document.body, { childList: true, subtree: true });
 
-            // Block window.open in the main document
-            window.open = function() {
-                console.log("Blocked a window.open call in the main document!");
-                return null;
-            };
+            setInterval(blockMainPopups, 1000);
         });
     </script>
 </body>
