@@ -3,57 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Stream with Click Pop-up Block</title>
+    <title>Embed Stream with Overlay Controls</title>
     <style>
-        iframe {
+        body {
+            margin: 0;
+            position: relative;
+            overflow: hidden; /* Prevents scrollbars */
+        }
+        .iframe-container {
+            position: relative;
             width: 100%;
             height: 600px;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
             border: none;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden; /* Initially hidden */
+            transition: visibility 0.3s;
+        }
+        .overlay.visible {
+            visibility: visible; /* Show overlay when toggled */
+        }
+        .button {
+            background-color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .fullscreen-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10; /* Ensure it’s above the overlay */
         }
     </style>
 </head>
 <body>
 
-    <h1>Live Stream with Click Pop-up Block</h1>
+    <h1>Live Stream with Overlay Controls</h1>
 
-    <!-- Embed the iframe without sandbox to avoid detection -->
-    <iframe id="liveStream" 
-            src="https://stream.crichd.sc/update/willowcricket.php" 
-            allow="fullscreen; autoplay; encrypted-media"
-            allowfullscreen
-            referrerpolicy="no-referrer"
-            frameborder="0">
-    </iframe>
+    <div class="iframe-container">
+        <iframe id="liveStream" 
+                src="https://stream.crichd.sc/update/willowcricket.php" 
+                allow="fullscreen; autoplay; encrypted-media"
+                allowfullscreen
+                referrerpolicy="no-referrer"
+                frameborder="0">
+        </iframe>
+        <div class="overlay" id="overlay">
+            <button class="button" id="playButton">Play</button>
+            <button class="button" id="fullscreenButton">Fullscreen</button>
+        </div>
+    </div>
 
     <script>
-        // Override window.open globally to block new windows or tabs
-        window.open = function() {
-            console.log('Blocked an attempt to open a new window/tab!');
-            return null;
-        };
-
-        // Intercept clicks within the iframe and prevent pop-ups
         const iframe = document.getElementById('liveStream');
-        iframe.onload = function() {
-            try {
-                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        const overlay = document.getElementById('overlay');
+        const playButton = document.getElementById('playButton');
+        const fullscreenButton = document.getElementById('fullscreenButton');
 
-                // Intercept all click events inside the iframe
-                iframeDocument.addEventListener('click', function(event) {
-                    event.preventDefault();  // Block default click behavior that triggers pop-ups
-                    console.log('Blocked a click that could trigger a new window/tab!');
-                });
+        // Show overlay when the iframe is clicked
+        iframe.addEventListener('click', () => {
+            overlay.classList.toggle('visible'); // Toggle overlay visibility
+        });
 
-                // Block any context menu (right-click) inside the iframe
-                iframeDocument.addEventListener('contextmenu', function(event) {
-                    event.preventDefault();
-                    console.log('Blocked right-click context menu!');
-                });
-
-            } catch (error) {
-                console.log("Cross-origin restrictions prevent access to the iframe's content.");
+        // Play button functionality (try to play the iframe)
+        playButton.addEventListener('click', () => {
+            overlay.classList.remove('visible'); // Hide overlay
+            // You can try to send a play command to the iframe here, but may not work due to cross-origin
+            const iframeWindow = iframe.contentWindow;
+            if (iframeWindow) {
+                iframeWindow.postMessage('play', '*'); // Sending play command (if supported)
             }
-        };
+        });
+
+        // Fullscreen button functionality
+        fullscreenButton.addEventListener('click', () => {
+            if (iframe.requestFullscreen) {
+                iframe.requestFullscreen();
+            } else if (iframe.mozRequestFullScreen) { // Firefox
+                iframe.mozRequestFullScreen();
+            } else if (iframe.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+                iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) { // IE/Edge
+                iframe.msRequestFullscreen();
+            }
+        });
+
+        // Close overlay when clicking outside
+        overlay.addEventListener('click', (event) => {
+            if (event.target === overlay) {
+                overlay.classList.remove('visible');
+            }
+        });
     </script>
 
 </body>
