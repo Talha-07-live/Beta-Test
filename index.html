@@ -4,37 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Block Iframe Windows</title>
+    <style>
+        iframe {
+            pointer-events: none; /* Prevents any interaction */
+        }
+    </style>
 </head>
 <body>
     <h1>Iframe Blocker Example</h1>
-    <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400"></iframe>
+    <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" id="target-iframe"></iframe>
 
     <script>
-        function blockIframeWindows() {
-            let iframes = document.getElementsByTagName('iframe');
-            for (let i = 0; i < iframes.length; i++) {
-                let iframe = iframes[i];
+        document.addEventListener('DOMContentLoaded', function() {
+            let iframe = document.getElementById('target-iframe');
+            
+            iframe.onload = function() {
                 let contentWindow = iframe.contentWindow;
+
                 if (contentWindow) {
                     contentWindow.open = function() {
                         return null;
                     };
+
+                    // This sets strict content security policy
+                    let script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.innerHTML = `
+                        (function() {
+                            window.open = function() { return null; };
+                        })();
+                    `;
+                    contentWindow.document.head.appendChild(script);
                 }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            blockIframeWindows();
-
-            let observer = new MutationObserver(function(mutations) {
-                for (let mutation of mutations) {
-                    if (mutation.type === 'childList') {
-                        blockIframeWindows();
-                    }
-                }
-            });
-
-            observer.observe(document.body, { childList: true, subtree: true });
+            };
         });
     </script>
 </body>
