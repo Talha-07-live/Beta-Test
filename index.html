@@ -3,46 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Block Iframe Windows</title>
+    <title>Stay on Page</title>
 </head>
 <body>
     <h1>Iframe Blocker Example</h1>
     <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" id="target-iframe"></iframe>
 
     <script>
-        function blockPopupsAndKeepFocus() {
-            let originalOpen = window.open;
+        function blockPopupsAndRefocus() {
+            // Block window.open in the main document
             window.open = function() {
                 console.log("Blocked a window.open call!");
                 return null;
             };
 
-            window.addEventListener('focus', function() {
-                if (document.hidden) {
-                    console.log("Window lost focus, returning to main window...");
-                    window.focus();
-                }
-            });
-
+            // Refocus on the main window if it loses focus
             window.addEventListener('blur', function() {
                 setTimeout(() => {
-                    console.log("Window lost focus, returning to main window...");
+                    console.log("Refocusing on the main window...");
                     window.focus();
                 }, 100);
+            });
+
+            // Handle focus changes due to new windows or tabs
+            window.addEventListener('focus', function() {
+                if (document.hidden) {
+                    console.log("Main window lost focus, bringing it back...");
+                    window.focus();
+                }
             });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            blockPopupsAndKeepFocus();
+            blockPopupsAndRefocus();
 
             let observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     mutation.addedNodes.forEach(function(node) {
                         if (node.tagName === 'IFRAME') {
-                            blockPopupsAndKeepFocus();
+                            node.onload = function() {
+                                blockPopupsAndRefocus();
+                            };
                         }
                     });
                 });
             });
 
-            observer.observe(document.body, {
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
+    </script>
+</body>
+</html>
