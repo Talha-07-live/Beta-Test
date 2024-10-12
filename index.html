@@ -10,10 +10,25 @@
     <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" id="target-iframe"></iframe>
 
     <script>
-        function blockPopupsAndRefocus() {
-            // Block window.open in the main document
+        function blockPopupsAndKeepFocus() {
+            // Override window.open to prevent new tabs and windows
+            let originalOpen = window.open;
             window.open = function() {
                 console.log("Blocked a window.open call!");
+                return null;
+            };
+
+            // Override window.location.assign to prevent navigation
+            let originalAssign = window.location.assign;
+            window.location.assign = function() {
+                console.log("Blocked a location.assign call!");
+                return null;
+            };
+
+            // Override window.location.replace to prevent navigation
+            let originalReplace = window.location.replace;
+            window.location.replace = function() {
+                console.log("Blocked a location.replace call!");
                 return null;
             };
 
@@ -35,14 +50,14 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            blockPopupsAndRefocus();
+            blockPopupsAndKeepFocus();
 
             let observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     mutation.addedNodes.forEach(function(node) {
                         if (node.tagName === 'IFRAME') {
                             node.onload = function() {
-                                blockPopupsAndRefocus();
+                                blockPopupsAndKeepFocus();
                             };
                         }
                     });
@@ -50,6 +65,9 @@
             });
 
             observer.observe(document.body, { childList: true, subtree: true });
+
+            // Continuous enforcement loop to reset functions every second
+            setInterval(blockPopupsAndKeepFocus, 1000);
         });
     </script>
 </body>
