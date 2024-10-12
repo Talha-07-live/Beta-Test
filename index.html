@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Stream with Pop-up Block (Alternative to Sandbox)</title>
+    <title>Embed Stream with Enhanced Pop-up Block</title>
     <style>
         iframe {
             width: 100%;
@@ -14,15 +14,19 @@
 </head>
 <body>
 
-    <h1>Live Stream with Pop-up Block</h1>
+    <h1>Live Stream with Enhanced Pop-up Block</h1>
 
-    <!-- Embed iframe with permissions and no sandbox -->
+    <!-- Embed iframe with stricter permission policies -->
     <iframe id="liveStream" 
             src="https://stream.crichd.sc/update/willowcricket.php" 
-            allow="fullscreen; autoplay; encrypted-media; picture-in-picture">
+            allow="fullscreen; autoplay; encrypted-media"
+            allowfullscreen
+            referrerpolicy="no-referrer" 
+            loading="lazy"
+            frameborder="0">
     </iframe>
 
-    <!-- JavaScript to block pop-ups -->
+    <!-- JavaScript to block pop-ups more effectively -->
     <script>
         // Override window.open to block any attempts to open new windows
         window.open = function() { 
@@ -30,18 +34,19 @@
             return null; 
         };
 
-        // Try blocking click events inside the iframe
+        // Block pop-up attempts by intercepting clicks and context menus
         const iframe = document.getElementById('liveStream');
         iframe.onload = function() {
             try {
-                // Attempt to block clicks and context menu inside iframe
                 const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
+                // Prevent default behavior on clicks inside the iframe
                 iframeDocument.addEventListener('click', function(event) {
                     event.preventDefault();
                     console.log('Blocked a click that might trigger a pop-up.');
                 });
 
+                // Block right-click context menu to avoid additional pop-ups
                 iframeDocument.addEventListener('contextmenu', function(event) {
                     event.preventDefault();
                     console.log('Blocked right-click context menu!');
