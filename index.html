@@ -3,83 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Locked Down DOM</title>
+    <title>Block Pop-ups</title>
 </head>
 <body>
-    <h1>Locked Down DOM Example</h1>
+    <h1>Block Pop-ups Example</h1>
     <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" id="target-iframe"></iframe>
 
     <script>
-        function blockAllLinksAndRedirects() {
-            document.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    console.log("Blocked a link click!");
-                });
-            });
-
-            // Block any form of navigation
-            window.onbeforeunload = function() {
-                console.log("Blocked navigation attempt!");
-                return false;
-            };
-            
-            window.onhashchange = function() {
-                console.log("Blocked hash change!");
-                history.pushState(null, null, window.location.pathname);
-            };
-
-            // Override the click behavior of all elements to prevent redirects
-            document.querySelectorAll('*').forEach(element => {
-                element.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    console.log("Blocked a click event!");
-                });
-            });
-
-            // Prevent new windows and tabs from opening
+        function blockPopupsAndIntercept() {
+            // Block window.open
             window.open = function() {
                 console.log("Blocked a window.open call!");
                 return null;
             };
 
-            // Also handle iframes
-            let iframes = document.querySelectorAll('iframe');
-            iframes.forEach(iframe => {
-                try {
-                    let iframeWindow = iframe.contentWindow;
-                    if (iframeWindow) {
-                        iframeWindow.open = function() {
-                            console.log("Blocked a window.open call in the iframe!");
-                            return null;
-                        };
-                        iframeWindow.onbeforeunload = function() {
-                            console.log("Blocked iframe navigation attempt!");
-                            return false;
-                        };
-                        iframeWindow.onhashchange = function() {
-                            console.log("Blocked iframe hash change!");
-                            iframeWindow.history.pushState(null, null, iframeWindow.location.pathname);
-                        };
-
-                        iframeWindow.addEventListener('click', function(event) {
-                            event.preventDefault();
-                            console.log("Blocked a click event in the iframe!");
-                        }, true);
+            // Intercept setTimeout
+            let originalSetTimeout = window.setTimeout;
+            window.setTimeout = function(callback, delay) {
+                let wrapper = function() {
+                    try {
+                        callback();
+                    } catch (e) {
+                        console.log("Caught an exception from the callback.");
                     }
-                } catch (e) {
-                    console.log("Unable to access iframe content due to cross-origin restrictions.");
-                }
-            });
+                };
+                return originalSetTimeout(wrapper, delay);
+            };
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            blockAllLinksAndRedirects();
+            blockPopupsAndIntercept();
 
             let observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     if (mutation.addedNodes.length) {
-                        blockAllLinksAndRedirects();
+                        blockPopupsAndIntercept();
                     }
                 });
             });
@@ -87,7 +45,7 @@
             observer.observe(document.body, { childList: true, subtree: true });
 
             // Continuous enforcement loop
-            setInterval(blockAllLinksAndRedirects, 1000);
+            setInterval(blockPopupsAndIntercept, 1000);
         });
     </script>
 </body>
