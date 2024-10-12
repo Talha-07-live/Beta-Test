@@ -36,6 +36,28 @@
                 console.log('Pop-up blocked');
                 return null;
             };
+
+            // Use MutationObserver to monitor for new windows
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.addedNodes.length) {
+                        mutation.addedNodes.forEach(function(node) {
+                            if (node.tagName === 'A' && node.target === '_blank') {
+                                node.removeAttribute('target');
+                                node.addEventListener('click', function(event) {
+                                    event.preventDefault();
+                                    console.log('Pop-up blocked');
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+            observer.observe(iframe.contentDocument.body, {
+                childList: true,
+                subtree: true
+            });
         };
     </script>
 </body>
