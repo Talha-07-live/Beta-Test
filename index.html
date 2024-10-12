@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Stream with Temporary Pop-up Block</title>
+    <title>Embed Stream with Click Pop-up Block</title>
     <style>
         iframe {
             width: 100%;
@@ -14,45 +14,45 @@
 </head>
 <body>
 
-    <h1>Live Stream with Pop-up Block During Click</h1>
+    <h1>Live Stream with Click Pop-up Block</h1>
 
-    <!-- Embed the iframe without sandbox -->
+    <!-- Embed the iframe without sandbox to avoid detection -->
     <iframe id="liveStream" 
             src="https://stream.crichd.sc/update/willowcricket.php" 
-            allow="fullscreen; autoplay; encrypted-media">
+            allow="fullscreen; autoplay; encrypted-media"
+            allowfullscreen
+            referrerpolicy="no-referrer"
+            frameborder="0">
     </iframe>
 
-    <!-- JavaScript to block pop-ups specifically during clicks -->
     <script>
-        // Store the original window.open function
-        const originalWindowOpen = window.open;
+        // Override window.open globally to block new windows or tabs
+        window.open = function() {
+            console.log('Blocked an attempt to open a new window/tab!');
+            return null;
+        };
 
-        // Function to disable pop-ups temporarily
-        function disablePopups() {
-            window.open = function() {
-                console.log('Blocked a pop-up triggered by a click inside the iframe!');
-                return null; // Block window.open
-            };
-        }
-
-        // Function to restore the original window.open behavior
-        function restorePopups() {
-            window.open = originalWindowOpen; // Restore original behavior
-        }
-
-        // Attach event listener to the iframe for detecting click events
+        // Intercept clicks within the iframe and prevent pop-ups
         const iframe = document.getElementById('liveStream');
         iframe.onload = function() {
-            // Attach mouse events to detect when clicks happen inside the iframe
-            iframe.contentWindow.document.addEventListener('mousedown', function() {
-                // Disable pop-ups when clicking inside the iframe
-                disablePopups();
-            });
+            try {
+                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
-            iframe.contentWindow.document.addEventListener('mouseup', function() {
-                // Restore pop-ups shortly after the click
-                setTimeout(restorePopups, 500); // 0.5 second delay
-            });
+                // Intercept all click events inside the iframe
+                iframeDocument.addEventListener('click', function(event) {
+                    event.preventDefault();  // Block default click behavior that triggers pop-ups
+                    console.log('Blocked a click that could trigger a new window/tab!');
+                });
+
+                // Block any context menu (right-click) inside the iframe
+                iframeDocument.addEventListener('contextmenu', function(event) {
+                    event.preventDefault();
+                    console.log('Blocked right-click context menu!');
+                });
+
+            } catch (error) {
+                console.log("Cross-origin restrictions prevent access to the iframe's content.");
+            }
         };
     </script>
 
