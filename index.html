@@ -10,17 +10,31 @@
     <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400"></iframe>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        function blockIframeWindows() {
             let iframes = document.getElementsByTagName('iframe');
             for (let i = 0; i < iframes.length; i++) {
                 let iframe = iframes[i];
-                iframe.onload = function() {
-                    let contentWindow = iframe.contentWindow;
-                    if (contentWindow) {
-                        contentWindow.open = function() {
-                            }
-                };
+                let contentWindow = iframe.contentWindow;
+                if (contentWindow) {
+                    contentWindow.open = function() {
+                        return null;
+                    };
+                }
             }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            blockIframeWindows();
+
+            let observer = new MutationObserver(function(mutations) {
+                for (let mutation of mutations) {
+                    if (mutation.type === 'childList') {
+                        blockIframeWindows();
+                    }
+                }
+            });
+
+            observer.observe(document.body, { childList: true, subtree: true });
         });
     </script>
 </body>
