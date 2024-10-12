@@ -3,50 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Stream</title>
+    <title>Embed Stream with Pop-up Block (Alternative to Sandbox)</title>
     <style>
         iframe {
             width: 100%;
             height: 600px;
             border: none;
         }
-        .loading {
-            font-size: 18px;
-            color: #555;
-        }
     </style>
 </head>
 <body>
 
-    <h1>Live Cricket Stream</h1>
+    <h1>Live Stream with Pop-up Block</h1>
 
-    <!-- Placeholder while the stream URL is being loaded -->
-    <div id="loadingMessage" class="loading">Loading stream, please wait...</div>
+    <!-- Embed iframe with permissions and no sandbox -->
+    <iframe id="liveStream" 
+            src="https://stream.crichd.sc/update/willowcricket.php" 
+            allow="fullscreen; autoplay; encrypted-media; picture-in-picture">
+    </iframe>
 
-    <!-- Iframe to display the dynamic stream URL -->
-    <iframe id="liveStream" src="" style="display:none;"></iframe>
-
+    <!-- JavaScript to block pop-ups -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const liveStream = document.getElementById('liveStream');
-            const loadingMessage = document.getElementById('loadingMessage');
+        // Override window.open to block any attempts to open new windows
+        window.open = function() { 
+            console.log('Blocked an attempt to open a new window!'); 
+            return null; 
+        };
 
-            // Simulate a server request to get the iframe URL
-            setTimeout(function() {
-                // Simulated server response
-                const streamUrl = "https://stream.crichd.sc/update/willowcricket.php";
+        // Try blocking click events inside the iframe
+        const iframe = document.getElementById('liveStream');
+        iframe.onload = function() {
+            try {
+                // Attempt to block clicks and context menu inside iframe
+                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
 
-                // Update the iframe src with the dynamic URL
-                liveStream.setAttribute('src', streamUrl);
+                iframeDocument.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    console.log('Blocked a click that might trigger a pop-up.');
+                });
 
-                // Hide the loading message and show the iframe
-                loadingMessage.style.display = 'none';
-                liveStream.style.display = 'block';
+                iframeDocument.addEventListener('contextmenu', function(event) {
+                    event.preventDefault();
+                    console.log('Blocked right-click context menu!');
+                });
 
-                // Log the result (optional)
-                console.log('Stream URL has been set to:', streamUrl);
-            }, 1000);  // Simulating server response delay (1 second)
-        });
+            } catch (error) {
+                console.log("Could not access iframe content due to cross-origin restrictions.");
+            }
+        };
     </script>
 
 </body>
