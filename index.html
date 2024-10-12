@@ -4,45 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Block Iframe Windows</title>
-    <style>
-        iframe {
-            pointer-events: none; /* Prevents interaction */
-        }
-    </style>
 </head>
 <body>
     <h1>Iframe Blocker Example</h1>
-    <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" sandbox="allow-same-origin allow-scripts" id="target-iframe"></iframe>
+    <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" id="target-iframe"></iframe>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function blockIframeWindows(iframe) {
-                try {
-                    let iframeWindow = iframe.contentWindow;
-                    if (iframeWindow) {
-                        iframeWindow.open = function() {
-                            console.log("Blocked a window.open call in the iframe!");
-                            return null;
-                        };
-                        
-                        // Additional security measures: disable certain events
-                        iframeWindow.addEventListener('click', function(event) {
-                            event.stopPropagation();
-                            event.preventDefault();
-                            console.log("Blocked a click event in the iframe!");
-                        }, true);
-                        
-                        iframeWindow.addEventListener('contextmenu', function(event) {
-                            event.stopPropagation();
-                            event.preventDefault();
-                            console.log("Blocked a contextmenu event in the iframe!");
-                        }, true);
-                    }
-                } catch (e) {
-                    console.log("Unable to access iframe content due to cross-origin restrictions.");
-                }
-            }
+        function blockIframeWindows(iframe) {
+            try {
+                let iframeWindow = iframe.contentWindow;
+                if (iframeWindow) {
+                    iframeWindow.open = function() {
+                        console.log("Blocked a window.open call in the iframe!");
+                        return null;
+                    };
 
+                    // Additional security measures: disable certain events
+                    iframeWindow.addEventListener('click', function(event) {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        console.log("Blocked a click event in the iframe!");
+                    }, true);
+                    
+                    iframeWindow.addEventListener('contextmenu', function(event) {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        console.log("Blocked a contextmenu event in the iframe!");
+                    }, true);
+                }
+            } catch (e) {
+                console.log("Unable to access iframe content due to cross-origin restrictions.");
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
             let iframe = document.getElementById('target-iframe');
             blockIframeWindows(iframe);
 
