@@ -58,6 +58,19 @@
                 childList: true,
                 subtree: true
             });
+
+            // Intercept and prevent default actions for certain events
+            iframeWindow.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A' && event.target.target === '_blank') {
+                    event.preventDefault();
+                    console.log('Pop-up blocked');
+                }
+            }, true);
+
+            iframeWindow.addEventListener('submit', function(event) {
+                event.preventDefault();
+                console.log('Form submission blocked');
+            }, true);
         };
     </script>
 </body>
