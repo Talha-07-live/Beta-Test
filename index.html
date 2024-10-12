@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Stream with Enhanced Pop-up Block</title>
+    <title>Embed Stream with Temporary Pop-up Block</title>
     <style>
         iframe {
             width: 100%;
@@ -14,47 +14,45 @@
 </head>
 <body>
 
-    <h1>Live Stream with Enhanced Pop-up Block</h1>
+    <h1>Live Stream with Pop-up Block During Click</h1>
 
-    <!-- Embed iframe with stricter permission policies -->
+    <!-- Embed the iframe without sandbox -->
     <iframe id="liveStream" 
             src="https://stream.crichd.sc/update/willowcricket.php" 
-            allow="fullscreen; autoplay; encrypted-media"
-            allowfullscreen
-            referrerpolicy="no-referrer" 
-            loading="lazy"
-            frameborder="0">
+            allow="fullscreen; autoplay; encrypted-media">
     </iframe>
 
-    <!-- JavaScript to block pop-ups more effectively -->
+    <!-- JavaScript to block pop-ups specifically during clicks -->
     <script>
-        // Override window.open to block any attempts to open new windows
-        window.open = function() { 
-            console.log('Blocked an attempt to open a new window!'); 
-            return null; 
-        };
+        // Store the original window.open function
+        const originalWindowOpen = window.open;
 
-        // Block pop-up attempts by intercepting clicks and context menus
+        // Function to disable pop-ups temporarily
+        function disablePopups() {
+            window.open = function() {
+                console.log('Blocked a pop-up triggered by a click inside the iframe!');
+                return null; // Block window.open
+            };
+        }
+
+        // Function to restore the original window.open behavior
+        function restorePopups() {
+            window.open = originalWindowOpen; // Restore original behavior
+        }
+
+        // Attach event listener to the iframe for detecting click events
         const iframe = document.getElementById('liveStream');
         iframe.onload = function() {
-            try {
-                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            // Attach mouse events to detect when clicks happen inside the iframe
+            iframe.contentWindow.document.addEventListener('mousedown', function() {
+                // Disable pop-ups when clicking inside the iframe
+                disablePopups();
+            });
 
-                // Prevent default behavior on clicks inside the iframe
-                iframeDocument.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    console.log('Blocked a click that might trigger a pop-up.');
-                });
-
-                // Block right-click context menu to avoid additional pop-ups
-                iframeDocument.addEventListener('contextmenu', function(event) {
-                    event.preventDefault();
-                    console.log('Blocked right-click context menu!');
-                });
-
-            } catch (error) {
-                console.log("Could not access iframe content due to cross-origin restrictions.");
-            }
+            iframe.contentWindow.document.addEventListener('mouseup', function() {
+                // Restore pop-ups shortly after the click
+                setTimeout(restorePopups, 500); // 0.5 second delay
+            });
         };
     </script>
 
