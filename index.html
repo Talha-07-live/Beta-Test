@@ -7,11 +7,11 @@
 </head>
 <body>
     <h1>Iframe Blocker Example</h1>
-    <iframe src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400" id="target-iframe"></iframe>
+    <iframe id="target-iframe" src="https://stream.crichd.sc/update/willowcricket.php" width="600" height="400"></iframe>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            function blockIframeWindows(iframe) {
+            function blockPopups(iframe) {
                 try {
                     let iframeWindow = iframe.contentWindow;
                     if (iframeWindow) {
@@ -19,17 +19,6 @@
                             console.log("Blocked a window.open call in the iframe!");
                             return null;
                         };
-                        
-                        // Additional security measures: disable certain events
-                        iframeWindow.addEventListener('click', function(event) {
-                            event.stopPropagation();
-                            console.log("Intercepted a click event in the iframe!");
-                        }, true);
-                        
-                        iframeWindow.addEventListener('contextmenu', function(event) {
-                            event.stopPropagation();
-                            console.log("Intercepted a contextmenu event in the iframe!");
-                        }, true);
                     }
                 } catch (e) {
                     console.log("Unable to access iframe content due to cross-origin restrictions.");
@@ -37,13 +26,17 @@
             }
 
             let iframe = document.getElementById('target-iframe');
-            blockIframeWindows(iframe);
+            iframe.onload = function() {
+                blockPopups(iframe);
+            };
 
             let observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     mutation.addedNodes.forEach(function(node) {
                         if (node.tagName === 'IFRAME') {
-                            blockIframeWindows(node);
+                            node.onload = function() {
+                                blockPopups(node);
+                            };
                         }
                     });
                 });
