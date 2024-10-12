@@ -61,9 +61,9 @@
         window.onload = function () {
             // List of allowed domains
             const allowedDomains = [
-                'https://talhas.crickett.rf.gd/',
-                'https://wizardfc.official.rf.gd/',
-                'https://bhaichurikorbenna.servert.rf.gd/'
+                '',
+                '',
+                ''
             ];
             const referrer = document.referrer;
             // Check if the request is coming from any of the allowed domains
@@ -81,7 +81,7 @@
                 }
             });
             // Load the iframe
-            iframe.src = 'https://enx.gdplayertv.to/live-tv/a-sports-tv/?embed=1&autoplay=1&mute=1';
+            iframe.src = 'https://stream.crichd.sc/update/willowcricket.php';
             // Hide the footer text after 10 seconds
             setTimeout(function () {
                 document.querySelector('.footer-text').style.display = 'none';
@@ -141,7 +141,7 @@
     <div class="telegram-button" onclick="openTelegram()">
         <img src="https://s1.gifyu.com/images/SAe3R.png" alt="Telegram">
     </div>
-    <iframe id="stream-iframe" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
+    <iframe id="stream-iframe" sandbox="allow-same-origin allow-scripts" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
     <!-- Add Bootstrap JS Bundle (includes Popper) from cdnjs -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
