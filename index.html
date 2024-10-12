@@ -96,7 +96,7 @@
 
             // Listen for messages from the iframe
             window.addEventListener('message', function (event) {
-                if (event.origin !== 'https://stream.crichd.sc') return; // Change this to the actual origin if needed
+                if (event.origin !== 'https://crichdplayer.com') return; // Change this to the actual origin if needed
                 if (event.data && event.data.type === 'prevent-open') {
                     alert('Blocked a new tab from opening.');
                 }
