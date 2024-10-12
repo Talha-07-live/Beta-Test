@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embed Stream with Overlay Controls</title>
+    <title>Embed Stream with Cloudflare Worker Proxy</title>
     <style>
         body {
             margin: 0;
             position: relative;
-            overflow: hidden; /* Prevents scrollbars */
+            overflow: hidden;
         }
         .iframe-container {
             position: relative;
@@ -26,15 +26,15 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             justify-content: center;
             align-items: center;
-            visibility: hidden; /* Initially hidden */
+            visibility: hidden;
             transition: visibility 0.3s;
         }
         .overlay.visible {
-            visibility: visible; /* Show overlay when toggled */
+            visibility: visible;
         }
         .button {
             background-color: #fff;
@@ -49,17 +49,17 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            z-index: 10; /* Ensure it’s above the overlay */
+            z-index: 10;
         }
     </style>
 </head>
 <body>
 
-    <h1>Live Stream with Overlay Controls</h1>
+    <h1>Live Stream with Cloudflare Worker Proxy</h1>
 
     <div class="iframe-container">
         <iframe id="liveStream" 
-                src="https://stream.crichd.sc/update/willowcricket.php" 
+                src="https://astrocricket.talha07.workers.dev/"  <!-- Replace with your Cloudflare Worker URL -->
                 allow="fullscreen; autoplay; encrypted-media"
                 allowfullscreen
                 referrerpolicy="no-referrer"
@@ -79,16 +79,16 @@
 
         // Show overlay when the iframe is clicked
         iframe.addEventListener('click', () => {
-            overlay.classList.toggle('visible'); // Toggle overlay visibility
+            overlay.classList.toggle('visible');
         });
 
         // Play button functionality (try to play the iframe)
         playButton.addEventListener('click', () => {
-            overlay.classList.remove('visible'); // Hide overlay
-            // You can try to send a play command to the iframe here, but may not work due to cross-origin
+            overlay.classList.remove('visible');
+            // Attempt to send a play command to the iframe
             const iframeWindow = iframe.contentWindow;
             if (iframeWindow) {
-                iframeWindow.postMessage('play', '*'); // Sending play command (if supported)
+                iframeWindow.postMessage('play', '*');
             }
         });
 
