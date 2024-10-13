@@ -1,137 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Cricket Stream</title>
-
-    <!-- Add Bootstrap CSS from cdnjs -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <title>Ad Blocker Script</title>
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-            position: relative;
+        /* Hide common ad elements by default */
+        .ad, .ads, .advertisement, .sponsored {
+            display: none !important;
         }
 
-        iframe {
-            width: 100%;
-            height: 100vh;
-            border: none;
+        iframe[src*="ad"], iframe[src*="ads"], iframe[src*="sponsored"] {
+            display: none !important;
         }
 
-        .footer-text {
-            position: absolute;
-            top: 0;
-            width: 100%;
-            text-align: center;
-            color: red;
-            background-color: transparent;
-            font-size: 85%;
-            font-weight: bold;
-            white-space: nowrap;
-            overflow: hidden;
-            z-index: 10;
-        }
-
-        .footer-text span {
-            display: inline-block;
-            padding-left: 95%;
-            animation: slide 25s linear infinite;
-        }
-
-        @keyframes slide {
-            0% {
-                transform: translateX(8%);
-            }
-
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-
-        /* Telegram Button */
-        .telegram-button {
-            position: absolute;
-            top: 1px; /* Adjust to move up/down */
-            left: 1px; /* Adjust to move left/right */
-            z-index: 20;
-            cursor: pointer;
-        }
-
-        .telegram-button img {
-            width: 60px;
-            height: 60px;
-            border-radius: 15%;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        /* Hide inline ad images */
+        img[src*="ad"], img[src*="ads"], img[src*="sponsored"] {
+            display: none !important;
         }
     </style>
 
-    <!-- Add jQuery from cdnjs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
     <script>
-        window.onload = function () {
-            // List of allowed domains
-            const allowedDomains = [
-                '',
-                '',
-                ''
+        // Block ads using JavaScript once the DOM has loaded
+        window.addEventListener('load', function () {
+            // List of common ad selectors to target
+            var adSelectors = [
+                'iframe[src*="ad"]', 
+                'iframe[src*="ads"]', 
+                'script[src*="ad"]', 
+                'img[src*="ad"]', 
+                '.ad', 
+                '.ads', 
+                '.advertisement', 
+                '.sponsored'
             ];
 
-            const referrer = document.referrer;
-
-            // Check if the request is coming from any of the allowed domains
-            const isAllowed = allowedDomains.some(domain => referrer.startsWith(domain));
-
-            if (!isAllowed) {
-                document.body.innerHTML = '<h1>চুরি করা মহাপাপ (By Order Of Talha, The Creator Of This Page)</h1>';
-                return;
-            }
-
-            const iframe = document.getElementById('stream-iframe');
-
-            // Listen for messages from the iframe
-            window.addEventListener('message', function (event) {
-                if (event.origin !== 'https://crichdplayer.com') return; // Change this to the actual origin if needed
-                if (event.data && event.data.type === 'prevent-open') {
-                    alert('Blocked a new tab from opening.');
-                }
+            // Iterate over each selector and remove matching elements
+            adSelectors.forEach(function (selector) {
+                var elements = document.querySelectorAll(selector);
+                elements.forEach(function (element) {
+                    element.remove(); // Remove ad elements from the DOM
+                });
             });
 
-            // Load the iframe
-            iframe.src = 'https://stream.crichd.sc/update/willowcricket.php';
+            // Optional: Clean up intervals and popups
+            blockPopupIntervals();
+        });
 
-            // Hide the footer text after 10 seconds
-            setTimeout(function () {
-                document.querySelector('.footer-text').style.display = 'none';
-            }, 25000); // 25 seconds delay to hide the text
-        }
+        // Optional function to block popup intervals
+        function blockPopupIntervals() {
+            // Commonly, ads use setInterval() to inject elements into the DOM
+            var originalSetInterval = window.setInterval;
+            window.setInterval = function(func, delay) {
+                if (func.toString().includes("ad") || func.toString().includes("popup")) {
+                    console.log("Ad or popup script detected and blocked.");
+                    return; // Block interval if it's related to ads
+                }
+                return originalSetInterval(func, delay);
+            };
 
-        function openTelegram() {
-            window.open('https://t.me/talhasmovie_request_bot', '_blank');
+            // Similar handling for setTimeout (sometimes used for popups)
+            var originalSetTimeout = window.setTimeout;
+            window.setTimeout = function(func, delay) {
+                if (func.toString().includes("ad") || func.toString().includes("popup")) {
+                    console.log("Ad or popup timeout detected and blocked.");
+                    return;
+                }
+                return originalSetTimeout(func, delay);
+            };
         }
     </script>
 </head>
-
 <body>
+    <h1>Example Page with Ad Blocker</h1>
+    <p>This page demonstrates how to block ads using a basic HTML and JavaScript script.</p>
 
-    <div class="footer-text">
-        <span>Welcome to Talha's Stream, You're Watching SSC 1 HD Live on talhas.stream.000.pe</span>
-    </div>
-
-    <!-- Telegram Button -->
-    <div class="telegram-button" onclick="openTelegram()">
-        <img src="https://s1.gifyu.com/images/SAe3R.png" alt="Telegram">
-    </div>
-
-    <iframe id="stream-iframe" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-downloads" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
-
-    <!-- Add Bootstrap JS Bundle (includes Popper) from cdnjs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <!-- Example elements to simulate ads -->
+    <iframe src="https://stream.crichd.sc/update/willowcricket.php"></iframe>
+    <script src="https://example.com/ad-script.js"></script>
+    <img src="https://example.com/ad-banner.jpg" alt="Ad Banner">
+    <div class="ad">Ad content here</div>
 </body>
-
 </html>
