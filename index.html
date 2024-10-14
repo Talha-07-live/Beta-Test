@@ -3,132 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iframe Fullscreen with Professional Button</title>
-    <style>
-        /* Make the body fill the entire viewport */
-        body {
-            margin: 0; /* Remove default body margin */
-            overflow: hidden; /* Prevent scrollbars */
-        }
-
-        /* Style for iframe */
-        iframe {
-            width: 100vw; /* Full width of the viewport */
-            height: 100vh; /* Full height of the viewport */
-            border: none; /* No border */
-        }
-
-        /* Create an overlay to block interactions */
-        .iframe-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            pointer-events: none; /* Allow pointer events to be blocked */
-        }
-
-        /* Wrapper to hold iframe and overlay */
-        .iframe-wrapper {
-            position: relative;
-            width: 100vw; /* Full width of the viewport */
-            height: 100vh; /* Full height of the viewport */
-        }
-
-        /* Enable this class to block interaction */
-        .block-interaction .iframe-overlay {
-            pointer-events: auto;
-        }
-
-        /* Style for the fullscreen button */
-        #fullscreenButton {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 10; /* Make sure button is above the overlay */
-            transition: opacity 0.3s ease; /* Smooth transition */
-            opacity: 0; /* Initially hidden */
-            visibility: hidden; /* Initially hidden */
-        }
-
-        /* Show button when active */
-        .show-button #fullscreenButton {
-            opacity: 1;
-            visibility: visible;
-        }
-    </style>
+    <title>Embed JW Player with Control</title>
 </head>
 <body>
-    <div class="iframe-wrapper">
-        <iframe id="videoIframe" src="https://talha-07-live.github.io/Beta-Tsting/"></iframe>
-        <div class="iframe-overlay" onclick="toggleButton()"></div> <!-- This overlay blocks all interaction -->
-        <button id="fullscreenButton" onclick="goFullScreen()">Go Fullscreen</button>
-    </div>
 
-    <script>
-        let timeout; // Variable to store the timeout
-        const iframeWrapper = document.querySelector('.iframe-wrapper');
-        const fullscreenButton = document.getElementById('fullscreenButton');
+<div style="overflow: hidden; width: 800px; height: 500px; position: relative;">
+    <iframe 
+        src="https://www.bdixiptvhub.xyz/play/342" 
+        style="position: absolute; top: -100px; left: -100px; width: 1000px; height: 700px;" 
+        frameborder="0" 
+        allowfullscreen 
+        loading="lazy">
+    </iframe>
+</div>
 
-        // Function to toggle the visibility of the fullscreen button
-        function toggleButton() {
-            if (fullscreenButton.style.opacity === "1") {
-                // Hide button if it's already visible
-                fullscreenButton.style.opacity = "0";
-                fullscreenButton.style.visibility = "hidden";
-            } else {
-                // Show button if it's hidden
-                fullscreenButton.style.opacity = "1";
-                fullscreenButton.style.visibility = "visible";
-                resetTimeout(); // Reset the timeout
-            }
-        }
-
-        // Function to go fullscreen for the iframe
-        function goFullScreen() {
-            if (iframeWrapper.requestFullscreen) {
-                iframeWrapper.requestFullscreen();
-            } else if (iframeWrapper.mozRequestFullScreen) { // Firefox
-                iframeWrapper.mozRequestFullScreen();
-            } else if (iframeWrapper.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-                iframeWrapper.webkitRequestFullscreen();
-            } else if (iframeWrapper.msRequestFullscreen) { // IE/Edge
-                iframeWrapper.msRequestFullscreen();
-            }
-
-            // Block interaction during fullscreen
-            iframeWrapper.classList.add('block-interaction');
-            fullscreenButton.style.opacity = "1"; // Ensure button is visible in fullscreen
-            fullscreenButton.style.visibility = "visible";
-
-            // Detect fullscreen exit and remove interaction block when exiting fullscreen
-            document.addEventListener('fullscreenchange', function() {
-                if (!document.fullscreenElement) {
-                    iframeWrapper.classList.remove('block-interaction');
-                }
-            });
-
-            resetTimeout(); // Reset the timeout for hiding the button
-        }
-
-        // Reset the timeout for hiding the button
-        function resetTimeout() {
-            clearTimeout(timeout); // Clear any existing timeout
-            timeout = setTimeout(() => {
-                fullscreenButton.style.opacity = "0"; // Hide the button after 4 seconds
-                fullscreenButton.style.visibility = "hidden"; // Set visibility to hidden
-            }, 4000); // Hide after 4 seconds
-        }
-
-        // Initially block interaction
-        iframeWrapper.classList.add('block-interaction');
-    </script>
 </body>
 </html>
