@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Iframe Sandbox Example</title>
+    <title>Iframe with Navigation Prevention</title>
     <style>
         /* Optional styling for your iframe */
         iframe {
@@ -15,15 +15,17 @@
 </head>
 <body>
 
-    <h1>Embedded Video Player with Sandbox</h1>
+    <h1>Embedded Video Player with Navigation Prevention</h1>
     
-    <!-- Advanced Iframe with Sandbox Permissions -->
+    <!-- Iframe with Advanced Permissions -->
     <iframe 
+        id="videoIframe"
         src="https://stream.crichd.sc/update/willowcricket.php" 
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-top-navigation-by-user-activation">
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-downloads"
+        allow="fullscreen; accelerometer; autoplay; encrypted-media; camera; microphone; geolocation; clipboard-write; payment">
     </iframe>
     
-    <p>Note: Unwanted pop-ups and new windows should be blocked.</p>
+    <p>Note: Navigation away from this page is blocked.</p>
 
     <script>
         // Override window.open to block new windows or tabs
@@ -39,6 +41,25 @@
                 console.log("Blocked a link from opening a new tab.");
             }
         }, true);
+
+        // Prevent navigation away from the iframe
+        const iframe = document.getElementById('videoIframe');
+        iframe.onload = function() {
+            // Listen for navigation attempts
+            const iframeWindow = iframe.contentWindow;
+
+            // Override the location.replace method to prevent navigation
+            iframeWindow.location.replace = function(url) {
+                console.log("Blocked navigation to: " + url);
+                return null; // Prevent navigation
+            };
+
+            // Optionally, prevent any other methods that can change the location
+            iframeWindow.addEventListener('beforeunload', function(event) {
+                event.preventDefault();
+                event.returnValue = ''; // Prompt user if they try to leave
+            });
+        };
     </script>
 
 </body>
