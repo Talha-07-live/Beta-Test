@@ -3,83 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ad Blocker Script</title>
-
-    <style>
-        /* Hide common ad elements by default */
-        .ad, .ads, .advertisement, .sponsored {
-            display: none !important;
-        }
-
-        iframe[src*="ad"], iframe[src*="ads"], iframe[src*="sponsored"] {
-            display: none !important;
-        }
-
-        /* Hide inline ad images */
-        img[src*="ad"], img[src*="ads"], img[src*="sponsored"] {
-            display: none !important;
-        }
-    </style>
-
+    <title>Sandbox Bypass Test</title>
     <script>
-        // Block ads using JavaScript once the DOM has loaded
-        window.addEventListener('load', function () {
-            // List of common ad selectors to target
-            var adSelectors = [
-                'iframe[src*="ad"]', 
-                'iframe[src*="ads"]', 
-                'script[src*="ad"]', 
-                'img[src*="ad"]', 
-                '.ad', 
-                '.ads', 
-                '.advertisement', 
-                '.sponsored'
-            ];
+        // This function tries to stop frame-busting scripts
+        window.onload = function() {
+            if (window.top !== window.self) {
+                // Prevent being redirected out of the iframe
+                window.top = window.self;
+            }
+        };
 
-            // Iterate over each selector and remove matching elements
-            adSelectors.forEach(function (selector) {
-                var elements = document.querySelectorAll(selector);
-                elements.forEach(function (element) {
-                    element.remove(); // Remove ad elements from the DOM
-                });
-            });
-
-            // Optional: Clean up intervals and popups
-            blockPopupIntervals();
+        // Optional: Communicate with the iframe (only if postMessage API is allowed)
+        window.addEventListener("message", function(event) {
+            // Receive and process messages from the iframe if needed
+            console.log("Message from iframe:", event.data);
         });
-
-        // Optional function to block popup intervals
-        function blockPopupIntervals() {
-            // Commonly, ads use setInterval() to inject elements into the DOM
-            var originalSetInterval = window.setInterval;
-            window.setInterval = function(func, delay) {
-                if (func.toString().includes("ad") || func.toString().includes("popup")) {
-                    console.log("Ad or popup script detected and blocked.");
-                    return; // Block interval if it's related to ads
-                }
-                return originalSetInterval(func, delay);
-            };
-
-            // Similar handling for setTimeout (sometimes used for popups)
-            var originalSetTimeout = window.setTimeout;
-            window.setTimeout = function(func, delay) {
-                if (func.toString().includes("ad") || func.toString().includes("popup")) {
-                    console.log("Ad or popup timeout detected and blocked.");
-                    return;
-                }
-                return originalSetTimeout(func, delay);
-            };
-        }
     </script>
 </head>
 <body>
-    <h1>Example Page with Ad Blocker</h1>
-    <p>This page demonstrates how to block ads using a basic HTML and JavaScript script.</p>
+    <h1>Embedding Content</h1>
+    <iframe 
+        src="https://stream.crichd.sc/update/willowcricket.php" 
+        sandbox="allow-scripts allow-same-origin" 
+        style="width: 100%; height: 500px; border: none;">
+    </iframe>
 
-    <!-- Example elements to simulate ads -->
-    <iframe src="https://stream.crichd.sc/update/willowcricket.php"></iframe>
-    <script src="https://example.com/ad-script.js"></script>
-    <img src="https://example.com/ad-banner.jpg" alt="Ad Banner">
-    <div class="ad">Ad content here</div>
+    <script>
+        // Example of sending a message to the iframe if you control both ends
+        const iframe = document.querySelector('iframe');
+        iframe.onload = function() {
+            iframe.contentWindow.postMessage('Hello from parent!', '*');
+        };
+    </script>
 </body>
 </html>
