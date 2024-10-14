@@ -3,37 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iframe Ad Block</title>
+    <title>Iframe Ad Block - Advanced</title>
 </head>
 <body>
     <h1>Embedded Iframe</h1>
     
-    <!-- Your iframe with the provided link -->
+    <!-- Your iframe -->
     <iframe src="https://talha-07-live.github.io/Beta-Tsting/" width="100%" height="600"></iframe>
 
-    <!-- Script to block new windows or tabs inside the iframe -->
+    <!-- Advanced script to block all new windows or tabs from opening inside the iframe -->
     <script>
-        // Block window.open from being called within the iframe
-        function preventWindowOpen(iframe) {
+        // Block window.open and other methods that can trigger new tabs or windows
+        function blockPopupMethods(iframe) {
             iframe.onload = function() {
                 const iframeWindow = iframe.contentWindow;
-                if (iframeWindow) {
-                    iframeWindow.open = function() {
-                        console.log("Blocked window.open");
-                        return null;
-                    };
-                }
-            };
-        }
+                const iframeDocument = iframe.contentDocument;
 
-        // Disable target="_blank" inside iframe
-        function preventTargetBlank(iframe) {
-            iframe.onload = function() {
-                const links = iframe.contentDocument.getElementsByTagName('a');
+                // Block window.open
+                iframeWindow.open = function() {
+                    console.log("Blocked window.open");
+                    return null;
+                };
+
+                // Block window.location.assign and other redirects
+                iframeWindow.location.assign = function() {
+                    console.log("Blocked window.location.assign");
+                };
+                iframeWindow.location.replace = function() {
+                    console.log("Blocked window.location.replace");
+                };
+
+                // Block all event listeners on the document that could trigger new tabs/windows
+                const preventEventActions = ['click', 'contextmenu', 'mousedown', 'mouseup', 'dblclick'];
+                preventEventActions.forEach(event => {
+                    iframeDocument.addEventListener(event, function(e) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        console.log("Blocked " + event);
+                    }, true);
+                });
+
+                // Block all target="_blank" links inside the iframe
+                const links = iframeDocument.getElementsByTagName('a');
                 for (let i = 0; i < links.length; i++) {
                     if (links[i].target === '_blank') {
                         links[i].target = '_self';
                     }
+                }
+
+                // Block any script that tries to execute window.open or similar methods dynamically
+                const scripts = iframeDocument.getElementsByTagName('script');
+                for (let i = 0; i < scripts.length; i++) {
+                    scripts[i].parentNode.removeChild(scripts[i]); // Remove any inline scripts
                 }
             };
         }
@@ -41,8 +62,7 @@
         window.addEventListener('DOMContentLoaded', function() {
             const iframe = document.querySelector('iframe');
             if (iframe) {
-                preventWindowOpen(iframe);
-                preventTargetBlank(iframe);
+                blockPopupMethods(iframe);
             }
         });
     </script>
