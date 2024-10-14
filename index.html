@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iframe with Navigation Prevention</title>
+    <title>Iframe with Navigation Block</title>
     <style>
-        /* Optional styling for your iframe */
+        /* Styling for your iframe */
         iframe {
             width: 100%;
             height: 500px;
@@ -15,9 +15,9 @@
 </head>
 <body>
 
-    <h1>Embedded Video Player with Navigation Prevention</h1>
+    <h1>Embedded Video Player with Navigation Block</h1>
     
-    <!-- Iframe with Advanced Permissions -->
+    <!-- Iframe with Sandbox Permissions -->
     <iframe 
         id="videoIframe"
         src="https://stream.crichd.sc/update/willowcricket.php" 
@@ -42,23 +42,23 @@
             }
         }, true);
 
-        // Prevent navigation away from the iframe
-        const iframe = document.getElementById('videoIframe');
-        iframe.onload = function() {
-            // Listen for navigation attempts
+        // Function to monitor iframe content for navigation
+        function monitorIframe(iframe) {
             const iframeWindow = iframe.contentWindow;
 
-            // Override the location.replace method to prevent navigation
-            iframeWindow.location.replace = function(url) {
-                console.log("Blocked navigation to: " + url);
-                return null; // Prevent navigation
-            };
+            // Monitor for navigation events
+            const originalLocation = iframeWindow.location.href;
+            setInterval(function() {
+                if (iframeWindow.location.href !== originalLocation) {
+                    console.log("Blocked navigation attempt to: " + iframeWindow.location.href);
+                    iframeWindow.location.href = originalLocation; // Revert to original location
+                }
+            }, 100); // Check every 100 milliseconds
+        }
 
-            // Optionally, prevent any other methods that can change the location
-            iframeWindow.addEventListener('beforeunload', function(event) {
-                event.preventDefault();
-                event.returnValue = ''; // Prompt user if they try to leave
-            });
+        // Start monitoring after iframe loads
+        document.getElementById('videoIframe').onload = function() {
+            monitorIframe(this);
         };
     </script>
 
