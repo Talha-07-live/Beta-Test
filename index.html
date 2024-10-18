@@ -1,57 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Stream</title>
-
+    <title>Live Stream Embed</title>
     <style>
-        body {
+        body, html {
             margin: 0;
             padding: 0;
-        }
-
-        .iframe-container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        iframe {
             width: 100%;
             height: 100%;
+        }
+        object {
+            width: 100%;
+            height: 100vh;
             border: none;
         }
     </style>
-
-    <script>
-        window.onload = function () {
-            const iframe = document.getElementById('stream-iframe');
-            iframe.src = 'https://streamhd247.info/sourcecricket.html';
-
-            // Adjust the iframe's width and height for a desktop-like view on mobile
-            const setDesktopViewport = () => {
-                const scaleFactor = window.innerWidth / 1280; // Adjust based on a typical desktop width (1280px)
-                document.body.style.transform = `scale(${scaleFactor})`;
-                document.body.style.transformOrigin = '0 0';
-                document.body.style.width = `${1280}px`;
-            };
-
-            setDesktopViewport();
-
-            window.addEventListener('resize', setDesktopViewport); // Recalculate on window resize
-        }
-    </script>
 </head>
-
 <body>
-
-    <div class="iframe-container">
-        <iframe id="stream-iframe" sandbox="allow-same-origin allow-scripts allow-popups" frameborder="0" allowfullscreen></iframe>
-    </div>
-
+    <object data="https://streamhd247.info/sourcecricket.html" type="text/html">
+        <p>Your browser does not support this content.</p>
+    </object>
 </body>
-
 </html>
