@@ -11,18 +11,14 @@
             margin: 0;
             padding: 0;
             background-color: #f0f0f0;
-            position: relative;
         }
 
-        /* Ensures the iframe content is scaled to fit the container */
+        /* Make iframe fully responsive */
         iframe {
-            width: 100%;
+            display: block;
+            width: 100vw; /* Full viewport width */
             height: 100vh; /* Full viewport height */
             border: none;
-            box-sizing: border-box;
-            transform: scale(0.99); /* Slight scaling to fit content */
-            transform-origin: 0 0; /* Scale from top-left */
-            overflow: hidden;
         }
 
         .footer-text {
