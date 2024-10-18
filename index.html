@@ -16,14 +16,14 @@
 
         iframe {
             width: 100%;
-            height: 100vh;
+            height: calc(100vh - 30px); /* Adjusted to prevent overflow */
             border: none;
             box-sizing: border-box;
             max-width: 100%;
-            max-height: 100vh;
+            max-height: calc(100vh - 30px); /* Adjusted to prevent overflow */
             overflow: hidden;
         }
-        
+
         .footer-text {
             position: absolute;
             top: 0;
@@ -54,18 +54,18 @@
             }
         }
 
-        /* Telegram Button */
+        /* Adjusted Telegram Button */
         .telegram-button {
             position: absolute;
-            top: 1px; /* Adjust to move up/down */
-            left: 1px; /* Adjust to move left/right */
-            z-index: 15%;
+            top: 10px; /* Moved down to avoid overlapping */
+            left: 10px; /* Moved slightly right */
+            z-index: 15;
             cursor: pointer;
         }
 
         .telegram-button img {
-            width: 60px;
-            height: 60px;
+            width: 50px; /* Reduced size */
+            height: 50px;
             border-radius: 20%;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
@@ -104,7 +104,7 @@
             // Load the iframe
             iframe.src = 'https://streamhd247.info/sourcecricket.html';
 
-            // Hide the footer text after 10 seconds
+            // Hide the footer text after 25 seconds
             setTimeout(function () {
                 document.querySelector('.footer-text').style.display = 'none';
             }, 25000); // 25 seconds delay to hide the text
@@ -119,7 +119,7 @@
 <body>
 
     <div class="footer-text">
-        <span>Welcome to Talha's Stream, You're Sky Cricket Live on talhas.stream.000.pe</span>
+        <span>Welcome to Talha's Stream, You're Watching Sky Cricket Live on talhas.stream.000.pe</span>
     </div>
 
     <!-- Telegram Button -->
@@ -127,6 +127,7 @@
         <img src="https://s1.gifyu.com/images/SAe3R.png" alt="Telegram">
     </div>
 
-    <iframe id="stream-iframe" sandbox="allow-same-origin allow-scripts" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
+    <iframe id="stream-iframe" sandbox="allow-same-origin allow-scripts" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; idle-detection" allowfullscreen></iframe>
+
 </body>
 </html>
