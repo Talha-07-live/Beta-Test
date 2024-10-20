@@ -3,23 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Stream</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Responsive Iframe Embed</title>
     <style>
-        body, html {
+        /* Basic reset to remove margin/padding */
+        * {
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
+            box-sizing: border-box;
         }
-        iframe {
+
+        /* Styling for the body */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        /* Responsive iframe container */
+        .responsive-iframe {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio (change if needed) */
+            background-color: #000; /* Background color while loading */
+        }
+
+        /* Actual iframe styling */
+        .responsive-iframe iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            border: none;
+            border: 0;
+        }
+
+        /* Optional: Style your heading */
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
         }
     </style>
 </head>
 <body>
-    <iframe src="https://streamhd247.info/sourcecricket.html" allowfullscreen></iframe>
+
+    <h1>Live Cricket Stream</h1>
+
+    <div class="responsive-iframe">
+        <iframe src="https://streamhd247.info/sourcecricket.html" frameborder="0" allowfullscreen></iframe>
+    </div>
+
 </body>
 </html>
