@@ -1,61 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Responsive Iframe Embed</title>
+    <title>Live Cricket Stream</title>
+
     <style>
-        /* Basic reset */
-        * {
+        body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Page background and font styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #1b1b1b;
-            padding: 20px;
-        }
-
-        /* Fullscreen iframe container */
-        .iframe-container {
+            background-color: #f0f0f0;
             position: relative;
-            width: 100%;
-            height: 100vh; /* Full height of the viewport */
-            background-color: #000;
-            overflow: hidden;
         }
 
-        /* Forcing the iframe to scale content */
         iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw; /* Full width of the viewport */
-            height: 100vh; /* Full height of the viewport */
-            transform: scale(1); /* No scaling initially */
-            transform-origin: 0 0; /* Scale from the top left */
+            width: 100%;
+            height: 100vh;
             border: none;
         }
 
-        /* Optional: Style for the heading */
-        h1 {
+        .footer-text {
+            position: absolute;
+            top: 0;
+            width: 100%;
             text-align: center;
-            margin-bottom: 20px;
-            color: #fff;
+            color: red;
+            background-color: transparent;
+            font-size: 85%;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .footer-text span {
+            display: inline-block;
+            padding-left: 95%;
+            animation: slide 25s linear infinite;
+        }
+
+        @keyframes slide {
+            0% {
+                transform: translateX(8%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Telegram Button */
+        .telegram-button {
+            position: absolute;
+            top: 1px; /* Adjust to move up/down */
+            left: 1px; /* Adjust to move left/right */
+            z-index: 15%;
+            cursor: pointer;
+        }
+
+        .telegram-button img {
+            width: 60px;
+            height: 60px;
+            border-radius: 20%;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
     </style>
+
+    <script>
+        window.onload = function () {
+            // List of allowed domains
+            const allowedDomains = [
+                '',
+                '',
+                '',
+                ''
+            ];
+
+            const referrer = document.referrer;
+
+            // Check if the request is coming from any of the allowed domains
+            const isAllowed = allowedDomains.some(domain => referrer.startsWith(domain));
+
+            if (!isAllowed) {
+                document.body.innerHTML = '<h1>চুরি করা মহাপাপ (By Order Of Talha, The Creator Of This Page)</h1>';
+                return;
+            }
+
+            const iframe = document.getElementById('stream-iframe');
+
+            // Listen for messages from the iframe
+            window.addEventListener('message', function (event) {
+                if (event.origin !== 'https://streamhd247.info/') return; // Change this to the actual origin if needed
+                if (event.data && event.data.type === 'prevent-open') {
+                    alert('Blocked a new tab from opening.');
+                }
+            });
+
+            // Load the iframe
+            iframe.src = 'https://streamhd247.info/sourcecricket.html';
+
+            // Hide the footer text after 10 seconds
+            setTimeout(function () {
+                document.querySelector('.footer-text').style.display = 'none';
+            }, 25000); // 25 seconds delay to hide the text
+        }
+
+        function openTelegram() {
+            window.open('https://t.me/talhasmovie_request_bot', '_blank');
+        }
+    </script>
 </head>
+
 <body>
 
-    <h1>Live Cricket Stream</h1>
-
-    <div class="iframe-container">
-        <iframe src="https://streamhd247.info/sourcecricket.html" allowfullscreen></iframe>
+    <div class="footer-text">
+        <span>Welcome to Talha's Stream, You're Watching TNT Sports Live on talhas.stream.000.pe</span>
     </div>
 
+    <!-- Telegram Button -->
+    <div class="telegram-button" onclick="openTelegram()">
+        <img src="https://s1.gifyu.com/images/SAe3R.png" alt="Telegram">
+    </div>
+
+    <iframe id="stream-iframe" sandbox="allow-same-origin allow-scripts" scrolling="no" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope, picture-in-picture; fullscreen; geolocation; web-share; speaker-selection; screen-wake-lock; Idle-detection" allowfullscreen></iframe>
 </body>
 </html>
