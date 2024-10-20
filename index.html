@@ -6,14 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Responsive Iframe Embed</title>
     <style>
-        /* Basic reset to remove margin/padding */
+        /* Basic reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* Styling for the body */
+        /* Page background and font styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #1b1b1b;
@@ -24,27 +24,28 @@
         .iframe-container {
             position: relative;
             width: 100%;
-            height: 0;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio (for most streams) */
-            background-color: #000; /* Dark background */
+            height: 100vh; /* Full height of the viewport */
+            background-color: #000;
             overflow: hidden;
         }
 
-        /* Actual iframe styling */
+        /* Forcing the iframe to scale content */
         iframe {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw; /* Full width of the viewport */
+            height: 100vh; /* Full height of the viewport */
+            transform: scale(1); /* No scaling initially */
+            transform-origin: 0 0; /* Scale from the top left */
             border: none;
         }
 
-        /* Optional: Style your heading */
+        /* Optional: Style for the heading */
         h1 {
             text-align: center;
             margin-bottom: 20px;
-            color: #fff; /* White text */
+            color: #fff;
         }
     </style>
 </head>
