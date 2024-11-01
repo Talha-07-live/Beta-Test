@@ -53,29 +53,32 @@
         }
 
         if (!isValidEmbed()) {
-            document.body.innerHTML = '<h1>Unauthorized Access</h1><p>Access to this player is restricted to specific domains.</p>';
+            document.body.innerHTML = '<h1>চুরি করা মহাপাপ(By Order Of Talha, The Creator Of This Page)</h1><p></p>';
         } else {
             jwplayer.key = 'EP3tanOyfjurKgiA7KLnzMTekvDl1Wr14XmAOqNBk3eDc3Yyao+866DfCQaHUofh';
 
             function setupPlayer(videoUrls, drmOptions = null, posterUrl = null) {
-                const playlistItems = videoUrls.map((url) => ({
-                    title: "Talha's Stream - Arena Sports 2",
-                    description: "You're Watching",
-                    image: "https://s11.gifyu.com/images/S1l3T.jpg",
-                    sources: [
-                        {
-                            file: url,
-                            type: "hls",
-                            default: true
-                        }
-                    ],
-                    drm: drmOptions ? {
-                        clearkey: {
-                            keyId: drmOptions.keyId,
-                            key: drmOptions.key
-                        }
-                    } : null
-                }));
+                const playlistItems = videoUrls.map((url, index) => {
+                    return {
+                        title: "Talha's Stream - Sony Live Event's",
+                        description: "You're Watching",
+                        image: "https://s11.gifyu.com/images/S1l3T.jpg",
+                        sources: [
+                            {
+                                file: url,
+                                type: determineSourceType(url),
+                                label: "1080p",
+                                default: true
+                            }
+                        ],
+                        drm: drmOptions ? {
+                            clearkey: {
+                                keyId: drmOptions.keyId,
+                                key: drmOptions.key
+                            }
+                        } : null
+                    };
+                });
 
                 jwplayer("player").setup({
                     controls: true,
@@ -135,9 +138,26 @@
                 });
             }
 
-            setupPlayer([
-                "https://sonydaimenew.akamaized.net/hls/live/2022315/DAI11ME-V3/master_mdh.m3u8?hdnea=exp=1730524197~acl=*~id=1556784483112233~hmac=c68eb4d6d3ef282e63acb011c1db0adb6ed4bc8bf5681c2d6eb118a977e522d0"
-            ]);
+            function determineSourceType(url) {
+                if (url.endsWith(".mkv") || url.endsWith(".mp4")) {
+                    return "mp4";
+                } else if (url.endsWith(".m3u8")) {
+                    return "hls";
+                } else if (url.endsWith(".mpd")) {
+                    return "dash";
+                }
+                return "mp4"; // Default to MP4
+            }
+
+            setupPlayer(
+                [
+                    "https://sonydaimenew.akamaized.net/hls/live/2022315/DAI11ME-V3/master_mdh.m3u8?hdnea=exp=1730524197~acl=*~id=1556784483112233~hmac=c68eb4d6d3ef282e63acb011c1db0adb6ed4bc8bf5681c2d6eb118a977e522d0"
+                ],
+                {
+                    //keyId: "c18b6aa739be4c0b774605fcfb5d6b68",
+                    //key: "e41c3a6f7532b2e3a828d9580124c89d"
+                },
+            );
         }
     </script>
 
