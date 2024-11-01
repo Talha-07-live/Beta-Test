@@ -66,7 +66,7 @@
                         sources: [
                             {
                                 file: url,
-                                type: hls,
+                                type: determineSourceType(url),
                                 label: "1080p",
                                 default: true
                             }
