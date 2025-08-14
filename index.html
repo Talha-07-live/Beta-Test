@@ -313,6 +313,7 @@
 
   /* === Render (Debounced) === */
   const render = debounce(()=>{
+    grid.className = 'grid'; // ✅ layout fix
     grid.innerHTML = '';
     const total = filtered.length;
     const upto = clamp(page*pageSize, 0, total);
