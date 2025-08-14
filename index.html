@@ -132,6 +132,24 @@
         margin-top: 10px;
         justify-content: center; /* Scearch bar in middle  */
       }
+      .grid.movie-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        background: #1c1b29;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .card .thumb {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
       
   </style>
 </head>
