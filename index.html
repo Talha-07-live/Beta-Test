@@ -234,26 +234,47 @@
 
   /* === Utilities (same as before) === */
   const daysAgo = ts => {
-    if(!ts) return '';
+    if (!ts) return '';
     const diff = Math.max(0, Date.now() - ts);
-    const d = Math.floor(diff / (1000*60*60*24));
-    if(d===0) return 'Today';
-    if(d===1) return '1 day ago';
-    return `${d} days ago`;
-  };
-  const clamp = (n,min,max)=> Math.min(max, Math.max(min, n));
 
-  function debounce(fn, delay=120){
-    let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), delay); };
-  }
-  function throttle(fn, wait=200){
-    let last=0, timer; return (...a)=>{
-      const now=Date.now();
-      const remaining = wait - (now - last);
-      if(remaining<=0){ last=now; fn(...a); }
-      else if(!timer){ timer=setTimeout(()=>{ last=Date.now(); timer=null; fn(...a); }, remaining); }
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor(diff / (1000 * 60 * 60));
+    const m = Math.floor(diff / (1000 * 60));
+
+    if (d === 0 && h === 0 && m === 0) return 'Just now';
+    if (d === 0 && h === 0) return `${m} minute${m !== 1 ? 's' : ''} ago`;
+    if (d === 0) return `${h} hour${h !== 1 ? 's' : ''} ago`;
+    if (d === 1) return '1 day ago';
+    return `${d} days ago`;
+};
+
+const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+
+function debounce(fn, delay = 120) {
+    let t;
+    return (...a) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn(...a), delay);
     };
-  }
+}
+
+function throttle(fn, wait = 200) {
+    let last = 0, timer;
+    return (...a) => {
+        const now = Date.now();
+        const remaining = wait - (now - last);
+        if (remaining <= 0) {
+            last = now;
+            fn(...a);
+        } else if (!timer) {
+            timer = setTimeout(() => {
+                last = Date.now();
+                timer = null;
+                fn(...a);
+            }, remaining);
+        }
+    };
+}
 
   /* === IndexedDB caching (unchanged) === */
   function openDB(){
