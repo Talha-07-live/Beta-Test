@@ -237,14 +237,16 @@
     if (!ts) return '';
     const diff = Math.max(0, Date.now() - ts);
 
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor(diff / (1000 * 60 * 60));
-    const m = Math.floor(diff / (1000 * 60));
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
 
-    if (d === 0 && h === 0) return `${m} minute${m !== 1 ? 's' : ''} ago`;
-    if (d === 0) return `${h} hour${h !== 1 ? 's' : ''} ago`;
-    if (d === 1) return '1 day ago';
-    return `${d} days ago`;
+    if (seconds < 60) return 'Just now';
+    if (minutes < 60) return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+    if (hours < 24) return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+    if (days === 1) return '1 day ago';
+    return `${days} days ago`;
 };
 
 const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
