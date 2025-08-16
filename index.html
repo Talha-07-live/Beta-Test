@@ -238,7 +238,7 @@
   }
 
   /* === IndexedDB caching (unchanged) === */
-  function openDB(){
+  /*function openDB(){
     return new Promise((resolve, reject)=>{
       const req = indexedDB.open('movieCacheDB', 2);
       req.onerror = ()=> reject(req.error);
@@ -282,7 +282,7 @@
     const s = tx.objectStore('meta');
     s.put({key, value});
     return tx.complete;
-  }
+  }*/
 
   /* === State === */
   let allMovies = [];
@@ -334,7 +334,7 @@
       img.loading = 'lazy';
       img.className = 'thumb';
       img.setAttribute('data-src', m.poster || '');
-      img.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACw=';
+      //img.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACw=';
       const grad = document.createElement('div'); grad.className = 'grad';
       if((m.tags && Array.isArray(m.tags) && m.tags.includes('TRENDING')) || m.trending){
         const ribbon = document.createElement('div'); ribbon.className='ribbon'; ribbon.textContent='TRENDING'; card.appendChild(ribbon);
@@ -424,7 +424,7 @@
      ============================================================= */
 
   // Build DB REST endpoint
-  const DB_BASE = firebaseConfig.databaseURL.replace(/\/+$/,''); // remove trailing slash
+  /*const DB_BASE = firebaseConfig.databaseURL.replace(/\/+$/,''); // remove trailing slash
   const MOVIES_ENDPOINT = `${DB_BASE}/movies.json`;
 
   // Configurable revalidation interval (ms). Increase to reduce reads.
@@ -503,10 +503,10 @@
 
   // Trigger revalidation on visibility/focus events
   document.addEventListener('visibilitychange', ()=> { if(!document.hidden) revalidateNow(); });
-  window.addEventListener('focus', ()=> revalidateNow());
+  window.addEventListener('focus', ()=> revalidateNow());*/
 
   /* === Initialization flow === */
-  (async function init(){
+  /*(async function init(){
     // 1) Try local cache for instant paint
     try{
       const localMovies = await getMoviesFromDB();
@@ -517,7 +517,7 @@
     }catch(e){ /* ignore */ }
 
     // 2) Always revalidate once (network) but via HTTP (no WS)
-    revalidateNow();
+    /*revalidateNow();
     // 3) start long-running polling (infrequent)
     startBackgroundPolling();
   })();
