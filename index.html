@@ -506,7 +506,7 @@
   window.addEventListener('focus', ()=> revalidateNow());*/
 
   /* === Initialization flow === */
-  /*(async function init(){
+  (async function init(){
     // 1) Try local cache for instant paint
     try{
       const localMovies = await getMoviesFromDB();
@@ -517,7 +517,7 @@
     }catch(e){ /* ignore */ }
 
     // 2) Always revalidate once (network) but via HTTP (no WS)
-    /*revalidateNow();
+    revalidateNow();
     // 3) start long-running polling (infrequent)
     startBackgroundPolling();
   })();
