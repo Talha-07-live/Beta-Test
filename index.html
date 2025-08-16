@@ -57,7 +57,7 @@
     .card{position:relative;border-radius:16px;overflow:hidden;background:var(--card);border:1px solid #2a2348;box-shadow:var(--shadow);transition:transform .25s ease, box-shadow .25s ease}
     .card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 14px 40px rgba(0,0,0,.45)}
     .thumb{aspect-ratio:2/3;width:100%;object-fit:cover;display:block;filter:saturate(1.05);vertical-align:middle}
-    .grad{position:absolute;inset:auto 0 0 0;height:55%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.9));pointer-events:none;z-index:5}
+    .grad{position:absolute;inset:auto 0 0 0;height:52%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.9));pointer-events:none;z-index:5}
 
     /* Ribbons & badges (ensure above image) */
     .ribbon{position:absolute;top:10px;left:10px;background:linear-gradient(90deg,#ff6b6b,#f06595);color:#fff;font-weight:800;padding:6px 10px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.35);font-size:12px;letter-spacing:.4px;z-index:20}
@@ -424,7 +424,7 @@
      ============================================================= */
 
   // Build DB REST endpoint
-  /*const DB_BASE = firebaseConfig.databaseURL.replace(/\/+$/,''); // remove trailing slash
+  const DB_BASE = firebaseConfig.databaseURL.replace(/\/+$/,''); // remove trailing slash
   const MOVIES_ENDPOINT = `${DB_BASE}/movies.json`;
 
   // Configurable revalidation interval (ms). Increase to reduce reads.
@@ -503,7 +503,7 @@
 
   // Trigger revalidation on visibility/focus events
   document.addEventListener('visibilitychange', ()=> { if(!document.hidden) revalidateNow(); });
-  window.addEventListener('focus', ()=> revalidateNow());*/
+  window.addEventListener('focus', ()=> revalidateNow());
 
   /* === Initialization flow === */
   (async function init(){
