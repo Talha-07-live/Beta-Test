@@ -215,13 +215,20 @@
   makeSkeletons();
 
   /* === Utilities (same as before) === */
-  const daysAgo = ts => {
-    if(!ts) return '';
-    const diff = Math.max(0, Date.now() - ts);
-    const d = Math.floor(diff / (1000*60*60*24));
-    if(d===0) return 'Today';
-    if(d===1) return '1 day ago';
-    return `${d} days ago`;
+  const timeAgo = ts => {
+  if (!ts) return '';
+  const diff = Math.max(0, Date.now() - ts);
+
+  const sec = Math.floor(diff / 1000);
+  const min = Math.floor(diff / (1000 * 60));
+  const hr  = Math.floor(diff / (1000 * 60 * 60));
+  const d   = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+  if (sec < 60) return 'Just now';
+  if (min < 60) return `${min} minute${min > 1 ? 's' : ''} ago`;
+  if (hr < 24)  return `${hr} hour${hr > 1 ? 's' : ''} ago`;
+  if (d === 1)  return 'Yesterday';
+  return `${d} day${d > 1 ? 's' : ''} ago`;
   };
   const clamp = (n,min,max)=> Math.min(max, Math.max(min, n));
 
