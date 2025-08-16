@@ -238,7 +238,7 @@
   }
 
   /* === IndexedDB caching (unchanged) === */
-  /*function openDB(){
+  function openDB(){
     return new Promise((resolve, reject)=>{
       const req = indexedDB.open('movieCacheDB', 2);
       req.onerror = ()=> reject(req.error);
@@ -282,7 +282,7 @@
     const s = tx.objectStore('meta');
     s.put({key, value});
     return tx.complete;
-  }*/
+  }
 
   /* === State === */
   let allMovies = [];
