@@ -185,11 +185,7 @@
       </div>
       <div id="m-links" class="links"></div>
     </div>
-    
-    <div id="pagination" style="text-align:center; margin:20px 0;"></div>
-    <div id="grid"></div>
-    <div id="sentinel"></div>
-    </div>
+  </div>
 
   <footer class="footer">
     <div class="footer-inner">
@@ -322,7 +318,6 @@
     grid.innerHTML = '';
     const total = filtered.length;
     const upto = clamp(page*pageSize, 0, total);
-    
     if(!total){
       const empty = document.createElement('p');
       empty.style.color='#a7a4b4';
@@ -332,7 +327,7 @@
       return;
     }
     const frag = document.createDocumentFragment();
-    for(let i=(page-1)*pageSize; i<upto; i++){
+    for(let i=0;i<upto;i++){
       const m = filtered[i];
       const card = document.createElement('article');
       card.className = 'card';
@@ -359,44 +354,7 @@
     grid.appendChild(frag);
     setupImgObserver();
     grid.querySelectorAll('img[data-src]').forEach(img=> imgObserver.observe(img));
-
-    renderPagination();
   }, 120);
-
-    function renderPagination(){
-      const totalPages = Math.ceil(filtered.length / pageSize);
-      const pagination = document.getElementById("pagination");
-      pagination.innerHTML = "";
-
-      for(let p=1; p<=totalPages; p++){
-        const btn = document.createElement("button");
-        btn.textContent = `Page ${p}`;
-        btn.style.margin = "0 5px";
-        btn.style.padding = "6px 12px";
-        btn.style.borderRadius = "6px";
-        btn.style.border = "1px solid #ccc";
-        btn.style.cursor = "pointer";
-
-        if(p === page){
-          btn.style.background = "#333";
-          btn.style.color = "#fff";
-        }
-
-        btn.addEventListener("click", ()=>{
-          page = p;
-          render();
-        });
-
-        pagination.appendChild(btn);
-      }
-    }
-    
-    function addNewMovies(newMovies){
-      allMovies = [...newMovies, ...allMovies];
-      filtered = allMovies;
-      page = 1;
-      render();
-    }
 
   const setupInfiniteScroll = ()=>{
     observer && observer.disconnect();
