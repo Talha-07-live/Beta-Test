@@ -318,6 +318,7 @@
     grid.innerHTML = '';
     const total = filtered.length;
     const upto = clamp(page*pageSize, 0, total);
+    
     if(!total){
       const empty = document.createElement('p');
       empty.style.color='#a7a4b4';
@@ -327,7 +328,7 @@
       return;
     }
     const frag = document.createDocumentFragment();
-    for(let i=0;i<upto;i++){
+    for(let i=(page-1)*pageSize; i<upto; i++){
       const m = filtered[i];
       const card = document.createElement('article');
       card.className = 'card';
@@ -371,6 +372,14 @@
     }, { rootMargin: '400px 0px' });
     observer.observe(sentinel);
   };
+
+    function addNewMovies(newMovies){
+    allMovies = [...allMovies, ...newMovies];
+    filtered = allMovies; 
+    const totalPages = Math.ceil(filtered.length / pageSize);
+    page = totalPages;
+    render();
+  }
 
   const doSearch = ()=>{
     const q = searchInput.value.trim().toLowerCase();
