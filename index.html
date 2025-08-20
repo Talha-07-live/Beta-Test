@@ -424,6 +424,48 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
 
     const REVALIDATE_INTERVAL = 5 * 60 * 1000;
 
+    // Initialize Firebase app + Realtime DB listener
+    initializeApp(firebaseConfig);
+    const db = getDatabase();
+    const moviesRef = ref(db, 'movies');
+
+    let realtimeEnabled = false;
+    function setupRealtimeListener(){
+      try{
+        realtimeEnabled = true;
+        onValue(moviesRef, async (snapshot) => {
+          try {
+            const json = snapshot.val() || {};
+            const arr = Object.entries(json).map(([id, m]) => ({ id, ...m }));
+
+            // preserve local pinned flags (if present locally)
+            try{
+              const local = await getMoviesFromDB();
+              const map = new Map((local||[]).map(x=>[x.id, x]));
+              arr.forEach(a=>{ const l = map.get(a.id); if(l && l.pinned) a.pinned = true; });
+            }catch(e){ /* ignore */ }
+
+            sortWithPinned(arr);
+            allMovies = arr;
+            filtered = allMovies;
+            page = 1;
+            render();
+            setupInfiniteScroll();
+
+            // persist locally
+            try{ await saveMoviesToDB(allMovies); await saveMetaToDB('movies_updatedAt', Date.now()); }catch(e){ }
+
+            console.log('🔁 Realtime: movies updated from Firebase.');
+          } catch (err) {
+            console.error('Realtime listener error', err);
+          }
+        });
+      }catch(err){
+        realtimeEnabled = false;
+        console.warn('Realtime setup failed:', err);
+      }
+    }
+
     async function fetchMoviesFromServer() {
       try {
         const PROXY_BASE = "https://talhasproxy.talhascollection0.workers.dev";
@@ -488,7 +530,9 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
       if(revalidateTimer) return;
       revalidateTimer = true;
       try{
-        await fetchMoviesFromServer();
+        // If realtime is enabled, prefer realtime — but still fetch as fallback
+        if(!realtimeEnabled) await fetchMoviesFromServer();
+        else { /* realtime active, we still may fetch fallback for initial load */ }
       } finally {
         revalidateTimer = null;
       }
@@ -516,8 +560,14 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
         }
       }catch(e){  }
 
+      // setup realtime first (preferred)
+      setupRealtimeListener();
+
+      // fetch once as fallback / initial load if realtime failed or proxy needed
       revalidateNow();
-      startBackgroundPolling();
+
+      // start background polling (optional). If you use realtime, you can comment this out to save requests.
+      // startBackgroundPolling(); // <-- comment/uncomment based on preference
     })();
 
     const modal = document.getElementById('modal');
