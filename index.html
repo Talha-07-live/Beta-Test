@@ -153,7 +153,10 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-    const isAdmin = false
+    // === CONFIG / SETTINGS ===
+    // IMPORTANT: set this to true only when the current user has been verified as admin.
+    // For testing locally you can toggle it, but in production set via secure server-side check.
+    const isAdmin = false; // <-- change to true only for admin sessions
 
     const firebaseConfig = {
       apiKey: "AIzaSyDpiN0OV1aD709Q987PymfOOp_lcW6Hid8",
@@ -321,7 +324,7 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
         // Pin display:
         // - If admin (isAdmin=true): show clickable pin button to toggle pinned state
         // - If not admin and item.pinned === true: show static star indicator (non-clickable)
-         if(isAdmin){
+        if(isAdmin){
           const pin = document.createElement('button');
           pin.className = 'pin-btn';
           pin.type = 'button';
@@ -435,12 +438,7 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
             const json = snapshot.val() || {};
             const arr = Object.entries(json).map(([id, m]) => ({ id, ...m }));
 
-            // preserve local pinned flags (if present locally)
-            try{
-              const local = await getMoviesFromDB();
-              const map = new Map((local||[]).map(x=>[x.id, x]));
-              arr.forEach(a=>{ const l = map.get(a.id); if(l && l.pinned) a.pinned = true; });
-            }catch(e){ /* ignore */ }
+            // NOTE: removed local "preserve pinned" logic so UI always follows Firebase data
 
             sortWithPinned(arr);
             allMovies = arr;
@@ -490,15 +488,7 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
         const json = await resp.json();
         const arr = Object.entries(json||{}).map(([id,m])=> ({ id, ...m }));
 
-        // Preserve local pinned flags if present (so admin pin stays)
-        try{
-          const local = await getMoviesFromDB();
-          const map = new Map(local.map(x=>[x.id, x]));
-          arr.forEach(a=>{
-            const l = map.get(a.id);
-            if(l && l.pinned) a.pinned = true;
-          });
-        }catch(e){ /* ignore */ }
+        // NOTE: removed local pinned-preserve logic so UI always reflects Firebase JSON
 
         sortWithPinned(arr);
 
