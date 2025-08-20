@@ -319,6 +319,22 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
         // Pin display:
         // - If admin (isAdmin=true): show clickable pin button to toggle pinned state
         // - If not admin and item.pinned === true: show static star indicator (non-clickable)
+         if(isAdmin){
+          const pin = document.createElement('button');
+          pin.className = 'pin-btn';
+          pin.type = 'button';
+          pin.title = m.pinned ? 'Unpin (admin)' : 'Pin (admin)';
+          pin.setAttribute('aria-pressed', !!m.pinned);
+          pin.innerHTML = m.pinned ? `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3 7h6l-5 4 2 7-6-4-6 4 2-7-5-4h6l3-7z" fill="#fff"/></svg>` :
+                                     `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3 7h6l-5 4 2 7-6-4-6 4 2-7-5-4h6l3-7z" stroke="#ddd" stroke-width="1.2" fill="none"/></svg>`;
+          pin.addEventListener('click', (ev)=>{
+            ev.stopPropagation();
+            // protect: only proceed if isAdmin still true
+            if(!isAdmin) return;
+            togglePin(m);
+          });
+          card.appendChild(pin);
+        } else {
           if(m.pinned){
             const star = document.createElement('div');
             star.className = 'pin-star';
