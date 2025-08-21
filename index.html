@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -44,7 +44,7 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
 .request-btn{margin-left:auto;text-decoration:none;color:#0b0b0b;background:linear-gradient(90deg,var(--primary),var(--primary-2));padding:10px 14px;border-radius:12px;font-weight:800;}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:18px;margin-top:16px;}
 @media (min-width:480px){.grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}}
-.card{position:relative;border-radius:16px;overflow:hidden;background:var(--card);border:1px solid #2a2348;box-shadow:var(--shadow);transition:transform .25s ease, box-shadow .25s ease;cursor:pointer;}
+.card{position:relative;border-radius:16px;overflow:hidden;background:var(--card);border:1px solid #2a2348;box-shadow:var(--shadow);transition:transform .25s ease, box-shadow .25s ease;}
 .card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 14px 40px rgba(0,0,0,.45);}
 .thumb{aspect-ratio:2/3;width:100%;object-fit:cover;display:block;filter:saturate(1.05);vertical-align:middle;}
 .grad{position:absolute;inset:auto 0 0 0;height:52%;background:linear-gradient(180deg,transparent,rgba(0,0,0,.9));pointer-events:none;z-index:5;}
@@ -92,7 +92,7 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
 .logo-link{color:inherit;text-decoration:none;}
 .credit .heart{color:#ff6b6b;animation:beat 1s infinite alternate;}
 @keyframes beat{to{transform:scale(1.2);}}   
-</style>
+  </style>
 </head>
 <body>
   <header class="container header">
@@ -151,19 +151,17 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getDatabase } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-    // ========== CONFIG ==========
-    // NOTE: isAdmin removed entirely — this script is client-only
     const firebaseConfig = {
-      apiKey: "AIzaSyDpiN0OV1aD709Q987PymfOOp_lcW6Hid8",
-      authDomain: "my-book-project-c5a17.firebaseapp.com",
-      databaseURL: "https://my-book-project-c5a17-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "my-book-project-c5a17",
-      storageBucket: "my-book-project-c5a17.appspot.com",
-      messagingSenderId: "422603504433",
-      appId: "1:422603504433:web:e6870a7d2c57c045eb0e10",
-      measurementId: "G-F763MR7FR9"
+    apiKey: "AIzaSyDpiN0OV1aD709Q987PymfOOp_lcW6Hid8",
+    authDomain: "my-book-project-c5a17.firebaseapp.com",
+    databaseURL: "https://my-book-project-c5a17-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "my-book-project-c5a17",
+    storageBucket: "my-book-project-c5a17.appspot.com",
+    messagingSenderId: "422603504433",
+    appId: "1:422603504433:web:e6870a7d2c57c045eb0e10",
+    measurementId: "G-F763MR7FR9"
     };
 
     // your deployed worker proxy
