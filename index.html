@@ -150,22 +150,16 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
   </footer>
 
   <script type="module">
-/*
-  Updated: first try direct fetch from DATA_JSON, if that fails use PROXY_BASE.
-  Keeps the rest of the app structure intact (render, indexedDB cache, modal, infinite scroll, etc.)
-*/
+const DATA_JSON = 'https://talha-07-live.github.io/firebase-sync-data/data.json';
 
-const PROXY_BASE = ""; // <<< CHANGE THIS to your Worker URL
-const DATA_BASE = 'https://talha-07-live.github.io/firebase-sync-data';
-const DATA_JSON = `${DATA_BASE}/data.json`; // <- main read source
-
-const grid = document.getElementById('grid');
+const grid = document.getElementById('grid') || document.getElementById('movies-container');
 const sentinel = document.getElementById('sentinel');
 const searchInput = document.getElementById('search');
 const searchBtn = document.getElementById('searchBtn');
 const sugg = document.getElementById('sugg');
 
 const makeSkeletons = (n=12)=>{
+  if(!grid) return;
   grid.innerHTML = '';
   for(let i=0;i<n;i++) grid.appendChild(Object.assign(document.createElement('div'),{className:'skeleton'}));
 };
@@ -197,43 +191,24 @@ function timeAgo(ms){
   return `${year} year${year>1 ? 's' : ''} ago`;
 }
 
-function getTimestampFromMovie(m){
-  if(m == null) return null;
-  const tryNum = v => {
-    if(v == null) return null;
-    const n = Number(v);
-    if(!isNaN(n) && n > 1000000000000) return n;
-    return null;
-  };
-  const a = tryNum(m.releasedAt) || tryNum(m.createdAt) || null;
-  if(a) return a;
-  const trySec = v => {
-    if(v == null) return null;
-    const n = Number(v);
-    if(!isNaN(n) && n > 1000000000 && n < 1000000000000) return n * 1000;
-    return null;
-  };
-  const b = trySec(m.releasedAt) || trySec(m.createdAt);
-  if(b) return b;
-  try{
-    const y = Number(m.year);
-    const mo = Number(m.month);
-    const d = Number(m.day);
-    if(!isNaN(y) && !isNaN(mo) && !isNaN(d)){
-      const hh = Number(m.hour) || 0;
-      const mm = Number(m.minute) || 0;
-      const ss = Number(m.second) || 0;
-      return new Date(y, mo - 1, d, hh, mm, ss).getTime();
-    }
-  }catch(e){ /* ignore */ }
-  if(m.releasedAtText){
-    const parsed = Date.parse(String(m.releasedAtText));
-    if(!isNaN(parsed)) return parsed;
+/* sanitize rating from JSON */
+function sanitizeRating(raw){
+  if(raw === null || raw === undefined) return 'N/A';
+  let s = String(raw).trim();
+  // remove HTML tags if any
+  s = s.replace(/<[^>]*>/g,'').trim();
+  // Try to extract common rating patterns like 8.6/10 or 7.4 or 8
+  const pat = s.match(/(\d+(\.\d+)?\/\d+)|(\d+(\.\d+)?)/);
+  if(pat && pat[0]) {
+    // if it's like "8.6" or "8.6/10", return that (limit length)
+    return pat[0].slice(0,7);
   }
-  return null;
+  // fallback: cut to 8 chars
+  if(s.length > 8) s = s.slice(0,8) + '…';
+  return s || 'N/A';
 }
 
-/* indexedDB helpers (same as before) */
+/* --- minimal indexedDB helpers (kept to preserve UX) --- */
 function openDB(){
   return new Promise((resolve, reject)=>{
     const req = indexedDB.open('movieCacheDB', 2);
@@ -258,45 +233,28 @@ function txComplete(tx){
   });
 }
 async function saveMoviesToDB(movies){
-  const db = await openDB();
-  const tx = db.transaction(['movies','meta'],'readwrite');
-  const s = tx.objectStore('movies');
-  s.clear();
-  await new Promise((res)=>{ const r = s.clear(); r.onsuccess = ()=> res(); r.onerror = ()=> res(); });
-  for(const x of movies) s.put(x);
-  const m = tx.objectStore('meta');
-  m.put({ key: 'movies_updatedAt', value: Date.now() });
-  await txComplete(tx);
-}
-async function updateMovieInDB(movie){
-  const db = await openDB();
-  const tx = db.transaction(['movies','meta'],'readwrite');
-  const s = tx.objectStore('movies');
-  s.put(movie);
-  const m = tx.objectStore('meta');
-  m.put({ key: 'movies_updatedAt', value: Date.now() });
-  await txComplete(tx);
+  try{
+    const db = await openDB();
+    const tx = db.transaction(['movies','meta'],'readwrite');
+    const s = tx.objectStore('movies');
+    s.clear();
+    await new Promise((res)=>{ const r = s.clear(); r.onsuccess = ()=> res(); r.onerror = ()=> res(); });
+    for(const x of movies) s.put(x);
+    const m = tx.objectStore('meta');
+    m.put({ key: 'movies_updatedAt', value: Date.now() });
+    await txComplete(tx);
+  }catch(e){ /* ignore save errors silently */ }
 }
 async function getMoviesFromDB(){
-  const db = await openDB();
-  const tx = db.transaction('movies','readonly');
-  const s = tx.objectStore('movies');
-  return new Promise(res=>{ const r = s.getAll(); r.onsuccess=()=>res(r.result||[]); r.onerror=()=>res([]); });
-}
-async function getMetaFromDB(key){
-  const db = await openDB();
-  const tx = db.transaction('meta','readonly');
-  const s = tx.objectStore('meta');
-  return new Promise(res=>{ const r = s.get(key); r.onsuccess=()=>res(r.result? r.result.value : null); r.onerror=()=>res(null); });
-}
-async function saveMetaToDB(key, value){
-  const db = await openDB();
-  const tx = db.transaction('meta','readwrite');
-  const s = tx.objectStore('meta');
-  s.put({ key, value });
-  await txComplete(tx);
+  try{
+    const db = await openDB();
+    const tx = db.transaction('movies','readonly');
+    const s = tx.objectStore('movies');
+    return new Promise(res=>{ const r = s.getAll(); r.onsuccess=()=>res(r.result||[]); r.onerror=()=>res([]); });
+  }catch(e){ return []; }
 }
 
+/* render helpers */
 let allMovies = [];
 let filtered = [];
 let pageSize = 30;
@@ -331,6 +289,7 @@ function sortWithPinned(arr){
 }
 
 const render = debounce(()=>{
+  if(!grid) return;
   grid.innerHTML = '';
   const total = filtered.length;
   const upto = clamp(page*pageSize, 0, total);
@@ -357,7 +316,7 @@ const render = debounce(()=>{
 
     const grad = document.createElement('div'); grad.className = 'grad';
 
-    const ts = getTimestampFromMovie(m);
+    const ts = (m && m.releasedAt) ? Number(m.releasedAt) : null;
     const relText = ts ? timeAgo(ts) : (m.releasedAtText || '');
     const age = document.createElement('div');
     age.className = 'age';
@@ -373,18 +332,20 @@ const render = debounce(()=>{
       const ribbon = document.createElement('div'); ribbon.className='ribbon'; ribbon.textContent='TRENDING'; card.appendChild(ribbon);
     }
 
-    // rating badge
-    const ratingBadge = document.createElement('div');
-    ratingBadge.className = 'rating-badge';
-    ratingBadge.textContent = m.rating || '—';
-    card.appendChild(ratingBadge);
-
     const badge = document.createElement('div'); badge.className='badge'; badge.textContent = (m.quality || 'HD').toUpperCase();
 
     const meta = document.createElement('div'); meta.className='meta';
     const t = document.createElement('p'); t.className='title'; t.textContent = m.title || 'Untitled';
+
+    // sanitized rating (ensure it won't break layout)
+    const ratingText = sanitizeRating(m.rating);
+    const rEl = document.createElement('p'); rEl.className = 'rating'; rEl.textContent = '⭐ ' + ratingText;
+
     const st = document.createElement('p'); st.className='subtitle'; st.textContent = m.subtitle || (m.description? String(m.description).slice(0,80): '') || '';
-    meta.appendChild(t); meta.appendChild(st);
+
+    meta.appendChild(t);
+    meta.appendChild(rEl); // rating placed right after title
+    meta.appendChild(st);
 
     if(m.pinned){
       const star = document.createElement('div');
@@ -400,7 +361,7 @@ const render = debounce(()=>{
     card.appendChild(age);
     card.appendChild(badge);
 
-    card.addEventListener('click',()=>openModal(m));
+    card.addEventListener('click',()=> openModal(m));
     frag.appendChild(card);
   }
   grid.appendChild(frag);
@@ -409,6 +370,7 @@ const render = debounce(()=>{
 }, 120);
 
 const setupInfiniteScroll = ()=>{
+  if(!sentinel) return;
   observer && observer.disconnect();
   observer = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
@@ -425,7 +387,7 @@ const setupInfiniteScroll = ()=>{
 };
 
 const doSearch = ()=>{
-  const q = searchInput.value.trim().toLowerCase();
+  const q = (searchInput && searchInput.value) ? searchInput.value.trim().toLowerCase() : '';
   if(!q){ filtered = allMovies; page = 1; hideSuggestions(); render(); return; }
   filtered = allMovies.filter(m => (
     (m.title||'').toLowerCase().includes(q) || (m.subtitle||'').toLowerCase().includes(q)
@@ -435,14 +397,14 @@ const doSearch = ()=>{
   showSuggestions(q);
 };
 const throttledSearch = throttle(doSearch, 220);
-const debouncedInput = debounce(()=> showSuggestions(searchInput.value.trim().toLowerCase()), 160);
-searchBtn.addEventListener('click', doSearch);
-searchInput.addEventListener('input', (e)=>{ throttledSearch(); debouncedInput(); });
-searchInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ doSearch(); hideSuggestions(); } });
-document.addEventListener('click', (e)=>{ if(!sugg.contains(e.target) && e.target!==searchInput) hideSuggestions(); });
+const debouncedInput = debounce(()=> showSuggestions(searchInput && searchInput.value ? searchInput.value.trim().toLowerCase() : ''), 160);
+if(searchBtn) searchBtn.addEventListener('click', doSearch);
+if(searchInput) searchInput.addEventListener('input', (e)=>{ throttledSearch(); debouncedInput(); });
+if(searchInput) searchInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ doSearch(); hideSuggestions(); } });
+document.addEventListener('click', (e)=>{ if(sugg && !sugg.contains(e.target) && e.target!==searchInput) hideSuggestions(); });
 
 function showSuggestions(q){
-  if(!q){ hideSuggestions(); return; }
+  if(!q || !sugg){ hideSuggestions(); return; }
   const max = 10;
   const items = [];
   for(const m of allMovies){
@@ -461,7 +423,7 @@ function showSuggestions(q){
     row.role = 'option';
     row.innerHTML = `<span>${it.title}</span><small>${it.subtitle? it.subtitle.slice(0,36): ''}</small>`;
     row.addEventListener('click', ()=>{
-      searchInput.value = it.title;
+      if(searchInput) searchInput.value = it.title;
       hideSuggestions();
       doSearch();
     });
@@ -469,37 +431,17 @@ function showSuggestions(q){
   }
   sugg.classList.add('show');
 }
-function hideSuggestions(){ sugg.classList.remove('show'); }
+function hideSuggestions(){ if(sugg) sugg.classList.remove('show'); }
 
-const REVALIDATE_INTERVAL = 5 * 60 * 1000;
-
-/* --- FETCH with direct-first, proxy-fallback --- */
 async function fetchMoviesFromServer(){
   try {
-    const targetUrl = DATA_JSON;
-    let resp = null;
-
-    // 1) Try direct fetch first
-    try {
-      resp = await fetch(targetUrl, { method: "GET", headers: { "Accept": "application/json" }, cache: "no-store" });
-      if(!resp.ok) throw new Error(`Direct fetch failed with status ${resp.status}`);
-    } catch(directErr){
-      console.warn("Direct fetch failed, attempting proxy fallback:", directErr);
-      // 2) Fallback to proxy
-      const proxiedUrl = `${PROXY_BASE}?target=${encodeURIComponent(targetUrl)}&ttl=900`;
-      try{
-        resp = await fetch(proxiedUrl, { method: "GET", headers: { "Accept": "application/json" }, cache: "no-store" });
-        if(!resp.ok) {
-          console.warn("Proxy fetch also failed:", resp.status);
-          return { status: 'error', statusCode: resp.status };
-        }
-      }catch(proxyErr){
-        console.error("Proxy fetch failed:", proxyErr);
-        return { status: 'error', error: proxyErr };
-      }
+    const resp = await fetch(DATA_JSON, { method: "GET", headers: { "Accept": "application/json" }, cache: "no-store" });
+    if(!resp.ok){
+      console.error('Direct fetch failed:', resp.status, resp.statusText);
+      return { status: 'error', statusCode: resp.status };
     }
-
     const json = await resp.json();
+    // json expected as { id1: {...}, id2: {...} }
     const arr = Object.entries(json||{}).map(([id,m])=> ({ id, ...m }));
     sortWithPinned(arr);
     allMovies = arr;
@@ -508,91 +450,62 @@ async function fetchMoviesFromServer(){
     render();
     setupInfiniteScroll();
 
-    // Save to indexedDB in idle time
+    // save local copy
     if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => saveMoviesToDB(allMovies).then(()=> saveMetaToDB('movies_updatedAt', Date.now())), { timeout: 1000 });
+      requestIdleCallback(() => saveMoviesToDB(allMovies).then(()=> {/* meta saved */}), { timeout: 1000 });
     } else {
-      setTimeout(() => saveMoviesToDB(allMovies).then(()=> saveMetaToDB('movies_updatedAt', Date.now())), 0);
+      setTimeout(() => saveMoviesToDB(allMovies).then(()=> {/* meta saved */}), 0);
     }
 
-    console.log(`✅ Movies loaded (direct-first with proxy fallback). Count=${allMovies.length}`);
+    console.log(`✅ Movies fetched directly from DATA_JSON. Count=${allMovies.length}`);
     return { status: 'ok', count: allMovies.length };
   } catch(err) {
-    console.error("❌ Fetch error", err);
+    console.error("❌ Fetch error (direct):", err);
     return { status: 'error', error: err };
   }
 }
 
-async function getVersionFromProxy(){
-  try{
-    const targetUrl = DATA_JSON;
-    const vresp = await fetch(`${PROXY_BASE}/version?target=${encodeURIComponent(targetUrl)}`, { cache: 'no-store' });
-    if(!vresp.ok) return 0;
-    const dv = await vresp.json();
-    return Number(dv.version || 0);
-  }catch(e){ return 0; }
-}
+/* modal */
+const modal = document.getElementById('modal');
+const mPoster = document.getElementById('m-poster');
+const mTitle = document.getElementById('m-title');
+const mDesc = document.getElementById('m-desc');
+const mRating = document.getElementById('m-rating');
+const mLinks = document.getElementById('m-links');
+const closeBtn = document.getElementById('close');
+if(closeBtn) closeBtn.addEventListener('click', ()=> modal && modal.classList.remove('show'));
+if(modal) modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.classList.remove('show'); });
 
-let _stopPolling = false;
-async function subscribeToChangesLoop(){
-  let lastVersion = await getVersionFromProxy();
-  if(!lastVersion) lastVersion = Date.now();
-  const targetUrl = DATA_JSON;
-  while(!_stopPolling){
-    try{
-      const eventsUrl = `${PROXY_BASE}/events?target=${encodeURIComponent(targetUrl)}&since=${lastVersion}`;
-      const resp = await fetch(eventsUrl, { method: 'GET', headers: { 'Accept':'application/json' }, cache: 'no-store' });
-      if(!resp.ok){
-        await new Promise(r=>setTimeout(r,3000));
-        continue;
-      }
-      const data = await resp.json();
-      if(data.changed){
-        lastVersion = data.version || Date.now();
-        await fetchMoviesFromServer();
-      }
-    }catch(e){
-      console.warn('long-poll error', e);
-      await new Promise(r=>setTimeout(r,2000));
-    }
-  }
-}
+function openModal(m){
+  if(!modal) return;
+  if(mPoster) mPoster.src = m.poster || '';
+  if(mTitle) mTitle.textContent = m.title || 'Untitled';
+  if(mDesc) mDesc.textContent = m.description || '';
+  if(mRating) mRating.textContent = sanitizeRating(m.rating) || 'N/A';
 
-async function togglePin(movie){
-  try{
-    movie.pinned = !movie.pinned;
-    const q = searchInput.value.trim().toLowerCase();
-    if(q) filtered = allMovies.filter(m => ((m.title||'').toLowerCase().includes(q) || (m.subtitle||'').toLowerCase().includes(q)));
-    else filtered = allMovies;
-    sortWithPinned(allMovies);
-    page = 1;
-    render();
-
-    await updateMovieInDB(movie);
-
-    // Attempt to update via proxy — note: static GitHub-hosted JSON will likely not accept PATCH,
-    // so this write may fail; kept for structure parity.
-    const targetMovieUrl = `${DATA_BASE}/movies/${encodeURIComponent(movie.id)}.json`;
-    const proxiedPatchUrl = `${PROXY_BASE}?target=${encodeURIComponent(targetMovieUrl)}`;
-    try{
-      const resp = await fetch(proxiedPatchUrl, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pinned: !!movie.pinned })
+  if(mLinks) {
+    mLinks.innerHTML = '';
+    const links = Array.isArray(m.downloadLinks) ? m.downloadLinks : [];
+    if(!links.length){
+      const d = document.createElement('div');
+      d.style.color='#a7a4b4';
+      d.textContent = 'No download links available.';
+      mLinks.appendChild(d);
+    } else {
+      links.forEach((obj)=>{
+        if(!obj || !obj.url) return;
+        const a = document.createElement('a');
+        a.href = obj.url; a.target='_blank'; a.rel='noopener';
+        a.className = 'd-btn';
+        a.textContent = (obj.text || 'Download');
+        mLinks.appendChild(a);
       });
-      if(!resp.ok) {
-        console.warn("Pin update to server failed:", resp.status);
-      } else {
-        console.log("Pin updated on server via proxy.");
-      }
-    }catch(e){
-      console.warn("Pin update to server error (proxy/write may be blocked):", e);
     }
-  }catch(err){
-    console.error("togglePin error", err);
   }
+  modal.classList.add('show');
 }
 
+/* init */
 (async function init(){
   try{
     const localMovies = await getMoviesFromDB();
@@ -605,49 +518,9 @@ async function togglePin(movie){
 
   await fetchMoviesFromServer();
 
-  subscribeToChangesLoop();
-
-  document.addEventListener('visibilitychange', ()=> { if(!document.hidden) fetchMoviesFromServer(); });
+  // keep simple: refetch when window focuses
   window.addEventListener('focus', ()=> fetchMoviesFromServer());
 })();
-
-/* Modal & openModal (same UX as before, shows download links nicely) */
-const modal = document.getElementById('modal');
-const mPoster = document.getElementById('m-poster');
-const mTitle = document.getElementById('m-title');
-const mDesc = document.getElementById('m-desc');
-const mRating = document.getElementById('m-rating');
-const mLinks = document.getElementById('m-links');
-document.getElementById('close').addEventListener('click', ()=> modal.classList.remove('show'));
-modal.addEventListener('click', (e)=>{ if(e.target===modal) modal.classList.remove('show'); });
-
-function openModal(m){
-  mPoster.src = m.poster || '';
-  mTitle.textContent = m.title || 'Untitled';
-  mDesc.textContent = m.description || '';
-  mRating.textContent = m.rating || '—';
-
-  mLinks.innerHTML = '';
-  const links = Array.isArray(m.downloadLinks) ? m.downloadLinks : [];
-  if(!links.length){
-    const d = document.createElement('div');
-    d.style.color='#a7a4b4';
-    d.textContent = 'No download links available.';
-    mLinks.appendChild(d);
-  } else {
-    links.forEach((obj)=>{
-      if(!obj || !obj.url) return;
-      const a = document.createElement('a');
-      a.href = obj.url; a.target='_blank'; a.rel='noopener';
-      a.className = 'd-btn';
-      a.textContent = (obj.text || 'Download');
-      mLinks.appendChild(a);
-    });
-  }
-  modal.classList.add('show');
-}
-
-document.addEventListener('click', (e)=>{ if(!sugg.contains(e.target) && e.target!==searchInput) hideSuggestions(); });
   
   </script>
 </body>
