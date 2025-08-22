@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,7 +64,7 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
 .sheet-head .info h3{margin:0 0 8px 0;font-size:clamp(16px,3vw,24px);}
 .sheet-head .info p{margin:6px 0;color:#d5d1e6;font-size:clamp(12px,2vw,14px);}
 .rating{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);padding:6px 10px;border-radius:999px;font-weight:800;font-size:clamp(12px,2vw,14px);}
-.links{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;padding:12px 16px 18px;background:#0e0b1a;border-top:1px solid #2a2348;max-height:30vh;overflow:auto;}
+.links{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;padding:12px 16px 18px;background:#0e0b1a;border-top:1px solid #2a2348;max-height:31vh;overflow:auto;}
 .d-btn{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;color:#0b0b0b;background:linear-gradient(90deg,var(--primary),var(--primary-2));padding:12px 14px;border-radius:12px;font-weight:800;transition:transform .2s ease;font-size:clamp(12px,2vw,14px);}
 .d-btn:hover{transform:translateY(-2px) scale(1.02);}
 .close{position:absolute;top:14px;right:16px;border:0;background:#1b1530;border:1px solid #2a2348;color:#fff;padding:8px 12px;border-radius:999px;cursor:pointer;}
@@ -150,43 +151,30 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
   </footer>
 
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getDatabase } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+    // Firebase imports / init removed — script will read from a static data.json instead.
+    // Proxy base stays the same
+    const PROXY_BASE = ""; // <<< CHANGE THIS to your Worker URL
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDpiN0OV1aD709Q987PymfOOp_lcW6Hid8",
-      authDomain: "my-book-project-c5a17.firebaseapp.com",
-      databaseURL: "https://my-book-project-c5a17-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "my-book-project-c5a17",
-      storageBucket: "my-book-project-c5a17.appspot.com",
-      messagingSenderId: "422603504433",
-      appId: "1:422603504433:web:e6870a7d2c57c045eb0e10",
-      measurementId: "G-F763MR7FR9"
-    };
+    // Data source (static JSON)
+    const DATA_BASE = '';
+    const DATA_JSON = `${DATA_BASE}/data.json`; // <- main read source
 
-    // your deployed worker proxy
-    const PROXY_BASE = "https://talhasproxy.talhascollection0.workers.dev"; // <<< CHANGE THIS to your Worker URL
-
-    // ========== DOM REFS ==========
     const grid = document.getElementById('grid');
     const sentinel = document.getElementById('sentinel');
     const searchInput = document.getElementById('search');
     const searchBtn = document.getElementById('searchBtn');
     const sugg = document.getElementById('sugg');
 
-    // skeletons while loading
     const makeSkeletons = (n=12)=>{
       grid.innerHTML = '';
       for(let i=0;i<n;i++) grid.appendChild(Object.assign(document.createElement('div'),{className:'skeleton'}));
     };
     makeSkeletons();
 
-    // helpers
     const clamp = (n,min,max)=> Math.min(max, Math.max(min, n));
     function debounce(fn, delay=120){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), delay); }; }
     function throttle(fn, wait=200){ let last=0, timer; return (...a)=>{ const now=Date.now(); const remaining = wait - (now - last); if(remaining<=0){ last=now; fn(...a); } else if(!timer){ timer=setTimeout(()=>{ last=Date.now(); timer=null; fn(...a); }, remaining); } }; }
 
-    // timeAgo: friendly strings (uses ms timestamp)
     function timeAgo(ms){
       if(!ms) return '';
       const then = Number(ms);
@@ -209,20 +197,17 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
       return `${year} year${year>1 ? 's' : ''} ago`;
     }
 
-    // try to derive milliseconds timestamp from various fields in movie object
     function getTimestampFromMovie(m){
-      // prefer releasedAt, then createdAt
       if(m == null) return null;
       const tryNum = v => {
         if(v == null) return null;
         const n = Number(v);
-        if(!isNaN(n) && n > 1000000000000) return n; // likely ms timestamp (> ~2001)
+        if(!isNaN(n) && n > 1000000000000) return n;
         return null;
       };
       const a = tryNum(m.releasedAt) || tryNum(m.createdAt) || null;
       if(a) return a;
 
-      // sometimes saved as seconds (not ms) — detect and convert
       const trySec = v => {
         if(v == null) return null;
         const n = Number(v);
@@ -232,7 +217,6 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
       const b = trySec(m.releasedAt) || trySec(m.createdAt);
       if(b) return b;
 
-      // fallback: if separate year/month/day/hour/minute fields exist
       try{
         const y = Number(m.year);
         const mo = Number(m.month);
@@ -243,9 +227,8 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
           const ss = Number(m.second) || 0;
           return new Date(y, mo - 1, d, hh, mm, ss).getTime();
         }
-      }catch(e){ /* ignore */ }
+      }catch(e){ /* Talha */ }
 
-      // maybe there's a textual field
       if(m.releasedAtText){
         const parsed = Date.parse(String(m.releasedAtText));
         if(!isNaN(parsed)) return parsed;
@@ -253,7 +236,6 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
       return null;
     }
 
-    // IndexedDB helpers (movieCacheDB)
     function openDB(){
       return new Promise((resolve, reject)=>{
         const req = indexedDB.open('movieCacheDB', 2);
@@ -317,10 +299,9 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
       await txComplete(tx);
     }
 
-    // app state
     let allMovies = [];
     let filtered = [];
-    let pageSize = 10;
+    let pageSize = 30;
     let page = 1;
     let observer;
     let imgObserver;
@@ -378,14 +359,12 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
 
         const grad = document.createElement('div'); grad.className = 'grad';
 
-        // compute timestamp and human-readable ago
         const ts = getTimestampFromMovie(m);
         const relText = ts ? timeAgo(ts) : (m.releasedAtText || '');
         const age = document.createElement('div');
         age.className = 'age';
         age.textContent = relText || '';
 
-        // set full local datetime on hover (title)
         if(ts){
           try{ age.title = new Date(Number(ts)).toLocaleString(); }catch(e){}
         } else if(m.releasedAtText){
@@ -402,7 +381,6 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
         const st = document.createElement('p'); st.className='subtitle'; st.textContent = m.subtitle || (m.description? String(m.description).slice(0,80): '') || '';
         meta.appendChild(t); meta.appendChild(st);
 
-        // pinned star visual
         if(m.pinned){
           const star = document.createElement('div');
           star.className = 'pin-star';
@@ -414,7 +392,7 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
         card.appendChild(img);
         card.appendChild(grad);
         card.appendChild(meta);
-        card.appendChild(age);   // age appended after meta so it visually sits bottom-left
+        card.appendChild(age);
         card.appendChild(badge);
 
         card.addEventListener('click',()=>openModal(m));
@@ -441,7 +419,6 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
       observer.observe(sentinel);
     };
 
-    // search & suggestions (unchanged)
     const doSearch = ()=>{
       const q = searchInput.value.trim().toLowerCase();
       if(!q){ filtered = allMovies; page = 1; hideSuggestions(); render(); return; }
@@ -491,14 +468,9 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
 
     const REVALIDATE_INTERVAL = 5 * 60 * 1000;
 
-    // Initialize Firebase app
-    initializeApp(firebaseConfig);
-    const db = getDatabase();
-
-    // ===== proxy fetch & long-poll subscription logic =====
     async function fetchMoviesFromServer(){
       try {
-        const targetUrl = `${firebaseConfig.databaseURL.replace(/\/+$/, '')}/movies.json`;
+        const targetUrl = DATA_JSON;
         let lastUpdated = await getMetaFromDB('movies_updatedAt');
         const now = Date.now();
         let ttl;
@@ -540,10 +512,9 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
       }
     }
 
-    // version + events polling endpoints on worker:
     async function getVersionFromProxy(){
       try{
-        const targetUrl = `${firebaseConfig.databaseURL.replace(/\/+$/, '')}/movies.json`;
+        const targetUrl = DATA_JSON;
         const vresp = await fetch(`${PROXY_BASE}/version?target=${encodeURIComponent(targetUrl)}`, { cache: 'no-store' });
         if(!vresp.ok) return 0;
         const dv = await vresp.json();
@@ -551,12 +522,11 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
       }catch(e){ return 0; }
     }
 
-    // subscribe loop (long-poll)
     let _stopPolling = false;
     async function subscribeToChangesLoop(){
       let lastVersion = await getVersionFromProxy();
       if(!lastVersion) lastVersion = Date.now();
-      const targetUrl = `${firebaseConfig.databaseURL.replace(/\/+$/, '')}/movies.json`;
+      const targetUrl = DATA_JSON;
       while(!_stopPolling){
         try{
           const eventsUrl = `${PROXY_BASE}/events?target=${encodeURIComponent(targetUrl)}&since=${lastVersion}`;
@@ -570,7 +540,7 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
             lastVersion = data.version || Date.now();
             await fetchMoviesFromServer();
           } else {
-            // no change; loop continues
+
           }
         }catch(e){
           console.warn('long-poll error', e);
@@ -579,7 +549,6 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
       }
     }
 
-    // togglePin: optimistic UI + update local DB + proxy PATCH to origin (proxy refreshes KV)
     async function togglePin(movie){
       try{
         movie.pinned = !movie.pinned;
@@ -592,7 +561,8 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
 
         await updateMovieInDB(movie);
 
-        const targetMovieUrl = `${firebaseConfig.databaseURL.replace(/\/+$/, '')}/movies/${encodeURIComponent(movie.id)}.json`;
+        // Attempt to update via proxy — note: static hosting likely won't accept PATCH, so write may fail.
+        const targetMovieUrl = `${DATA_BASE}/movies/${encodeURIComponent(movie.id)}.json`;
         const proxiedPatchUrl = `${PROXY_BASE}?target=${encodeURIComponent(targetMovieUrl)}`;
         try{
           const resp = await fetch(proxiedPatchUrl, {
@@ -613,7 +583,6 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
       }
     }
 
-    // Initialize flow
     (async function init(){
       try{
         const localMovies = await getMoviesFromDB();
@@ -626,15 +595,12 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
 
       await fetchMoviesFromServer();
 
-      // start subscription loop for near-real-time updates
       subscribeToChangesLoop();
 
-      // revalidate on focus
       document.addEventListener('visibilitychange', ()=> { if(!document.hidden) fetchMoviesFromServer(); });
       window.addEventListener('focus', ()=> fetchMoviesFromServer());
     })();
 
-    // Modal & links
     const modal = document.getElementById('modal');
     const mPoster = document.getElementById('m-poster');
     const mTitle = document.getElementById('m-title');
@@ -670,7 +636,6 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
       modal.classList.add('show');
     }
 
-    // hide suggestions on outside click
     document.addEventListener('click', (e)=>{ if(!sugg.contains(e.target) && e.target!==searchInput) hideSuggestions(); });
 
   </script>
