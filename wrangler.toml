@@ -1,0 +1,7 @@
+name = "talhasproxy"
+main = "worker.js"
+compatibility_date = "2025-08-23"
+
+kv_namespaces = [
+  { binding = "MY_KV", id = "1113abd76b634fe481909fd192c804d6" }
+]
