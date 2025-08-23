@@ -149,7 +149,7 @@ html,body{height:100%;margin:0;font-family:Poppins, system-ui, -apple-system, Se
     </div>
   </footer>
 
-  <script type="module">
+<script type="module">
 const DATA_JSON = 'https://talha-07-live.github.io/firebase-sync-data/data.json';
 
 const grid = document.getElementById('grid') || document.getElementById('movies-container');
@@ -195,20 +195,16 @@ function timeAgo(ms){
 function sanitizeRating(raw){
   if(raw === null || raw === undefined) return 'N/A';
   let s = String(raw).trim();
-  // remove HTML tags if any
   s = s.replace(/<[^>]*>/g,'').trim();
-  // Try to extract common rating patterns like 8.6/10 or 7.4 or 8
   const pat = s.match(/(\d+(\.\d+)?\/\d+)|(\d+(\.\d+)?)/);
   if(pat && pat[0]) {
-    // if it's like "8.6" or "8.6/10", return that (limit length)
     return pat[0].slice(0,7);
   }
-  // fallback: cut to 8 chars
   if(s.length > 8) s = s.slice(0,8) + '…';
   return s || 'N/A';
 }
 
-/* --- minimal indexedDB helpers (kept to preserve UX) --- */
+/* --- indexedDB helpers --- */
 function openDB(){
   return new Promise((resolve, reject)=>{
     const req = indexedDB.open('movieCacheDB', 2);
@@ -243,7 +239,7 @@ async function saveMoviesToDB(movies){
     const m = tx.objectStore('meta');
     m.put({ key: 'movies_updatedAt', value: Date.now() });
     await txComplete(tx);
-  }catch(e){ /* ignore save errors silently */ }
+  }catch(e){}
 }
 async function getMoviesFromDB(){
   try{
@@ -321,12 +317,8 @@ const render = debounce(()=>{
     const age = document.createElement('div');
     age.className = 'age';
     age.textContent = relText || '';
-
-    if(ts){
-      try{ age.title = new Date(Number(ts)).toLocaleString(); }catch(e){}
-    } else if(m.releasedAtText){
-      age.title = String(m.releasedAtText);
-    }
+    if(ts){ try{ age.title = new Date(Number(ts)).toLocaleString(); }catch(e){} }
+    else if(m.releasedAtText){ age.title = String(m.releasedAtText); }
 
     if((m.tags && Array.isArray(m.tags) && m.tags.includes('TRENDING')) || m.trending){
       const ribbon = document.createElement('div'); ribbon.className='ribbon'; ribbon.textContent='TRENDING'; card.appendChild(ribbon);
@@ -337,21 +329,20 @@ const render = debounce(()=>{
     const meta = document.createElement('div'); meta.className='meta';
     const t = document.createElement('p'); t.className='title'; t.textContent = m.title || 'Untitled';
 
-    // sanitized rating (ensure it won't break layout)
     const ratingText = sanitizeRating(m.rating);
     const rEl = document.createElement('p'); rEl.className = 'rating'; rEl.textContent = '⭐ ' + ratingText;
 
     const st = document.createElement('p'); st.className='subtitle'; st.textContent = m.subtitle || (m.description? String(m.description).slice(0,80): '') || '';
 
     meta.appendChild(t);
-    meta.appendChild(rEl); // rating placed right after title
+    meta.appendChild(rEl);
     meta.appendChild(st);
 
     if(m.pinned){
       const star = document.createElement('div');
       star.className = 'pin-star';
       star.title = 'Pinned';
-      star.innerHTML = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l3 7h6l-5 4 2 7-6-4-6 4 2-7-5-4h6l3-7z" fill="#ffd166"/></svg>`;
+      star.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 2l3 7h6l-5 4 2 7-6-4-6 4 2-7-5-4h6l3-7z" fill="#ffd166"/></svg>`;
       card.appendChild(star);
     }
 
@@ -360,7 +351,6 @@ const render = debounce(()=>{
     card.appendChild(meta);
     card.appendChild(age);
     card.appendChild(badge);
-
     card.addEventListener('click',()=> openModal(m));
     frag.appendChild(card);
   }
@@ -376,10 +366,7 @@ const setupInfiniteScroll = ()=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
         const totalPages = Math.ceil(filtered.length / pageSize);
-        if(page < totalPages){
-          page += 1;
-          render();
-        }
+        if(page < totalPages){ page += 1; render(); }
       }
     });
   }, { rootMargin: '400px 0px' });
@@ -399,7 +386,7 @@ const doSearch = ()=>{
 const throttledSearch = throttle(doSearch, 220);
 const debouncedInput = debounce(()=> showSuggestions(searchInput && searchInput.value ? searchInput.value.trim().toLowerCase() : ''), 160);
 if(searchBtn) searchBtn.addEventListener('click', doSearch);
-if(searchInput) searchInput.addEventListener('input', (e)=>{ throttledSearch(); debouncedInput(); });
+if(searchInput) searchInput.addEventListener('input', ()=>{ throttledSearch(); debouncedInput(); });
 if(searchInput) searchInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ doSearch(); hideSuggestions(); } });
 document.addEventListener('click', (e)=>{ if(sugg && !sugg.contains(e.target) && e.target!==searchInput) hideSuggestions(); });
 
@@ -420,7 +407,6 @@ function showSuggestions(q){
   for(const it of items){
     const row = document.createElement('div');
     row.className = 'sugg-item';
-    row.role = 'option';
     row.innerHTML = `<span>${it.title}</span><small>${it.subtitle? it.subtitle.slice(0,36): ''}</small>`;
     row.addEventListener('click', ()=>{
       if(searchInput) searchInput.value = it.title;
@@ -435,13 +421,18 @@ function hideSuggestions(){ if(sugg) sugg.classList.remove('show'); }
 
 async function fetchMoviesFromServer(){
   try {
-    const resp = await fetch(DATA_JSON, { method: "GET", headers: { "Accept": "application/json" }, cache: "no-store" });
+    // 🚀 cache-busting query param
+    const url = DATA_JSON + "?t=" + Date.now();
+    const resp = await fetch(url, {
+      method: "GET",
+      headers: { "Accept": "application/json" },
+      cache: "no-store"
+    });
     if(!resp.ok){
       console.error('Direct fetch failed:', resp.status, resp.statusText);
       return { status: 'error', statusCode: resp.status };
     }
     const json = await resp.json();
-    // json expected as { id1: {...}, id2: {...} }
     const arr = Object.entries(json||{}).map(([id,m])=> ({ id, ...m }));
     sortWithPinned(arr);
     allMovies = arr;
@@ -450,17 +441,15 @@ async function fetchMoviesFromServer(){
     render();
     setupInfiniteScroll();
 
-    // save local copy
     if ('requestIdleCallback' in window) {
-      requestIdleCallback(() => saveMoviesToDB(allMovies).then(()=> {/* meta saved */}), { timeout: 1000 });
+      requestIdleCallback(() => saveMoviesToDB(allMovies), { timeout: 1000 });
     } else {
-      setTimeout(() => saveMoviesToDB(allMovies).then(()=> {/* meta saved */}), 0);
+      setTimeout(() => saveMoviesToDB(allMovies), 0);
     }
-
-    console.log(`✅ Movies fetched directly from DATA_JSON. Count=${allMovies.length}`);
+    console.log(`✅ Movies fetched. Count=${allMovies.length}`);
     return { status: 'ok', count: allMovies.length };
   } catch(err) {
-    console.error("❌ Fetch error (direct):", err);
+    console.error("❌ Fetch error:", err);
     return { status: 'error', error: err };
   }
 }
@@ -518,10 +507,12 @@ function openModal(m){
 
   await fetchMoviesFromServer();
 
-  // keep simple: refetch when window focuses
+  // focus করলে রিফ্রেশ হবে
   window.addEventListener('focus', ()=> fetchMoviesFromServer());
+
+  // ⏱️ auto-refresh প্রতি 10 সেকেন্ডে
+  setInterval(fetchMoviesFromServer, 10000);
 })();
-  
   </script>
 </body>
 </html>
