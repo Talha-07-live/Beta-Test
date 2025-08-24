@@ -178,20 +178,6 @@ const SAVE_CHUNK_SIZE = 800;        // IDB write batch size (prevents long tx)
 const CONTINUOUS_REFRESH_MS = 30 * 60 * 1000; // 30 min
 const MIN_RELOAD_GAP_MS = 45 * 1000;          // avoid overlapping reloads
 
-/* ==== AUTO‑DISCOVERY (no server changes needed) ==== */
-const DISCOVERY = {
-  enabled: true,
-  baseDir: '',
-  baseFile: 'data.json',                 // always include if present
-  pattern: 'data-{n}.json',              // will probe data-1.json, data-2.json, ...
-  from: 1,                               // starting index for {n}
-  to: 9999,                              // hard ceiling (safety)
-  stepBlock: 10,                         // probe in blocks of N
-  maxMissStreak: 5,                      // after first hit, stop if N consecutive misses
-  preferManifest: true,                  // try manifest first
-  manifestName: 'manifest.json',         // looks in baseDir
-};
-
 /* ==== DOM ==== */
 const grid = document.getElementById('grid') || document.getElementById('movies-container');
 const sentinel = document.getElementById('sentinel');
