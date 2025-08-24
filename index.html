@@ -186,7 +186,7 @@ const DISCOVERY = {
   pattern: 'data-{n}.json',              // will probe data-1.json, data-2.json, ...
   from: 1,                               // starting index for {n}
   to: 9999,                              // hard ceiling (safety)
-  stepBlock: 20,                         // probe in blocks of N
+  stepBlock: 10,                         // probe in blocks of N
   maxMissStreak: 5,                      // after first hit, stop if N consecutive misses
   preferManifest: true,                  // try manifest first
   manifestName: 'manifest.json',         // looks in baseDir
