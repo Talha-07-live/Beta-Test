@@ -1004,6 +1004,127 @@ function sortWithPinned(arr){
   });
 }
 
+// === Scroll-to-top button (drop this near the end of your module) ===
+(function addScrollTopButton(){
+  // Insert styles
+  const css = `
+  #scrollTopBtn{
+    position:fixed;
+    right:20px;
+    bottom:84px; /* adjust to sit above your footer */
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    background:linear-gradient(90deg,var(--primary),var(--primary-2));
+    color:#040405;
+    border:none;
+    cursor:pointer;
+    z-index:99999;
+    transform:translateY(10px) scale(.98);
+    transition:opacity .25s ease, transform .22s ease, visibility .22s;
+    opacity:0;
+    visibility:hidden;
+  }
+  #scrollTopBtn.show{ opacity:1; visibility:visible; transform:translateY(0) scale(1); }
+  #scrollTopBtn:focus{ outline:3px solid rgba(255,255,255,.08); outline-offset:2px; }
+  #scrollTopBtn svg{ width:20px; height:20px; display:block; pointer-events:none; }
+  @media (max-width:600px){
+    #scrollTopBtn{ right:14px; bottom:74px; width:44px; height:44px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    #scrollTopBtn{ transition:none !important; }
+  }
+  `;
+  const style = document.createElement('style');
+  style.id = 'scrollTopBtnStyles';
+  style.appendChild(document.createTextNode(css));
+  document.head.appendChild(style);
+
+  // Create button
+  const btn = document.createElement('button');
+  btn.id = 'scrollTopBtn';
+  btn.setAttribute('aria-label','Scroll to top');
+  btn.setAttribute('title','Back to top');
+  btn.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6 15l6-6 6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  document.body.appendChild(btn);
+
+  // Throttle helper (re-uses your throttle if available)
+  const _throttle = (typeof throttle === 'function') ? throttle : function(fn, wait=150){ let last=0, timer=null; return (...a)=>{ const now=Date.now(); const rem = wait - (now-last); if(rem<=0){ last=now; fn(...a); } else if(!timer){ timer=setTimeout(()=>{ last=Date.now(); timer=null; fn(...a); }, rem); } }; };
+
+  // Show/hide logic
+  const SHOW_Y = 400; // show button after this many px scrolled (adjustable)
+  function onScroll(){
+    const y = window.scrollY || window.pageYOffset;
+    if(y > SHOW_Y) btn.classList.add('show');
+    else btn.classList.remove('show');
+  }
+  window.addEventListener('scroll', _throttle(onScroll, 120), { passive: true });
+  onScroll();
+
+  // Smooth scroll polyfill fallback
+  function smoothScrollToTopFallback(duration = 600){
+    const start = window.scrollY || window.pageYOffset;
+    if(!start) return;
+    const startTime = performance.now();
+    const prefReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(prefReduced){ window.scrollTo(0,0); return; }
+
+    const easeOutCubic = (t) => (--t)*t*t + 1;
+    function step(now){
+      const elapsed = now - startTime;
+      const t = Math.min(1, elapsed / duration);
+      const v = easeOutCubic(t);
+      window.scrollTo(0, Math.round(start * (1 - v)));
+      if(t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Click handler: try native smooth, fallback to rAF animation
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    // Respect reduced motion
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      window.scrollTo(0,0);
+      return;
+    }
+
+    try {
+      // Try native smooth scroll
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Some browsers won't animate if page is very tall; fallback after short timeout
+      setTimeout(()=> {
+        if((window.scrollY || window.pageYOffset) > 8) smoothScrollToTopFallback(500);
+      }, 600);
+    } catch(err) {
+      smoothScrollToTopFallback(600);
+    }
+  });
+
+  // Optional: hide on small content (when page short)
+  function maybeHideForShortPage(){
+    const max = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    if(max <= window.innerHeight + SHOW_Y) btn.style.display = 'none';
+    else btn.style.display = '';
+  }
+  window.addEventListener('resize', _throttle(maybeHideForShortPage, 300));
+  maybeHideForShortPage();
+
+  // Expose for debug/customization (optional)
+  window.__talha_scrollTopBtn = {
+    el: btn,
+    showAfter: (px) => { SHOW_Y = Number(px) || 400; onScroll(); },
+    setBottom: (px) => { btn.style.bottom = (Number(px) || 84) + 'px'; }
+  };
+})();
+
 </script>
 </body>
 </html>
