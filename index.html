@@ -278,6 +278,19 @@ function smoothScrollToTop(duration = 800) {
 
   requestAnimationFrame(scroll);
 }
+
+// Show/hide button
+function onScroll() {
+  if ((window.scrollY || document.documentElement.scrollTop) > SHOW_AFTER) {
+    toTopBtn.classList.add("show");
+  } else {
+    toTopBtn.classList.remove("show");
+  }
+}
+
+window.addEventListener("scroll", onScroll, { passive: true });
+toTopBtn.addEventListener("click", smoothScrollToTop);
+onScroll(); // init
   
 /* ==== IndexedDB ==== */
 function openDB(){ return new Promise((resolve, reject)=>{ const req = indexedDB.open('movieCacheDB', 3);
