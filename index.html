@@ -256,19 +256,19 @@ const toTopBtn = document.getElementById('toTopBtn');
 const SHOW_AFTER = 600;
 
 // Super smooth scroll function (requestAnimationFrame + easing)
-function smoothScrollToTop(duration = 800) {
+function smoothScrollToTop(duration = 600) {
   const start = window.scrollY || document.documentElement.scrollTop;
   const startTime = performance.now();
 
-  function easeInOutQuad(t) {
-    return t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
   }
 
   function scroll() {
     const now = performance.now();
     const elapsed = now - startTime;
     const progress = Math.min(elapsed / duration, 1);
-    const eased = easeInOutQuad(progress);
+    const eased = easeOutCubic(progress);
     window.scrollTo(0, start * (1 - eased));
 
     if (progress < 1) {
@@ -282,16 +282,16 @@ function smoothScrollToTop(duration = 800) {
 // Show/hide button
 function onScroll() {
   if ((window.scrollY || document.documentElement.scrollTop) > SHOW_AFTER) {
-    toTopBtn.classList.add("show");
+    toTopBtn.classList.add('show');
   } else {
-    toTopBtn.classList.remove("show");
+    toTopBtn.classList.remove('show');
   }
 }
 
-window.addEventListener("scroll", onScroll, { passive: true });
-toTopBtn.addEventListener("click", smoothScrollToTop);
+window.addEventListener('scroll', onScroll, { passive: true });
+toTopBtn.addEventListener('click', () => smoothScrollToTop(800));
 onScroll(); // init
-  
+
 /* ==== IndexedDB ==== */
 function openDB(){ return new Promise((resolve, reject)=>{ const req = indexedDB.open('movieCacheDB', 3);
   req.onerror = ()=> reject(req.error);
