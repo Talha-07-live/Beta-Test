@@ -353,6 +353,18 @@ async function saveMoviesIncremental(movies){
   }
 }
 
+ itemsRef.on("child_changed", (childSnapshot) => {
+      const updatedData = childSnapshot.val();
+      const key = childSnapshot.key;
+
+      const existingRow = document.querySelector(`[data-key="${key}"]`);
+      if (existingRow) {
+        existingRow.querySelector(".title").textContent = updatedData.title;
+        existingRow.querySelector(".description").textContent = updatedData.description;
+        existingRow.querySelector(".time").textContent = updatedData.time;
+      }
+    });
+
 /* ==== Networking primitives ==== */
 function fetchWithTimeout(url, opts={}, timeout = FETCH_TIMEOUT){
   return new Promise((resolve, reject) => {
