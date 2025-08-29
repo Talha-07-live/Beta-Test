@@ -220,18 +220,6 @@ const searchInput = document.getElementById('search');
 const searchBtn = document.getElementById('searchBtn');
 const sugg = document.getElementById('sugg');
 
-  itemsRef.on("child_changed", (childSnapshot) => {
-      const updatedData = childSnapshot.val();
-      const key = childSnapshot.key;
-
-      const existingRow = document.querySelector(`[data-key="${key}"]`);
-      if (existingRow) {
-        existingRow.querySelector(".title").textContent = updatedData.title;
-        existingRow.querySelector(".description").textContent = updatedData.description;
-        existingRow.querySelector(".time").textContent = updatedData.time;
-      }
-    });
-
 /* ==== Small utils ==== */
 const clamp = (n,min,max)=> Math.min(max, Math.max(min, n));
 function debounce(fn, delay=120){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), delay); }; }
@@ -804,7 +792,7 @@ const render = debounce(()=>{
 
     card.appendChild(img); card.appendChild(grad); card.appendChild(meta); card.appendChild(age); card.appendChild(badge);
     card.addEventListener('click',()=> openModal(m));
-    frag.appendChild(card);
+    frag.appendChild(card); card.dataset.id = m.id;
   }
   if(frag.childNodes.length) grid.appendChild(frag);
 
