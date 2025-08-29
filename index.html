@@ -205,6 +205,8 @@ const DATA_SOURCES = [
   'https://data.talhascollection.xo.je/movies_10000_oneline.json'
 ];
 
+firebase.firestore().enablePersistence({ synchronizeTabs: true }).catch(() => {});
+  
 const INITIAL_LOAD_COUNT = 5;
 const BATCH_SIZE = 7;
 const FETCH_TIMEOUT = 12000;
@@ -792,7 +794,7 @@ const render = debounce(()=>{
 
     card.appendChild(img); card.appendChild(grad); card.appendChild(meta); card.appendChild(age); card.appendChild(badge);
     card.addEventListener('click',()=> openModal(m));
-    frag.appendChild(card); card.dataset.id = m.id;
+    frag.appendChild(card);
   }
   if(frag.childNodes.length) grid.appendChild(frag);
 
